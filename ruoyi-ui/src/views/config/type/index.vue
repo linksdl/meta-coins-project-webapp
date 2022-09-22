@@ -14,29 +14,17 @@
         ></el-date-picker>
       </el-form-item>
 
-      <el-form-item label="更新时间">
-        <el-date-picker
-          v-model="daterangeUpdateTime"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="账本类型" prop="bookTypeName">
+      <el-form-item label="类型名称" prop="bookTypeName">
         <el-input
           v-model="queryParams.bookTypeName"
-          placeholder="请输入账本类型名称"
+          placeholder="请输入类型名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
 
       <el-form-item label="是否可用" prop="enableStatus">
-        <el-select v-model="queryParams.enableStatus" placeholder="请选择数据是否可用" clearable>
+        <el-select v-model="queryParams.enableStatus" placeholder="请选择是否可用" clearable>
           <el-option
             v-for="dict in dict.type.config_is_enable"
             :key="dict.value"
@@ -99,14 +87,14 @@
 
     <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="left" />
-      <el-table-column label="账本类型ID" align="left" prop="bookTypeId" />
+      <el-table-column label="类型ID" align="left" prop="bookTypeId" />
       <el-table-column label="图标" align="center" prop="icon" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="权重" align="center" prop="weight" />
       <el-table-column label="描述" align="center" prop="bookTypeDesc" />
-      <el-table-column label="账本类型名称" align="center" prop="bookTypeName" />
+      <el-table-column label="类型名称" align="center" prop="bookTypeName" />
       <el-table-column label="排序" align="center" prop="orderSort" />
-      <el-table-column label="数据是否可用" align="center" prop="enableStatus">
+      <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
@@ -155,7 +143,7 @@
           <el-input v-model="form.bookTypeDesc" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="类型名称" prop="bookTypeName">
-          <el-input v-model="form.bookTypeName" placeholder="请输入账本类型名称" />
+          <el-input v-model="form.bookTypeName" placeholder="请输入类型名称" />
         </el-form-item>
         <el-form-item label="排序" prop="orderSort">
           <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
@@ -165,7 +153,7 @@
             <el-radio
               v-for="dict in dict.type.config_is_enable"
               :key="dict.value"
-              :label="parseInt(dict.value)"
+:label="parseInt(dict.value)"
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -204,16 +192,15 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 数据是否可用时间范围
+      // 是否可用时间范围
       daterangeCreateTime: [],
-      // 数据是否可用时间范围
+      // 是否可用时间范围
       daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         createTime: null,
-        updateTime: null,
         bookTypeName: null,
         enableStatus: null
       },
@@ -222,7 +209,7 @@ export default {
       // 表单校验
       rules: {
         bookTypeName: [
-          { required: true, message: "账本类型名称不能为空", trigger: "blur" }
+          { required: true, message: "类型名称不能为空", trigger: "blur" }
         ],
       }
     };
