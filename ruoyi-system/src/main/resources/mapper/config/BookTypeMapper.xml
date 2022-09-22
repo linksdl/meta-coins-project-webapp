@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.book.mapper.BookTypeMapper">
+
+    <resultMap type="BookType" id="BookTypeResult">
+        <result property="bookTypeId"    column="book_type_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="weight"    column="weight"    />
+        <result property="bookTypeDesc"    column="book_type_desc"    />
+        <result property="bookTypeName"    column="book_type_name"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="enableStatus"    column="enable_status"    />
+    </resultMap>
+
+    <sql id="selectBookTypeVo">
+        select book_type_id, create_by, create_time, icon, remark, update_by, update_time, weight, book_type_desc, book_type_name, order_sort, enable_status from config_book_type
+    </sql>
+
+    <select id="selectBookTypeList" parameterType="BookType" resultMap="BookTypeResult">
+        <include refid="selectBookTypeVo"/>
+        <where>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="params.beginUpdateTime != null and params.beginUpdateTime != '' and params.endUpdateTime != null and params.endUpdateTime != ''"> and update_time between #{params.beginUpdateTime} and #{params.endUpdateTime}</if>
+            <if test="bookTypeName != null  and bookTypeName != ''"> and book_type_name like concat('%', #{bookTypeName}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectBookTypeByBookTypeId" parameterType="Long" resultMap="BookTypeResult">
+        <include refid="selectBookTypeVo"/>
+        where book_type_id = #{bookTypeId}
+    </select>
+
+    <insert id="insertBookType" parameterType="BookType">
+        insert into config_book_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookTypeId != null">book_type_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="weight != null">weight,</if>
+            <if test="bookTypeDesc != null">book_type_desc,</if>
+            <if test="bookTypeName != null and bookTypeName != ''">book_type_name,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="enableStatus != null">enable_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookTypeId != null">#{bookTypeId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="bookTypeDesc != null">#{bookTypeDesc},</if>
+            <if test="bookTypeName != null and bookTypeName != ''">#{bookTypeName},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookType" parameterType="BookType">
+        update config_book_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="bookTypeDesc != null">book_type_desc = #{bookTypeDesc},</if>
+            <if test="bookTypeName != null and bookTypeName != ''">book_type_name = #{bookTypeName},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+        </trim>
+        where book_type_id = #{bookTypeId}
+    </update>
+
+    <delete id="deleteBookTypeByBookTypeId" parameterType="Long">
+        delete from config_book_type where book_type_id = #{bookTypeId}
+    </delete>
+
+    <delete id="deleteBookTypeByBookTypeIds" parameterType="String">
+        delete from config_book_type where book_type_id in
+        <foreach item="bookTypeId" collection="array" open="(" separator="," close=")">
+            #{bookTypeId}
+        </foreach>
+    </delete>
+</mapper>
