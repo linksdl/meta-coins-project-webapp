@@ -1,0 +1,8 @@
+.idea/*
+*/.idea/*
+*/*.docx
+*/target/*
+*.class
+bin/
+doc/
+*/target/
