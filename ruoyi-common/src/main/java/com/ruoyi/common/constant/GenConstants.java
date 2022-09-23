@@ -88,6 +88,9 @@ public class GenConstants
     /** 评分 */
     public static final String HTML_RATE = "rate";
 
+    /** 图标 */
+    public static final String HTML_ICON = "icon";
+
     /** 日期控件 */
     public static final String HTML_DATETIME = "datetime";
 

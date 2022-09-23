@@ -128,6 +128,11 @@ public class GenUtils
         {
             column.setHtmlType(GenConstants.HTML_EDITOR);
         }
+        // 图标
+        else if (StringUtils.endsWithIgnoreCase(columnName, "icon"))
+        {
+            column.setHtmlType(GenConstants.HTML_ICON);
+        }
     }
 
     /**

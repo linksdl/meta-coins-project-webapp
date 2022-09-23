@@ -13,6 +13,11 @@
             min-width="10%"
             :show-overflow-tooltip="true"
           />
+          <el-table-column label="显示顺序" min-width="7%">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.showOrder"></el-input>
+            </template>
+          </el-table-column>
           <el-table-column label="字段描述" min-width="10%">
             <template slot-scope="scope">
               <el-input v-model="scope.row.columnComment"></el-input>
@@ -24,7 +29,7 @@
             min-width="10%"
             :show-overflow-tooltip="true"
           />
-          <el-table-column label="Java类型" min-width="11%">
+          <el-table-column label="Java类型" min-width="8%">
             <template slot-scope="scope">
               <el-select v-model="scope.row.javaType">
                 <el-option label="Long" value="Long" />
@@ -37,7 +42,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="java属性" min-width="10%">
+          <el-table-column label="java属性" min-width="8%">
             <template slot-scope="scope">
               <el-input v-model="scope.row.javaField"></el-input>
             </template>
@@ -63,7 +68,7 @@
               <el-checkbox true-label="1" v-model="scope.row.isQuery"></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column label="查询方式" min-width="10%">
+          <el-table-column label="查询方式" min-width="8%">
             <template slot-scope="scope">
               <el-select v-model="scope.row.queryType">
                 <el-option label="=" value="EQ" />
@@ -82,7 +87,7 @@
               <el-checkbox true-label="1" v-model="scope.row.isRequired"></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column label="显示类型" min-width="12%">
+          <el-table-column label="显示类型" min-width="10%">
             <template slot-scope="scope">
               <el-select v-model="scope.row.htmlType">
                 <el-option label="文本框" value="input" />
@@ -91,6 +96,7 @@
                 <el-option label="下拉框" value="select" />
                 <el-option label="单选框" value="radio" />
                 <el-option label="多选框" value="checkbox" />
+                <el-option label="图标"   value="icon" />
                 <el-option label="级联选择框" value="cascader" />
                 <el-option label="Switch开关" value="switch" />
                 <el-option label="Rate评分" value="rate" />

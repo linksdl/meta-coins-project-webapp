@@ -65,6 +65,9 @@ public class GenTableColumn extends BaseEntity
     /** 字典类型 */
     private String dictType;
 
+    /**显示，新增/修改顺序 */
+    private Integer showOrder;
+
     /** 排序 */
     private Integer sort;
 
@@ -321,6 +324,16 @@ public class GenTableColumn extends BaseEntity
     public Integer getSort()
     {
         return sort;
+    }
+
+    public void setShowOrder(Integer showOrder)
+    {
+        this.showOrder = showOrder;
+    }
+
+    public Integer getShowOrder()
+    {
+        return showOrder;
     }
 
     public boolean isSuperColumn()

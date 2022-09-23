@@ -11,7 +11,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-// 查询窗口
+
 #if($column.htmlType == "input")
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-input
@@ -21,7 +21,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-// 不包含字典
+
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && "" != $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
@@ -33,7 +33,7 @@
           />
         </el-select>
       </el-form-item>
-// 包含字典
+
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
@@ -117,9 +117,9 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-// 列表显示
+
     <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -131,20 +131,28 @@
 
 #if($column.pk)
       <el-table-column label="${comment}" align="center" prop="${javaField}" />
-// datetime
+
 #elseif($column.list && $column.htmlType == "datetime")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.${javaField}, '{y}-{m}-{d}')}}</span>
         </template>
       </el-table-column>
-// imageUpload
+
 #elseif($column.list && $column.htmlType == "imageUpload")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.${javaField}" :width="50" :height="50"/>
         </template>
       </el-table-column>
+
+#elseif($column.list && $column.htmlType == "icon")
+    <el-table-column label="${comment}" align="center" prop="${javaField}">
+        <template slot-scope="scope">
+          <svg-icon :icon-class="scope.row.${javaField}" />
+        </template>
+    </el-table-column>
+
 #elseif($column.list && "" != $column.dictType)
       <el-table-column label="${comment}" align="center" prop="${javaField}">
         <template slot-scope="scope">
@@ -156,7 +164,7 @@
         </template>
       </el-table-column>
 #elseif($column.list && "" != $javaField)
-      <el-table-column label="${comment}" align="center" prop="${javaField}" />
+      <el-table-column label="${comment}" align="center" prop="${javaField}" :show-overflow-tooltip="true" />
 #end
 
 #end
@@ -241,7 +249,7 @@
             <el-option label="请选择字典生成" value="" />
           </el-select>
         </el-form-item>
-// checkbox
+
 #elseif($column.htmlType == "checkbox" && "" != $dictType)
         <el-form-item label="${comment}">
           <el-checkbox-group v-model="form.${field}">
@@ -259,7 +267,7 @@
             <el-checkbox>请选择字典生成</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-// radio
+
 #elseif($column.htmlType == "radio" && "" != $dictType)
         <el-form-item label="${comment}">
           <el-radio-group v-model="form.${field}">
@@ -277,7 +285,7 @@
             <el-radio label="1">请选择字典生成</el-radio>
           </el-radio-group>
         </el-form-item>
-// datetime
+
 #elseif($column.htmlType == "datetime")
         <el-form-item label="${comment}" prop="${field}">
           <el-date-picker clearable
@@ -287,18 +295,18 @@
             placeholder="请选择${comment}">
           </el-date-picker>
         </el-form-item>
-// textarea
+
 #elseif($column.htmlType == "textarea")
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-// input-number
+
 #elseif($column.htmlType == "input-number")
         <el-form-item label="${comment}" prop="${field}">
           <el-input-number size="medium" v-model="form.${field}" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
-// cascader
+
 #elseif($column.htmlType == "cascader")
 <el-form-item label="${comment}" prop="${field}">
   <el-cascader
@@ -308,22 +316,44 @@
     @change="handleChange" />
 </el-form-item>
 
-// switch
+
 #elseif($column.htmlType == "switch")
 <el-form-item label="${comment}" prop="${field}">
 <el-switch
   v-model="form.${field}"
-  active-text="是"
-  inactive-text="否" />
+  active-text="1"
+  inactive-text="0" />
 </el-form-item>
 
-// rate
+
 #elseif($column.htmlType == "rate")
 <el-form-item label="${comment}" prop="${field}">
 <el-rate
   v-model="form.${field}"
   show-text>
 </el-rate>
+</el-form-item>
+
+#elseif($column.htmlType == "icon")
+<el-form-item label="${comment}" prop="${field}">
+  <el-popover
+        placement="bottom-start"
+        width="460"
+        trigger="click"
+        @show="$refs['iconSelect'].reset()"
+      >
+        <IconSelect ref="iconSelect" @selected="selected" />
+        <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+          <svg-icon
+            v-if="form.icon"
+            slot="prefix"
+            :icon-class="form.icon"
+            class="el-input__icon"
+            style="height: 32px;width: 16px;"
+          />
+          <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+        </el-input>
+      </el-popover>
 </el-form-item>
 #end
 #end
@@ -400,12 +430,14 @@
 
 <script>
 import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
+import IconSelect from "@/components/IconSelect";
 
 export default {
   name: "${BusinessName}",
 #if(${dicts} != '')
   dicts: [${dicts}],
 #end
+  components: {IconSelect},
   data() {
     return {
       // 遮罩层
@@ -475,6 +507,10 @@ export default {
     this.getList();
   },
   methods: {
+    /** 选择${functionName}图标 */
+    selected(name) {
+      this.form.icon = name;
+    },
     /** 查询${functionName}列表 */
     getList() {
       this.loading = true;
