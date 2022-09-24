@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询ruoyi-config列表
+// 查询个人账本列表
 export function listBook(query) {
   return request({
     url: '/config/book/list',
@@ -9,7 +9,7 @@ export function listBook(query) {
   })
 }
 
-// 查询ruoyi-config详细
+// 查询个人账本详细
 export function getBook(bookId) {
   return request({
     url: '/config/book/' + bookId,
@@ -17,7 +17,7 @@ export function getBook(bookId) {
   })
 }
 
-// 新增ruoyi-config
+// 新增个人账本
 export function addBook(data) {
   return request({
     url: '/config/book',
@@ -26,7 +26,7 @@ export function addBook(data) {
   })
 }
 
-// 修改ruoyi-config
+// 修改个人账本
 export function updateBook(data) {
   return request({
     url: '/config/book',
@@ -35,7 +35,7 @@ export function updateBook(data) {
   })
 }
 
-// 删除ruoyi-config
+// 删除个人账本
 export function delBook(bookId) {
   return request({
     url: '/config/book/' + bookId,

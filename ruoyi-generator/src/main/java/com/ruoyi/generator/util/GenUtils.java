@@ -133,6 +133,7 @@ public class GenUtils
         {
             column.setHtmlType(GenConstants.HTML_ICON);
         }
+        //column.setIsRequired("0");
     }
 
     /**

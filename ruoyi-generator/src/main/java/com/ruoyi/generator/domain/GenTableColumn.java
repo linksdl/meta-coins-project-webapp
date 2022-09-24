@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.utils.StringUtils;
 
+import java.util.List;
+
 /**
  * 代码生成业务字段表 gen_table_column
  * 
@@ -61,6 +63,9 @@ public class GenTableColumn extends BaseEntity
 
     /** 显示类型（input文本框、textarea文本域、select下拉框、checkbox复选框、radio单选框、datetime日期控件、image图片上传控件、upload文件上传控件、editor富文本控件） */
     private String htmlType;
+
+    /** 组件类型 (支持各种的组件类型) */
+    private List<String> componentType;
 
     /** 字典类型 */
     private String dictType;
@@ -304,6 +309,16 @@ public class GenTableColumn extends BaseEntity
     public void setHtmlType(String htmlType)
     {
         this.htmlType = htmlType;
+    }
+
+    public List<String> getComponentType()
+    {
+        return componentType;
+    }
+
+    public void setComponentType(List<String> componentType)
+    {
+        this.componentType = componentType;
     }
 
     public void setDictType(String dictType)

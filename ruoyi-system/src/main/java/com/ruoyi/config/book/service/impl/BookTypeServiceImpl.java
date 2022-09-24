@@ -8,6 +8,8 @@ import com.ruoyi.config.book.mapper.BookTypeMapper;
 import com.ruoyi.config.book.domain.BookType;
 import com.ruoyi.config.book.service.IBookTypeService;
 
+import javax.annotation.Resource;
+
 /**
  * 账本类型Service业务层处理
  *
@@ -17,7 +19,7 @@ import com.ruoyi.config.book.service.IBookTypeService;
 @Service
 public class BookTypeServiceImpl implements IBookTypeService
 {
-    @Autowired
+    @Resource
     private BookTypeMapper bookTypeMapper;
 
     /**
