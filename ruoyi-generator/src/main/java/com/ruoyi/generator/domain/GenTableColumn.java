@@ -65,7 +65,7 @@ public class GenTableColumn extends BaseEntity
     private String htmlType;
 
     /** 组件类型 (支持各种的组件类型) */
-    private List<String> componentType;
+    private String componentType;
 
     /** 字典类型 */
     private String dictType;
@@ -311,12 +311,12 @@ public class GenTableColumn extends BaseEntity
         this.htmlType = htmlType;
     }
 
-    public List<String> getComponentType()
+    public String getComponentType()
     {
         return componentType;
     }
 
-    public void setComponentType(List<String> componentType)
+    public void setComponentType(String componentType)
     {
         this.componentType = componentType;
     }
