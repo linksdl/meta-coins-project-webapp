@@ -21,6 +21,22 @@
           <el-input placeholder="请输入" v-model="info.functionAuthor" />
         </el-form-item>
       </el-col>
+
+      <el-col :span="12">
+        <el-form-item label="表组件类型" prop="tableType">
+          <el-select placeholder="请选择" v-model="info.tableType">
+            <el-option label="基础表格" value="table-basic" />
+            <el-option label="展开表格" value="table-slot" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12">
+        <el-form-item label="表组件属性" prop="tableAttribute">
+          <el-input placeholder="请输入" v-model="info.tableAttribute" />
+        </el-form-item>
+      </el-col>
+
       <el-col :span="24">
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" :rows="3" v-model="info.remark"></el-input>
@@ -52,6 +68,12 @@ export default {
         ],
         functionAuthor: [
           { required: true, message: "请输入作者", trigger: "blur" }
+        ],
+        tableType: [
+          { required: true, message: "请输入表组件类型", trigger: "blur" }
+        ],
+        tableAttribute: [
+          { required: true, message: "请输入表显示属性", trigger: "blur" }
         ]
       }
     };

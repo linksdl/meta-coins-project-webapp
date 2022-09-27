@@ -64,8 +64,14 @@ public class GenTableColumn extends BaseEntity
     /** 显示类型（input文本框、textarea文本域、select下拉框、checkbox复选框、radio单选框、datetime日期控件、image图片上传控件、upload文件上传控件、editor富文本控件） */
     private String htmlType;
 
+    /** 字段列显示样式 */
+    private String showStyle;
+
     /** 组件类型 (支持各种的组件类型) */
     private String componentType;
+
+    /** 组件属性设置 (支持各种的组件属性配置) */
+    private String componentAttribute;
 
     /** 字典类型 */
     private String dictType;
@@ -311,6 +317,16 @@ public class GenTableColumn extends BaseEntity
         this.htmlType = htmlType;
     }
 
+    public String getShowStyle()
+    {
+        return showStyle;
+    }
+
+    public void setShowStyle(String showStyle)
+    {
+        this.showStyle = showStyle;
+    }
+
     public String getComponentType()
     {
         return componentType;
@@ -319,6 +335,16 @@ public class GenTableColumn extends BaseEntity
     public void setComponentType(String componentType)
     {
         this.componentType = componentType;
+    }
+
+    public String getComponentAttribute()
+    {
+        return componentAttribute;
+    }
+
+    public void setComponentAttribute(String componentAttribute)
+    {
+        this.componentAttribute = componentAttribute;
     }
 
     public void setDictType(String dictType)

@@ -28,6 +28,14 @@ public class GenTable extends BaseEntity
     @NotBlank(message = "表描述不能为空")
     private String tableComment;
 
+     /** 表显示的表组件类型 */
+    @NotBlank(message = "表组件类型不能为空")
+    private String tableType;
+
+    /** 表组件显示属性 */
+    @NotBlank(message = "表组件显示属性不能为空")
+    private String tableAttribute;
+
     /** 关联父表的表名 */
     private String subTableName;
 
@@ -113,6 +121,26 @@ public class GenTable extends BaseEntity
     public void setTableName(String tableName)
     {
         this.tableName = tableName;
+    }
+
+    public String getTableType()
+    {
+        return tableType;
+    }
+
+    public void setTableType(String tableType)
+    {
+        this.tableType = tableType;
+    }
+
+    public String getTableAttribute()
+    {
+        return tableAttribute;
+    }
+
+    public void setTableAttribute(String tableAttribute)
+    {
+        this.tableAttribute = tableAttribute;
     }
 
     public String getTableComment()

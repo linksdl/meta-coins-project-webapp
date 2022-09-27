@@ -88,7 +88,7 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="typeList" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="类型ID" align="center" prop="bookTypeId" />

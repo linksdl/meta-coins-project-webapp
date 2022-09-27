@@ -21,7 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isQuery"        column="is_query"       />
         <result property="queryType"      column="query_type"     />
         <result property="htmlType"       column="html_type"      />
+        <result property="showStyle"      column="show_style"    />
         <result property="componentType"  column="component_type" />
+        <result property="componentAttribute"  column="component_attribute" />
         <result property="dictType"       column="dict_type"      />
         <result property="sort"           column="sort"           />
         <result property="showOrder"      column="show_order"     />
@@ -32,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectGenTableColumnVo">
-        select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, component_type, dict_type, sort, show_order, create_by, create_time, update_by, update_time from gen_table_column
+        select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, show_style, component_type, component_attribute, dict_type, sort, show_order, create_by, create_time, update_by, update_time from gen_table_column
     </sql>
 	
     <select id="selectGenTableColumnListByTableId" parameterType="Long" resultMap="GenTableColumnResult">
@@ -64,7 +66,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isQuery != null and isQuery != ''">is_query,</if>
 			<if test="queryType != null and queryType != ''">query_type,</if>
 			<if test="htmlType != null and htmlType != ''">html_type,</if>
+            <if test="showStyle != null and showStyle != ''">show_style,</if>
             <if test="componentType != null and componentType != ''">component_type,</if>
+            <if test="componentAttribute != null and componentAttribute != ''">component_attribute,</if>
 			<if test="dictType != null and dictType != ''">dict_type,</if>
 			<if test="sort != null">sort,</if>
             <if test="showOrder != null">show_order,</if>
@@ -86,7 +90,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isQuery != null and isQuery != ''">#{isQuery},</if>
 			<if test="queryType != null and queryType != ''">#{queryType},</if>
 			<if test="htmlType != null and htmlType != ''">#{htmlType},</if>
+            <if test="showStyle != null and showStyle != ''">${showStyle},</if>
             <if test="componentType != null and componentType != ''">#{componentType},</if>
+            <if test="componentAttribute != null and componentAttribute != ''">#{componentAttribute},</if>
 			<if test="dictType != null and dictType != ''">#{dictType},</if>
 			<if test="sort != null">#{sort},</if>
             <if test="showOrder != null">#{showOrder},</if>
@@ -108,7 +114,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             is_required = #{isRequired},
             query_type = #{queryType},
             html_type = #{htmlType},
+            show_style = #{showStyle},
             component_type = #{componentType},
+            component_attribute = #{componentAttribute},
             dict_type = #{dictType},
             sort = #{sort},
             show_order = #{showOrder},
