@@ -58,4 +58,11 @@ public interface BookTypeMapper
      * @return 结果
      */
     public int deleteBookTypeByBookTypeIds(Long[] bookTypeIds);
+
+        /**
+     * 根据所有账本类型
+     *
+     * @return 账本类型集合信息
+     */
+    public List<BookType> selectBookTypeAll();
 }

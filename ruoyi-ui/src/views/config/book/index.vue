@@ -85,58 +85,34 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="bookList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="bookList" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="账本ID" align="center" prop="bookId" />
 
-
-
       <el-table-column label="账本名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
-
 
       <el-table-column label="账本类型" align="center" prop="bookType" :show-overflow-tooltip="true" />
 
-
-
-
       <el-table-column label="描述" align="center" prop="bookDesc" :show-overflow-tooltip="true" />
-
-
-
 
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
 
-
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
-
-    <el-table-column label="图标" align="center" prop="icon">
-        <template slot-scope="scope">
-          <svg-icon :icon-class="scope.row.icon" />
-        </template>
-    </el-table-column>
-
-
+      <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <svg-icon :icon-class="scope.row.icon" />
+          </template>
+      </el-table-column>
 
       <el-table-column label="数据状态" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-
-
-
-
-
-
 
 
       <el-table-column label="用户名" align="center" prop="userName" :show-overflow-tooltip="true" />
@@ -181,14 +157,13 @@
         <el-form-item label="账本类型" prop="bookType">
           <el-select v-model="form.bookType" placeholder="请选择账本类型">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in typeOptions"
+              :key="item.bookTypeId"
+              :label="item.bookTypeName"
+              :value="item.bookTypeName">
             </el-option>
           </el-select>
         </el-form-item>
-
 
         <el-form-item label="描述" prop="bookDesc">
           <el-input v-model="form.bookDesc" placeholder="请输入描述" />
@@ -264,6 +239,7 @@
 
 <script>
 import { listBook, getBook, delBook, addBook, updateBook } from "@/api/config/book";
+import { selectBookType as getBookOptionSelect, getType } from "@/api/config/type";
 import IconSelect from "@/components/IconSelect";
 
 export default {
@@ -272,22 +248,8 @@ export default {
   components: {IconSelect},
   data() {
     return {
-       options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+      // 账本类型列表
+      typeOptions: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -338,6 +300,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getBookTypeList();
   },
   methods: {
     /** 选择个人账本图标 */
@@ -351,6 +314,12 @@ export default {
         this.bookList = response.rows;
         this.total = response.total;
         this.loading = false;
+      });
+    },
+    /** 查询账本类型列表 */
+    getBookTypeList() {
+      getBookOptionSelect().then(response => {
+        this.typeOptions = response.data;
       });
     },
     // 取消按钮

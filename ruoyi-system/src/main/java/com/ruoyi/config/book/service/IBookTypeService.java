@@ -58,4 +58,11 @@ public interface IBookTypeService
      * @return 结果
      */
     public int deleteBookTypeByBookTypeId(Long bookTypeId);
+
+    /**
+     * 根据所有账本类型
+     *
+     * @return 账本类型集合信息
+     */
+    public List<BookType> selectBookTypeAll();
 }

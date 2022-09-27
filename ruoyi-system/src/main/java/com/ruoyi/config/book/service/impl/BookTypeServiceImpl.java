@@ -96,4 +96,10 @@ public class BookTypeServiceImpl implements IBookTypeService
     {
         return bookTypeMapper.deleteBookTypeByBookTypeId(bookTypeId);
     }
+
+
+    @Override
+    public List<BookType> selectBookTypeAll() {
+        return bookTypeMapper.selectBookTypeAll();
+    }
 }

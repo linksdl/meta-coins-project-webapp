@@ -2,6 +2,8 @@ package com.ruoyi.config.book.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysDictType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -103,5 +105,15 @@ public class BookTypeController extends BaseController
     public AjaxResult remove(@PathVariable Long[] bookTypeIds)
     {
         return toAjax(bookTypeService.deleteBookTypeByBookTypeIds(bookTypeIds));
+    }
+
+        /**
+     * 获取字典选择框列表
+     */
+    @GetMapping("/optionselect")
+    public AjaxResult optionselect()
+    {
+        List<BookType> bookTypes = bookTypeService.selectBookTypeAll();
+        return AjaxResult.success(bookTypes);
     }
 }
