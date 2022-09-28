@@ -96,7 +96,11 @@
 
       <el-table-column label="描述" align="center" prop="bookDesc" :show-overflow-tooltip="true" />
 
-      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
+      <el-table-column label="是否默认" align="center" prop="bookDefault">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.config_is_default" :value="scope.row.bookDefault"/>
+        </template>
+      </el-table-column>
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
@@ -155,12 +159,12 @@
 
 
         <el-form-item label="账本类型" prop="bookType">
-          <el-select v-model="form.bookType" placeholder="请选择账本类型">
+          <el-select v-model="form.bookTypeId" placeholder="请选择账本类型">
             <el-option
               v-for="item in typeOptions"
               :key="item.bookTypeId"
               :label="item.bookTypeName"
-              :value="item.bookTypeName">
+              :value="item.bookTypeId">
             </el-option>
           </el-select>
         </el-form-item>
@@ -282,9 +286,6 @@ export default {
       rules: {
         bookName: [
           { required: true, message: "账本名称不能为空", trigger: "blur" }
-        ],
-        bookType: [
-          { required: true, message: "账本类型不能为空", trigger: "change" }
         ],
         bookTypeId: [
           { required: true, message: "类型ID不能为空", trigger: "change" }

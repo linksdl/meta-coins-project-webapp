@@ -107,8 +107,8 @@ public class BookTypeController extends BaseController
         return toAjax(bookTypeService.deleteBookTypeByBookTypeIds(bookTypeIds));
     }
 
-        /**
-     * 获取字典选择框列表
+    /**
+     * 获取选择框列表
      */
     @GetMapping("/optionselect")
     public AjaxResult optionselect()

@@ -55,7 +55,7 @@ public class BookType extends BaseEntity
 
     /** 数据是否可用 */
     @Excel(name = "数据是否可用")
-    private Long enableStatus;
+    private Integer enableStatus;
 
     public void setBookTypeId(Long bookTypeId)
     {
@@ -111,12 +111,12 @@ public class BookType extends BaseEntity
     {
         return orderSort;
     }
-    public void setEnableStatus(Long enableStatus)
+    public void setEnableStatus(Integer enableStatus)
     {
         this.enableStatus = enableStatus;
     }
 
-    public Long getEnableStatus()
+    public Integer getEnableStatus()
     {
         return enableStatus;
     }

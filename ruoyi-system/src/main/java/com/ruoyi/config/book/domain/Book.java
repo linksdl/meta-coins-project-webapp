@@ -80,7 +80,7 @@ public class Book extends BaseEntity
     /** 是否可用 */
     @Excel(name = "是否可用")
     @Column(name="enable_status")
-    private Long enableStatus;
+    private Integer enableStatus;
 
     public void setBookId(Long bookId) 
     {
@@ -172,12 +172,12 @@ public class Book extends BaseEntity
     {
         return icon;
     }
-    public void setEnableStatus(Long enableStatus) 
+    public void setEnableStatus(Integer enableStatus)
     {
         this.enableStatus = enableStatus;
     }
 
-    public Long getEnableStatus() 
+    public Integer getEnableStatus()
     {
         return enableStatus;
     }

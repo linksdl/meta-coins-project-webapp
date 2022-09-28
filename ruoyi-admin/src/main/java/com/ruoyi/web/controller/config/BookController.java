@@ -1,7 +1,11 @@
 package com.ruoyi.web.controller.config;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.book.domain.BookType;
+import com.ruoyi.config.book.service.IBookTypeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,9 @@ public class BookController extends BaseController
 {
     @Autowired
     private IBookService bookService;
+
+    @Resource
+    private IBookTypeService bookTypeService;
 
     /**
      * 查询个人账本列表
@@ -81,6 +88,8 @@ public class BookController extends BaseController
         book.setUpdateBy(getUsername());
         book.setUserId(getUserId());
         book.setUserName(getUsername());
+        BookType bookType = bookTypeService.selectBookTypeByBookTypeId(book.getBookTypeId());
+        book.setBookType(bookType.getBookTypeName());
         return toAjax(bookService.insertBook(book));
     }
 
