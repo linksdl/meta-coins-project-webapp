@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.MemberMapper">
+    
+    <resultMap type="Member" id="MemberResult">
+        <result property="memberId"    column="member_id"    />
+        <result property="memberName"    column="member_name"    />
+        <result property="memberScope"    column="member_scope"    />
+        <result property="memberTypeId"    column="member_type_id"    />
+        <result property="memberTypeName"    column="member_type_name"    />
+        <result property="memberDesc"    column="member_desc"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="weight"    column="weight"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectMemberVo">
+        select member_id, member_name, member_scope, member_type_id, member_type_name, member_desc, enable_status, icon, order_sort, remark, create_by, create_time, update_by, update_time, weight, book_id, book_name, user_id, user_name from config_member
+    </sql>
+
+    <select id="selectMemberAll" resultMap="MemberResult">
+		<include refid="selectMemberVo"/>
+	</select>
+
+    <select id="selectMemberList" parameterType="Member" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        <where>  
+            <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
+            <if test="memberScope != null  and memberScope != ''"> and member_scope = #{memberScope}</if>
+            <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name = #{memberTypeName}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMemberByMemberId" parameterType="Long" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        where member_id = #{memberId}
+    </select>
+        
+    <insert id="insertMember" parameterType="Member">
+        insert into config_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">member_id,</if>
+            <if test="memberName != null">member_name,</if>
+            <if test="memberScope != null">member_scope,</if>
+            <if test="memberTypeId != null">member_type_id,</if>
+            <if test="memberTypeName != null">member_type_name,</if>
+            <if test="memberDesc != null">member_desc,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="weight != null">weight,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">#{memberId},</if>
+            <if test="memberName != null">#{memberName},</if>
+            <if test="memberScope != null">#{memberScope},</if>
+            <if test="memberTypeId != null">#{memberTypeId},</if>
+            <if test="memberTypeName != null">#{memberTypeName},</if>
+            <if test="memberDesc != null">#{memberDesc},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMember" parameterType="Member">
+        update config_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberName != null">member_name = #{memberName},</if>
+            <if test="memberScope != null">member_scope = #{memberScope},</if>
+            <if test="memberTypeId != null">member_type_id = #{memberTypeId},</if>
+            <if test="memberTypeName != null">member_type_name = #{memberTypeName},</if>
+            <if test="memberDesc != null">member_desc = #{memberDesc},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+    <delete id="deleteMemberByMemberId" parameterType="Long">
+        delete from config_member where member_id = #{memberId}
+    </delete>
+
+    <delete id="deleteMemberByMemberIds" parameterType="String">
+        delete from config_member where member_id in 
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+</mapper>

@@ -5,6 +5,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * 成员类型对象 config_member_type
  * 
@@ -16,31 +21,40 @@ public class MemberType extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="member_type_id")
     private Long memberTypeId;
 
     /** 类型名称 */
     @Excel(name = "类型名称")
+    @Column(name="member_type_name")
     private String memberTypeName;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="member_type_desc")
     private String memberTypeDesc;
-
-    /** 权重 */
-    @Excel(name = "权重")
-    private Long weight;
-
-    /** 排序 */
-    @Excel(name = "排序")
-    private Long orderSort;
-
-    /** 图标 */
-    @Excel(name = "图标")
-    private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
+
+    /** 图标 */
+    @Excel(name = "图标")
+    @Column(name="icon")
+    private String icon;
+
+    /** 排序 */
+    @Excel(name = "排序")
+    @Column(name="order_sort")
+    private Long orderSort;
+
+    /** 权重 */
+    @Excel(name = "权重")
+    @Column(name="weight")
+    private Long weight;
 
     public void setMemberTypeId(Long memberTypeId) 
     {
