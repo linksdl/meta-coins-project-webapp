@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.CityMapper">
+    
+    <resultMap type="City" id="CityResult">
+        <result property="cityId"    column="city_id"    />
+        <result property="cityCname"    column="city_cname"    />
+        <result property="cityEname"    column="city_ename"    />
+        <result property="cityDesc"    column="city_desc"    />
+        <result property="cityCountry"    column="city_country"    />
+        <result property="cityProvince"    column="city_province"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCityVo">
+        select city_id, city_cname, city_ename, city_desc, city_country, city_province, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_city
+    </sql>
+
+    <select id="selectCityAll" resultMap="CityResult">
+		<include refid="selectCityVo"/>
+	</select>
+
+    <select id="selectCityList" parameterType="City" resultMap="CityResult">
+        <include refid="selectCityVo"/>
+        <where>  
+            <if test="cityCname != null  and cityCname != ''"> and city_cname like concat('%', #{cityCname}, '%')</if>
+            <if test="cityEname != null  and cityEname != ''"> and city_ename like concat('%', #{cityEname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectCityByCityId" parameterType="Long" resultMap="CityResult">
+        <include refid="selectCityVo"/>
+        where city_id = #{cityId}
+    </select>
+        
+    <insert id="insertCity" parameterType="City">
+        insert into config_city
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cityId != null">city_id,</if>
+            <if test="cityCname != null">city_cname,</if>
+            <if test="cityEname != null">city_ename,</if>
+            <if test="cityDesc != null">city_desc,</if>
+            <if test="cityCountry != null">city_country,</if>
+            <if test="cityProvince != null">city_province,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cityId != null">#{cityId},</if>
+            <if test="cityCname != null">#{cityCname},</if>
+            <if test="cityEname != null">#{cityEname},</if>
+            <if test="cityDesc != null">#{cityDesc},</if>
+            <if test="cityCountry != null">#{cityCountry},</if>
+            <if test="cityProvince != null">#{cityProvince},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCity" parameterType="City">
+        update config_city
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cityCname != null">city_cname = #{cityCname},</if>
+            <if test="cityEname != null">city_ename = #{cityEname},</if>
+            <if test="cityDesc != null">city_desc = #{cityDesc},</if>
+            <if test="cityCountry != null">city_country = #{cityCountry},</if>
+            <if test="cityProvince != null">city_privence = #{cityProvince},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where city_id = #{cityId}
+    </update>
+
+    <delete id="deleteCityByCityId" parameterType="Long">
+        delete from config_city where city_id = #{cityId}
+    </delete>
+
+    <delete id="deleteCityByCityIds" parameterType="String">
+        delete from config_city where city_id in 
+        <foreach item="cityId" collection="array" open="(" separator="," close=")">
+            #{cityId}
+        </foreach>
+    </delete>
+</mapper>
