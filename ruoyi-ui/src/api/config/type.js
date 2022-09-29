@@ -46,7 +46,7 @@ export function delType(bookTypeId) {
 // 获取账本类型选择框列表
 export function selectBookType() {
   return request({
-    url: '/config/type/optionselect',
+    url: '/config/type/select',
     method: 'get'
   })
 }

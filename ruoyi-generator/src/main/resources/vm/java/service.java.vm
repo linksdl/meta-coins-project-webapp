@@ -58,4 +58,14 @@ public interface I${ClassName}Service
      * @return 结果
      */
     public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 获取所有${functionName}列表
+     *
+     * @return 结果
+     */
+    public List<${ClassName}> select${ClassName}All();
+
+
+
 }

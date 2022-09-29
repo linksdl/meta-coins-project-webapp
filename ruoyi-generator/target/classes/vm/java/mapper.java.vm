@@ -88,4 +88,11 @@ public interface ${ClassName}Mapper
      */
     public int delete${subClassName}By${subTableFkClassName}(${pkColumn.javaType} ${pkColumn.javaField});
 #end
+
+    /**
+     * 获取所有${functionName}列表
+     *
+     * @return ${functionName}集合信息
+     */
+    public List<${ClassName}> select${ClassName}All();
 }

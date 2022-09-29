@@ -36,6 +36,10 @@ public class GenTable extends BaseEntity
     @NotBlank(message = "表组件显示属性不能为空")
     private String tableAttribute;
 
+    /** 表内容是否为下拉选择框 */
+    @NotBlank(message = "表内容是否作为下拉框")
+    private String tableSelect;
+
     /** 关联父表的表名 */
     private String subTableName;
 
@@ -141,6 +145,16 @@ public class GenTable extends BaseEntity
     public void setTableAttribute(String tableAttribute)
     {
         this.tableAttribute = tableAttribute;
+    }
+
+    public String getTableSelect()
+    {
+        return tableSelect;
+    }
+
+    public void setTableSelect(String tableSelect)
+    {
+        this.tableSelect = tableSelect;
     }
 
     public String getTableComment()

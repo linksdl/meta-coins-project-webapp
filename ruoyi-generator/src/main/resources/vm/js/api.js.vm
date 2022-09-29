@@ -42,3 +42,11 @@ export function del${BusinessName}(${pkColumn.javaField}) {
     method: 'delete'
   })
 }
+
+// 获取${functionName}下拉框列表
+export function select${BusinessName}() {
+  return request({
+    url: '/${moduleName}/${businessName}/select',
+    method: 'get'
+  })
+}

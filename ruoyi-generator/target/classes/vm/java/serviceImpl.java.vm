@@ -166,4 +166,9 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         }
     }
 #end
+
+    @Override
+    public List<${ClassName}> select${ClassName}All() {
+        return ${className}Mapper.select${ClassName}All();
+    }
 }

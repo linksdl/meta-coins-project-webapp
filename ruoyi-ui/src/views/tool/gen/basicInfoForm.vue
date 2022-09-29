@@ -22,7 +22,7 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="8">
         <el-form-item label="表组件类型" prop="tableType">
           <el-select placeholder="请选择" v-model="info.tableType">
             <el-option label="基础表格" value="table-basic" />
@@ -31,9 +31,18 @@
         </el-form-item>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="8">
         <el-form-item label="表组件属性" prop="tableAttribute">
           <el-input placeholder="请输入" v-model="info.tableAttribute" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="8">
+        <el-form-item label="表下拉框" prop="tableType">
+          <el-select placeholder="请选择" v-model="info.tableSelect">
+            <el-option label="无参下拉" value="select" />
+            <el-option label="有参下拉" value="select-query" />
+          </el-select>
         </el-form-item>
       </el-col>
 

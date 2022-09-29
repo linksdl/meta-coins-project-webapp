@@ -9,7 +9,7 @@
         <el-table ref="dragTable" :data="columns" row-key="columnId" :max-height="tableHeight">
           <el-table-column label="序号" type="index" min-width="3%" class-name="allowDrag" />
           <el-table-column
-            label="字段名"x
+            label="字段名"
             prop="columnName"
             min-width="10%"
             :show-overflow-tooltip="true"

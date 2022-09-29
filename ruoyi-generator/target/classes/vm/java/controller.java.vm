@@ -38,7 +38,7 @@ public class ${ClassName}Controller extends BaseController
     private I${ClassName}Service ${className}Service;
 
     /**
-     * 查询${functionName}列表
+     * 分页查询${functionName}列表
      */
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
     @GetMapping("/list")
@@ -112,4 +112,25 @@ public class ${ClassName}Controller extends BaseController
     {
         return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
     }
+
+    /**
+     * 获取${functionName}下拉框列表
+     */
+#if($table.tableSelect == "select")
+    @GetMapping("/select")
+    public AjaxResult select()
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}All();
+        return AjaxResult.success(list);
+    }
+#elseif($table.tableSelect == "select-query")
+    @GetMapping("/select")
+    public AjaxResult select(${ClassName} ${className})
+    {
+        List<${ClassName}> list = ${className}Service.select${ClassName}All(${className});
+        return AjaxResult.success(list);
+    }
+
+#end
+
 }
