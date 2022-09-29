@@ -56,6 +56,7 @@ public class CityServiceImpl implements ICityService
     public int insertCity(City city)
     {
         city.setCreateTime(DateUtils.getNowDate());
+        city.setUpdateTime(DateUtils.getNowDate());
         return cityMapper.insertCity(city);
     }
 

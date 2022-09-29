@@ -77,6 +77,8 @@ public class CityController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody City city)
     {
+        city.setCreateBy(getUsername());
+        city.setUpdateBy(getUsername());
         return toAjax(cityService.insertCity(city));
     }
 
@@ -88,6 +90,7 @@ public class CityController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody City city)
     {
+        city.setUpdateBy(getUsername());
         return toAjax(cityService.updateCity(city));
     }
 

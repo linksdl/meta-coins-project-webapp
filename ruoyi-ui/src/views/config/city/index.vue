@@ -86,12 +86,10 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="cityList" ${tableAttribute} @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="cityList" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="ID" align="center" prop="cityId" />
-
-
 
       <el-table-column label="中文" align="center" prop="cityCname" :show-overflow-tooltip="true" />
 
@@ -99,13 +97,13 @@
       <el-table-column label="英文" align="center" prop="cityEname" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="描述" align="center" prop="cityDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="描述" align="left" prop="cityDesc" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="国家" align="center" prop="cityCountry" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="省份" align="center" prop="cityPrivence" :show-overflow-tooltip="true" />
+      <el-table-column label="省份" align="center" prop="cityProvince" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
@@ -191,8 +189,8 @@
         </el-form-item>
 
 
-        <el-form-item label="省份" prop="cityPrivence">
-          <el-input v-model="form.cityPrivence" placeholder="请输入省份" />
+        <el-form-item label="省份" prop="cityProvince">
+          <el-input v-model="form.cityProvince" placeholder="请输入省份" />
         </el-form-item>
 
 
@@ -326,7 +324,7 @@ export default {
         cityEname: null,
         cityDesc: null,
         cityCountry: null,
-        cityPrivence: null,
+        cityProvince: null,
         weight: null,
         remark: null,
         orderSort: null,

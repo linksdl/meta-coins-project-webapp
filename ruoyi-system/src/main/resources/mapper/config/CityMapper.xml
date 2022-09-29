@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cityEname != null">city_ename = #{cityEname},</if>
             <if test="cityDesc != null">city_desc = #{cityDesc},</if>
             <if test="cityCountry != null">city_country = #{cityCountry},</if>
-            <if test="cityProvince != null">city_privence = #{cityProvince},</if>
+            <if test="cityProvince != null">city_province = #{cityProvince},</if>
             <if test="weight != null">weight = #{weight},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="orderSort != null">order_sort = #{orderSort},</if>

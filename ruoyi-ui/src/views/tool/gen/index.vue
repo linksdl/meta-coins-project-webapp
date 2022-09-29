@@ -92,7 +92,7 @@
         align="left"
         prop="tableName"
         :show-overflow-tooltip="true"
-        width="140"
+        width="160"
       />
       <el-table-column
         label="实体"
@@ -103,10 +103,10 @@
       />
       <el-table-column
         label="表描述"
-        align="center"
+        align="left"
         prop="tableComment"
         :show-overflow-tooltip="true"
-        width="160"
+        width="200"
       />
 
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
