@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.MemberTypeMapper">
+    
+    <resultMap type="MemberType" id="MemberTypeResult">
+        <result property="memberTypeId"    column="member_type_id"    />
+        <result property="memberTypeName"    column="member_type_name"    />
+        <result property="memberTypeDesc"    column="member_type_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMemberTypeVo">
+        select member_type_id, member_type_name, member_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_member_type
+    </sql>
+
+    <select id="selectMemberTypeAll" resultMap="MemberTypeResult">
+		<include refid="selectMemberTypeVo"/>
+	</select>
+
+    <select id="selectMemberTypeList" parameterType="MemberType" resultMap="MemberTypeResult">
+        <include refid="selectMemberTypeVo"/>
+        <where>  
+            <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name like concat('%', #{memberTypeName}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMemberTypeByMemberTypeId" parameterType="Long" resultMap="MemberTypeResult">
+        <include refid="selectMemberTypeVo"/>
+        where member_type_id = #{memberTypeId}
+    </select>
+        
+    <insert id="insertMemberType" parameterType="MemberType">
+        insert into config_member_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberTypeId != null">member_type_id,</if>
+            <if test="memberTypeName != null">member_type_name,</if>
+            <if test="memberTypeDesc != null">member_type_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberTypeId != null">#{memberTypeId},</if>
+            <if test="memberTypeName != null">#{memberTypeName},</if>
+            <if test="memberTypeDesc != null">#{memberTypeDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMemberType" parameterType="MemberType">
+        update config_member_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberTypeName != null">member_type_name = #{memberTypeName},</if>
+            <if test="memberTypeDesc != null">member_type_desc = #{memberTypeDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where member_type_id = #{memberTypeId}
+    </update>
+
+    <delete id="deleteMemberTypeByMemberTypeId" parameterType="Long">
+        delete from config_member_type where member_type_id = #{memberTypeId}
+    </delete>
+
+    <delete id="deleteMemberTypeByMemberTypeIds" parameterType="String">
+        delete from config_member_type where member_type_id in 
+        <foreach item="memberTypeId" collection="array" open="(" separator="," close=")">
+            #{memberTypeId}
+        </foreach>
+    </delete>
+</mapper>

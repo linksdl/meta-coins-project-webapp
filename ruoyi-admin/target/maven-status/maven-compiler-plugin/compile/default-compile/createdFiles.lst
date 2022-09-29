@@ -5,6 +5,7 @@ com/ruoyi/web/controller/monitor/SysOperlogController.class
 com/ruoyi/web/controller/system/SysDictDataController.class
 com/ruoyi/web/controller/common/CommonController.class
 com/ruoyi/web/core/config/SwaggerConfig.class
+com/ruoyi/web/controller/config/MemberTypeController.class
 com/ruoyi/web/controller/tool/TestController.class
 com/ruoyi/web/controller/monitor/SysUserOnlineController.class
 com/ruoyi/web/controller/monitor/ServerController.class
@@ -16,8 +17,10 @@ com/ruoyi/web/controller/system/SysIndexController.class
 com/ruoyi/web/controller/config/BookTypeController.class
 com/ruoyi/RuoYiApplication.class
 com/ruoyi/web/controller/system/SysDeptController.class
+com/ruoyi/web/controller/config/BookController.class
 com/ruoyi/web/controller/system/SysDictTypeController.class
 com/ruoyi/web/controller/common/CaptchaController.class
+com/ruoyi/web/controller/config/CityController.class
 com/ruoyi/web/controller/system/SysLoginController.class
 com/ruoyi/web/controller/system/SysRoleController.class
 com/ruoyi/RuoYiServletInitializer.class
