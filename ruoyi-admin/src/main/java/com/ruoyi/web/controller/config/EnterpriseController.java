@@ -122,6 +122,8 @@ public class EnterpriseController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Enterprise enterprise)
     {
+        EnterpriseType enterpriseType = enterpriseTypeService.selectEnterpriseTypeByEnterpriseTypeId(enterprise.getEnterpriseTypeId());
+        enterprise.setEnterpriseTypeName(enterpriseType.getEnterpriseTypeName());
         enterprise.setUpdateBy(getUsername());
         return toAjax(enterpriseService.updateEnterprise(enterprise));
     }

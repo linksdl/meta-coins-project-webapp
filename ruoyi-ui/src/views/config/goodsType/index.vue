@@ -88,10 +88,7 @@
     <el-table v-loading="loading" :data="goodsTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="goodsTypeId" />
-
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="类型名称" align="center" prop="goodsTypeName" :show-overflow-tooltip="true" />
 
 
@@ -104,7 +101,7 @@
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">

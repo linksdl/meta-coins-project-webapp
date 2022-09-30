@@ -121,6 +121,8 @@ public class MemberController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Member member)
     {
+        MemberType memberType = memberTypeService.selectMemberTypeByMemberTypeId(member.getMemberTypeId());
+        member.setMemberTypeName(memberType.getMemberTypeName());
         member.setUpdateBy(getUsername());
         return toAjax(memberService.updateMember(member));
     }

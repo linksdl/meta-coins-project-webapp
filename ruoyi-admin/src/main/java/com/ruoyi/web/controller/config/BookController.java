@@ -123,6 +123,8 @@ public class BookController extends BaseController
             return AjaxResult.error("只能创建一个设置为默认的账本！！！");
         }
         book.setUpdateBy(getUsername());
+        BookType bookType = bookTypeService.selectBookTypeByBookTypeId(book.getBookTypeId());
+        book.setBookTypeName(bookType.getBookTypeName());
         return toAjax(bookService.updateBook(book));
     }
 

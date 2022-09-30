@@ -28,7 +28,7 @@ public class Goods extends BaseEntity
 
     /** 价格 */
     @Excel(name = "价格")
-    private Long goodsPrice;
+    private Double goodsPrice;
 
     /** 描述 */
     @Excel(name = "描述")
@@ -97,12 +97,12 @@ public class Goods extends BaseEntity
     {
         return goodsEname;
     }
-    public void setGoodsPrice(Long goodsPrice) 
+    public void setGoodsPrice(Double goodsPrice)
     {
         this.goodsPrice = goodsPrice;
     }
 
-    public Long getGoodsPrice() 
+    public Double getGoodsPrice()
     {
         return goodsPrice;
     }

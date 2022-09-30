@@ -79,9 +79,7 @@
     <el-table v-loading="loading" :data="enterpriseTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="enterpriseTypeId" />
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
       <el-table-column label="商家类型" align="center" prop="enterpriseTypeName" :show-overflow-tooltip="true" />
 
@@ -95,7 +93,7 @@
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">

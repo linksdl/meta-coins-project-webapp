@@ -122,6 +122,8 @@ public class GoodsController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Goods goods)
     {
+        GoodsType goodsType = goodsTypeService.selectGoodsTypeByGoodsTypeId(goods.getGoodsTypeId());
+        goods.setGoodsTypeName(goodsType.getGoodsTypeName());
         goods.setUpdateBy(getUsername());
         return toAjax(goodsService.updateGoods(goods));
     }

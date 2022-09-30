@@ -88,12 +88,10 @@
     <el-table v-loading="loading" :data="enterpriseList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="enterpriseId" />
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
       <el-table-column label="商家名称" align="center" prop="enterpriseName" :show-overflow-tooltip="true" />
-
+      <el-table-column label="商家类型" align="center" prop="enterpriseTypeName" :show-overflow-tooltip="true" />
 
       <el-table-column label="商家地址" align="center" prop="enterpriseAddress" :show-overflow-tooltip="true" />
 
@@ -118,7 +116,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="类型名称" align="center" prop="enterpriseTypeName" :show-overflow-tooltip="true" />
+
 
 
       <el-table-column label="是否可用" align="center" prop="enableStatus">
@@ -135,7 +133,7 @@
     </el-table-column>
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
@@ -186,7 +184,8 @@
               v-for="item in typeOptions"
               :key="item.enterpriseTypeId"
               :label="item.enterpriseTypeName"
-              :value="item.enterpriseTypeId">
+              :value="item.enterpriseTypeId"
+              :disabled="item.disabled">
             </el-option>
           </el-select>
         </el-form-item>
@@ -259,14 +258,12 @@
         </el-form-item>
 
 
+        <el-form-item label="权重" prop="weight">
+          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+        </el-form-item>
 
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
 

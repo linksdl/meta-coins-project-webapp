@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Transient;
+
 /**
  * 商品类型对象 config_goods_type
  * 
@@ -41,6 +43,18 @@ public class GoodsType extends BaseEntity
     /** 是否可用 */
     @Excel(name = "是否可用")
     private Long enableStatus;
+
+    /** 是否可以下拉*/
+    @Transient
+    private boolean disabled;
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     public void setGoodsTypeId(Long goodsTypeId) 
     {

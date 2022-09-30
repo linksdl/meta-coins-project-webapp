@@ -76,9 +76,7 @@
     <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="projectId" />
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
       <el-table-column label="项目名称" align="center" prop="projectName" :show-overflow-tooltip="true" />
 
@@ -106,7 +104,7 @@
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">
@@ -207,10 +205,14 @@
           <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
-
-
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+        <el-form-item label="是否可用">
+          <el-radio-group v-model="form.enableStatus">
+            <el-radio
+              v-for="dict in dict.type.config_is_enable"
+              :key="dict.value"
+:label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
 
 
@@ -220,35 +222,31 @@
 
 
 
-<el-form-item label="图标" prop="icon">
-  <el-popover
-        placement="bottom-start"
-        width="460"
-        trigger="click"
-        @show="$refs['iconSelect'].reset()"
-      >
-        <IconSelect ref="iconSelect" @selected="selected" />
-        <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-          <svg-icon
-            v-if="form.icon"
-            slot="prefix"
-            :icon-class="form.icon"
-            class="el-input__icon"
-            style="height: 32px;width: 16px;"
-          />
-          <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-        </el-input>
-      </el-popover>
-</el-form-item>
+        <el-form-item label="图标" prop="icon">
+          <el-popover
+                placement="bottom-start"
+                width="460"
+                trigger="click"
+                @show="$refs['iconSelect'].reset()"
+              >
+                <IconSelect ref="iconSelect" @selected="selected" />
+                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                  <svg-icon
+                    v-if="form.icon"
+                    slot="prefix"
+                    :icon-class="form.icon"
+                    class="el-input__icon"
+                    style="height: 32px;width: 16px;"
+                  />
+                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                </el-input>
+              </el-popover>
+        </el-form-item>
 
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
 
       </el-form>

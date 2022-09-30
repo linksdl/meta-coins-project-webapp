@@ -9,7 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="类别" prop="accountClass">
+      <el-form-item label="账户类别" prop="accountClass">
         <el-select v-model="queryParams.accountClass" placeholder="请选择类别" clearable>
           <el-option
             v-for="dict in dict.type.config_function_class"
@@ -74,9 +74,10 @@
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
+      <el-table-column label="排序" align="center" prop="orderSort" />
       <el-table-column label="账户名称" prop="accountName" />
       <el-table-column label="父类名称" align="center" prop="accountParentName" />
-      <el-table-column label="层次" align="center" prop="accountLevel" />
+      <el-table-column label="层级" align="center" prop="accountLevel" />
       <el-table-column label="功能范围" align="center" prop="accountScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.accountScope ? scope.row.accountScope.split(',') : []"/>
@@ -98,7 +99,7 @@
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="排序" align="center" prop="orderSort" />
+
       <el-table-column label="操作" align="left" class-name="small-padding"  width="160">
         <template slot-scope="scope">
           <el-button
@@ -145,7 +146,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="节点层次" prop="accountLevel">
+        <el-form-item label="节点层级" prop="accountLevel">
           <el-input-number size="medium" v-model="form.accountLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
         <el-form-item label="功能范围">
@@ -189,6 +190,7 @@
         <el-form-item label="排序" prop="orderSort">
           <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
+
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>

@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.GoodsType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -112,6 +114,9 @@ public class EnterpriseTypeController extends BaseController
     public AjaxResult select()
     {
         List<EnterpriseType> list = enterpriseTypeService.selectEnterpriseTypeAll();
+        for(EnterpriseType enterpriseType:list){
+            enterpriseType.setDisabled(enterpriseType.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

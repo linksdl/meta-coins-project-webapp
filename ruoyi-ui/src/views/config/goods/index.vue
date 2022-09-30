@@ -89,9 +89,7 @@
     <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商品ID" align="center" prop="goodsId" />
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
       <el-table-column label="商品名称" align="center" prop="goodsCname" :show-overflow-tooltip="true" />
 
@@ -103,10 +101,6 @@
 
 
       <el-table-column label="描述" align="center" prop="goodsDesc" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="类型ID" align="center" prop="goodsTypeId" :show-overflow-tooltip="true" />
-
 
       <el-table-column label="类型名称" align="center" prop="goodsTypeName" :show-overflow-tooltip="true" />
 
@@ -123,10 +117,6 @@
           <svg-icon :icon-class="scope.row.icon" />
         </template>
     </el-table-column>
-
-
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
@@ -171,14 +161,24 @@
           <el-input v-model="form.goodsCname" placeholder="请输入商品名称" />
         </el-form-item>
 
-
         <el-form-item label="英文名称" prop="goodsEname">
           <el-input v-model="form.goodsEname" placeholder="请输入英文名称" />
         </el-form-item>
 
+        <el-form-item label="商品类型" prop="goodsTypeId">
+          <el-select v-model="form.goodsTypeId" placeholder="请选择商品类型">
+            <el-option
+              v-for="item in typeOptions"
+              :key="item.goodsTypeId"
+              :label="item.goodsTypeName"
+              :value="item.goodsTypeId"
+              :disabled="item.disabled">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
         <el-form-item label="价格" prop="goodsPrice">
-          <el-input-number size="medium" v-model="form.goodsPrice" type="input-number" :precision="4" :step="0.0001" :max="10000" :min="0" placeholder="请输入内容"/>
+          <el-input-number size="medium" v-model="form.goodsPrice" type="input-number" :precision="4" :step="0.0001" :max="100000" :min="0" placeholder="请输入内容"/>
         </el-form-item>
 
 
@@ -188,16 +188,7 @@
         </el-form-item>
 
 
-        <el-form-item label="类型ID" prop="goodsTypeId">
-          <el-select v-model="form.goodsTypeId" placeholder="请选择商品类型ID">
-            <el-option
-              v-for="item in typeOptions"
-              :key="item.goodsTypeId"
-              :label="item.goodsTypeName"
-              :value="item.goodsTypeId">
-            </el-option>
-          </el-select>
-        </el-form-item>
+
 
         <el-form-item label="是否可用">
           <el-radio-group v-model="form.enableStatus">
@@ -235,14 +226,12 @@
         </el-form-item>
 
 
+        <el-form-item label="权重" prop="weight">
+          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+        </el-form-item>
 
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
 
