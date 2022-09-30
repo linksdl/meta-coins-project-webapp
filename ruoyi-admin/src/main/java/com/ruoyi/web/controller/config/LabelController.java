@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.service.IBookService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,8 @@ public class LabelController extends BaseController
     @Resource
     private IBookService bookService;
 
+    @Resource
+    private ISysUserService userService;
     /**
      * 分页查询标签管理列表
      */
@@ -92,7 +95,7 @@ public class LabelController extends BaseController
         label.setCreateBy(getUsername());
         label.setUpdateBy(getUsername());
         label.setUserId(getUserId());
-        label.setUserName(getUsername());
+        label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         if (books.size() != 1)
         {
             return AjaxResult.error("请选择一个默认的账本！！！");

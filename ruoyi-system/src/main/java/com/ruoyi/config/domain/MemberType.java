@@ -5,10 +5,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 成员类型对象 config_member_type
@@ -55,6 +52,18 @@ public class MemberType extends BaseEntity
     @Excel(name = "权重")
     @Column(name="weight")
     private Long weight;
+
+    /** 是否可以下拉*/
+    @Transient
+    private boolean disabled;
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     public void setMemberTypeId(Long memberTypeId) 
     {

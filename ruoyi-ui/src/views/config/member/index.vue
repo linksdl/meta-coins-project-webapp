@@ -77,7 +77,7 @@
 
     <el-table v-loading="loading" :data="memberList"  @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-      <el-table-column label="ID" align="center" prop="memberId" />
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="名称" align="center" prop="memberName" :show-overflow-tooltip="true" />
       <el-table-column label="功能范围" align="center" prop="memberScope">
         <template slot-scope="scope">
@@ -97,7 +97,7 @@
           <svg-icon :icon-class="scope.row.icon" />
         </template>
     </el-table-column>
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
@@ -159,7 +159,8 @@
               v-for="item in typeOptions"
               :key="item.memberTypeId"
               :label="item.memberTypeName"
-              :value="item.memberTypeId">
+              :value="item.memberTypeId"
+              :disabled="item.disabled">
             </el-option>
           </el-select>
         </el-form-item>

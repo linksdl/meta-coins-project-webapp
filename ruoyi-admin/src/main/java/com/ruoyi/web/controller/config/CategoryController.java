@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.service.IBookService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,9 @@ public class CategoryController extends BaseController
 
     @Resource
     private IBookService bookService;
+
+    @Resource
+    private ISysUserService userService;
 
     /**
      * 分页查询分类管理列表
@@ -97,7 +101,7 @@ public class CategoryController extends BaseController
         category.setCreateBy(getUsername());
         category.setUpdateBy(getUsername());
         category.setUserId(getUserId());
-        category.setUserName(getUsername());
+        category.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         if (books.size() != 1)
         {
             return AjaxResult.error("请选择一个默认的账本！！！");

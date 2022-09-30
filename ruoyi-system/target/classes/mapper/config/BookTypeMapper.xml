@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
+        order by order_sort
     </select>
     
     <select id="selectBookTypeByBookTypeId" parameterType="Long" resultMap="BookTypeResult">

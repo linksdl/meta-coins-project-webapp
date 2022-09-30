@@ -8,6 +8,7 @@ import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.config.domain.MoneyType;
 import com.ruoyi.config.service.IMoneyTypeService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,8 @@ public class MoneyController extends BaseController
     @Resource
     private IBookService bookService;
 
+    @Resource
+    private ISysUserService userService;
     /**
      * 分页查询币种管理列表
      */
@@ -98,7 +101,7 @@ public class MoneyController extends BaseController
         param.setBookDefault(1);
         List<Book> books = bookService.selectBookList(param);
         money.setUserId(getUserId());
-        money.setUserName(getUsername());
+        money.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         money.setCreateBy(getUsername());
         money.setUpdateBy(getUsername());
         if (books.size() != 1)

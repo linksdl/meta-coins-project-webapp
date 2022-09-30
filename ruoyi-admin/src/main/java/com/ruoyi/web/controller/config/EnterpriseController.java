@@ -8,6 +8,7 @@ import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.config.domain.EnterpriseType;
 import com.ruoyi.config.service.IEnterpriseTypeService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,9 @@ public class EnterpriseController extends BaseController
 
     @Resource
     private IBookService bookService;
+
+    @Resource
+    private ISysUserService userService;
 
     /**
      * 分页查询商家管理列表
@@ -100,7 +104,7 @@ public class EnterpriseController extends BaseController
         enterprise.setCreateBy(getUsername());
         enterprise.setUpdateBy(getUsername());
         enterprise.setUserId(getUserId());
-        enterprise.setUserName(getUsername());
+        enterprise.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         if (books.size() != 1)
         {
             return AjaxResult.error("请选择一个默认的账本！！！");

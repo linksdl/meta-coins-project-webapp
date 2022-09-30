@@ -3,6 +3,8 @@ package com.ruoyi.web.controller.config;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.BookType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +114,9 @@ public class MemberTypeController extends BaseController
     public AjaxResult select()
     {
         List<MemberType> list = memberTypeService.selectMemberTypeAll();
+        for(MemberType memberType:list){
+            memberType.setDisabled(memberType.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.BookType;
 import com.ruoyi.config.service.IBookTypeService;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,9 @@ public class BookController extends BaseController
 
     @Resource
     private IBookTypeService bookTypeService;
+
+    @Resource
+    private ISysUserService userService;
 
     /**
      * 查询个人账本列表
@@ -96,7 +100,7 @@ public class BookController extends BaseController
         book.setCreateBy(getUsername());
         book.setUpdateBy(getUsername());
         book.setUserId(getUserId());
-        book.setUserName(getUsername());
+        book.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         BookType bookType = bookTypeService.selectBookTypeByBookTypeId(book.getBookTypeId());
         book.setBookTypeName(bookType.getBookTypeName());
         return toAjax(bookService.insertBook(book));
