@@ -88,8 +88,8 @@
     <el-table v-loading="loading" :data="moneyTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="类型ID" align="center" prop="moneyTypeId" />
 
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="类型名称" align="center" prop="moneyTypeCname" :show-overflow-tooltip="true" />
@@ -107,7 +107,7 @@
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">

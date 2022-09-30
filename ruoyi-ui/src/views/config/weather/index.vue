@@ -79,10 +79,7 @@
     <el-table v-loading="loading" :data="weatherList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="weatherId" />
-
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="中文名" align="center" prop="weatherCname" :show-overflow-tooltip="true" />
 
 
@@ -102,7 +99,7 @@
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">

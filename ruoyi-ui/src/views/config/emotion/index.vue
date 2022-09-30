@@ -88,10 +88,7 @@
     <el-table v-loading="loading" :data="emotionList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="emotionId" />
-
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="中文名" align="center" prop="emotionCname" :show-overflow-tooltip="true" />
 
 
@@ -114,7 +111,7 @@
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">

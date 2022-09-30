@@ -88,9 +88,7 @@
     <el-table v-loading="loading" :data="moneyList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="moneyId" />
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
       <el-table-column label="币种" align="center" prop="moneyCname" :show-overflow-tooltip="true" />
 
@@ -123,8 +121,6 @@
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
 
 
@@ -189,7 +185,8 @@
               v-for="item in typeOptions"
               :key="item.moneyTypeId"
               :label="item.moneyTypeCname"
-              :value="item.moneyTypeId">
+              :value="item.moneyTypeId"
+              :disabled="item.disabled">
             </el-option>
           </el-select>
         </el-form-item>

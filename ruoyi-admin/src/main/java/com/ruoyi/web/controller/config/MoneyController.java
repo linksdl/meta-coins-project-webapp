@@ -110,6 +110,8 @@ public class MoneyController extends BaseController
         }
         money.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         money.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
+
+        money.setMoneyCname(money.getMoneyCname()+"("+money.getMoneyRate().toString()+")");
         return toAjax(moneyService.insertMoney(money));
     }
 
@@ -122,6 +124,7 @@ public class MoneyController extends BaseController
     public AjaxResult edit(@RequestBody Money money)
     {
         money.setUpdateBy(getUsername());
+        money.setMoneyCname(money.getMoneyCname()+"("+money.getMoneyRate().toString()+")");
         return toAjax(moneyService.updateMoney(money));
     }
 

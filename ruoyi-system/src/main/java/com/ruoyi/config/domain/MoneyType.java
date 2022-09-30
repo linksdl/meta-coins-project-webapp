@@ -5,10 +5,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 币种类型对象 config_money_type
@@ -60,6 +57,18 @@ public class MoneyType extends BaseEntity
     @Excel(name = "是否可用")
     @Column(name="enable_status")
     private Long enableStatus;
+
+    /** 是否可以下拉*/
+    @Transient
+    private boolean disabled;
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
 
     public void setMoneyTypeId(Long moneyTypeId) 
     {

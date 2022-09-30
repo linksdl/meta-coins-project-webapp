@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.BookType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -112,6 +114,9 @@ public class MoneyTypeController extends BaseController
     public AjaxResult select()
     {
         List<MoneyType> list = moneyTypeService.selectMoneyTypeAll();
+        for(MoneyType moneyType:list){
+            moneyType.setDisabled(moneyType.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

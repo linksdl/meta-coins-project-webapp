@@ -88,10 +88,7 @@
     <el-table v-loading="loading" :data="labelList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="labelId" />
-
-
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="标签名称" align="center" prop="labelCname" :show-overflow-tooltip="true" />
 
 
@@ -115,10 +112,9 @@
       </el-table-column>
 
 
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
 
     <el-table-column label="图标" align="center" prop="icon">
@@ -139,17 +135,7 @@
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
 
 
-
-
-
-
-
-
-
-
-
-
-
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
 
 
@@ -222,9 +208,6 @@
           </el-checkbox-group>
         </el-form-item>
 
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
 
 
         <el-form-item label="排序" prop="orderSort">
@@ -268,6 +251,9 @@
           <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
+        </el-form-item>
 
 
       </el-form>
