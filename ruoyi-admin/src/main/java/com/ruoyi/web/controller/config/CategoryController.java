@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.config;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
@@ -144,10 +146,33 @@ public class CategoryController extends BaseController
      * 获取分类管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Category params)
     {
-        List<Category> list = categoryService.selectCategoryAll();
-        return AjaxResult.success(list);
+        // params
+        params.setUserId(getUserId());
+
+
+        List<Category> list = categoryService.selectCategoryAll(params);
+        List<Category> options = new ArrayList<>();
+        for (Category category: list) {
+            if (category.getCategoryParentId() == 0) {
+                category.setChildren(getChildren(category.getCategoryId(), list));
+                options.add(category);
+            }
+        }
+        return AjaxResult.success(options);
+    }
+
+    public List<Category> getChildren(Long parentId, List<Category> list) {
+        List<Category> children = new ArrayList<>();
+        for (Category category: list) {
+            if (Objects.equals(category.getCategoryParentId(), parentId)) {
+                List<Category> c = getChildren(category.getCategoryId(), list);
+                category.setChildren(c.size()==0?null:c);
+                children.add(category);
+            }
+        }
+        return children;
     }
 
 }

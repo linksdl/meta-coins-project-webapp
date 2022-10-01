@@ -64,7 +64,7 @@ public interface ICategoryService
      *
      * @return 结果
      */
-    public List<Category> selectCategoryAll();
+    public List<Category> selectCategoryAll(Category params);
 
 
 

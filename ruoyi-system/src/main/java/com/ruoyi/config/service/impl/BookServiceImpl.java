@@ -95,4 +95,9 @@ public class BookServiceImpl implements IBookService
     {
         return bookMapper.deleteBookByBookId(bookId);
     }
+
+    @Override
+    public List<Book> selectBookAll() {
+        return bookMapper.selectBookAll();
+    }
 }

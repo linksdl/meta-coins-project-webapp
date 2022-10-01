@@ -34,8 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select category_id, category_name, category_parent_id, category_parent_name, category_class, category_level, category_desc, category_scope, category_sort, category_type, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_category
     </sql>
 
-    <select id="selectCategoryAll" resultMap="CategoryResult">
+    <select id="selectCategoryAll" parameterType="Category" resultMap="CategoryResult">
 		<include refid="selectCategoryVo"/>
+        <where>
+            <if test="categoryType != null  and categoryType != ''"> and category_type = #{categoryType}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort asc
 	</select>
 
     <select id="selectCategoryList" parameterType="Category" resultMap="CategoryResult">

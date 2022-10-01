@@ -44,9 +44,10 @@ export function delCategory(categoryId) {
 }
 
 // 获取分类管理下拉框列表
-export function selectCategory() {
+export function selectCategory(query) {
   return request({
     url: '/config/category/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

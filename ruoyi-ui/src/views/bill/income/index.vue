@@ -226,26 +226,46 @@
 
     <!-- 添加或修改收入账单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-         <el-row>
-          <el-col :span="14">
-            <el-form-item label="名称" prop="incomeName">
-              <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
+        <el-form ref="form" :model="form" :rules="rules" label-width="68px">
+           <el-row>
+            <el-col :span="14">
+              <el-form-item label="名称" prop="incomeName">
+                <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
+              </el-form-item>
+            </el-col>
+
+           <el-col :span="10">
+            <el-form-item label="日期" prop="incomeDatetime">
+              <el-date-picker clearable
+                v-model="form.incomeDatetime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="请选择收入日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
-
-         <el-col :span="10">
-          <el-form-item label="日期" prop="incomeDatetime">
-            <el-date-picker clearable
-              v-model="form.incomeDatetime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="请选择收入日期">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-
          </el-row>
+
+          <el-row>
+              <el-col :span="8">
+                <el-form-item label="金额" prop="incomeAmount">
+                  <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+                </el-form-item>
+              </el-col>
+
+             <el-col :span="16">
+              <el-form-item label="币种" prop="incomeMoneyId">
+                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
+                  <el-radio-button
+                    v-for="item in moneyOptions"
+                    :label="item.moneyCname"
+                    :value="item.moneyId"
+                    :disabled="item.disabled">
+                  </el-radio-button>
+                </el-radio-group>
+              </el-form-item>
+             </el-col>
+        </el-row>
 
         <el-row>
           <el-col :span="8">
@@ -265,10 +285,10 @@
             <el-form-item label="账户" prop="incomeAccountId">
               <el-select v-model="form.incomeAccountId" placeholder="请选择账户名">
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in accountOptions"
+                  :key="item.accountId"
+                  :label="item.accountName"
+                  :value="item.accountId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -276,49 +296,30 @@
 
            <el-col :span="8">
             <el-form-item label="分类" prop="incomeCategoryId">
-              <el-select v-model="form.incomeCategoryId" placeholder="请选择分类名">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+                <el-cascader style="width: 220px"
+                  clearable
+                  placeholder="请选择分类名"
+                  v-model="form.incomeCategoryId"
+                  :options="categoryOptions"
+                  :props="{ expandTrigger: 'hover',value:'categoryId',label:'categoryName',children: 'children' }"
+                ></el-cascader>
+
             </el-form-item>
           </el-col>
 
            </el-row>
 
-           <el-row>
-              <el-col :span="8">
-                <el-form-item label="金额" prop="incomeAmount">
-                  <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-                </el-form-item>
-              </el-col>
 
-             <el-col :span="16">
-              <el-form-item label="币种" prop="incomeMoneyId">
-                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
-                  <el-radio-button
-                    v-for="item in moneyOptions"
-                    :label="item.label"
-                    :value="item.value"
-                    :disabled="item.disabled">
-                  </el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-             </el-col>
-        </el-row>
 
        <el-row>
         <el-col :span="8">
           <el-form-item label="主体" prop="incomeEntityId">
             <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in enterpriseOptions"
+                :key="item.enterpriseId"
+                :label="item.enterpriseName"
+                :value="item.enterpriseId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -328,10 +329,10 @@
           <el-form-item label="项目" prop="incomeProjectId">
             <el-select v-model="form.incomeProjectId" filterable placeholder="请选择项目名">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in projectOptions"
+                :key="item.projectId"
+                :label="item.projectName"
+                :value="item.projectId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -358,9 +359,9 @@
             <el-radio-group v-model="form.incomeCityId" placeholder="请选择城市名">
               <el-radio-button
                 v-for="item in cityOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                :key="item.cityId"
+                :label="item.cityCname"
+                :value="item.cityCname"
                 :disabled="item.disabled">
               </el-radio-button>
             </el-radio-group>
@@ -373,10 +374,10 @@
           <el-form-item label="标签" prop="incomeLabelId">
             <el-select v-model="form.incomeLabelId" placeholder="请选择标签">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in labelOptions"
+                :key="item.labelId"
+                :label="item.labelCname"
+                :value="item.labelId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -386,12 +387,12 @@
           <el-tag
             size="medium"
             style="margin-left: 5px; margin-top:4px;"
-            v-for="item in items"
-            :key="item.label"
-            :type="item.type"
+            v-for="item in labelOptions"
+            :key="item.labelId"
+            :type="item.labelCname"
             effect="plain"
           >
-            {{ item.label }}
+            {{ item.labelCname }}
           </el-tag>
           </el-form-item>
         </el-col>
@@ -403,10 +404,10 @@
           <el-form-item label="成员" prop="incomeMemberId">
             <el-select v-model="form.incomeMemberId" placeholder="请选择成员名">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="item in memberOptions"
+                :key="item.memberId"
+                :label="item.memberName"
+                :value="item.memberName">
               </el-option>
             </el-select>
           </el-form-item>
@@ -417,11 +418,11 @@
           <el-tag
             size="medium"
             style="margin-left: 5px; margin-top:4px;"
-            v-for="item in items"
-            :key="item.label"
-            :type="item.type"
+            v-for="item in memberOptions"
+            :key="item.memberId"
+            :type="item.memberName"
             effect="light">
-            {{ item.label }}
+            {{ item.memberName }}
           </el-tag>
           </el-form-item>
         </el-col>
@@ -441,10 +442,10 @@
         <el-form-item label="心情" prop="incomeEmotionId">
           <el-select v-model="form.incomeEmotionId" placeholder="请选择心情名">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in emotionOptions"
+              :key="item.emotionId"
+              :label="item.emotionCname"
+              :value="item.emotionCname">
             </el-option>
           </el-select>
         </el-form-item>
@@ -454,11 +455,11 @@
           <el-tag
             size="medium"
             style="margin-left: 5px; margin-top:4px;"
-            v-for="item in items"
-            :key="item.label"
-            :type="item.type"
+            v-for="item in emotionOptions"
+            :key="item.emotionId"
+            :type="item.emotionCname"
             effect="light">
-            {{ item.label }}
+            {{ item.emotionCname }}
           </el-tag>
           </el-form-item>
         </el-col>
@@ -471,10 +472,10 @@
         <el-form-item label="天气" prop="incomeWeatherId">
           <el-select v-model="form.incomeWeatherId" placeholder="请选择天气名">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in weatherOptions"
+              :key="item.weatherId"
+              :label="item.weatherCname"
+              :value="item.weatherCname">
             </el-option>
           </el-select>
         </el-form-item>
@@ -485,30 +486,27 @@
           <el-tag
             size="medium"
             style="margin-left: 5px; margin-top:4px;"
-            v-for="item in items"
-            :key="item.label"
-            :type="item.type"
+            v-for="item in weatherOptions"
+            :key="item.weatherId"
+            :type="item.weatherCname"
             effect="light">
-            {{ item.label }}
+            {{ item.weatherCname }}
           </el-tag>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row>
-          <el-col :span="8">
-            <el-form-item label="排序" prop="orderSort">
-              <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-            </el-form-item>
+        <el-col :span="24">
+           <el-form-item label="描述" prop="incomeDesc">
+            <el-input v-model="form.incomeDesc" type="textarea" placeholder="请输入内容" />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-          </el-col>
-            <el-col :span="8">
-            <el-form-item label="权重" prop="weight">
-              <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-              <el-form-item label="是否可用">
+      <el-row>
+          <el-col :span="24">
+              <el-form-item label="是否记录">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -518,21 +516,7 @@
                 </el-radio-group>
               </el-form-item>
           </el-col>
-        </el-row>
-
-      <el-row>
-              <el-col :span="8">
-           <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc" type="textarea" placeholder="请输入内容" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="凭证">
-            <image-upload v-model="form.incomeImgs"/>
-          </el-form-item>
-        </el-col>
       </el-row>
-
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -547,48 +531,49 @@
 import { listIncome, getIncome, delIncome, addIncome, updateIncome } from "@/api/bill/income";
 import IconSelect from "@/components/IconSelect";
 
+import { selectAccount as getAccountOptionSelect } from "@/api/config/account";
+import { selectBook as getBookOptionSelect } from "@/api/config/book";
+import { selectCategory as getCategoryOptionSelect } from "@/api/config/category";
+import { selectCity as getCityOptionSelect } from "@/api/config/city";
+import { selectEmotion as getEmotionOptionSelect } from "@/api/config/emotion";
+import { selectEnterprise as getEnterpriseOptionSelect } from "@/api/config/enterprise";
+import { selectGoods as getGoodsOptionSelect } from "@/api/config/goods";
+import { selectLabel as getLabelOptionSelect } from "@/api/config/label";
+import { selectMember as getMemberOptionSelect } from "@/api/config/member";
+import { selectMoney as getMoneyOptionSelect } from "@/api/config/money";
+import { selectProject as getProjectOptionSelect } from "@/api/config/project";
+import { selectWeather as getWeatherOptionSelect } from "@/api/config/weather";
+
 export default {
   name: "Income",
   dicts: ['config_function_in', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
+      //账户
+      accountOptions: [],
+      //账本
+      bookOptions: [],
+      //分类
+      categoryOptions: [],
       //城市
-      cityOptions: [
-        { disabled: false,  label: '上海' },
-        { disabled: false,  label: '伦敦' },
-        { disabled: false,  label: '利兹' },
-        { disabled: false,  label: '北京' },
-        { disabled: false,  label: '杭州' },
-        { disabled: false,  label: '苏州' },
-        { disabled: false,  label: '南京' },
-        { disabled: true,   label: '郑州' },
-        { disabled: false,  label: '洛阳' },
-        { disabled: false,  label: '信阳' },
-        { disabled: false,  label: '合肥' },
-        { disabled: false,  label: '广州' },
-        { disabled: true,   label: '纽约' },
-      ],
-      //币种
-      moneyOptions: [
-        { disabled: false, label: '人币' },
-        { disabled: false, label: '英镑' },
-        { disabled: false, label: '欧元' },
-        { disabled: false, label: '美元' },
-        { disabled: false, label: '韩元' },
-        { disabled: false, label: '加元' },
-        { disabled: true,  label: '港币' },
-        { disabled: true,  label: '日元' },
-      ],
+      cityOptions: [],
+      //心情
+      emotionOptions: [],
+      //实体
+      entityOptions: [],
+      //商品
+      goodsOptions: [],
       //标签
-      items: [
-            { type: 'success', label: '标签一' },
-            { type: 'success', label: '标签二' },
-            { type: 'success', label: '标签三' },
-            { type: 'success', label: '标签ddd五' },
-            { type: 'success', label: '标签dd五' },
-            { type: 'success', label: '标签ddddd五' },
-          ],
+      labelOptions: [],
+      //成员
+      memberOptions: [],
+      //币种
+      moneyOptions: [],
+      //项目
+      projectOptions: [],
+      //天气
+      weatherOptions: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -614,6 +599,7 @@ export default {
         incomeName: null,
         incomeDatetime: null,
         createTime: null,
+        categoryType: 'income'
       },
       // 表单参数
       form: {},
@@ -624,6 +610,18 @@ export default {
   },
   created() {
     this.getList();
+    this.getAccountList();
+    this.getBookList();
+    this.getCategoryList();
+    this.getCityList();
+    this.getEmotionList();
+    this.getEnterpriseList();
+    this.getGoodsList();
+    this.getLabelList();
+    this.getMemberList();
+    this.getMoneyList();
+    this.getProjectList();
+    this.getWeatherList();
   },
   methods: {
     /** 选择收入账单图标 */
@@ -637,6 +635,78 @@ export default {
         this.incomeList = response.rows;
         this.total = response.total;
         this.loading = false;
+      });
+    },
+    /** 查询账户下拉 */
+    getAccountList() {
+      getAccountOptionSelect().then(response => {
+        this.accountOptions = response.data;
+      });
+    },
+    /** 查询账本下拉 */
+    getBookList() {
+      getBookOptionSelect().then(response => {
+        this.bookOptions = response.data;
+      });
+    },
+    /** 查询分类下拉 */
+    getCategoryList() {
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+    },
+    /** 查询城市下拉 */
+    getCityList() {
+      getCityOptionSelect().then(response => {
+        this.cityOptions = response.data;
+      });
+    },
+    /** 查询心情下拉 */
+    getEmotionList() {
+      getEmotionOptionSelect().then(response => {
+        this.emotionOptions = response.data;
+      });
+    },
+    /** 查询实体下拉 */
+    getEnterpriseList() {
+      getEnterpriseOptionSelect().then(response => {
+        this.enterpriseOptions = response.data;
+      });
+    },
+    /** 查询商品下拉 */
+    getGoodsList() {
+      getGoodsOptionSelect().then(response => {
+        this.goodsOptions = response.data;
+      });
+    },
+    /** 查询标签下拉 */
+    getLabelList() {
+      getLabelOptionSelect().then(response => {
+        this.labelOptions = response.data;
+      });
+    },
+    /** 查询成员下拉 */
+    getMemberList() {
+      getMemberOptionSelect().then(response => {
+        this.memberOptions = response.data;
+      });
+    },
+    /** 查询币种下拉 */
+    getMoneyList() {
+      getMoneyOptionSelect().then(response => {
+        this.moneyOptions = response.data;
+      });
+    },
+    /** 查询项目下拉 */
+    getProjectList() {
+      getProjectOptionSelect().then(response => {
+        this.projectOptions = response.data;
+      });
+    },
+    /** 查询天气下拉 */
+    getWeatherList() {
+      getWeatherOptionSelect().then(response => {
+        this.weatherOptions = response.data;
       });
     },
     // 取消按钮
@@ -678,8 +748,8 @@ export default {
         incomeLabelName: null,
         incomeMemberId: null,
         incomeMemberName: null,
-        incomeMoneyId: '人币',
-        incomeMoneyName: '人币',
+        incomeMoneyId: null,
+        incomeMoneyName: null,
         incomeProjectId: null,
         incomeProjectName: null,
         incomeWeatherId: null,

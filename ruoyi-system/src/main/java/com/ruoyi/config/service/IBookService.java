@@ -58,4 +58,11 @@ public interface IBookService
      * @return 结果
      */
     public int deleteBookByBookId(Long bookId);
+
+    /**
+     * 获取所有个人账本列表
+     *
+     * @return 结果
+     */
+    public List<Book> selectBookAll();
 }

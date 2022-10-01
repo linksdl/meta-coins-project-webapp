@@ -28,6 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select book_id, book_name, book_type_name, book_type_id, book_desc, book_default, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time, user_id, user_name from config_book
     </sql>
 
+    <select id="selectBookAll" resultMap="BookResult">
+		<include refid="selectBookVo"/>
+	</select>
+
     <select id="selectBookList" parameterType="Book" resultMap="BookResult">
         <include refid="selectBookVo"/>
         <where>

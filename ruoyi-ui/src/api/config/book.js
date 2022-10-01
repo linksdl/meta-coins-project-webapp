@@ -44,3 +44,10 @@ export function delBook(bookId) {
 }
 
 
+// 获取个人账本下拉框列表
+export function selectBook() {
+  return request({
+    url: '/config/book/select',
+    method: 'get'
+  })
+}

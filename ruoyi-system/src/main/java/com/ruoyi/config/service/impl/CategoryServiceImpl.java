@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements ICategoryService
     }
 
     @Override
-    public List<Category> selectCategoryAll() {
-        return categoryMapper.selectCategoryAll();
+    public List<Category> selectCategoryAll(Category params) {
+        return categoryMapper.selectCategoryAll(params);
     }
 }

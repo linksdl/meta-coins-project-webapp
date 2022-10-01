@@ -64,5 +64,5 @@ public interface CategoryMapper
      *
      * @return 分类管理集合信息
      */
-    public List<Category> selectCategoryAll();
+    public List<Category> selectCategoryAll(Category params);
 }

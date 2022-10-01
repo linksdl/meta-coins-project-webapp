@@ -138,4 +138,14 @@ public class BookController extends BaseController
     {
         return toAjax(bookService.deleteBookByBookIds(bookIds));
     }
+
+    /**
+     * 获取个人账本下拉框列表
+     */
+    @GetMapping("/select")
+    public AjaxResult select()
+    {
+        List<Book> list = bookService.selectBookAll();
+        return AjaxResult.success(list);
+    }
 }

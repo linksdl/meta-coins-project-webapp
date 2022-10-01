@@ -129,7 +129,7 @@
     </el-table>
 
     <!-- 添加或修改分类管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="680px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分类名" prop="categoryName">
           <el-input v-model="form.categoryName" placeholder="请输入分类名" />

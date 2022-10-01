@@ -58,4 +58,11 @@ public interface BookMapper
      * @return 结果
      */
     public int deleteBookByBookIds(Long[] bookIds);
+
+    /**
+     * 获取所有个人账本列表
+     *
+     * @return 个人账本集合信息
+     */
+    public List<Book> selectBookAll();
 }
