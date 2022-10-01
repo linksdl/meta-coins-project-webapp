@@ -380,6 +380,14 @@
        </el-row>
 
       <el-row>
+        <el-col :span="24">
+           <el-form-item label="描述" prop="incomeDesc">
+            <el-input v-model="form.incomeDesc"  placeholder="请输入内容" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
         <el-col :span="8">
           <el-form-item label="成员" prop="incomeMemberId">
             <el-select v-model="form.incomeMemberId" placeholder="请选择成员名">
@@ -404,14 +412,6 @@
             effect="light">
             {{ item.memberName }}
           </el-tag>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row>
-        <el-col :span="24">
-           <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc"  placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -652,6 +652,15 @@ export default {
         ],
         incomeProjectId: [
           { required: true, message: "项目不能为空", trigger: "change" }
+        ],
+        incomeLabelName: [
+          { required: true, message: "标签不能为空", trigger: "blur" }
+        ],
+        incomeAmount: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ],
+        incomeCityName: [
+          { required: true, message: "城市不能为空", trigger: "blur" }
         ]
       }
     };
