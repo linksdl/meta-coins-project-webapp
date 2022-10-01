@@ -111,7 +111,7 @@ public class MoneyTypeController extends BaseController
      * 获取币种类型下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(MoneyType params)
     {
         List<MoneyType> list = moneyTypeService.selectMoneyTypeAll();
         for(MoneyType moneyType:list){

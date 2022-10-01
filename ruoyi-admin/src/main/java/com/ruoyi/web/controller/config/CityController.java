@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.BookType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,7 +111,7 @@ public class CityController extends BaseController
      * 获取城市下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(City params)
     {
         List<City> list = cityService.selectCityAll();
         return AjaxResult.success(list);

@@ -44,9 +44,10 @@ export function delMemberType(memberTypeId) {
 }
 
 // 获取成员类型下拉框列表
-export function selectMemberType() {
+export function selectMemberType(query) {
   return request({
     url: '/config/memberType/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

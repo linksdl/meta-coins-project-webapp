@@ -44,9 +44,10 @@ export function delWeather(weatherId) {
 }
 
 // 获取天气管理下拉框列表
-export function selectWeather() {
+export function selectWeather(query) {
   return request({
     url: '/config/weather/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

@@ -44,9 +44,10 @@ export function delBookType(bookTypeId) {
 }
 
 // 获取账本类型下拉框列表
-export function selectBookType() {
+export function selectBookType(query) {
   return request({
     url: '/config/bookType/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

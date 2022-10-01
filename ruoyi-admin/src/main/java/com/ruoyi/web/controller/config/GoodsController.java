@@ -143,7 +143,7 @@ public class GoodsController extends BaseController
      * 获取商品管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Goods params)
     {
         List<Goods> list = goodsService.selectGoodsAll();
         return AjaxResult.success(list);

@@ -109,7 +109,7 @@ public class WeatherController extends BaseController
      * 获取天气管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Weather params)
     {
         List<Weather> list = weatherService.selectWeatherAll();
         return AjaxResult.success(list);

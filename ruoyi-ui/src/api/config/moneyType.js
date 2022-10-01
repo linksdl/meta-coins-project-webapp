@@ -44,9 +44,10 @@ export function delMoneyType(moneyTypeId) {
 }
 
 // 获取币种类型下拉框列表
-export function selectMoneyType() {
+export function selectMoneyType(query) {
   return request({
     url: '/config/moneyType/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

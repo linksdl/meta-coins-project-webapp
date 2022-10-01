@@ -44,9 +44,10 @@ export function delGoods(goodsId) {
 }
 
 // 获取商品管理下拉框列表
-export function selectGoods() {
+export function selectGoods(query) {
   return request({
     url: '/config/goods/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

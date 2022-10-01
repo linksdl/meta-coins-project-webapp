@@ -96,7 +96,7 @@ public class MoneyServiceImpl implements IMoneyService
     }
 
     @Override
-    public List<Money> selectMoneyAll() {
-        return moneyMapper.selectMoneyAll();
+    public List<Money> selectMoneyAll(Money params) {
+        return moneyMapper.selectMoneyAll(params);
     }
 }

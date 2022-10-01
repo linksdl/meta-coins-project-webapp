@@ -133,7 +133,7 @@ public class ProjectController extends BaseController
      * 获取项目管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Project params)
     {
         List<Project> list = projectService.selectProjectAll();
         return AjaxResult.success(list);

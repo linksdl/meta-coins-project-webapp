@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.config;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.config.domain.Enterprise;
 import com.ruoyi.config.domain.GoodsType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +112,7 @@ public class EnterpriseTypeController extends BaseController
      * 获取商家类型下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(EnterpriseType params)
     {
         List<EnterpriseType> list = enterpriseTypeService.selectEnterpriseTypeAll();
         for(EnterpriseType enterpriseType:list){

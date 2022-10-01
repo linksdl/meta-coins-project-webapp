@@ -44,9 +44,10 @@ export function delLabel(labelId) {
 }
 
 // 获取标签管理下拉框列表
-export function selectLabel() {
+export function selectLabel(query) {
   return request({
     url: '/config/label/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

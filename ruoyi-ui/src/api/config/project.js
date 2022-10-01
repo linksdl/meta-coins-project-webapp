@@ -44,9 +44,10 @@ export function delProject(projectId) {
 }
 
 // 获取项目管理下拉框列表
-export function selectProject() {
+export function selectProject(query) {
   return request({
     url: '/config/project/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

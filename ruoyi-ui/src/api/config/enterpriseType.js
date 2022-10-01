@@ -44,9 +44,10 @@ export function delEnterpriseType(enterpriseTypeId) {
 }
 
 // 获取商家类型下拉框列表
-export function selectEnterpriseType() {
+export function selectEnterpriseType(query) {
   return request({
     url: '/config/enterpriseType/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

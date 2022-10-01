@@ -44,9 +44,10 @@ export function delMoney(moneyId) {
 }
 
 // 获取币种管理下拉框列表
-export function selectMoney() {
+export function selectMoney(query) {
   return request({
     url: '/config/money/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.domain.Label;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.config.domain.MemberType;
 import com.ruoyi.config.service.IMemberTypeService;
@@ -142,7 +143,7 @@ public class MemberController extends BaseController
      * 获取成员管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Member params)
     {
         List<Member> list = memberService.selectMemberAll();
         return AjaxResult.success(list);

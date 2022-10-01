@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.City;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,7 +111,7 @@ public class EmotionController extends BaseController
      * 获取心情管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Emotion params)
     {
         List<Emotion> list = emotionService.selectEmotionAll();
         return AjaxResult.success(list);

@@ -44,9 +44,10 @@ export function delEnterprise(enterpriseId) {
 }
 
 // 获取商家管理下拉框列表
-export function selectEnterprise() {
+export function selectEnterprise(query) {
   return request({
     url: '/config/enterprise/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

@@ -111,7 +111,7 @@ public class GoodsTypeController extends BaseController
      * 获取商品类型下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(GoodsType params)
     {
         List<GoodsType> list = goodsTypeService.selectGoodsTypeAll();
         for(GoodsType goodsType:list){

@@ -44,9 +44,10 @@ export function delMember(memberId) {
 }
 
 // 获取成员管理下拉框列表
-export function selectMember() {
+export function selectMember(query) {
   return request({
     url: '/config/member/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

@@ -64,7 +64,7 @@ public interface IMoneyService
      *
      * @return 结果
      */
-    public List<Money> selectMoneyAll();
+    public List<Money> selectMoneyAll(Money params);
 
 
 

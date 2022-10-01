@@ -143,7 +143,7 @@ public class EnterpriseController extends BaseController
      * 获取商家管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Enterprise params)
     {
         List<Enterprise> list = enterpriseService.selectEnterpriseAll();
         return AjaxResult.success(list);

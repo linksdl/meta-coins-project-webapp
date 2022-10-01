@@ -44,9 +44,10 @@ export function delCity(cityId) {
 }
 
 // 获取城市下拉框列表
-export function selectCity() {
+export function selectCity(query) {
   return request({
     url: '/config/city/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

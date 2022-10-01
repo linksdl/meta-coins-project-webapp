@@ -64,5 +64,5 @@ public interface MoneyMapper
      *
      * @return 币种管理集合信息
      */
-    public List<Money> selectMoneyAll();
+    public List<Money> selectMoneyAll(Money params);
 }

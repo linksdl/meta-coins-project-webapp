@@ -143,7 +143,7 @@ public class BookController extends BaseController
      * 获取个人账本下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Book params)
     {
         List<Book> list = bookService.selectBookAll();
         return AjaxResult.success(list);

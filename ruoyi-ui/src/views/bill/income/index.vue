@@ -240,13 +240,13 @@
           <el-row>
            <el-col :span="11">
             <el-form-item label="类型" prop="incomeType">
-              <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型">
+              <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型" @change="handleIncomeTypeChange" >
                 <el-radio
                   v-for="dict in dict.type.config_function_in"
                   :key="dict.value"
-                  :label="dict.label"
+                  :label="dict.value"
                   :value="dict.value">
-              </el-radio>
+              {{dict.label}}</el-radio>
               </el-radio-group>
             </el-form-item>
            </el-col>
@@ -556,7 +556,7 @@ export default {
       //心情
       emotionOptions: [],
       //实体
-      entityOptions: [],
+      enterpriseOptions: [],
       //商品
       goodsOptions: [],
       //标签
@@ -634,7 +634,8 @@ export default {
         incomeDatetime: null,
         createTime: null,
         categoryType: 'income',
-        accountType: 'income'
+        accountType: 'income',
+        moneyScope: 'income'
       },
       // 表单参数
       form: {},
@@ -659,6 +660,12 @@ export default {
     this.getWeatherList();
   },
   methods: {
+    handleIncomeTypeChange(val) {
+      this.queryParams.moneyScope=val;
+      getMoneyOptionSelect(this.queryParams).then(response => {
+        this.moneyOptions = response.data;
+      });
+    },
     /** 选择收入账单图标 */
     selected(name) {
       this.form.icon = name;
@@ -680,7 +687,7 @@ export default {
     },
     /** 查询账本下拉 */
     getBookList() {
-      getBookOptionSelect().then(response => {
+      getBookOptionSelect(this.queryParams).then(response => {
         this.bookOptions = response.data;
       });
     },
@@ -692,55 +699,55 @@ export default {
     },
     /** 查询城市下拉 */
     getCityList() {
-      getCityOptionSelect().then(response => {
+      getCityOptionSelect(this.queryParams).then(response => {
         this.cityOptions = response.data;
       });
     },
     /** 查询心情下拉 */
     getEmotionList() {
-      getEmotionOptionSelect().then(response => {
+      getEmotionOptionSelect(this.queryParams).then(response => {
         this.emotionOptions = response.data;
       });
     },
     /** 查询实体下拉 */
     getEnterpriseList() {
-      getEnterpriseOptionSelect().then(response => {
+      getEnterpriseOptionSelect(this.queryParams).then(response => {
         this.enterpriseOptions = response.data;
       });
     },
     /** 查询商品下拉 */
     getGoodsList() {
-      getGoodsOptionSelect().then(response => {
+      getGoodsOptionSelect(this.queryParams).then(response => {
         this.goodsOptions = response.data;
       });
     },
     /** 查询标签下拉 */
     getLabelList() {
-      getLabelOptionSelect().then(response => {
+      getLabelOptionSelect(this.queryParams).then(response => {
         this.labelOptions = response.data;
       });
     },
     /** 查询成员下拉 */
     getMemberList() {
-      getMemberOptionSelect().then(response => {
+      getMemberOptionSelect(this.queryParams).then(response => {
         this.memberOptions = response.data;
       });
     },
     /** 查询币种下拉 */
     getMoneyList() {
-      getMoneyOptionSelect().then(response => {
+      getMoneyOptionSelect(this.queryParams).then(response => {
         this.moneyOptions = response.data;
       });
     },
     /** 查询项目下拉 */
     getProjectList() {
-      getProjectOptionSelect().then(response => {
+      getProjectOptionSelect(this.queryParams).then(response => {
         this.projectOptions = response.data;
       });
     },
     /** 查询天气下拉 */
     getWeatherList() {
-      getWeatherOptionSelect().then(response => {
+      getWeatherOptionSelect(this.queryParams).then(response => {
         this.weatherOptions = response.data;
       });
     },
@@ -833,7 +840,7 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加收入账单";
-      this.form.incomeType = '收入';
+      this.form.incomeType = 'income';
       this.form.incomeCityId = '北京';
     },
     /** 修改按钮操作 */

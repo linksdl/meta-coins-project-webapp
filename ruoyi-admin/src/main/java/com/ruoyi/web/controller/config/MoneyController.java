@@ -143,9 +143,12 @@ public class MoneyController extends BaseController
      * 获取币种管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Money params)
     {
-        List<Money> list = moneyService.selectMoneyAll();
+        //params
+        params.setUserId(getUserId());
+
+        List<Money> list = moneyService.selectMoneyAll(params);
         for(Money money:list){
             money.setDisabled(money.getEnableStatus() == 0);
         }

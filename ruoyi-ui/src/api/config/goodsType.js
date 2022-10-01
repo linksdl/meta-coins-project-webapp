@@ -44,9 +44,10 @@ export function delGoodsType(goodsTypeId) {
 }
 
 // 获取商品类型下拉框列表
-export function selectGoodsType() {
+export function selectGoodsType(query) {
   return request({
     url: '/config/goodsType/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

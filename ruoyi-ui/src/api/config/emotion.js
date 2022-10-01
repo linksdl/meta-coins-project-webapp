@@ -44,9 +44,10 @@ export function delEmotion(emotionId) {
 }
 
 // 获取心情管理下拉框列表
-export function selectEmotion() {
+export function selectEmotion(query) {
   return request({
     url: '/config/emotion/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
