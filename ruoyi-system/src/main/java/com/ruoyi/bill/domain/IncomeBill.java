@@ -63,7 +63,7 @@ public class IncomeBill extends BaseEntity
 
     /** 父类名称 */
     @Excel(name = "父类名称")
-    private Long incomeParentName;
+    private String incomeParentName;
 
     /** 账本ID */
     private Long incomeBookId;
@@ -295,12 +295,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeParentId;
     }
-    public void setIncomeParentName(Long incomeParentName) 
+    public void setIncomeParentName(String incomeParentName)
     {
         this.incomeParentName = incomeParentName;
     }
 
-    public Long getIncomeParentName() 
+    public String getIncomeParentName()
     {
         return incomeParentName;
     }
