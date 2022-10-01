@@ -248,9 +248,8 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
+
           </el-row>
-
-
 
           <el-row>
            <el-col :span="12">
@@ -278,49 +277,32 @@
                 </el-radio-group>
               </el-form-item>
            </el-col>
+          </el-row>
 
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="主体" prop="incomeEntityId">
+                <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
+                  <el-option
+                    v-for="item in enterpriseOptions"
+                    :key="item.enterpriseId"
+                    :label="item.enterpriseName"
+                    :value="item.enterpriseId"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
 
+             <el-col :span="12">
+              <el-form-item label="金额" prop="incomeAmount">
+                <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
          </el-row>
 
           <el-row>
-           <el-col :span="8">
-            <el-form-item label="账户" prop="incomeAccountId">
-              <el-cascader
-                  clearable
-                  size="medium"
-                  filterable
-                  placeholder="请选择账户"
-                  v-model="form.incomeAccountId"
-                  :options="accountOptions"
-                  :props="{ expandTrigger: 'hover',value:'accountId',label:'accountName',children: 'children', disabled :'disabled' }"
-              ></el-cascader>
-            </el-form-item>
-           </el-col>
-
-          <el-col :span="8">
-            <el-form-item label="主体" prop="incomeEntityId">
-              <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
-                <el-option
-                  v-for="item in enterpriseOptions"
-                  :key="item.enterpriseId"
-                  :label="item.enterpriseName"
-                  :value="item.enterpriseId"
-                  :disabled="item.disabled">
-                </el-option>
-              </el-select>
-            </el-form-item>
-         </el-col>
-
-          <el-col :span="8">
-            <el-form-item label="金额" prop="incomeAmount">
-              <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-            </el-form-item>
-          </el-col>
-
-        </el-row>
-
-        <el-row>
-           <el-col :span="8">
+           <el-col :span="12">
             <el-form-item label="分类" prop="incomeCategoryId">
                 <el-cascader
                   clearable
@@ -334,36 +316,46 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="8">
-          <el-form-item label="标签" prop="incomeLabelName">
-            <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
-              <el-option
-                v-for="item in labelOptions"
-                :key="parseInt(item.labelId)"
-                :label="item.labelCname"
-                :value="item.labelCname">
-                <span style="float: left">{{ item.labelCname }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.labelEname}}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="项目" prop="incomeProjectId">
-            <el-select v-model="form.incomeProjectId" filterable placeholder="请选择项目名">
-              <el-option
-                v-for="item in projectOptions"
-                :key="item.projectId"
-                :label="item.projectName"
-                :value="item.projectId"
-                :disabled="item.disabled">
-              </el-option>
-            </el-select>
-          </el-form-item>
+           <el-col :span="12">
+            <el-form-item label="账户" prop="incomeAccountId">
+              <el-cascader
+                  clearable
+                  size="medium"
+                  filterable
+                  placeholder="请选择账户"
+                  v-model="form.incomeAccountId"
+                  :options="accountOptions"
+                  :props="{ expandTrigger: 'hover',value:'accountId',label:'accountName',children: 'children', disabled :'disabled' }"
+              ></el-cascader>
+            </el-form-item>
+           </el-col>
+
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="标签" prop="incomeLabelName">
+              <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
+                <el-option
+                  v-for="item in labelOptions"
+                  :key="parseInt(item.labelId)"
+                  :label="item.labelCname"
+                  :value="item.labelCname">
+                  <span style="float: left">{{ item.labelCname }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.labelEname}}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item label="项目" prop="incomeProjectName">
+                <el-input v-model="form.incomeProjectName" placeholder="请输入项目名称" />
+            </el-form-item>
           </el-col>
         </el-row>
 
-       <el-row>
+        <el-row>
          <el-col :span="24">
           <el-form-item label="城市" prop="incomeCityName">
             <el-radio-group v-model="form.incomeCityName" placeholder="请选择城市名">
@@ -650,7 +642,7 @@ export default {
         incomeEntityId: [
           { required: true, message: "主体不能为空", trigger: "change" }
         ],
-        incomeProjectId: [
+        incomeProjectName: [
           { required: true, message: "项目不能为空", trigger: "change" }
         ],
         incomeLabelName: [

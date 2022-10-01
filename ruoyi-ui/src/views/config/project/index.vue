@@ -157,8 +157,15 @@
     <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="名称" prop="projectName">
-          <el-input v-model="form.projectName" placeholder="请输入项目名称" />
+        <el-form-item label="名称" prop="projectName" >
+            <el-autocomplete
+              class="inline-input"
+              v-model="form.projectName"
+              :fetch-suggestions="querySearch"
+              :trigger-on-focus="true"
+              placeholder="请输入项目名称"
+              @select="handleSelect"
+            ></el-autocomplete>
         </el-form-item>
 
         <el-form-item label="描述" prop="projectDesc">
@@ -286,6 +293,7 @@ export default {
       },
       // 表单参数
       form: {},
+      projects: [],
       // 表单校验
       rules: {
         projectName: [
@@ -305,6 +313,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getListAll();
   },
   methods: {
     /** 选择项目管理图标 */
@@ -319,6 +328,13 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    /** 查询所有项目列表 */
+    getListAll() {
+        this.queryParams.pageSize=1000;
+        listProject(this.queryParams).then(response => {
+          this.projects = response.rows;
+        });
     },
     // 取消按钮
     cancel() {
@@ -348,6 +364,23 @@ export default {
         userName: null
       };
       this.resetForm("form");
+    },
+    /** 搜索操作 */
+    querySearch(queryString, cb) {
+        var projects = this.projects;
+        var results = queryString ? labels.filter(this.createFilter(queryString)) : projects;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+     createFilter(queryString) {
+        return (item) => {
+           return item.value.toUpperCase().match(queryString.toUpperCase());
+           // 第一个匹配
+           //return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+    },
+    handleSelect(item) {
+        console.log(item);
     },
     /** 搜索按钮操作 */
     handleQuery() {

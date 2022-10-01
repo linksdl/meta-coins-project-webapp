@@ -180,7 +180,7 @@
                 class="inline-input"
                 v-model="form.labelCname"
                 :fetch-suggestions="querySearch"
-                :trigger-on-focus="false"
+                :trigger-on-focus="true"
                 placeholder="请输入标签名称"
                 @select="handleSelect"
               ></el-autocomplete>
@@ -362,6 +362,7 @@ export default {
         this.loading = false;
       });
     },
+    /** 查询所有标签列表 */
     getListAll() {
         this.queryParams.pageSize=1000;
         listLabel(this.queryParams).then(response => {

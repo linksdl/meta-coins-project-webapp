@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.domain.Enterprise;
+import com.ruoyi.config.domain.Label;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,6 +57,10 @@ public class ProjectController extends BaseController
         startPage();
         project.setUserId(getUserId());
         List<Project> list = projectService.selectProjectList(project);
+        for(Project project1:list){
+            project1.setDisabled(project1.getEnableStatus() == 0);
+            project1.setValue(project1.getProjectName());
+        }
         return getDataTable(list);
     }
 
@@ -142,6 +147,7 @@ public class ProjectController extends BaseController
         List<Project> list = projectService.selectProjectAll(params);
         for(Project project:list){
             project.setDisabled(project.getEnableStatus() == 0);
+            project.setValue(project.getProjectName());
         }
         return AjaxResult.success(list);
     }
