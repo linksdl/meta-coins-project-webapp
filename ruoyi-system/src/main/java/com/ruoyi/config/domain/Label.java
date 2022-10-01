@@ -1,14 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 标签管理对象 config_label
@@ -16,6 +14,13 @@ import javax.persistence.Id;
  * @author metacoin
  * @date 2022-10-02
  */
+@Table(name="config_label")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Label extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

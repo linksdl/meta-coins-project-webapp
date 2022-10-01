@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.*;
 
 /**
  * 项目管理对象 config_project
@@ -11,55 +14,77 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_project")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="project_id")
     private Long projectId;
 
     /** 项目名称 */
     @Excel(name = "项目名称")
+    @Column(name="project_name")
     private String projectName;
 
     /** 功能范围 */
     @Excel(name = "功能范围")
+    @Column(name="project_scope")
     private String projectScope;
 
     /** 功能类型 */
     @Excel(name = "功能类型")
+    @Column(name="project_type")
     private String projectType;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="project_desc")
     private String projectDesc;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
     /** 账本名称 */
+    @Column(name="book_name")
     private String bookName;
 
     /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
     /** 用户名 */
+    @Column(name="user_name")
     private String userName;
 
     public void setProjectId(Long projectId) 

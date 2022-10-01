@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.TreeEntity;
+
+import javax.persistence.*;
 
 /**
  * 账户管理对象 config_account
@@ -11,11 +14,21 @@ import com.ruoyi.common.core.domain.TreeEntity;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_account")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account extends TreeEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="account_id")
     private Long accountId;
 
     /** 账户名称 */
@@ -24,6 +37,7 @@ public class Account extends TreeEntity
 
     /** 父类ID */
     @Excel(name = "父类ID")
+    @Column(name="account_parent_id")
     private Long accountParentId;
 
     /** 父类账户 */
@@ -32,54 +46,68 @@ public class Account extends TreeEntity
 
     /** 层次 */
     @Excel(name = "层次")
+    @Column(name="account_level")
     private String accountLevel;
 
     /** 功能范围 */
     @Excel(name = "功能范围")
+    @Column(name="account_scope")
     private String accountScope;
 
     /** 类型 */
     @Excel(name = "类型")
+    @Column(name="account_type")
     private String accountType;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="account_sort")
     private String accountSort;
 
     /** 类别 */
     @Excel(name = "类别")
+    @Column(name="account_class")
     private String accountClass;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="account_desc")
     private String accountDesc;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
     /** 账本名称 */
+    @Column(name="book_name")
     private String bookName;
 
     /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
     /** 用户名 */
+    @Column(name="user_name")
     private String userName;
 
     public void setAccountId(Long accountId) 

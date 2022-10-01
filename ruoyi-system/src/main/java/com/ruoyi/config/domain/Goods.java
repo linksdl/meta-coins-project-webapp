@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.*;
 
 /**
  * 商品管理对象 config_goods
@@ -11,63 +14,89 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_goods")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Goods extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 商品ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="goods_id")
     private Long goodsId;
 
     /** 商品名称 */
     @Excel(name = "商品名称")
+    @Column(name="goods_cname")
     private String goodsCname;
-
-    /** 英文名称 */
-    @Excel(name = "英文名称")
-    private String goodsEname;
-
-    /** 价格 */
-    @Excel(name = "价格")
-    private Double goodsPrice;
-
-    /** 描述 */
-    @Excel(name = "描述")
-    private String goodsDesc;
 
     /** 类型ID */
     @Excel(name = "类型ID")
+    @Column(name="goods_type_id")
     private Long goodsTypeId;
 
     /** 类型名称 */
     @Excel(name = "类型名称")
+    @Column(name="goods_type_name")
     private String goodsTypeName;
 
-    /** 是否可用 */
-    @Excel(name = "是否可用")
-    private Long enableStatus;
+    /** 英文名称 */
+    @Excel(name = "英文名称")
+    @Column(name="goods_ename")
+    private String goodsEname;
 
-    /** 图标 */
-    @Excel(name = "图标")
-    private String icon;
+    /** 价格 */
+    @Excel(name = "价格")
+    @Column(name="goods_price")
+    private Double goodsPrice;
 
-    /** 排序 */
-    @Excel(name = "排序")
-    private Long orderSort;
+    /** 描述 */
+    @Excel(name = "描述")
+    @Column(name="goods_desc")
+    private String goodsDesc;
+
+
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
+    /** 排序 */
+    @Excel(name = "排序")
+    @Column(name="order_sort")
+    private Long orderSort;
+
+    /** 图标 */
+    @Excel(name = "图标")
+    @Column(name="icon")
+    private String icon;
+
+    /** 是否可用 */
+    @Excel(name = "是否可用")
+    @Column(name="enable_status")
+    private Long enableStatus;
+
     /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
     /** 账本名称 */
+    @Column(name="book_name")
     private String bookName;
 
     /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
     /** 用户名 */
+    @Column(name="user_name")
     private String userName;
 
     public void setGoodsId(Long goodsId) 

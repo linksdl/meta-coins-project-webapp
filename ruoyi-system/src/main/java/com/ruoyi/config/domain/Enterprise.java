@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.*;
 
 /**
  * 商家管理对象 config_enterprise
@@ -11,71 +14,97 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_enterprise")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Enterprise extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="enterprise_id")
     private Long enterpriseId;
 
     /** 商家名称 */
     @Excel(name = "商家名称")
+    @Column(name="enterprise_name")
     private String enterpriseName;
-
-    /** 商家地址 */
-    @Excel(name = "商家地址")
-    private String enterpriseAddress;
-
-    /** 描述 */
-    @Excel(name = "描述")
-    private String enterpriseDesc;
-
-    /** 图片 */
-    @Excel(name = "图片")
-    private String enterpriseImgs;
-
-    /** 地图地址 */
-    @Excel(name = "地图地址")
-    private String enterpriseMapLocation;
-
-    /** 功能范围 */
-    @Excel(name = "功能范围")
-    private String enterpriseScope;
 
     /** 类型ID */
     @Excel(name = "类型ID")
+    @Column(name="enterprise_type_id")
     private Long enterpriseTypeId;
 
     /** 类型名称 */
     @Excel(name = "类型名称")
+    @Column(name="enterprise_type_name")
     private String enterpriseTypeName;
 
-    /** 是否可用 */
-    @Excel(name = "是否可用")
-    private Long enableStatus;
+    /** 商家地址 */
+    @Excel(name = "商家地址")
+    @Column(name="enterprise_address")
+    private String enterpriseAddress;
 
-    /** 图标 */
-    @Excel(name = "图标")
-    private String icon;
+    /** 描述 */
+    @Excel(name = "描述")
+    @Column(name="enterprise_desc")
+    private String enterpriseDesc;
 
-    /** 排序 */
-    @Excel(name = "排序")
-    private Long orderSort;
+    /** 图片 */
+    @Excel(name = "图片")
+    @Column(name="enterprise_imgs")
+    private String enterpriseImgs;
+
+    /** 地图地址 */
+    @Excel(name = "地图地址")
+    @Column(name="enterprise_map_location")
+    private String enterpriseMapLocation;
+
+    /** 功能范围 */
+    @Excel(name = "功能范围")
+    @Column(name="enterprise_scope")
+    private String enterpriseScope;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
+    /** 排序 */
+    @Excel(name = "排序")
+    @Column(name="order_sort")
+    private Long orderSort;
+
+    /** 图标 */
+    @Excel(name = "图标")
+    @Column(name="icon")
+    private String icon;
+
+    /** 是否可用 */
+    @Excel(name = "是否可用")
+    @Column(name="enable_status")
+    private Long enableStatus;
+
     /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
     /** 账本名称 */
+    @Column(name="book_name")
     private String bookName;
 
     /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
     /** 用户名 */
+    @Column(name="user_name")
     private String userName;
 
     public void setEnterpriseId(Long enterpriseId) 

@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.persistence.*;
 
 /**
  * 心情管理对象 config_emotion
@@ -11,43 +14,61 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author metacoin
  * @date 2022-10-02
  */
+@Table(name="config_emotion")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Emotion extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="emotion_id")
     private Long emotionId;
 
     /** 中文名 */
     @Excel(name = "中文名")
+    @Column(name="emotion_cname")
     private String emotionCname;
 
     /** 英文名 */
     @Excel(name = "英文名")
+    @Column(name="emotion_ename")
     private String emotionEname;
 
     /** 作用范围 */
     @Excel(name = "作用范围")
+    @Column(name="emotion_scope")
     private String emotionScope;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="emotion_desc")
     private String emotionDesc;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     public void setEmotionId(Long emotionId) 

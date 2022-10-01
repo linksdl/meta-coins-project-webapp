@@ -1,11 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * 商家类型对象 config_enterprise_type
@@ -13,35 +14,51 @@ import javax.persistence.Transient;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_enterprise_type")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnterpriseType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="enterprise_type_id")
     private Long enterpriseTypeId;
 
     /** 商家类型 */
     @Excel(name = "商家类型")
+    @Column(name="enterprise_type_name")
     private String enterpriseTypeName;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="enterprise_type_desc")
     private String enterpriseTypeDesc;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     /** 是否可以下拉*/

@@ -62,6 +62,7 @@ public class Book extends BaseEntity
 
     /** 用户名 */
     @Excel(name = "用户名")
+    @Column(name="user_name")
     private String userName;
 
     /** 权重 */

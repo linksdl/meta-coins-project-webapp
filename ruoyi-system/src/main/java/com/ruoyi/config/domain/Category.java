@@ -1,9 +1,12 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.TreeEntity;
+
+import javax.persistence.*;
 
 /**
  * 分类管理对象 config_category
@@ -11,27 +14,41 @@ import com.ruoyi.common.core.domain.TreeEntity;
  * @author metacoin
  * @date 2022-10-04
  */
+@Table(name="config_category")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category extends TreeEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="category_id")
     private Long categoryId;
 
     /** 分类名 */
     @Excel(name = "分类名")
+    @Column(name="category_name")
     private String categoryName;
 
     /** 父ID */
     @Excel(name = "父ID")
+    @Column(name="category_parent_id")
     private Long categoryParentId;
 
     /** 父类名称 */
     @Excel(name = "父类名称")
+    @Column(name="category_parent_name")
     private String categoryParentName;
 
     /** 功能分类 */
     @Excel(name = "功能分类")
+    @Column(name="category_class")
     private String categoryClass;
 
     /** 层次 */
@@ -40,46 +57,58 @@ public class Category extends TreeEntity
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="category_desc")
     private String categoryDesc;
 
     /** 功能范围 */
     @Excel(name = "功能范围")
+    @Column(name="category_scope")
     private String categoryScope;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="category_sort")
     private String categorySort;
 
     /** 功能类型 */
     @Excel(name = "功能类型")
+    @Column(name="category_type")
     private String categoryType;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
     /** 账本名称 */
+    @Column(name="book_name")
     private String bookName;
 
     /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
     /** 用户名称 */
+    @Column(name="user_name")
     private String userName;
 
     public void setCategoryId(Long categoryId) 

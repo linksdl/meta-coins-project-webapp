@@ -33,10 +33,12 @@ public class BookType extends BaseEntity
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 描述 */
@@ -51,10 +53,12 @@ public class BookType extends BaseEntity
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 数据是否可用 */
     @Excel(name = "数据是否可用")
+    @Column(name="enable_status")
     private Integer enableStatus;
 
     /** 是否可以下拉*/

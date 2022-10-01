@@ -1,5 +1,6 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,6 +14,13 @@ import javax.persistence.*;
  * @author metacoin
  * @date 2022-10-02
  */
+@Table(name="config_money_type")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoneyType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,6 @@
 package com.ruoyi.config.domain;
 
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -9,10 +10,17 @@ import javax.persistence.*;
 
 /**
  * 成员类型对象 config_member_type
- * 
+ * // 成员身份类型：本人，家人，同学，朋友，亲戚，老师，校友，房东等
  * @author metacoin
  * @date 2022-09-29
  */
+@Table(name="config_member_type")
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
