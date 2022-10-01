@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectLabelList" parameterType="Label" resultMap="LabelResult">
         <include refid="selectLabelVo"/>
         <where>  
-            <if test="labelCname != null  and labelCname != ''"> and label_cname like concat('%', #{labelCname}, '%')</if>
+            <if test="labelCname != null  and labelCname != ''"> and (label_cname like concat('%', #{labelCname}, '%') or label_ename like concat('%', #{labelCname}, '%') ) </if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
