@@ -34,8 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select account_id, account_name, account_parent_id, account_parent_name, account_level, account_scope, account_type, account_sort, account_class, account_desc, weight, icon, enable_status, order_sort, remark, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_account
     </sql>
 
-    <select id="selectAccountAll" resultMap="AccountResult">
+    <select id="selectAccountAll" parameterType="Account" resultMap="AccountResult">
 		<include refid="selectAccountVo"/>
+        <where>
+            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort asc
 	</select>
 
     <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">

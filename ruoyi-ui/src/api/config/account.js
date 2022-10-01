@@ -44,9 +44,10 @@ export function delAccount(accountId) {
 }
 
 // 获取账户管理下拉框列表
-export function selectAccount() {
+export function selectAccount(query) {
   return request({
     url: '/config/account/select',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }

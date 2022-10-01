@@ -64,5 +64,5 @@ public interface AccountMapper
      *
      * @return 账户管理集合信息
      */
-    public List<Account> selectAccountAll();
+    public List<Account> selectAccountAll(Account params);
 }

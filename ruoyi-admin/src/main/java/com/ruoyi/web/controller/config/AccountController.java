@@ -1,10 +1,13 @@
 package com.ruoyi.web.controller.config;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.domain.Category;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -144,10 +147,35 @@ public class AccountController extends BaseController
      * 获取账户管理下拉框列表
      */
     @GetMapping("/select")
-    public AjaxResult select()
+    public AjaxResult select(Account params)
     {
-        List<Account> list = accountService.selectAccountAll();
-        return AjaxResult.success(list);
+        // params
+        params.setUserId(getUserId());
+
+        List<Account> list = accountService.selectAccountAll(params);
+        List<Account> options = new ArrayList<>();
+        for (Account account: list) {
+            if (account.getAccountParentId() == 0) {
+                account.setDisabled(account.getEnableStatus() == 0);
+                account.setChildren(getChildren(account.getAccountId(), list));
+                options.add(account);
+            }
+        }
+        return AjaxResult.success(options);
+    }
+
+
+    public List<Account> getChildren(Long parentId, List<Account> list) {
+        List<Account> children = new ArrayList<>();
+        for (Account account: list) {
+            if (Objects.equals(account.getAccountParentId(), parentId)) {
+                List<Account> c = getChildren(account.getAccountId(), list);
+                account.setDisabled(account.getEnableStatus() == 0);
+                account.setChildren(c.size()==0?null:c);
+                children.add(account);
+            }
+        }
+        return children;
     }
 
 }

@@ -146,6 +146,9 @@ public class MoneyController extends BaseController
     public AjaxResult select()
     {
         List<Money> list = moneyService.selectMoneyAll();
+        for(Money money:list){
+            money.setDisabled(money.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

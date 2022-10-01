@@ -225,37 +225,35 @@
     />
 
     <!-- 添加或修改收入账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="68px">
-           <el-row>
-            <el-col :span="14">
+          <el-row>
+            <el-col :span="24">
               <el-form-item label="名称" prop="incomeName">
                 <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
               </el-form-item>
             </el-col>
+          </el-row>
 
-           <el-col :span="10">
-            <el-form-item label="日期" prop="incomeDatetime">
-              <el-date-picker clearable
-                v-model="form.incomeDatetime"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="请选择收入日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-         </el-row>
+
 
           <el-row>
-              <el-col :span="8">
-                <el-form-item label="金额" prop="incomeAmount">
-                  <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-                </el-form-item>
-              </el-col>
+           <el-col :span="11">
+            <el-form-item label="类型" prop="incomeType">
+              <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型">
+                <el-radio
+                  v-for="dict in dict.type.config_function_in"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value">
+              </el-radio>
+              </el-radio-group>
+            </el-form-item>
+           </el-col>
 
-             <el-col :span="16">
+           <el-col :span="13">
               <el-form-item label="币种" prop="incomeMoneyId">
-                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
+                <el-radio-group v-model="form.incomeMoneyId" size="small" placeholder="请选择币种">
                   <el-radio-button
                     v-for="item in moneyOptions"
                     :label="item.moneyCname"
@@ -264,55 +262,65 @@
                   </el-radio-button>
                 </el-radio-group>
               </el-form-item>
-             </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="类型" prop="incomeType">
-              <el-select v-model="form.incomeType" placeholder="请选择收入类型">
-                <el-option
-                  v-for="dict in dict.type.config_function_in"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value">
-              </el-option>
-              </el-select>
-            </el-form-item>
            </el-col>
 
-           <el-col :span="8">
-            <el-form-item label="账户" prop="incomeAccountId">
-              <el-select v-model="form.incomeAccountId" placeholder="请选择账户名">
-                <el-option
-                  v-for="item in accountOptions"
-                  :key="item.accountId"
-                  :label="item.accountName"
-                  :value="item.accountId">
-                </el-option>
-              </el-select>
-            </el-form-item>
-           </el-col>
 
-           <el-col :span="8">
-            <el-form-item label="分类" prop="incomeCategoryId">
-                <el-cascader style="width: 220px"
-                  clearable
-                  placeholder="请选择分类名"
-                  v-model="form.incomeCategoryId"
-                  :options="categoryOptions"
-                  :props="{ expandTrigger: 'hover',value:'categoryId',label:'categoryName',children: 'children' }"
-                ></el-cascader>
+         </el-row>
 
+          <el-row>
+           <el-col :span="8">
+            <el-form-item label="日期" prop="incomeDatetime">
+              <el-date-picker
+                clearable
+                v-model="form.incomeDatetime"
+                type="datetime"
+                placeholder="请选择收入日期"
+                value-format="yyyy-MM-dd HH:mm:SS"
+                align="right"
+                :picker-options="pickerOptions"
+                >
+              </el-date-picker>
             </el-form-item>
           </el-col>
 
-           </el-row>
+           <el-col :span="8">
+            <el-form-item label="账户" prop="incomeAccountId">
+              <el-cascader
+                  clearable
+                  size="medium"
+                  filterable
+                  placeholder="请选择账户"
+                  v-model="form.incomeAccountId"
+                  :options="accountOptions"
+                  :props="{ expandTrigger: 'hover',value:'accountId',label:'accountName',children: 'children', disabled :'disabled' }"
+              ></el-cascader>
+            </el-form-item>
+           </el-col>
 
+          <el-col :span="8">
+            <el-form-item label="金额" prop="incomeAmount">
+              <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+            </el-form-item>
+          </el-col>
 
+        </el-row>
 
-       <el-row>
-        <el-col :span="8">
+        <el-row>
+           <el-col :span="8">
+            <el-form-item label="分类" prop="incomeCategoryId">
+                <el-cascader
+                  clearable
+                  filterable
+                  size="medium"
+                  placeholder="请选择分类"
+                  v-model="form.incomeCategoryId"
+                  :options="categoryOptions"
+                  :props="{ expandTrigger: 'hover',value:'categoryId',label:'categoryName',children: 'children', disabled :'disabled'}"
+                ></el-cascader>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
           <el-form-item label="主体" prop="incomeEntityId">
             <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
               <el-option
@@ -338,20 +346,7 @@
           </el-form-item>
           </el-col>
 
-          <el-col :span="8">
-          <el-form-item label="父类" prop="incomeParentId">
-            <el-select v-model="form.incomeParentId" placeholder="请选择父类名">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          </el-col>
-
-       </el-row>
+        </el-row>
 
        <el-row>
          <el-col :span="24">
@@ -574,6 +569,45 @@ export default {
       projectOptions: [],
       //天气
       weatherOptions: [],
+
+      // 日期选择
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '二周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 2);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '四周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 4);
+            picker.$emit('pick', date);
+          }
+        }
+        ]
+      },
       // 遮罩层
       loading: true,
       // 选中数组
@@ -599,7 +633,8 @@ export default {
         incomeName: null,
         incomeDatetime: null,
         createTime: null,
-        categoryType: 'income'
+        categoryType: 'income',
+        accountType: 'income'
       },
       // 表单参数
       form: {},
@@ -639,7 +674,7 @@ export default {
     },
     /** 查询账户下拉 */
     getAccountList() {
-      getAccountOptionSelect().then(response => {
+      getAccountOptionSelect(this.queryParams).then(response => {
         this.accountOptions = response.data;
       });
     },
@@ -798,6 +833,8 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加收入账单";
+      this.form.incomeType = '收入';
+      this.form.incomeCityId = '北京';
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -64,7 +64,7 @@ public interface IAccountService
      *
      * @return 结果
      */
-    public List<Account> selectAccountAll();
+    public List<Account> selectAccountAll(Account params);
 
 
 

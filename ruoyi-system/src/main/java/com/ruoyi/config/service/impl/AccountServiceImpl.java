@@ -96,7 +96,7 @@ public class AccountServiceImpl implements IAccountService
     }
 
     @Override
-    public List<Account> selectAccountAll() {
-        return accountMapper.selectAccountAll();
+    public List<Account> selectAccountAll(Account params) {
+        return accountMapper.selectAccountAll(params);
     }
 }

@@ -151,11 +151,11 @@ public class CategoryController extends BaseController
         // params
         params.setUserId(getUserId());
 
-
         List<Category> list = categoryService.selectCategoryAll(params);
         List<Category> options = new ArrayList<>();
         for (Category category: list) {
             if (category.getCategoryParentId() == 0) {
+                category.setDisabled(category.getEnableStatus() == 0);
                 category.setChildren(getChildren(category.getCategoryId(), list));
                 options.add(category);
             }
@@ -168,6 +168,7 @@ public class CategoryController extends BaseController
         for (Category category: list) {
             if (Objects.equals(category.getCategoryParentId(), parentId)) {
                 List<Category> c = getChildren(category.getCategoryId(), list);
+                category.setDisabled(category.getEnableStatus() == 0);
                 category.setChildren(c.size()==0?null:c);
                 children.add(category);
             }

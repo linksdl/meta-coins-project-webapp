@@ -61,17 +61,6 @@ public class MemberType extends BaseEntity
     @Column(name="weight")
     private Long weight;
 
-    /** 是否可以下拉*/
-    @Transient
-    private boolean disabled;
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
 
     public void setMemberTypeId(Long memberTypeId) 
     {

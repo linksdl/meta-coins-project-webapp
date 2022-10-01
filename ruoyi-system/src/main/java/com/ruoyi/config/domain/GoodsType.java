@@ -61,18 +61,6 @@ public class GoodsType extends BaseEntity
     @Column(name="enable_status")
     private Long enableStatus;
 
-    /** 是否可以下拉*/
-    @Transient
-    private boolean disabled;
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
     public void setGoodsTypeId(Long goodsTypeId) 
     {
         this.goodsTypeId = goodsTypeId;

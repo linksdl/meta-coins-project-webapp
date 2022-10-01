@@ -61,18 +61,6 @@ public class BookType extends BaseEntity
     @Column(name="enable_status")
     private Integer enableStatus;
 
-    /** 是否可以下拉*/
-    @Transient
-    private boolean disabled;
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
     public void setBookTypeId(Long bookTypeId)
     {
         this.bookTypeId = bookTypeId;
