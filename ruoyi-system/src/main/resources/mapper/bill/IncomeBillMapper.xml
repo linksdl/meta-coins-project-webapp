@@ -29,8 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="incomeCityName"    column="income_city_name"    />
         <result property="incomeEmotionId"    column="income_emotion_id"    />
         <result property="incomeEmotionName"    column="income_emotion_name"    />
-        <result property="incomeEnterpriseId"    column="income_enterprise_id"    />
-        <result property="incomeEnterpriseName"    column="income_enterprise_name"    />
+        <result property="incomeEntityId"    column="income_entity_id"    />
+        <result property="incomeEntityName"    column="income_entity_name"    />
         <result property="incomeAddress"    column="income_address"    />
         <result property="incomeLabelId"    column="income_label_id"    />
         <result property="incomeLabelName"    column="income_label_name"    />
@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectIncomeBillVo">
-        select income_id, income_name, income_type, income_amount, income_datetime, income_desc, income_imgs, enable_status, icon, remark, order_sort, weight, income_parent_id, income_parent_name, income_book_id, income_book_name, income_account_id, income_account_name, income_category_id, income_category_name, income_city_id, income_city_name, income_emotion_id, income_emotion_name, income_enterprise_id, income_enterprise_name, income_address, income_label_id, income_label_name, income_member_id, income_member_name, income_money_id, income_money_name, income_project_id, income_project_name, income_weather_id, income_weather_name, income_user_id, income_user_name, income_country, income_province, income_county, income_city, income_street, income_date, income_year, income_quarter, income_month, income_year_week, income_week, income_day, income_period, create_by, create_time, update_by, update_time, is_deleted from bill_income
+        select income_id, income_name, income_type, income_amount, income_datetime, income_desc, income_imgs, enable_status, icon, remark, order_sort, weight, income_parent_id, income_parent_name, income_book_id, income_book_name, income_account_id, income_account_name, income_category_id, income_category_name, income_city_id, income_city_name, income_emotion_id, income_emotion_name, income_entity_id, income_entity_name, income_address, income_label_id, income_label_name, income_member_id, income_member_name, income_money_id, income_money_name, income_project_id, income_project_name, income_weather_id, income_weather_name, income_user_id, income_user_name, income_country, income_province, income_county, income_city, income_street, income_date, income_year, income_quarter, income_month, income_year_week, income_week, income_day, income_period, create_by, create_time, update_by, update_time, is_deleted from bill_income
     </sql>
 
     <select id="selectIncomeBillAll" resultMap="IncomeBillResult">
@@ -112,8 +112,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="incomeCityName != null">income_city_name,</if>
             <if test="incomeEmotionId != null">income_emotion_id,</if>
             <if test="incomeEmotionName != null">income_emotion_name,</if>
-            <if test="incomeEnterpriseId != null">income_enterprise_id,</if>
-            <if test="incomeEnterpriseName != null">income_enterprise_name,</if>
+            <if test="incomeEntityId != null">income_entity_id,</if>
+            <if test="incomeEntityName != null">income_entity_name,</if>
             <if test="incomeAddress != null">income_address,</if>
             <if test="incomeLabelId != null">income_label_id,</if>
             <if test="incomeLabelName != null">income_label_name,</if>
@@ -170,8 +170,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="incomeCityName != null">#{incomeCityName},</if>
             <if test="incomeEmotionId != null">#{incomeEmotionId},</if>
             <if test="incomeEmotionName != null">#{incomeEmotionName},</if>
-            <if test="incomeEnterpriseId != null">#{incomeEnterpriseId},</if>
-            <if test="incomeEnterpriseName != null">#{incomeEnterpriseName},</if>
+            <if test="incomeEntityId != null">#{incomeEntityId},</if>
+            <if test="incomeEntityName != null">#{incomeEntityName},</if>
             <if test="incomeAddress != null">#{incomeAddress},</if>
             <if test="incomeLabelId != null">#{incomeLabelId},</if>
             <if test="incomeLabelName != null">#{incomeLabelName},</if>
@@ -232,8 +232,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="incomeCityName != null">income_city_name = #{incomeCityName},</if>
             <if test="incomeEmotionId != null">income_emotion_id = #{incomeEmotionId},</if>
             <if test="incomeEmotionName != null">income_emotion_name = #{incomeEmotionName},</if>
-            <if test="incomeEnterpriseId != null">income_enterprise_id = #{incomeEnterpriseId},</if>
-            <if test="incomeEnterpriseName != null">income_enterprise_name = #{incomeEnterpriseName},</if>
+            <if test="incomeEntityId != null">income_entity_id = #{incomeEntityId},</if>
+            <if test="incomeEntityName != null">income_entity_name = #{incomeEntityName},</if>
             <if test="incomeAddress != null">income_address = #{incomeAddress},</if>
             <if test="incomeLabelId != null">income_label_id = #{incomeLabelId},</if>
             <if test="incomeLabelName != null">income_label_name = #{incomeLabelName},</if>

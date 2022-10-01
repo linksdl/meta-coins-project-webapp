@@ -17,7 +17,7 @@ public class IncomeBill extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 收入账单ID */
+    /** 收入ID */
     private Long incomeId;
 
     /** 收入名称 */
@@ -96,10 +96,10 @@ public class IncomeBill extends BaseEntity
     private String incomeEmotionName;
 
     /** 主体ID */
-    private Long incomeEnterpriseId;
+    private Long incomeEntityId;
 
     /** 主体名 */
-    private String incomeEnterpriseName;
+    private String incomeEntityName;
 
     /** 地址 */
     private String incomeAddress;
@@ -295,12 +295,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeParentId;
     }
-    public void setIncomeParentName(String incomeParentName)
+    public void setIncomeParentName(String incomeParentName) 
     {
         this.incomeParentName = incomeParentName;
     }
 
-    public String getIncomeParentName()
+    public String getIncomeParentName() 
     {
         return incomeParentName;
     }
@@ -394,23 +394,23 @@ public class IncomeBill extends BaseEntity
     {
         return incomeEmotionName;
     }
-    public void setIncomeEnterpriseId(Long incomeEnterpriseId) 
+    public void setIncomeEntityId(Long incomeEntityId) 
     {
-        this.incomeEnterpriseId = incomeEnterpriseId;
+        this.incomeEntityId = incomeEntityId;
     }
 
-    public Long getIncomeEnterpriseId() 
+    public Long getIncomeEntityId() 
     {
-        return incomeEnterpriseId;
+        return incomeEntityId;
     }
-    public void setIncomeEnterpriseName(String incomeEnterpriseName) 
+    public void setIncomeEntityName(String incomeEntityName) 
     {
-        this.incomeEnterpriseName = incomeEnterpriseName;
+        this.incomeEntityName = incomeEntityName;
     }
 
-    public String getIncomeEnterpriseName() 
+    public String getIncomeEntityName() 
     {
-        return incomeEnterpriseName;
+        return incomeEntityName;
     }
     public void setIncomeAddress(String incomeAddress) 
     {
@@ -683,8 +683,8 @@ public class IncomeBill extends BaseEntity
             .append("incomeCityName", getIncomeCityName())
             .append("incomeEmotionId", getIncomeEmotionId())
             .append("incomeEmotionName", getIncomeEmotionName())
-            .append("incomeEnterpriseId", getIncomeEnterpriseId())
-            .append("incomeEnterpriseName", getIncomeEnterpriseName())
+            .append("incomeEntityId", getIncomeEntityId())
+            .append("incomeEntityName", getIncomeEntityName())
             .append("incomeAddress", getIncomeAddress())
             .append("incomeLabelId", getIncomeLabelId())
             .append("incomeLabelName", getIncomeLabelName())

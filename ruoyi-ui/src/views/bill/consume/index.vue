@@ -2,24 +2,27 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="收入名称" prop="incomeName">
+      <el-form-item label="消费名" prop="consumeName">
         <el-input
-          v-model="queryParams.incomeName"
-          placeholder="请输入收入名称"
+          v-model="queryParams.consumeName"
+          placeholder="请输入消费名"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
 
 
-      <el-form-item label="收入日期" prop="incomeDatetime">
-        <el-date-picker clearable
-          v-model="queryParams.incomeDatetime"
-          type="date"
-          value-format="yyyy-MM-dd hh:mm:ss"
-          placeholder="请选择收入日期">
-        </el-date-picker>
+      <el-form-item label="消费类型" prop="consumeType">
+        <el-select v-model="queryParams.consumeType" placeholder="请选择消费类型" clearable>
+          <el-option
+            v-for="dict in dict.type.config_function_out"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
+
 
       <el-form-item label="创建时间" prop="createTime">
         <el-date-picker clearable
@@ -29,6 +32,16 @@
           placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
+
+      <el-form-item label="账本名" prop="consumeBookName">
+        <el-input
+          v-model="queryParams.consumeBookName"
+          placeholder="请输入账本名"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -43,7 +56,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['bill:income:add']"
+          v-hasPermi="['bill:consume:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +67,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['bill:income:edit']"
+          v-hasPermi="['bill:consume:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +78,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['bill:income:remove']"
+          v-hasPermi="['bill:consume:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,50 +88,55 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['bill:income:export']"
+          v-hasPermi="['bill:consume:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
 
-    <el-table v-loading="loading" :data="incomeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="consumeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="收入ID" align="center" prop="incomeId" />
+      <el-table-column label="消费ID" align="center" prop="consumeId" />
 
 
 
-      <el-table-column label="收入名称" align="center" prop="incomeName" :show-overflow-tooltip="true" />
+      <el-table-column label="消费名" align="center" prop="consumeName" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="收入类型" align="center" prop="incomeType">
+      <el-table-column label="消费类型" align="center" prop="consumeType">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_function_in" :value="scope.row.incomeType"/>
+          <dict-tag :options="dict.type.config_function_out" :value="scope.row.consumeType"/>
         </template>
       </el-table-column>
 
 
-      <el-table-column label="收入金额" align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="收入日期" align="center" prop="incomeDatetime" width="180">
+      <el-table-column label="消费时间" align="center" prop="consumeDatetime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.incomeDatetime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.consumeDatetime, '{y}-{m}-{d}')}}</span>
         </template>
       </el-table-column>
 
 
 
-      <el-table-column label="收入描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="消费金额" align="center" prop="consumeAmount" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="收入凭证" align="center" prop="incomeImgs" width="100">
+      <el-table-column label="描述" align="center" prop="consumeDesc" :show-overflow-tooltip="true" />
+
+
+      <el-table-column label="凭证" align="center" prop="consumeImgs" width="180">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.incomeImgs" :width="50" :height="50"/>
+          <span>{{parseTime(scope.row.consumeImgs, '{y}-{m}-{d}')}}</span>
         </template>
       </el-table-column>
 
+
+
+
+
+      <el-table-column label="父类名" align="center" prop="consumeParentName" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="是否可用" align="center" prop="enableStatus">
@@ -138,7 +156,6 @@
 
 
 
-      <el-table-column label="父类名称" align="center" prop="incomeParentName" :show-overflow-tooltip="true" />
 
 
 
@@ -153,51 +170,42 @@
 
 
 
+      <el-table-column label="天气名" align="center" prop="consumeWeatherName" :show-overflow-tooltip="true" />
 
 
 
 
+      <el-table-column label="项目名" align="center" prop="consumeProjectName" :show-overflow-tooltip="true" />
 
 
 
 
+      <el-table-column label="标签名" align="center" prop="consumeLabelName" :show-overflow-tooltip="true" />
 
 
 
 
+      <el-table-column label="成员名" align="center" prop="consumeMemberName" :show-overflow-tooltip="true" />
 
 
 
 
-      <el-table-column label="标签名" align="center" prop="incomeLabelName" :show-overflow-tooltip="true" />
+      <el-table-column label="币种名" align="center" prop="consumeMoneyName" :show-overflow-tooltip="true" />
 
 
 
 
-      <el-table-column label="成员名" align="center" prop="incomeMemberName" :show-overflow-tooltip="true" />
+      <el-table-column label="实体名" align="center" prop="consumeEntityName" :show-overflow-tooltip="true" />
 
 
 
 
-      <el-table-column label="币种名" align="center" prop="incomeMoneyName" :show-overflow-tooltip="true" />
+      <el-table-column label="分类名" align="center" prop="consumeCategoryName" :show-overflow-tooltip="true" />
 
 
 
 
-      <el-table-column label="项目名" align="center" prop="incomeProjectName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="天气名" align="center" prop="incomeWeatherName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
+      <el-table-column label="账户名" align="center" prop="consumeAccountName" :show-overflow-tooltip="true" />
 
 
 
@@ -238,14 +246,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['bill:income:edit']"
+            v-hasPermi="['bill:consume:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['bill:income:remove']"
+            v-hasPermi="['bill:consume:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -259,48 +267,65 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改收入账单对话框 -->
+    <!-- 添加或修改支出账单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="收入名称" prop="incomeName">
-          <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
+        <el-form-item label="消费名" prop="consumeName">
+          <el-input v-model="form.consumeName" placeholder="请输入消费名" />
         </el-form-item>
 
 
-        <el-form-item label="收入类型" prop="incomeType">
-          <el-select v-model="form.incomeType" placeholder="请选择收入类型">
+        <el-form-item label="消费类型" prop="consumeType">
+          <el-select v-model="form.consumeType" placeholder="请选择消费类型">
             <el-option
-              v-for="dict in dict.type.config_function_in"
+              v-for="dict in dict.type.config_function_out"
               :key="dict.value"
               :label="dict.label"
 :value="dict.value"            ></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="收入金额" prop="incomeAmount">
-          <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-
-        <el-form-item label="收入日期" prop="incomeDatetime">
+        <el-form-item label="消费时间" prop="consumeDatetime">
           <el-date-picker clearable
-            v-model="form.incomeDatetime"
+            v-model="form.consumeDatetime"
             type="date"
             value-format="yyyy-MM-dd"
-            placeholder="请选择收入日期">
+            placeholder="请选择消费时间">
           </el-date-picker>
         </el-form-item>
 
 
-        <el-form-item label="收入描述" prop="incomeDesc">
-          <el-input v-model="form.incomeDesc" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="消费金额" prop="consumeAmount">
+          <el-input-number size="medium" v-model="form.consumeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
         </el-form-item>
 
 
-        <el-form-item label="收入凭证">
-          <image-upload v-model="form.incomeImgs"/>
+
+        <el-form-item label="描述" prop="consumeDesc">
+          <el-input v-model="form.consumeDesc" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+
+
+        <el-form-item label="凭证" prop="consumeImgs">
+          <el-date-picker clearable
+            v-model="form.consumeImgs"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="请选择凭证">
+          </el-date-picker>
+        </el-form-item>
+
+
+        <el-form-item label="父类ID" prop="consumeParentId">
+          <el-select v-model="form.consumeParentId" placeholder="请选择父类ID">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
 
@@ -319,18 +344,18 @@
         </el-form-item>
 
 
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
         <el-form-item label="权重" prop="weight">
           <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
 
-        <el-form-item label="父类ID" prop="incomeParentId">
-          <el-select v-model="form.incomeParentId" placeholder="请选择父类ID">
+        <el-form-item label="排序" prop="orderSort">
+          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+        </el-form-item>
+
+
+        <el-form-item label="天气ID" prop="consumeWeatherId">
+          <el-select v-model="form.consumeWeatherId" placeholder="请选择天气ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -341,8 +366,8 @@
         </el-form-item>
 
 
-        <el-form-item label="账本ID" prop="incomeBookId">
-          <el-select v-model="form.incomeBookId" placeholder="请选择账本ID">
+        <el-form-item label="项目ID" prop="consumeProjectId">
+          <el-select v-model="form.consumeProjectId" placeholder="请选择项目ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -353,8 +378,8 @@
         </el-form-item>
 
 
-        <el-form-item label="账户ID" prop="incomeAccountId">
-          <el-select v-model="form.incomeAccountId" placeholder="请选择账户ID">
+        <el-form-item label="标签ID" prop="consumeLabelId">
+          <el-select v-model="form.consumeLabelId" placeholder="请选择标签ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -365,8 +390,8 @@
         </el-form-item>
 
 
-        <el-form-item label="分类ID" prop="incomeCategoryId">
-          <el-select v-model="form.incomeCategoryId" placeholder="请选择分类ID">
+        <el-form-item label="成员ID" prop="consumeMemberId">
+          <el-select v-model="form.consumeMemberId" placeholder="请选择成员ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -377,8 +402,8 @@
         </el-form-item>
 
 
-        <el-form-item label="城市ID" prop="incomeCityId">
-          <el-select v-model="form.incomeCityId" placeholder="请选择城市ID">
+        <el-form-item label="币种ID" prop="consumeMoneyId">
+          <el-select v-model="form.consumeMoneyId" placeholder="请选择币种ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -389,8 +414,8 @@
         </el-form-item>
 
 
-        <el-form-item label="心情ID" prop="incomeEmotionId">
-          <el-select v-model="form.incomeEmotionId" placeholder="请选择心情ID">
+        <el-form-item label="实体ID" prop="consumeEntityId">
+          <el-select v-model="form.consumeEntityId" placeholder="请选择实体ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -401,8 +426,8 @@
         </el-form-item>
 
 
-        <el-form-item label="主体ID" prop="incomeEntityId">
-          <el-select v-model="form.incomeEntityId" placeholder="请选择主体ID">
+        <el-form-item label="分类ID" prop="consumeCategoryId">
+          <el-select v-model="form.consumeCategoryId" placeholder="请选择分类ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -413,8 +438,8 @@
         </el-form-item>
 
 
-        <el-form-item label="标签ID" prop="incomeLabelId">
-          <el-select v-model="form.incomeLabelId" placeholder="请选择标签ID">
+        <el-form-item label="账户ID" prop="consumeAccountId">
+          <el-select v-model="form.consumeAccountId" placeholder="请选择账户ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -425,44 +450,8 @@
         </el-form-item>
 
 
-        <el-form-item label="成员ID" prop="incomeMemberId">
-          <el-select v-model="form.incomeMemberId" placeholder="请选择成员ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="币种ID" prop="incomeMoneyId">
-          <el-select v-model="form.incomeMoneyId" placeholder="请选择币种ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="项目ID" prop="incomeProjectId">
-          <el-select v-model="form.incomeProjectId" placeholder="请选择项目ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="天气ID" prop="incomeWeatherId">
-          <el-select v-model="form.incomeWeatherId" placeholder="请选择天气ID">
+        <el-form-item label="账本ID" prop="consumeBookId">
+          <el-select v-model="form.consumeBookId" placeholder="请选择账本ID">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -483,12 +472,12 @@
 </template>
 
 <script>
-import { listIncome, getIncome, delIncome, addIncome, updateIncome } from "@/api/bill/income";
+import { listConsume, getConsume, delConsume, addConsume, updateConsume } from "@/api/bill/consume";
 import IconSelect from "@/components/IconSelect";
 
 export default {
-  name: "Income",
-  dicts: ['config_function_in', 'config_is_enable'],
+  name: "Consume",
+  dicts: ['config_is_enable', 'config_is_deleted', 'config_function_out'],
   components: {IconSelect},
   data() {
     return {
@@ -504,8 +493,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 收入账单表格数据
-      incomeList: [],
+      // 支出账单表格数据
+      consumeList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -514,9 +503,10 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 5,
-        incomeName: null,
-        incomeDatetime: null,
+        consumeName: null,
+        consumeType: null,
         createTime: null,
+        consumeBookName: null,
       },
       // 表单参数
       form: {},
@@ -529,15 +519,15 @@ export default {
     this.getList();
   },
   methods: {
-    /** 选择收入账单图标 */
+    /** 选择支出账单图标 */
     selected(name) {
       this.form.icon = name;
     },
-    /** 查询收入账单列表 */
+    /** 查询支出账单列表 */
     getList() {
       this.loading = true;
-      listIncome(this.queryParams).then(response => {
-        this.incomeList = response.rows;
+      listConsume(this.queryParams).then(response => {
+        this.consumeList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -550,63 +540,59 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        incomeId: null,
-        incomeName: null,
-        incomeType: null,
-        incomeAmount: null,
-        incomeDatetime: null,
-        incomeDesc: null,
-        incomeImgs: null,
+        consumeId: null,
+        consumeName: null,
+        consumeType: null,
+        consumeDatetime: null,
+        consumeAmount: null,
+        consumeDesc: null,
+        consumeImgs: null,
+        consumeParentId: null,
+        consumeParentName: null,
         enableStatus: 0,
         icon: null,
         remark: null,
-        orderSort: null,
         weight: null,
-        incomeParentId: null,
-        incomeParentName: null,
-        incomeBookId: null,
-        incomeBookName: null,
-        incomeAccountId: null,
-        incomeAccountName: null,
-        incomeCategoryId: null,
-        incomeCategoryName: null,
-        incomeCityId: null,
-        incomeCityName: null,
-        incomeEmotionId: null,
-        incomeEmotionName: null,
-        incomeEntityId: null,
-        incomeEntityName: null,
-        incomeAddress: null,
-        incomeLabelId: null,
-        incomeLabelName: null,
-        incomeMemberId: null,
-        incomeMemberName: null,
-        incomeMoneyId: null,
-        incomeMoneyName: null,
-        incomeProjectId: null,
-        incomeProjectName: null,
-        incomeWeatherId: null,
-        incomeWeatherName: null,
-        incomeUserId: null,
-        incomeUserName: null,
-        incomeCountry: null,
-        incomeProvince: null,
-        incomeCounty: null,
-        incomeCity: null,
-        incomeStreet: null,
-        incomeDate: null,
-        incomeYear: null,
-        incomeQuarter: null,
-        incomeMonth: null,
-        incomeYearWeek: null,
-        incomeWeek: null,
-        incomeDay: null,
-        incomePeriod: null,
+        isDeleted: 0,
+        orderSort: null,
         createBy: null,
         createTime: null,
         updateBy: null,
         updateTime: null,
-        isDeleted: 0
+        consumeUserId: null,
+        consumeUserName: null,
+        consumeWeatherId: null,
+        consumeWeatherName: null,
+        consumeProjectId: null,
+        consumeProjectName: null,
+        consumeLabelId: null,
+        consumeLabelName: null,
+        consumeMemberId: null,
+        consumeMemberName: null,
+        consumeMoneyId: null,
+        consumeMoneyName: null,
+        consumeEntityId: null,
+        consumeEntityName: null,
+        consumeCategoryId: null,
+        consumeCategoryName: null,
+        consumeAccountId: null,
+        consumeAccountName: null,
+        consumeBookId: null,
+        consumeBookName: null,
+        consumeCounty: null,
+        consumeProvince: null,
+        consumeCity: null,
+        consumeCountry: null,
+        consumeAddress: null,
+        consumeStreet: null,
+        consumeDate: null,
+        consumeYear: null,
+        consumeQuarter: null,
+        consumeMonth: null,
+        consumeWeek: null,
+        consumeDay: null,
+        consumePeriod: null,
+        consumeYearWeek: null
       };
       this.resetForm("form");
     },
@@ -622,7 +608,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.incomeId)
+      this.ids = selection.map(item => item.consumeId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -630,30 +616,30 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加收入账单";
+      this.title = "添加支出账单";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const incomeId = row.incomeId || this.ids
-      getIncome(incomeId).then(response => {
+      const consumeId = row.consumeId || this.ids
+      getConsume(consumeId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改收入账单";
+        this.title = "修改支出账单";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.incomeId != null) {
-            updateIncome(this.form).then(response => {
+          if (this.form.consumeId != null) {
+            updateConsume(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addIncome(this.form).then(response => {
+            addConsume(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -664,9 +650,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const incomeIds = row.incomeId || this.ids;
-      this.$modal.confirm('是否确认删除收入账单编号为"' + incomeIds + '"的数据项？').then(function() {
-        return delIncome(incomeIds);
+      const consumeIds = row.consumeId || this.ids;
+      this.$modal.confirm('是否确认删除支出账单编号为"' + consumeIds + '"的数据项？').then(function() {
+        return delConsume(consumeIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -674,9 +660,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('bill/income/export', {
+      this.download('bill/consume/export', {
         ...this.queryParams
-      }, `income_${new Date().getTime()}.xlsx`)
+      }, `consume_${new Date().getTime()}.xlsx`)
     }
   }
 };

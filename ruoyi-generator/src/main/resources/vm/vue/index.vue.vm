@@ -314,7 +314,12 @@
 
 #elseif($column.htmlType == "input-number")
         <el-form-item label="${comment}" prop="${field}">
-          <el-input-number size="medium" v-model="form.${field}" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number size="medium" v-model="form.${field}" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+        </el-form-item>
+
+#elseif($column.htmlType == "input-number-double")
+        <el-form-item label="${comment}" prop="${field}">
+          <el-input-number size="medium" v-model="form.${field}" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
         </el-form-item>
 
 

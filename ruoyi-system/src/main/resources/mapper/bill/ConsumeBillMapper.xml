@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.ConsumeBillMapper">
+    
+    <resultMap type="ConsumeBill" id="ConsumeBillResult">
+        <result property="consumeId"    column="consume_id"    />
+        <result property="consumeName"    column="consume_name"    />
+        <result property="consumeType"    column="consume_type"    />
+        <result property="consumeDatetime"    column="consume_datetime"    />
+        <result property="consumeAmount"    column="consume_amount"    />
+        <result property="consumeDesc"    column="consume_desc"    />
+        <result property="consumeImgs"    column="consume_imgs"    />
+        <result property="consumeParentId"    column="consume_parent_id"    />
+        <result property="consumeParentName"    column="consume_parent_name"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="consumeUserId"    column="consume_user_id"    />
+        <result property="consumeUserName"    column="consume_user_name"    />
+        <result property="consumeWeatherId"    column="consume_weather_id"    />
+        <result property="consumeWeatherName"    column="consume_weather_name"    />
+        <result property="consumeProjectId"    column="consume_project_id"    />
+        <result property="consumeProjectName"    column="consume_project_name"    />
+        <result property="consumeLabelId"    column="consume_label_id"    />
+        <result property="consumeLabelName"    column="consume_label_name"    />
+        <result property="consumeMemberId"    column="consume_member_id"    />
+        <result property="consumeMemberName"    column="consume_member_name"    />
+        <result property="consumeMoneyId"    column="consume_money_id"    />
+        <result property="consumeMoneyName"    column="consume_money_name"    />
+        <result property="consumeEntityId"    column="consume_entity_id"    />
+        <result property="consumeEntityName"    column="consume_entity_name"    />
+        <result property="consumeCategoryId"    column="consume_category_id"    />
+        <result property="consumeCategoryName"    column="consume_category_name"    />
+        <result property="consumeAccountId"    column="consume_account_id"    />
+        <result property="consumeAccountName"    column="consume_account_name"    />
+        <result property="consumeBookId"    column="consume_book_id"    />
+        <result property="consumeBookName"    column="consume_book_name"    />
+        <result property="consumeCounty"    column="consume_county"    />
+        <result property="consumeProvince"    column="consume_province"    />
+        <result property="consumeCity"    column="consume_city"    />
+        <result property="consumeCountry"    column="consume_country"    />
+        <result property="consumeAddress"    column="consume_address"    />
+        <result property="consumeStreet"    column="consume_street"    />
+        <result property="consumeDate"    column="consume_date"    />
+        <result property="consumeYear"    column="consume_year"    />
+        <result property="consumeQuarter"    column="consume_quarter"    />
+        <result property="consumeMonth"    column="consume_month"    />
+        <result property="consumeWeek"    column="consume_week"    />
+        <result property="consumeDay"    column="consume_day"    />
+        <result property="consumePeriod"    column="consume_period"    />
+        <result property="consumeYearWeek"    column="consume_year_week"    />
+    </resultMap>
+
+    <sql id="selectConsumeBillVo">
+        select consume_id, consume_name, consume_type, consume_datetime, consume_amount, consume_desc, consume_imgs, consume_parent_id, consume_parent_name, enable_status, icon, remark, weight, is_deleted, order_sort, create_by, create_time, update_by, update_time, consume_user_id, consume_user_name, consume_weather_id, consume_weather_name, consume_project_id, consume_project_name, consume_label_id, consume_label_name, consume_member_id, consume_member_name, consume_money_id, consume_money_name, consume_entity_id, consume_entity_name, consume_category_id, consume_category_name, consume_account_id, consume_account_name, consume_book_id, consume_book_name, consume_county, consume_province, consume_city, consume_country, consume_address, consume_street, consume_date, consume_year, consume_quarter, consume_month, consume_week, consume_day, consume_period, consume_year_week from bill_consume
+    </sql>
+
+    <select id="selectConsumeBillAll" resultMap="ConsumeBillResult">
+		<include refid="selectConsumeBillVo"/>
+	</select>
+
+    <select id="selectConsumeBillList" parameterType="ConsumeBill" resultMap="ConsumeBillResult">
+        <include refid="selectConsumeBillVo"/>
+        <where>  
+            <if test="consumeName != null  and consumeName != ''"> and consume_name like concat('%', #{consumeName}, '%')</if>
+            <if test="consumeType != null  and consumeType != ''"> and consume_type = #{consumeType}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="consumeBookName != null  and consumeBookName != ''"> and consume_book_name like concat('%', #{consumeBookName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectConsumeBillByConsumeId" parameterType="Long" resultMap="ConsumeBillResult">
+        <include refid="selectConsumeBillVo"/>
+        where consume_id = #{consumeId}
+    </select>
+        
+    <insert id="insertConsumeBill" parameterType="ConsumeBill">
+        insert into bill_consume
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="consumeId != null">consume_id,</if>
+            <if test="consumeName != null">consume_name,</if>
+            <if test="consumeType != null">consume_type,</if>
+            <if test="consumeDatetime != null">consume_datetime,</if>
+            <if test="consumeAmount != null">consume_amount,</if>
+            <if test="consumeDesc != null">consume_desc,</if>
+            <if test="consumeImgs != null">consume_imgs,</if>
+            <if test="consumeParentId != null">consume_parent_id,</if>
+            <if test="consumeParentName != null">consume_parent_name,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="consumeUserId != null">consume_user_id,</if>
+            <if test="consumeUserName != null">consume_user_name,</if>
+            <if test="consumeWeatherId != null">consume_weather_id,</if>
+            <if test="consumeWeatherName != null">consume_weather_name,</if>
+            <if test="consumeProjectId != null">consume_project_id,</if>
+            <if test="consumeProjectName != null">consume_project_name,</if>
+            <if test="consumeLabelId != null">consume_label_id,</if>
+            <if test="consumeLabelName != null">consume_label_name,</if>
+            <if test="consumeMemberId != null">consume_member_id,</if>
+            <if test="consumeMemberName != null">consume_member_name,</if>
+            <if test="consumeMoneyId != null">consume_money_id,</if>
+            <if test="consumeMoneyName != null">consume_money_name,</if>
+            <if test="consumeEntityId != null">consume_entity_id,</if>
+            <if test="consumeEntityName != null">consume_entity_name,</if>
+            <if test="consumeCategoryId != null">consume_category_id,</if>
+            <if test="consumeCategoryName != null">consume_category_name,</if>
+            <if test="consumeAccountId != null">consume_account_id,</if>
+            <if test="consumeAccountName != null">consume_account_name,</if>
+            <if test="consumeBookId != null">consume_book_id,</if>
+            <if test="consumeBookName != null">consume_book_name,</if>
+            <if test="consumeCounty != null">consume_county,</if>
+            <if test="consumeProvince != null">consume_province,</if>
+            <if test="consumeCity != null">consume_city,</if>
+            <if test="consumeCountry != null">consume_country,</if>
+            <if test="consumeAddress != null">consume_address,</if>
+            <if test="consumeStreet != null">consume_street,</if>
+            <if test="consumeDate != null">consume_date,</if>
+            <if test="consumeYear != null">consume_year,</if>
+            <if test="consumeQuarter != null">consume_quarter,</if>
+            <if test="consumeMonth != null">consume_month,</if>
+            <if test="consumeWeek != null">consume_week,</if>
+            <if test="consumeDay != null">consume_day,</if>
+            <if test="consumePeriod != null">consume_period,</if>
+            <if test="consumeYearWeek != null">consume_year_week,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="consumeId != null">#{consumeId},</if>
+            <if test="consumeName != null">#{consumeName},</if>
+            <if test="consumeType != null">#{consumeType},</if>
+            <if test="consumeDatetime != null">#{consumeDatetime},</if>
+            <if test="consumeAmount != null">#{consumeAmount},</if>
+            <if test="consumeDesc != null">#{consumeDesc},</if>
+            <if test="consumeImgs != null">#{consumeImgs},</if>
+            <if test="consumeParentId != null">#{consumeParentId},</if>
+            <if test="consumeParentName != null">#{consumeParentName},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="consumeUserId != null">#{consumeUserId},</if>
+            <if test="consumeUserName != null">#{consumeUserName},</if>
+            <if test="consumeWeatherId != null">#{consumeWeatherId},</if>
+            <if test="consumeWeatherName != null">#{consumeWeatherName},</if>
+            <if test="consumeProjectId != null">#{consumeProjectId},</if>
+            <if test="consumeProjectName != null">#{consumeProjectName},</if>
+            <if test="consumeLabelId != null">#{consumeLabelId},</if>
+            <if test="consumeLabelName != null">#{consumeLabelName},</if>
+            <if test="consumeMemberId != null">#{consumeMemberId},</if>
+            <if test="consumeMemberName != null">#{consumeMemberName},</if>
+            <if test="consumeMoneyId != null">#{consumeMoneyId},</if>
+            <if test="consumeMoneyName != null">#{consumeMoneyName},</if>
+            <if test="consumeEntityId != null">#{consumeEntityId},</if>
+            <if test="consumeEntityName != null">#{consumeEntityName},</if>
+            <if test="consumeCategoryId != null">#{consumeCategoryId},</if>
+            <if test="consumeCategoryName != null">#{consumeCategoryName},</if>
+            <if test="consumeAccountId != null">#{consumeAccountId},</if>
+            <if test="consumeAccountName != null">#{consumeAccountName},</if>
+            <if test="consumeBookId != null">#{consumeBookId},</if>
+            <if test="consumeBookName != null">#{consumeBookName},</if>
+            <if test="consumeCounty != null">#{consumeCounty},</if>
+            <if test="consumeProvince != null">#{consumeProvince},</if>
+            <if test="consumeCity != null">#{consumeCity},</if>
+            <if test="consumeCountry != null">#{consumeCountry},</if>
+            <if test="consumeAddress != null">#{consumeAddress},</if>
+            <if test="consumeStreet != null">#{consumeStreet},</if>
+            <if test="consumeDate != null">#{consumeDate},</if>
+            <if test="consumeYear != null">#{consumeYear},</if>
+            <if test="consumeQuarter != null">#{consumeQuarter},</if>
+            <if test="consumeMonth != null">#{consumeMonth},</if>
+            <if test="consumeWeek != null">#{consumeWeek},</if>
+            <if test="consumeDay != null">#{consumeDay},</if>
+            <if test="consumePeriod != null">#{consumePeriod},</if>
+            <if test="consumeYearWeek != null">#{consumeYearWeek},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConsumeBill" parameterType="ConsumeBill">
+        update bill_consume
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="consumeName != null">consume_name = #{consumeName},</if>
+            <if test="consumeType != null">consume_type = #{consumeType},</if>
+            <if test="consumeDatetime != null">consume_datetime = #{consumeDatetime},</if>
+            <if test="consumeAmount != null">consume_amount = #{consumeAmount},</if>
+            <if test="consumeDesc != null">consume_desc = #{consumeDesc},</if>
+            <if test="consumeImgs != null">consume_imgs = #{consumeImgs},</if>
+            <if test="consumeParentId != null">consume_parent_id = #{consumeParentId},</if>
+            <if test="consumeParentName != null">consume_parent_name = #{consumeParentName},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="consumeUserId != null">consume_user_id = #{consumeUserId},</if>
+            <if test="consumeUserName != null">consume_user_name = #{consumeUserName},</if>
+            <if test="consumeWeatherId != null">consume_weather_id = #{consumeWeatherId},</if>
+            <if test="consumeWeatherName != null">consume_weather_name = #{consumeWeatherName},</if>
+            <if test="consumeProjectId != null">consume_project_id = #{consumeProjectId},</if>
+            <if test="consumeProjectName != null">consume_project_name = #{consumeProjectName},</if>
+            <if test="consumeLabelId != null">consume_label_id = #{consumeLabelId},</if>
+            <if test="consumeLabelName != null">consume_label_name = #{consumeLabelName},</if>
+            <if test="consumeMemberId != null">consume_member_id = #{consumeMemberId},</if>
+            <if test="consumeMemberName != null">consume_member_name = #{consumeMemberName},</if>
+            <if test="consumeMoneyId != null">consume_money_id = #{consumeMoneyId},</if>
+            <if test="consumeMoneyName != null">consume_money_name = #{consumeMoneyName},</if>
+            <if test="consumeEntityId != null">consume_entity_id = #{consumeEntityId},</if>
+            <if test="consumeEntityName != null">consume_entity_name = #{consumeEntityName},</if>
+            <if test="consumeCategoryId != null">consume_category_id = #{consumeCategoryId},</if>
+            <if test="consumeCategoryName != null">consume_category_name = #{consumeCategoryName},</if>
+            <if test="consumeAccountId != null">consume_account_id = #{consumeAccountId},</if>
+            <if test="consumeAccountName != null">consume_account_name = #{consumeAccountName},</if>
+            <if test="consumeBookId != null">consume_book_id = #{consumeBookId},</if>
+            <if test="consumeBookName != null">consume_book_name = #{consumeBookName},</if>
+            <if test="consumeCounty != null">consume_county = #{consumeCounty},</if>
+            <if test="consumeProvince != null">consume_province = #{consumeProvince},</if>
+            <if test="consumeCity != null">consume_city = #{consumeCity},</if>
+            <if test="consumeCountry != null">consume_country = #{consumeCountry},</if>
+            <if test="consumeAddress != null">consume_address = #{consumeAddress},</if>
+            <if test="consumeStreet != null">consume_street = #{consumeStreet},</if>
+            <if test="consumeDate != null">consume_date = #{consumeDate},</if>
+            <if test="consumeYear != null">consume_year = #{consumeYear},</if>
+            <if test="consumeQuarter != null">consume_quarter = #{consumeQuarter},</if>
+            <if test="consumeMonth != null">consume_month = #{consumeMonth},</if>
+            <if test="consumeWeek != null">consume_week = #{consumeWeek},</if>
+            <if test="consumeDay != null">consume_day = #{consumeDay},</if>
+            <if test="consumePeriod != null">consume_period = #{consumePeriod},</if>
+            <if test="consumeYearWeek != null">consume_year_week = #{consumeYearWeek},</if>
+        </trim>
+        where consume_id = #{consumeId}
+    </update>
+
+    <delete id="deleteConsumeBillByConsumeId" parameterType="Long">
+        delete from bill_consume where consume_id = #{consumeId}
+    </delete>
+
+    <delete id="deleteConsumeBillByConsumeIds" parameterType="String">
+        delete from bill_consume where consume_id in 
+        <foreach item="consumeId" collection="array" open="(" separator="," close=")">
+            #{consumeId}
+        </foreach>
+    </delete>
+</mapper>

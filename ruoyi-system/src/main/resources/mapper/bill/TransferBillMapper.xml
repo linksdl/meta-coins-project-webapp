@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.TransferBillMapper">
+    
+    <resultMap type="TransferBill" id="TransferBillResult">
+        <result property="transferId"    column="transfer_id"    />
+        <result property="transferName"    column="transfer_name"    />
+        <result property="transferType"    column="transfer_type"    />
+        <result property="transferAmount"    column="transfer_amount"    />
+        <result property="transferDesc"    column="transfer_desc"    />
+        <result property="transferImgs"    column="transfer_imgs"    />
+        <result property="transferDatetime"    column="transfer_datetime"    />
+        <result property="transferParentId"    column="transfer_parent_id"    />
+        <result property="transferParentName"    column="transfer_parent_name"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="transferUserId"    column="transfer_user_id"    />
+        <result property="transferUserName"    column="transfer_user_name"    />
+        <result property="transferBookId"    column="transfer_book_id"    />
+        <result property="transferBookName"    column="transfer_book_name"    />
+        <result property="transferCategoryId"    column="transfer_category_id"    />
+        <result property="transferCategoryName"    column="transfer_category_name"    />
+        <result property="transferEntityId"    column="transfer_entity_id"    />
+        <result property="transferEntityName"    column="transfer_entity_name"    />
+        <result property="transferAccountId"    column="transfer_account_id"    />
+        <result property="transferAccountName"    column="transfer_account_name"    />
+        <result property="transferCityId"    column="transfer_city_id"    />
+        <result property="transferCityName"    column="transfer_city_name"    />
+        <result property="transferEmotionId"    column="transfer_emotion_id"    />
+        <result property="transferEmotionName"    column="transfer_emotion_name"    />
+        <result property="transferLabelId"    column="transfer_label_id"    />
+        <result property="transferLabelName"    column="transfer_label_name"    />
+        <result property="transferMemberName"    column="transfer_member_name"    />
+        <result property="transferMemberId"    column="transfer_member_id"    />
+        <result property="transferMoneyName"    column="transfer_money_name"    />
+        <result property="transferMoneyId"    column="transfer_money_id"    />
+        <result property="transferProjectId"    column="transfer_project_id"    />
+        <result property="transferProjectName"    column="transfer_project_name"    />
+        <result property="transferWeatherId"    column="transfer_weather_id"    />
+        <result property="transferWeatherName"    column="transfer_weather_name"    />
+        <result property="transferAddress"    column="transfer_address"    />
+        <result property="transferCity"    column="transfer_city"    />
+        <result property="transferCountry"    column="transfer_country"    />
+        <result property="transferStreet"    column="transfer_street"    />
+        <result property="transferCounty"    column="transfer_county"    />
+        <result property="transferProvince"    column="transfer_province"    />
+        <result property="transferDate"    column="transfer_date"    />
+        <result property="transferYear"    column="transfer_year"    />
+        <result property="transferQuarter"    column="transfer_quarter"    />
+        <result property="transferMonth"    column="transfer_month"    />
+        <result property="transferPeriod"    column="transfer_period"    />
+        <result property="transferWeek"    column="transfer_week"    />
+        <result property="transferYearWeek"    column="transfer_year_week"    />
+        <result property="transferDay"    column="transfer_day"    />
+    </resultMap>
+
+    <sql id="selectTransferBillVo">
+        select transfer_id, transfer_name, transfer_type, transfer_amount, transfer_desc, transfer_imgs, transfer_datetime, transfer_parent_id, transfer_parent_name, is_deleted, order_sort, enable_status, icon, remark, weight, create_by, create_time, update_by, update_time, transfer_user_id, transfer_user_name, transfer_book_id, transfer_book_name, transfer_category_id, transfer_category_name, transfer_entity_id, transfer_entity_name, transfer_account_id, transfer_account_name, transfer_city_id, transfer_city_name, transfer_emotion_id, transfer_emotion_name, transfer_label_id, transfer_label_name, transfer_member_name, transfer_member_id, transfer_money_name, transfer_money_id, transfer_project_id, transfer_project_name, transfer_weather_id, transfer_weather_name, transfer_address, transfer_city, transfer_country, transfer_street, transfer_county, transfer_province, transfer_date, transfer_year, transfer_quarter, transfer_month, transfer_period, transfer_week, transfer_year_week, transfer_day from bill_transfer
+    </sql>
+
+    <select id="selectTransferBillAll" resultMap="TransferBillResult">
+		<include refid="selectTransferBillVo"/>
+	</select>
+
+    <select id="selectTransferBillList" parameterType="TransferBill" resultMap="TransferBillResult">
+        <include refid="selectTransferBillVo"/>
+        <where>  
+            <if test="transferName != null  and transferName != ''"> and transfer_name like concat('%', #{transferName}, '%')</if>
+            <if test="transferDatetime != null "> and transfer_datetime = #{transferDatetime}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTransferBillByTransferId" parameterType="Long" resultMap="TransferBillResult">
+        <include refid="selectTransferBillVo"/>
+        where transfer_id = #{transferId}
+    </select>
+        
+    <insert id="insertTransferBill" parameterType="TransferBill">
+        insert into bill_transfer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transferId != null">transfer_id,</if>
+            <if test="transferName != null">transfer_name,</if>
+            <if test="transferType != null">transfer_type,</if>
+            <if test="transferAmount != null">transfer_amount,</if>
+            <if test="transferDesc != null">transfer_desc,</if>
+            <if test="transferImgs != null">transfer_imgs,</if>
+            <if test="transferDatetime != null">transfer_datetime,</if>
+            <if test="transferParentId != null">transfer_parent_id,</if>
+            <if test="transferParentName != null">transfer_parent_name,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="transferUserId != null">transfer_user_id,</if>
+            <if test="transferUserName != null">transfer_user_name,</if>
+            <if test="transferBookId != null">transfer_book_id,</if>
+            <if test="transferBookName != null">transfer_book_name,</if>
+            <if test="transferCategoryId != null">transfer_category_id,</if>
+            <if test="transferCategoryName != null">transfer_category_name,</if>
+            <if test="transferEntityId != null">transfer_entity_id,</if>
+            <if test="transferEntityName != null">transfer_entity_name,</if>
+            <if test="transferAccountId != null">transfer_account_id,</if>
+            <if test="transferAccountName != null">transfer_account_name,</if>
+            <if test="transferCityId != null">transfer_city_id,</if>
+            <if test="transferCityName != null">transfer_city_name,</if>
+            <if test="transferEmotionId != null">transfer_emotion_id,</if>
+            <if test="transferEmotionName != null">transfer_emotion_name,</if>
+            <if test="transferLabelId != null">transfer_label_id,</if>
+            <if test="transferLabelName != null">transfer_label_name,</if>
+            <if test="transferMemberName != null">transfer_member_name,</if>
+            <if test="transferMemberId != null">transfer_member_id,</if>
+            <if test="transferMoneyName != null">transfer_money_name,</if>
+            <if test="transferMoneyId != null">transfer_money_id,</if>
+            <if test="transferProjectId != null">transfer_project_id,</if>
+            <if test="transferProjectName != null">transfer_project_name,</if>
+            <if test="transferWeatherId != null">transfer_weather_id,</if>
+            <if test="transferWeatherName != null">transfer_weather_name,</if>
+            <if test="transferAddress != null">transfer_address,</if>
+            <if test="transferCity != null">transfer_city,</if>
+            <if test="transferCountry != null">transfer_country,</if>
+            <if test="transferStreet != null">transfer_street,</if>
+            <if test="transferCounty != null">transfer_county,</if>
+            <if test="transferProvince != null">transfer_province,</if>
+            <if test="transferDate != null">transfer_date,</if>
+            <if test="transferYear != null">transfer_year,</if>
+            <if test="transferQuarter != null">transfer_quarter,</if>
+            <if test="transferMonth != null">transfer_month,</if>
+            <if test="transferPeriod != null">transfer_period,</if>
+            <if test="transferWeek != null">transfer_week,</if>
+            <if test="transferYearWeek != null">transfer_year_week,</if>
+            <if test="transferDay != null">transfer_day,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transferId != null">#{transferId},</if>
+            <if test="transferName != null">#{transferName},</if>
+            <if test="transferType != null">#{transferType},</if>
+            <if test="transferAmount != null">#{transferAmount},</if>
+            <if test="transferDesc != null">#{transferDesc},</if>
+            <if test="transferImgs != null">#{transferImgs},</if>
+            <if test="transferDatetime != null">#{transferDatetime},</if>
+            <if test="transferParentId != null">#{transferParentId},</if>
+            <if test="transferParentName != null">#{transferParentName},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="transferUserId != null">#{transferUserId},</if>
+            <if test="transferUserName != null">#{transferUserName},</if>
+            <if test="transferBookId != null">#{transferBookId},</if>
+            <if test="transferBookName != null">#{transferBookName},</if>
+            <if test="transferCategoryId != null">#{transferCategoryId},</if>
+            <if test="transferCategoryName != null">#{transferCategoryName},</if>
+            <if test="transferEntityId != null">#{transferEntityId},</if>
+            <if test="transferEntityName != null">#{transferEntityName},</if>
+            <if test="transferAccountId != null">#{transferAccountId},</if>
+            <if test="transferAccountName != null">#{transferAccountName},</if>
+            <if test="transferCityId != null">#{transferCityId},</if>
+            <if test="transferCityName != null">#{transferCityName},</if>
+            <if test="transferEmotionId != null">#{transferEmotionId},</if>
+            <if test="transferEmotionName != null">#{transferEmotionName},</if>
+            <if test="transferLabelId != null">#{transferLabelId},</if>
+            <if test="transferLabelName != null">#{transferLabelName},</if>
+            <if test="transferMemberName != null">#{transferMemberName},</if>
+            <if test="transferMemberId != null">#{transferMemberId},</if>
+            <if test="transferMoneyName != null">#{transferMoneyName},</if>
+            <if test="transferMoneyId != null">#{transferMoneyId},</if>
+            <if test="transferProjectId != null">#{transferProjectId},</if>
+            <if test="transferProjectName != null">#{transferProjectName},</if>
+            <if test="transferWeatherId != null">#{transferWeatherId},</if>
+            <if test="transferWeatherName != null">#{transferWeatherName},</if>
+            <if test="transferAddress != null">#{transferAddress},</if>
+            <if test="transferCity != null">#{transferCity},</if>
+            <if test="transferCountry != null">#{transferCountry},</if>
+            <if test="transferStreet != null">#{transferStreet},</if>
+            <if test="transferCounty != null">#{transferCounty},</if>
+            <if test="transferProvince != null">#{transferProvince},</if>
+            <if test="transferDate != null">#{transferDate},</if>
+            <if test="transferYear != null">#{transferYear},</if>
+            <if test="transferQuarter != null">#{transferQuarter},</if>
+            <if test="transferMonth != null">#{transferMonth},</if>
+            <if test="transferPeriod != null">#{transferPeriod},</if>
+            <if test="transferWeek != null">#{transferWeek},</if>
+            <if test="transferYearWeek != null">#{transferYearWeek},</if>
+            <if test="transferDay != null">#{transferDay},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTransferBill" parameterType="TransferBill">
+        update bill_transfer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transferName != null">transfer_name = #{transferName},</if>
+            <if test="transferType != null">transfer_type = #{transferType},</if>
+            <if test="transferAmount != null">transfer_amount = #{transferAmount},</if>
+            <if test="transferDesc != null">transfer_desc = #{transferDesc},</if>
+            <if test="transferImgs != null">transfer_imgs = #{transferImgs},</if>
+            <if test="transferDatetime != null">transfer_datetime = #{transferDatetime},</if>
+            <if test="transferParentId != null">transfer_parent_id = #{transferParentId},</if>
+            <if test="transferParentName != null">transfer_parent_name = #{transferParentName},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="transferUserId != null">transfer_user_id = #{transferUserId},</if>
+            <if test="transferUserName != null">transfer_user_name = #{transferUserName},</if>
+            <if test="transferBookId != null">transfer_book_id = #{transferBookId},</if>
+            <if test="transferBookName != null">transfer_book_name = #{transferBookName},</if>
+            <if test="transferCategoryId != null">transfer_category_id = #{transferCategoryId},</if>
+            <if test="transferCategoryName != null">transfer_category_name = #{transferCategoryName},</if>
+            <if test="transferEntityId != null">transfer_entity_id = #{transferEntityId},</if>
+            <if test="transferEntityName != null">transfer_entity_name = #{transferEntityName},</if>
+            <if test="transferAccountId != null">transfer_account_id = #{transferAccountId},</if>
+            <if test="transferAccountName != null">transfer_account_name = #{transferAccountName},</if>
+            <if test="transferCityId != null">transfer_city_id = #{transferCityId},</if>
+            <if test="transferCityName != null">transfer_city_name = #{transferCityName},</if>
+            <if test="transferEmotionId != null">transfer_emotion_id = #{transferEmotionId},</if>
+            <if test="transferEmotionName != null">transfer_emotion_name = #{transferEmotionName},</if>
+            <if test="transferLabelId != null">transfer_label_id = #{transferLabelId},</if>
+            <if test="transferLabelName != null">transfer_label_name = #{transferLabelName},</if>
+            <if test="transferMemberName != null">transfer_member_name = #{transferMemberName},</if>
+            <if test="transferMemberId != null">transfer_member_id = #{transferMemberId},</if>
+            <if test="transferMoneyName != null">transfer_money_name = #{transferMoneyName},</if>
+            <if test="transferMoneyId != null">transfer_money_id = #{transferMoneyId},</if>
+            <if test="transferProjectId != null">transfer_project_id = #{transferProjectId},</if>
+            <if test="transferProjectName != null">transfer_project_name = #{transferProjectName},</if>
+            <if test="transferWeatherId != null">transfer_weather_id = #{transferWeatherId},</if>
+            <if test="transferWeatherName != null">transfer_weather_name = #{transferWeatherName},</if>
+            <if test="transferAddress != null">transfer_address = #{transferAddress},</if>
+            <if test="transferCity != null">transfer_city = #{transferCity},</if>
+            <if test="transferCountry != null">transfer_country = #{transferCountry},</if>
+            <if test="transferStreet != null">transfer_street = #{transferStreet},</if>
+            <if test="transferCounty != null">transfer_county = #{transferCounty},</if>
+            <if test="transferProvince != null">transfer_province = #{transferProvince},</if>
+            <if test="transferDate != null">transfer_date = #{transferDate},</if>
+            <if test="transferYear != null">transfer_year = #{transferYear},</if>
+            <if test="transferQuarter != null">transfer_quarter = #{transferQuarter},</if>
+            <if test="transferMonth != null">transfer_month = #{transferMonth},</if>
+            <if test="transferPeriod != null">transfer_period = #{transferPeriod},</if>
+            <if test="transferWeek != null">transfer_week = #{transferWeek},</if>
+            <if test="transferYearWeek != null">transfer_year_week = #{transferYearWeek},</if>
+            <if test="transferDay != null">transfer_day = #{transferDay},</if>
+        </trim>
+        where transfer_id = #{transferId}
+    </update>
+
+    <delete id="deleteTransferBillByTransferId" parameterType="Long">
+        delete from bill_transfer where transfer_id = #{transferId}
+    </delete>
+
+    <delete id="deleteTransferBillByTransferIds" parameterType="String">
+        delete from bill_transfer where transfer_id in 
+        <foreach item="transferId" collection="array" open="(" separator="," close=")">
+            #{transferId}
+        </foreach>
+    </delete>
+</mapper>

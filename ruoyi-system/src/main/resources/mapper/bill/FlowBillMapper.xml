@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.FlowBillMapper">
+    
+    <resultMap type="FlowBill" id="FlowBillResult">
+        <result property="flowId"    column="flow_id"    />
+        <result property="flowName"    column="flow_name"    />
+        <result property="flowSource"    column="flow_source"    />
+        <result property="flowTarget"    column="flow_target"    />
+        <result property="flowAmount"    column="flow_amount"    />
+        <result property="flowSign"    column="flow_sign"    />
+        <result property="flowType"    column="flow_type"    />
+        <result property="flowDatetime"    column="flow_datetime"    />
+        <result property="flowParentId"    column="flow_parent_id"    />
+        <result property="flowParentName"    column="flow_parent_name"    />
+        <result property="flowBillId"    column="flow_bill_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="flowDesc"    column="flow_desc"    />
+        <result property="flowImgs"    column="flow_imgs"    />
+        <result property="flowRemark"    column="flow_remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="flowUserId"    column="flow_user_id"    />
+        <result property="flowUserName"    column="flow_user_name"    />
+        <result property="flowWeatherId"    column="flow_weather_id"    />
+        <result property="flowWeatherName"    column="flow_weather_name"    />
+        <result property="flowMoneyName"    column="flow_money_name"    />
+        <result property="flowMoneyId"    column="flow_money_id"    />
+        <result property="flowMemberName"    column="flow_member_name"    />
+        <result property="flowMemberId"    column="flow_member_id"    />
+        <result property="flowLabelName"    column="flow_label_name"    />
+        <result property="flowLabelId"    column="flow_label_id"    />
+        <result property="flowProjectId"    column="flow_project_id"    />
+        <result property="flowProjectName"    column="flow_project_name"    />
+        <result property="flowEmotionId"    column="flow_emotion_id"    />
+        <result property="flowEmotionName"    column="flow_emotion_name"    />
+        <result property="flowCategoryName"    column="flow_category_name"    />
+        <result property="flowCategoryId"    column="flow_category_id"    />
+        <result property="flowAccountName"    column="flow_account_name"    />
+        <result property="flowAccountId"    column="flow_account_id"    />
+        <result property="flowEntityName"    column="flow_entity_name"    />
+        <result property="flowEntityId"    column="flow_entity_id"    />
+        <result property="flowCityId"    column="flow_city_id"    />
+        <result property="flowCityName"    column="flow_city_name"    />
+        <result property="flowBookId"    column="flow_book_id"    />
+        <result property="flowBookName"    column="flow_book_name"    />
+        <result property="flowYear"    column="flow_year"    />
+        <result property="flowMonth"    column="flow_month"    />
+        <result property="flowDate"    column="flow_date"    />
+        <result property="flowDay"    column="flow_day"    />
+        <result property="flowQuarter"    column="flow_quarter"    />
+        <result property="flowPeriod"    column="flow_period"    />
+        <result property="flowWeek"    column="flow_week"    />
+        <result property="flowYearWeek"    column="flow_year_week"    />
+        <result property="flowCounty"    column="flow_county"    />
+        <result property="flowProvince"    column="flow_province"    />
+        <result property="flowStreet"    column="flow_street"    />
+        <result property="flowCountry"    column="flow_country"    />
+        <result property="flowCity"    column="flow_city"    />
+        <result property="flowAddress"    column="flow_address"    />
+    </resultMap>
+
+    <sql id="selectFlowBillVo">
+        select flow_id, flow_name, flow_source, flow_target, flow_amount, flow_sign, flow_type, flow_datetime, flow_parent_id, flow_parent_name, flow_bill_id, is_deleted, order_sort, flow_desc, flow_imgs, flow_remark, create_by, create_time, update_by, update_time, enable_status, icon, remark, weight, flow_user_id, flow_user_name, flow_weather_id, flow_weather_name, flow_money_name, flow_money_id, flow_member_name, flow_member_id, flow_label_name, flow_label_id, flow_project_id, flow_project_name, flow_emotion_id, flow_emotion_name, flow_category_name, flow_category_id, flow_account_name, flow_account_id, flow_entity_name, flow_entity_id, flow_city_id, flow_city_name, flow_book_id, flow_book_name, flow_year, flow_month, flow_date, flow_day, flow_quarter, flow_period, flow_week, flow_year_week, flow_county, flow_province, flow_street, flow_country, flow_city, flow_address from bill_flow
+    </sql>
+
+    <select id="selectFlowBillAll" resultMap="FlowBillResult">
+		<include refid="selectFlowBillVo"/>
+	</select>
+
+    <select id="selectFlowBillList" parameterType="FlowBill" resultMap="FlowBillResult">
+        <include refid="selectFlowBillVo"/>
+        <where>  
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowBillByFlowId" parameterType="Long" resultMap="FlowBillResult">
+        <include refid="selectFlowBillVo"/>
+        where flow_id = #{flowId}
+    </select>
+        
+    <insert id="insertFlowBill" parameterType="FlowBill">
+        insert into bill_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">flow_id,</if>
+            <if test="flowName != null">flow_name,</if>
+            <if test="flowSource != null">flow_source,</if>
+            <if test="flowTarget != null">flow_target,</if>
+            <if test="flowAmount != null">flow_amount,</if>
+            <if test="flowSign != null">flow_sign,</if>
+            <if test="flowType != null">flow_type,</if>
+            <if test="flowDatetime != null">flow_datetime,</if>
+            <if test="flowParentId != null">flow_parent_id,</if>
+            <if test="flowParentName != null">flow_parent_name,</if>
+            <if test="flowBillId != null">flow_bill_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="flowDesc != null">flow_desc,</if>
+            <if test="flowImgs != null">flow_imgs,</if>
+            <if test="flowRemark != null">flow_remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="flowUserId != null">flow_user_id,</if>
+            <if test="flowUserName != null">flow_user_name,</if>
+            <if test="flowWeatherId != null">flow_weather_id,</if>
+            <if test="flowWeatherName != null">flow_weather_name,</if>
+            <if test="flowMoneyName != null">flow_money_name,</if>
+            <if test="flowMoneyId != null">flow_money_id,</if>
+            <if test="flowMemberName != null">flow_member_name,</if>
+            <if test="flowMemberId != null">flow_member_id,</if>
+            <if test="flowLabelName != null">flow_label_name,</if>
+            <if test="flowLabelId != null">flow_label_id,</if>
+            <if test="flowProjectId != null">flow_project_id,</if>
+            <if test="flowProjectName != null">flow_project_name,</if>
+            <if test="flowEmotionId != null">flow_emotion_id,</if>
+            <if test="flowEmotionName != null">flow_emotion_name,</if>
+            <if test="flowCategoryName != null">flow_category_name,</if>
+            <if test="flowCategoryId != null">flow_category_id,</if>
+            <if test="flowAccountName != null">flow_account_name,</if>
+            <if test="flowAccountId != null">flow_account_id,</if>
+            <if test="flowEntityName != null">flow_entity_name,</if>
+            <if test="flowEntityId != null">flow_entity_id,</if>
+            <if test="flowCityId != null">flow_city_id,</if>
+            <if test="flowCityName != null">flow_city_name,</if>
+            <if test="flowBookId != null">flow_book_id,</if>
+            <if test="flowBookName != null">flow_book_name,</if>
+            <if test="flowYear != null">flow_year,</if>
+            <if test="flowMonth != null">flow_month,</if>
+            <if test="flowDate != null">flow_date,</if>
+            <if test="flowDay != null">flow_day,</if>
+            <if test="flowQuarter != null">flow_quarter,</if>
+            <if test="flowPeriod != null">flow_period,</if>
+            <if test="flowWeek != null">flow_week,</if>
+            <if test="flowYearWeek != null">flow_year_week,</if>
+            <if test="flowCounty != null">flow_county,</if>
+            <if test="flowProvince != null">flow_province,</if>
+            <if test="flowStreet != null">flow_street,</if>
+            <if test="flowCountry != null">flow_country,</if>
+            <if test="flowCity != null">flow_city,</if>
+            <if test="flowAddress != null">flow_address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">#{flowId},</if>
+            <if test="flowName != null">#{flowName},</if>
+            <if test="flowSource != null">#{flowSource},</if>
+            <if test="flowTarget != null">#{flowTarget},</if>
+            <if test="flowAmount != null">#{flowAmount},</if>
+            <if test="flowSign != null">#{flowSign},</if>
+            <if test="flowType != null">#{flowType},</if>
+            <if test="flowDatetime != null">#{flowDatetime},</if>
+            <if test="flowParentId != null">#{flowParentId},</if>
+            <if test="flowParentName != null">#{flowParentName},</if>
+            <if test="flowBillId != null">#{flowBillId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="flowDesc != null">#{flowDesc},</if>
+            <if test="flowImgs != null">#{flowImgs},</if>
+            <if test="flowRemark != null">#{flowRemark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="flowUserId != null">#{flowUserId},</if>
+            <if test="flowUserName != null">#{flowUserName},</if>
+            <if test="flowWeatherId != null">#{flowWeatherId},</if>
+            <if test="flowWeatherName != null">#{flowWeatherName},</if>
+            <if test="flowMoneyName != null">#{flowMoneyName},</if>
+            <if test="flowMoneyId != null">#{flowMoneyId},</if>
+            <if test="flowMemberName != null">#{flowMemberName},</if>
+            <if test="flowMemberId != null">#{flowMemberId},</if>
+            <if test="flowLabelName != null">#{flowLabelName},</if>
+            <if test="flowLabelId != null">#{flowLabelId},</if>
+            <if test="flowProjectId != null">#{flowProjectId},</if>
+            <if test="flowProjectName != null">#{flowProjectName},</if>
+            <if test="flowEmotionId != null">#{flowEmotionId},</if>
+            <if test="flowEmotionName != null">#{flowEmotionName},</if>
+            <if test="flowCategoryName != null">#{flowCategoryName},</if>
+            <if test="flowCategoryId != null">#{flowCategoryId},</if>
+            <if test="flowAccountName != null">#{flowAccountName},</if>
+            <if test="flowAccountId != null">#{flowAccountId},</if>
+            <if test="flowEntityName != null">#{flowEntityName},</if>
+            <if test="flowEntityId != null">#{flowEntityId},</if>
+            <if test="flowCityId != null">#{flowCityId},</if>
+            <if test="flowCityName != null">#{flowCityName},</if>
+            <if test="flowBookId != null">#{flowBookId},</if>
+            <if test="flowBookName != null">#{flowBookName},</if>
+            <if test="flowYear != null">#{flowYear},</if>
+            <if test="flowMonth != null">#{flowMonth},</if>
+            <if test="flowDate != null">#{flowDate},</if>
+            <if test="flowDay != null">#{flowDay},</if>
+            <if test="flowQuarter != null">#{flowQuarter},</if>
+            <if test="flowPeriod != null">#{flowPeriod},</if>
+            <if test="flowWeek != null">#{flowWeek},</if>
+            <if test="flowYearWeek != null">#{flowYearWeek},</if>
+            <if test="flowCounty != null">#{flowCounty},</if>
+            <if test="flowProvince != null">#{flowProvince},</if>
+            <if test="flowStreet != null">#{flowStreet},</if>
+            <if test="flowCountry != null">#{flowCountry},</if>
+            <if test="flowCity != null">#{flowCity},</if>
+            <if test="flowAddress != null">#{flowAddress},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowBill" parameterType="FlowBill">
+        update bill_flow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowName != null">flow_name = #{flowName},</if>
+            <if test="flowSource != null">flow_source = #{flowSource},</if>
+            <if test="flowTarget != null">flow_target = #{flowTarget},</if>
+            <if test="flowAmount != null">flow_amount = #{flowAmount},</if>
+            <if test="flowSign != null">flow_sign = #{flowSign},</if>
+            <if test="flowType != null">flow_type = #{flowType},</if>
+            <if test="flowDatetime != null">flow_datetime = #{flowDatetime},</if>
+            <if test="flowParentId != null">flow_parent_id = #{flowParentId},</if>
+            <if test="flowParentName != null">flow_parent_name = #{flowParentName},</if>
+            <if test="flowBillId != null">flow_bill_id = #{flowBillId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="flowDesc != null">flow_desc = #{flowDesc},</if>
+            <if test="flowImgs != null">flow_imgs = #{flowImgs},</if>
+            <if test="flowRemark != null">flow_remark = #{flowRemark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="flowUserId != null">flow_user_id = #{flowUserId},</if>
+            <if test="flowUserName != null">flow_user_name = #{flowUserName},</if>
+            <if test="flowWeatherId != null">flow_weather_id = #{flowWeatherId},</if>
+            <if test="flowWeatherName != null">flow_weather_name = #{flowWeatherName},</if>
+            <if test="flowMoneyName != null">flow_money_name = #{flowMoneyName},</if>
+            <if test="flowMoneyId != null">flow_money_id = #{flowMoneyId},</if>
+            <if test="flowMemberName != null">flow_member_name = #{flowMemberName},</if>
+            <if test="flowMemberId != null">flow_member_id = #{flowMemberId},</if>
+            <if test="flowLabelName != null">flow_label_name = #{flowLabelName},</if>
+            <if test="flowLabelId != null">flow_label_id = #{flowLabelId},</if>
+            <if test="flowProjectId != null">flow_project_id = #{flowProjectId},</if>
+            <if test="flowProjectName != null">flow_project_name = #{flowProjectName},</if>
+            <if test="flowEmotionId != null">flow_emotion_id = #{flowEmotionId},</if>
+            <if test="flowEmotionName != null">flow_emotion_name = #{flowEmotionName},</if>
+            <if test="flowCategoryName != null">flow_category_name = #{flowCategoryName},</if>
+            <if test="flowCategoryId != null">flow_category_id = #{flowCategoryId},</if>
+            <if test="flowAccountName != null">flow_account_name = #{flowAccountName},</if>
+            <if test="flowAccountId != null">flow_account_id = #{flowAccountId},</if>
+            <if test="flowEntityName != null">flow_entity_name = #{flowEntityName},</if>
+            <if test="flowEntityId != null">flow_entity_id = #{flowEntityId},</if>
+            <if test="flowCityId != null">flow_city_id = #{flowCityId},</if>
+            <if test="flowCityName != null">flow_city_name = #{flowCityName},</if>
+            <if test="flowBookId != null">flow_book_id = #{flowBookId},</if>
+            <if test="flowBookName != null">flow_book_name = #{flowBookName},</if>
+            <if test="flowYear != null">flow_year = #{flowYear},</if>
+            <if test="flowMonth != null">flow_month = #{flowMonth},</if>
+            <if test="flowDate != null">flow_date = #{flowDate},</if>
+            <if test="flowDay != null">flow_day = #{flowDay},</if>
+            <if test="flowQuarter != null">flow_quarter = #{flowQuarter},</if>
+            <if test="flowPeriod != null">flow_period = #{flowPeriod},</if>
+            <if test="flowWeek != null">flow_week = #{flowWeek},</if>
+            <if test="flowYearWeek != null">flow_year_week = #{flowYearWeek},</if>
+            <if test="flowCounty != null">flow_county = #{flowCounty},</if>
+            <if test="flowProvince != null">flow_province = #{flowProvince},</if>
+            <if test="flowStreet != null">flow_street = #{flowStreet},</if>
+            <if test="flowCountry != null">flow_country = #{flowCountry},</if>
+            <if test="flowCity != null">flow_city = #{flowCity},</if>
+            <if test="flowAddress != null">flow_address = #{flowAddress},</if>
+        </trim>
+        where flow_id = #{flowId}
+    </update>
+
+    <delete id="deleteFlowBillByFlowId" parameterType="Long">
+        delete from bill_flow where flow_id = #{flowId}
+    </delete>
+
+    <delete id="deleteFlowBillByFlowIds" parameterType="String">
+        delete from bill_flow where flow_id in 
+        <foreach item="flowId" collection="array" open="(" separator="," close=")">
+            #{flowId}
+        </foreach>
+    </delete>
+</mapper>

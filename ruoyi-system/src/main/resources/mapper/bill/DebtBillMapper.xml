@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.DebtBillMapper">
+    
+    <resultMap type="DebtBill" id="DebtBillResult">
+        <result property="debtId"    column="debt_id"    />
+        <result property="debtName"    column="debt_name"    />
+        <result property="debtType"    column="debt_type"    />
+        <result property="debtImgs"    column="debt_imgs"    />
+        <result property="debtDesc"    column="debt_desc"    />
+        <result property="debtDatetime"    column="debt_datetime"    />
+        <result property="debtAmount"    column="debt_amount"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="debtParentId"    column="debt_parent_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="debtParentName"    column="debt_parent_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="icon"    column="icon"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="weight"    column="weight"    />
+        <result property="debtUserId"    column="debt_user_id"    />
+        <result property="debtUserName"    column="debt_user_name"    />
+        <result property="debtAccountId"    column="debt_account_id"    />
+        <result property="debtAccountName"    column="debt_account_name"    />
+        <result property="debtBookId"    column="debt_book_id"    />
+        <result property="debtBookName"    column="debt_book_name"    />
+        <result property="debtCategoryId"    column="debt_category_id"    />
+        <result property="debtCategoryName"    column="debt_category_name"    />
+        <result property="debtCityId"    column="debt_city_id"    />
+        <result property="debtCityName"    column="debt_city_name"    />
+        <result property="debtEmotionId"    column="debt_emotion_id"    />
+        <result property="debtEmotionName"    column="debt_emotion_name"    />
+        <result property="debtEntityId"    column="debt_entity_id"    />
+        <result property="debtEntityName"    column="debt_entity_name"    />
+        <result property="debtLabelId"    column="debt_label_id"    />
+        <result property="debtLabelName"    column="debt_label_name"    />
+        <result property="debtMemberId"    column="debt_member_id"    />
+        <result property="debtMemberName"    column="debt_member_name"    />
+        <result property="debtMoneyId"    column="debt_money_id"    />
+        <result property="debtMoneyName"    column="debt_money_name"    />
+        <result property="debtProjectId"    column="debt_project_id"    />
+        <result property="debtProjectName"    column="debt_project_name"    />
+        <result property="debtWeatherId"    column="debt_weather_id"    />
+        <result property="debtWeatherName"    column="debt_weather_name"    />
+        <result property="debtAddress"    column="debt_address"    />
+        <result property="debtCity"    column="debt_city"    />
+        <result property="debtCountry"    column="debt_country"    />
+        <result property="debtProvince"    column="debt_province"    />
+        <result property="debtCounty"    column="debt_county"    />
+        <result property="debtStreet"    column="debt_street"    />
+        <result property="debtYear"    column="debt_year"    />
+        <result property="debtDate"    column="debt_date"    />
+        <result property="debtDay"    column="debt_day"    />
+        <result property="debtMonth"    column="debt_month"    />
+        <result property="debtPeriod"    column="debt_period"    />
+        <result property="debtQuarter"    column="debt_quarter"    />
+        <result property="debtWeek"    column="debt_week"    />
+        <result property="debtYearWeek"    column="debt_year_week"    />
+    </resultMap>
+
+    <sql id="selectDebtBillVo">
+        select debt_id, debt_name, debt_type, debt_imgs, debt_desc, debt_datetime, debt_amount, enable_status, debt_parent_id, create_by, debt_parent_name, create_time, update_by, update_time, remark, icon, is_deleted, order_sort, weight, debt_user_id, debt_user_name, debt_account_id, debt_account_name, debt_book_id, debt_book_name, debt_category_id, debt_category_name, debt_city_id, debt_city_name, debt_emotion_id, debt_emotion_name, debt_entity_id, debt_entity_name, debt_label_id, debt_label_name, debt_member_id, debt_member_name, debt_money_id, debt_money_name, debt_project_id, debt_project_name, debt_weather_id, debt_weather_name, debt_address, debt_city, debt_country, debt_province, debt_county, debt_street, debt_year, debt_date, debt_day, debt_month, debt_period, debt_quarter, debt_week, debt_year_week from bill_debt
+    </sql>
+
+    <select id="selectDebtBillAll" resultMap="DebtBillResult">
+		<include refid="selectDebtBillVo"/>
+	</select>
+
+    <select id="selectDebtBillList" parameterType="DebtBill" resultMap="DebtBillResult">
+        <include refid="selectDebtBillVo"/>
+        <where>  
+            <if test="debtName != null  and debtName != ''"> and debt_name like concat('%', #{debtName}, '%')</if>
+            <if test="debtType != null  and debtType != ''"> and debt_type = #{debtType}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDebtBillByDebtId" parameterType="Long" resultMap="DebtBillResult">
+        <include refid="selectDebtBillVo"/>
+        where debt_id = #{debtId}
+    </select>
+        
+    <insert id="insertDebtBill" parameterType="DebtBill" useGeneratedKeys="true" keyProperty="debtId">
+        insert into bill_debt
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="debtName != null">debt_name,</if>
+            <if test="debtType != null">debt_type,</if>
+            <if test="debtImgs != null">debt_imgs,</if>
+            <if test="debtDesc != null">debt_desc,</if>
+            <if test="debtDatetime != null">debt_datetime,</if>
+            <if test="debtAmount != null">debt_amount,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="debtParentId != null">debt_parent_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="debtParentName != null">debt_parent_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="weight != null">weight,</if>
+            <if test="debtUserId != null">debt_user_id,</if>
+            <if test="debtUserName != null">debt_user_name,</if>
+            <if test="debtAccountId != null">debt_account_id,</if>
+            <if test="debtAccountName != null">debt_account_name,</if>
+            <if test="debtBookId != null">debt_book_id,</if>
+            <if test="debtBookName != null">debt_book_name,</if>
+            <if test="debtCategoryId != null">debt_category_id,</if>
+            <if test="debtCategoryName != null">debt_category_name,</if>
+            <if test="debtCityId != null">debt_city_id,</if>
+            <if test="debtCityName != null">debt_city_name,</if>
+            <if test="debtEmotionId != null">debt_emotion_id,</if>
+            <if test="debtEmotionName != null">debt_emotion_name,</if>
+            <if test="debtEntityId != null">debt_entity_id,</if>
+            <if test="debtEntityName != null">debt_entity_name,</if>
+            <if test="debtLabelId != null">debt_label_id,</if>
+            <if test="debtLabelName != null">debt_label_name,</if>
+            <if test="debtMemberId != null">debt_member_id,</if>
+            <if test="debtMemberName != null">debt_member_name,</if>
+            <if test="debtMoneyId != null">debt_money_id,</if>
+            <if test="debtMoneyName != null">debt_money_name,</if>
+            <if test="debtProjectId != null">debt_project_id,</if>
+            <if test="debtProjectName != null">debt_project_name,</if>
+            <if test="debtWeatherId != null">debt_weather_id,</if>
+            <if test="debtWeatherName != null">debt_weather_name,</if>
+            <if test="debtAddress != null">debt_address,</if>
+            <if test="debtCity != null">debt_city,</if>
+            <if test="debtCountry != null">debt_country,</if>
+            <if test="debtProvince != null">debt_province,</if>
+            <if test="debtCounty != null">debt_county,</if>
+            <if test="debtStreet != null">debt_street,</if>
+            <if test="debtYear != null">debt_year,</if>
+            <if test="debtDate != null">debt_date,</if>
+            <if test="debtDay != null">debt_day,</if>
+            <if test="debtMonth != null">debt_month,</if>
+            <if test="debtPeriod != null">debt_period,</if>
+            <if test="debtQuarter != null">debt_quarter,</if>
+            <if test="debtWeek != null">debt_week,</if>
+            <if test="debtYearWeek != null">debt_year_week,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="debtName != null">#{debtName},</if>
+            <if test="debtType != null">#{debtType},</if>
+            <if test="debtImgs != null">#{debtImgs},</if>
+            <if test="debtDesc != null">#{debtDesc},</if>
+            <if test="debtDatetime != null">#{debtDatetime},</if>
+            <if test="debtAmount != null">#{debtAmount},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="debtParentId != null">#{debtParentId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="debtParentName != null">#{debtParentName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="debtUserId != null">#{debtUserId},</if>
+            <if test="debtUserName != null">#{debtUserName},</if>
+            <if test="debtAccountId != null">#{debtAccountId},</if>
+            <if test="debtAccountName != null">#{debtAccountName},</if>
+            <if test="debtBookId != null">#{debtBookId},</if>
+            <if test="debtBookName != null">#{debtBookName},</if>
+            <if test="debtCategoryId != null">#{debtCategoryId},</if>
+            <if test="debtCategoryName != null">#{debtCategoryName},</if>
+            <if test="debtCityId != null">#{debtCityId},</if>
+            <if test="debtCityName != null">#{debtCityName},</if>
+            <if test="debtEmotionId != null">#{debtEmotionId},</if>
+            <if test="debtEmotionName != null">#{debtEmotionName},</if>
+            <if test="debtEntityId != null">#{debtEntityId},</if>
+            <if test="debtEntityName != null">#{debtEntityName},</if>
+            <if test="debtLabelId != null">#{debtLabelId},</if>
+            <if test="debtLabelName != null">#{debtLabelName},</if>
+            <if test="debtMemberId != null">#{debtMemberId},</if>
+            <if test="debtMemberName != null">#{debtMemberName},</if>
+            <if test="debtMoneyId != null">#{debtMoneyId},</if>
+            <if test="debtMoneyName != null">#{debtMoneyName},</if>
+            <if test="debtProjectId != null">#{debtProjectId},</if>
+            <if test="debtProjectName != null">#{debtProjectName},</if>
+            <if test="debtWeatherId != null">#{debtWeatherId},</if>
+            <if test="debtWeatherName != null">#{debtWeatherName},</if>
+            <if test="debtAddress != null">#{debtAddress},</if>
+            <if test="debtCity != null">#{debtCity},</if>
+            <if test="debtCountry != null">#{debtCountry},</if>
+            <if test="debtProvince != null">#{debtProvince},</if>
+            <if test="debtCounty != null">#{debtCounty},</if>
+            <if test="debtStreet != null">#{debtStreet},</if>
+            <if test="debtYear != null">#{debtYear},</if>
+            <if test="debtDate != null">#{debtDate},</if>
+            <if test="debtDay != null">#{debtDay},</if>
+            <if test="debtMonth != null">#{debtMonth},</if>
+            <if test="debtPeriod != null">#{debtPeriod},</if>
+            <if test="debtQuarter != null">#{debtQuarter},</if>
+            <if test="debtWeek != null">#{debtWeek},</if>
+            <if test="debtYearWeek != null">#{debtYearWeek},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDebtBill" parameterType="DebtBill">
+        update bill_debt
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="debtName != null">debt_name = #{debtName},</if>
+            <if test="debtType != null">debt_type = #{debtType},</if>
+            <if test="debtImgs != null">debt_imgs = #{debtImgs},</if>
+            <if test="debtDesc != null">debt_desc = #{debtDesc},</if>
+            <if test="debtDatetime != null">debt_datetime = #{debtDatetime},</if>
+            <if test="debtAmount != null">debt_amount = #{debtAmount},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="debtParentId != null">debt_parent_id = #{debtParentId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="debtParentName != null">debt_parent_name = #{debtParentName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="debtUserId != null">debt_user_id = #{debtUserId},</if>
+            <if test="debtUserName != null">debt_user_name = #{debtUserName},</if>
+            <if test="debtAccountId != null">debt_account_id = #{debtAccountId},</if>
+            <if test="debtAccountName != null">debt_account_name = #{debtAccountName},</if>
+            <if test="debtBookId != null">debt_book_id = #{debtBookId},</if>
+            <if test="debtBookName != null">debt_book_name = #{debtBookName},</if>
+            <if test="debtCategoryId != null">debt_category_id = #{debtCategoryId},</if>
+            <if test="debtCategoryName != null">debt_category_name = #{debtCategoryName},</if>
+            <if test="debtCityId != null">debt_city_id = #{debtCityId},</if>
+            <if test="debtCityName != null">debt_city_name = #{debtCityName},</if>
+            <if test="debtEmotionId != null">debt_emotion_id = #{debtEmotionId},</if>
+            <if test="debtEmotionName != null">debt_emotion_name = #{debtEmotionName},</if>
+            <if test="debtEntityId != null">debt_entity_id = #{debtEntityId},</if>
+            <if test="debtEntityName != null">debt_entity_name = #{debtEntityName},</if>
+            <if test="debtLabelId != null">debt_label_id = #{debtLabelId},</if>
+            <if test="debtLabelName != null">debt_label_name = #{debtLabelName},</if>
+            <if test="debtMemberId != null">debt_member_id = #{debtMemberId},</if>
+            <if test="debtMemberName != null">debt_member_name = #{debtMemberName},</if>
+            <if test="debtMoneyId != null">debt_money_id = #{debtMoneyId},</if>
+            <if test="debtMoneyName != null">debt_money_name = #{debtMoneyName},</if>
+            <if test="debtProjectId != null">debt_project_id = #{debtProjectId},</if>
+            <if test="debtProjectName != null">debt_project_name = #{debtProjectName},</if>
+            <if test="debtWeatherId != null">debt_weather_id = #{debtWeatherId},</if>
+            <if test="debtWeatherName != null">debt_weather_name = #{debtWeatherName},</if>
+            <if test="debtAddress != null">debt_address = #{debtAddress},</if>
+            <if test="debtCity != null">debt_city = #{debtCity},</if>
+            <if test="debtCountry != null">debt_country = #{debtCountry},</if>
+            <if test="debtProvince != null">debt_province = #{debtProvince},</if>
+            <if test="debtCounty != null">debt_county = #{debtCounty},</if>
+            <if test="debtStreet != null">debt_street = #{debtStreet},</if>
+            <if test="debtYear != null">debt_year = #{debtYear},</if>
+            <if test="debtDate != null">debt_date = #{debtDate},</if>
+            <if test="debtDay != null">debt_day = #{debtDay},</if>
+            <if test="debtMonth != null">debt_month = #{debtMonth},</if>
+            <if test="debtPeriod != null">debt_period = #{debtPeriod},</if>
+            <if test="debtQuarter != null">debt_quarter = #{debtQuarter},</if>
+            <if test="debtWeek != null">debt_week = #{debtWeek},</if>
+            <if test="debtYearWeek != null">debt_year_week = #{debtYearWeek},</if>
+        </trim>
+        where debt_id = #{debtId}
+    </update>
+
+    <delete id="deleteDebtBillByDebtId" parameterType="Long">
+        delete from bill_debt where debt_id = #{debtId}
+    </delete>
+
+    <delete id="deleteDebtBillByDebtIds" parameterType="String">
+        delete from bill_debt where debt_id in 
+        <foreach item="debtId" collection="array" open="(" separator="," close=")">
+            #{debtId}
+        </foreach>
+    </delete>
+</mapper>
