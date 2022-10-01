@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectLabelVo"/>
         <where>
             <if test="labelScope != null  and labelScope != ''"> and label_scope like concat('%', #{labelScope}, '%')</if>
+            <if test="labelCname != null  and labelCname != ''"> and (label_cname like concat('%', #{labelCname}, '%') or label_ename like concat('%', #{labelCname}, '%') ) </if>
             <if test="labelType != null "> and label_type = #{labelType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="userId != null "> and user_id = #{userId}</if>

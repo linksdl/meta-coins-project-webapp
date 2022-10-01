@@ -1,9 +1,12 @@
 package com.ruoyi.web.controller.config;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson2.JSON;
 import com.ruoyi.config.domain.Book;
 import com.ruoyi.config.domain.City;
 import com.ruoyi.config.domain.GoodsType;
@@ -56,6 +59,10 @@ public class LabelController extends BaseController
         startPage();
         label.setUserId(getUserId());
         List<Label> list = labelService.selectLabelList(label);
+        for(Label label1:list){
+            label1.setDisabled(label1.getEnableStatus() == 0);
+            label1.setValue(label1.getLabelCname());
+        }
         return getDataTable(list);
     }
 
@@ -142,6 +149,7 @@ public class LabelController extends BaseController
         List<Label> list = labelService.selectLabelAll(params);
         for(Label label:list){
             label.setDisabled(label.getEnableStatus() == 0);
+            label.setValue(label.getLabelCname());
         }
         return AjaxResult.success(list);
     }

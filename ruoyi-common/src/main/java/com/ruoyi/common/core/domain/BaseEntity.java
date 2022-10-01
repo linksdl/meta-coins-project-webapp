@@ -60,6 +60,17 @@ public class BaseEntity implements Serializable
     @Transient
     private boolean disabled;
 
+    @Transient
+    private String value;
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public boolean isDisabled() {
         return disabled;
     }
