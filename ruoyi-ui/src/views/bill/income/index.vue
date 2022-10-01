@@ -228,9 +228,24 @@
     <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="68px">
           <el-row>
-            <el-col :span="24">
+            <el-col :span="12">
               <el-form-item label="名称" prop="incomeName">
                 <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item label="时间" prop="incomeDatetime">
+                <el-date-picker
+                  clearable
+                  v-model="form.incomeDatetime"
+                  type="datetime"
+                  placeholder="请选择收入日期"
+                  value-format="yyyy-MM-dd HH:mm:SS"
+                  align="right"
+                  :picker-options="pickerOptions"
+                  >
+                </el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -238,7 +253,7 @@
 
 
           <el-row>
-           <el-col :span="11">
+           <el-col :span="12">
             <el-form-item label="类型" prop="incomeType">
               <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型" @change="handleIncomeTypeChange" >
                 <el-radio
@@ -251,7 +266,7 @@
             </el-form-item>
            </el-col>
 
-           <el-col :span="13">
+           <el-col :span="12">
               <el-form-item label="币种" prop="incomeMoneyId">
                 <el-radio-group v-model="form.incomeMoneyId" size="small" placeholder="请选择币种">
                   <el-radio-button
@@ -269,21 +284,6 @@
 
           <el-row>
            <el-col :span="8">
-            <el-form-item label="日期" prop="incomeDatetime">
-              <el-date-picker
-                clearable
-                v-model="form.incomeDatetime"
-                type="datetime"
-                placeholder="请选择收入日期"
-                value-format="yyyy-MM-dd HH:mm:SS"
-                align="right"
-                :picker-options="pickerOptions"
-                >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-
-           <el-col :span="8">
             <el-form-item label="账户" prop="incomeAccountId">
               <el-cascader
                   clearable
@@ -296,6 +296,20 @@
               ></el-cascader>
             </el-form-item>
            </el-col>
+
+          <el-col :span="8">
+            <el-form-item label="主体" prop="incomeEntityId">
+              <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
+                <el-option
+                  v-for="item in enterpriseOptions"
+                  :key="item.enterpriseId"
+                  :label="item.enterpriseName"
+                  :value="item.enterpriseId"
+                  :disabled="item.disabled">
+                </el-option>
+              </el-select>
+            </el-form-item>
+         </el-col>
 
           <el-col :span="8">
             <el-form-item label="金额" prop="incomeAmount">
@@ -321,20 +335,20 @@
           </el-col>
 
           <el-col :span="8">
-          <el-form-item label="主体" prop="incomeEntityId">
-            <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
+          <el-form-item label="标签" prop="incomeLabelName">
+            <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
               <el-option
-                v-for="item in enterpriseOptions"
-                :key="item.enterpriseId"
-                :label="item.enterpriseName"
-                :value="item.enterpriseId"
-                :disabled="item.disabled">
+                v-for="item in labelOptions"
+                :key="parseInt(item.labelId)"
+                :label="item.labelCname"
+                :value="item.labelCname">
+                <span style="float: left">{{ item.labelCname }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.labelEname}}</span>
               </el-option>
             </el-select>
           </el-form-item>
-         </el-col>
-
-          <el-col :span="8">
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="项目" prop="incomeProjectId">
             <el-select v-model="form.incomeProjectId" filterable placeholder="请选择项目名">
               <el-option
@@ -347,7 +361,6 @@
             </el-select>
           </el-form-item>
           </el-col>
-
         </el-row>
 
        <el-row>
@@ -365,38 +378,6 @@
           </el-form-item>
          </el-col>
        </el-row>
-
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="标签" prop="incomeLabelName">
-            <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
-              <el-option
-                v-for="item in labelOptions"
-                :key="parseInt(item.labelId)"
-                :label="item.labelCname"
-                :value="item.labelCname">
-                <span style="float: left">{{ item.labelCname }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.labelEname}}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16" >
-          <el-form-item label="标签" prop="incomeLabelId">
-            <el-tag
-              size="medium"
-              style="margin-left: 5px; margin-top:4px;"
-              v-for="item in labelOptions"
-              :key="item.labelCname"
-              type='info'
-              effect="plain"
-            >
-            {{ item.labelCname }}
-            </el-tag>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
 
       <el-row>
         <el-col :span="8">
@@ -573,7 +554,6 @@ export default {
       projectOptions: [],
       //天气
       weatherOptions: [],
-
       // 日期选择
       pickerOptions: {
         shortcuts: [{
@@ -654,6 +634,24 @@ export default {
       rules: {
         incomeType: [
           { required: true, message: "类型不能为空", trigger: "blur" }
+        ],
+        incomeDatetime: [
+          { required: true, message: "时间不能为空", trigger: "blur" }
+        ],
+        incomeMoneyId: [
+          { required: true, message: "币种不能为空", trigger: "blur" }
+        ],
+        incomeAccountId: [
+          { required: true, message: "账户不能为空", trigger: "change" }
+        ],
+        incomeCategoryId: [
+          { required: true, message: "分类不能为空", trigger: "change" }
+        ],
+        incomeEntityId: [
+          { required: true, message: "主体不能为空", trigger: "change" }
+        ],
+        incomeProjectId: [
+          { required: true, message: "项目不能为空", trigger: "change" }
         ]
       }
     };
