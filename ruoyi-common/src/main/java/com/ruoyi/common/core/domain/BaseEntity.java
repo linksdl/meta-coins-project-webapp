@@ -51,7 +51,7 @@ public class BaseEntity implements Serializable
 
     /** 记录是否被删除 default value 0 */
     @Column(name="is_deleted")
-    private String isDeleted;
+    private Integer isDeleted;
 
     /** 请求参数 */
     private Map<String, Object> params;
@@ -130,12 +130,12 @@ public class BaseEntity implements Serializable
         this.params = params;
     }
 
-    public String getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
 
-    public void setIsDeleted(String isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

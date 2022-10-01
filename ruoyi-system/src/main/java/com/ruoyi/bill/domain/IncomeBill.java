@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.TreeEntity;
+import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 收入账单对象 bill_income
@@ -13,7 +13,7 @@ import com.ruoyi.common.core.domain.TreeEntity;
  * @author metacoin
  * @date 2022-10-01
  */
-public class IncomeBill extends TreeEntity
+public class IncomeBill extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -69,46 +69,39 @@ public class IncomeBill extends TreeEntity
     private Long incomeBookId;
 
     /** 账本名 */
-    @Excel(name = "账本名")
     private String incomeBookName;
 
     /** 账户ID */
     private Long incomeAccountId;
 
     /** 账户名 */
-    @Excel(name = "账户名")
     private String incomeAccountName;
 
     /** 分类ID */
     private Long incomeCategoryId;
 
     /** 分类名 */
-    @Excel(name = "分类名")
     private String incomeCategoryName;
 
     /** 城市ID */
     private Long incomeCityId;
 
     /** 城市名 */
-    @Excel(name = "城市名")
     private String incomeCityName;
 
     /** 心情ID */
     private Long incomeEmotionId;
 
     /** 心情名 */
-    @Excel(name = "心情名")
     private String incomeEmotionName;
 
     /** 主体ID */
     private Long incomeEnterpriseId;
 
     /** 主体名 */
-    @Excel(name = "主体名")
     private String incomeEnterpriseName;
 
     /** 地址 */
-    @Excel(name = "地址")
     private String incomeAddress;
 
     /** 标签ID */
@@ -150,7 +143,6 @@ public class IncomeBill extends TreeEntity
     private Long incomeUserId;
 
     /** 用户名 */
-    @Excel(name = "用户名")
     private String incomeUserName;
 
     /** 国家 */
@@ -191,6 +183,9 @@ public class IncomeBill extends TreeEntity
 
     /** 区间 */
     private String incomePeriod;
+
+    /** 是否删除 */
+    private Integer isDeleted;
 
     public void setIncomeId(Long incomeId) 
     {
@@ -650,6 +645,15 @@ public class IncomeBill extends TreeEntity
     public String getIncomePeriod() 
     {
         return incomePeriod;
+    }
+    public void setIsDeleted(Integer isDeleted) 
+    {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getIsDeleted() 
+    {
+        return isDeleted;
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.bill.domain.IncomeBill;
 import com.ruoyi.bill.service.IIncomeBillService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 收入账单Controller
@@ -38,10 +39,11 @@ public class IncomeBillController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('bill:income:list')")
     @GetMapping("/list")
-    public AjaxResult list(IncomeBill incomeBill)
+    public TableDataInfo list(IncomeBill incomeBill)
     {
+        startPage();
         List<IncomeBill> list = incomeBillService.selectIncomeBillList(incomeBill);
-        return AjaxResult.success(list);
+        return getDataTable(list);
     }
 
     /**

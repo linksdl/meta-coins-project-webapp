@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.IncomeBillMapper">
+    
+    <resultMap type="IncomeBill" id="IncomeBillResult">
+        <result property="incomeId"    column="income_id"    />
+        <result property="incomeName"    column="income_name"    />
+        <result property="incomeType"    column="income_type"    />
+        <result property="incomeAmount"    column="income_amount"    />
+        <result property="incomeDatetime"    column="income_datetime"    />
+        <result property="incomeDesc"    column="income_desc"    />
+        <result property="incomeImgs"    column="income_imgs"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="weight"    column="weight"    />
+        <result property="incomeParentId"    column="income_parent_id"    />
+        <result property="incomeParentName"    column="income_parent_name"    />
+        <result property="incomeBookId"    column="income_book_id"    />
+        <result property="incomeBookName"    column="income_book_name"    />
+        <result property="incomeAccountId"    column="income_account_id"    />
+        <result property="incomeAccountName"    column="income_account_name"    />
+        <result property="incomeCategoryId"    column="income_category_id"    />
+        <result property="incomeCategoryName"    column="income_category_name"    />
+        <result property="incomeCityId"    column="income_city_id"    />
+        <result property="incomeCityName"    column="income_city_name"    />
+        <result property="incomeEmotionId"    column="income_emotion_id"    />
+        <result property="incomeEmotionName"    column="income_emotion_name"    />
+        <result property="incomeEnterpriseId"    column="income_enterprise_id"    />
+        <result property="incomeEnterpriseName"    column="income_enterprise_name"    />
+        <result property="incomeAddress"    column="income_address"    />
+        <result property="incomeLabelId"    column="income_label_id"    />
+        <result property="incomeLabelName"    column="income_label_name"    />
+        <result property="incomeMemberId"    column="income_member_id"    />
+        <result property="incomeMemberName"    column="income_member_name"    />
+        <result property="incomeMoneyId"    column="income_money_id"    />
+        <result property="incomeMoneyName"    column="income_money_name"    />
+        <result property="incomeProjectId"    column="income_project_id"    />
+        <result property="incomeProjectName"    column="income_project_name"    />
+        <result property="incomeWeatherId"    column="income_weather_id"    />
+        <result property="incomeWeatherName"    column="income_weather_name"    />
+        <result property="incomeUserId"    column="income_user_id"    />
+        <result property="incomeUserName"    column="income_user_name"    />
+        <result property="incomeCountry"    column="income_country"    />
+        <result property="incomeProvince"    column="income_province"    />
+        <result property="incomeCounty"    column="income_county"    />
+        <result property="incomeCity"    column="income_city"    />
+        <result property="incomeStreet"    column="income_street"    />
+        <result property="incomeDate"    column="income_date"    />
+        <result property="incomeYear"    column="income_year"    />
+        <result property="incomeQuarter"    column="income_quarter"    />
+        <result property="incomeMonth"    column="income_month"    />
+        <result property="incomeYearWeek"    column="income_year_week"    />
+        <result property="incomeWeek"    column="income_week"    />
+        <result property="incomeDay"    column="income_day"    />
+        <result property="incomePeriod"    column="income_period"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectIncomeBillVo">
+        select income_id, income_name, income_type, income_amount, income_datetime, income_desc, income_imgs, enable_status, icon, remark, order_sort, weight, income_parent_id, income_parent_name, income_book_id, income_book_name, income_account_id, income_account_name, income_category_id, income_category_name, income_city_id, income_city_name, income_emotion_id, income_emotion_name, income_enterprise_id, income_enterprise_name, income_address, income_label_id, income_label_name, income_member_id, income_member_name, income_money_id, income_money_name, income_project_id, income_project_name, income_weather_id, income_weather_name, income_user_id, income_user_name, income_country, income_province, income_county, income_city, income_street, income_date, income_year, income_quarter, income_month, income_year_week, income_week, income_day, income_period, create_by, create_time, update_by, update_time, is_deleted from bill_income
+    </sql>
+
+    <select id="selectIncomeBillAll" resultMap="IncomeBillResult">
+		<include refid="selectIncomeBillVo"/>
+	</select>
+
+    <select id="selectIncomeBillList" parameterType="IncomeBill" resultMap="IncomeBillResult">
+        <include refid="selectIncomeBillVo"/>
+        <where>  
+            <if test="incomeName != null  and incomeName != ''"> and income_name like concat('%', #{incomeName}, '%')</if>
+            <if test="incomeDatetime != null "> and income_datetime = #{incomeDatetime}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectIncomeBillByIncomeId" parameterType="Long" resultMap="IncomeBillResult">
+        <include refid="selectIncomeBillVo"/>
+        where income_id = #{incomeId}
+    </select>
+        
+    <insert id="insertIncomeBill" parameterType="IncomeBill" useGeneratedKeys="true" keyProperty="incomeId">
+        insert into bill_income
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="incomeName != null">income_name,</if>
+            <if test="incomeType != null">income_type,</if>
+            <if test="incomeAmount != null">income_amount,</if>
+            <if test="incomeDatetime != null">income_datetime,</if>
+            <if test="incomeDesc != null">income_desc,</if>
+            <if test="incomeImgs != null">income_imgs,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="weight != null">weight,</if>
+            <if test="incomeParentId != null">income_parent_id,</if>
+            <if test="incomeParentName != null">income_parent_name,</if>
+            <if test="incomeBookId != null">income_book_id,</if>
+            <if test="incomeBookName != null">income_book_name,</if>
+            <if test="incomeAccountId != null">income_account_id,</if>
+            <if test="incomeAccountName != null">income_account_name,</if>
+            <if test="incomeCategoryId != null">income_category_id,</if>
+            <if test="incomeCategoryName != null">income_category_name,</if>
+            <if test="incomeCityId != null">income_city_id,</if>
+            <if test="incomeCityName != null">income_city_name,</if>
+            <if test="incomeEmotionId != null">income_emotion_id,</if>
+            <if test="incomeEmotionName != null">income_emotion_name,</if>
+            <if test="incomeEnterpriseId != null">income_enterprise_id,</if>
+            <if test="incomeEnterpriseName != null">income_enterprise_name,</if>
+            <if test="incomeAddress != null">income_address,</if>
+            <if test="incomeLabelId != null">income_label_id,</if>
+            <if test="incomeLabelName != null">income_label_name,</if>
+            <if test="incomeMemberId != null">income_member_id,</if>
+            <if test="incomeMemberName != null">income_member_name,</if>
+            <if test="incomeMoneyId != null">income_money_id,</if>
+            <if test="incomeMoneyName != null">income_money_name,</if>
+            <if test="incomeProjectId != null">income_project_id,</if>
+            <if test="incomeProjectName != null">income_project_name,</if>
+            <if test="incomeWeatherId != null">income_weather_id,</if>
+            <if test="incomeWeatherName != null">income_weather_name,</if>
+            <if test="incomeUserId != null">income_user_id,</if>
+            <if test="incomeUserName != null">income_user_name,</if>
+            <if test="incomeCountry != null">income_country,</if>
+            <if test="incomeProvince != null">income_province,</if>
+            <if test="incomeCounty != null">income_county,</if>
+            <if test="incomeCity != null">income_city,</if>
+            <if test="incomeStreet != null">income_street,</if>
+            <if test="incomeDate != null">income_date,</if>
+            <if test="incomeYear != null">income_year,</if>
+            <if test="incomeQuarter != null">income_quarter,</if>
+            <if test="incomeMonth != null">income_month,</if>
+            <if test="incomeYearWeek != null">income_year_week,</if>
+            <if test="incomeWeek != null">income_week,</if>
+            <if test="incomeDay != null">income_day,</if>
+            <if test="incomePeriod != null">income_period,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="incomeName != null">#{incomeName},</if>
+            <if test="incomeType != null">#{incomeType},</if>
+            <if test="incomeAmount != null">#{incomeAmount},</if>
+            <if test="incomeDatetime != null">#{incomeDatetime},</if>
+            <if test="incomeDesc != null">#{incomeDesc},</if>
+            <if test="incomeImgs != null">#{incomeImgs},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="incomeParentId != null">#{incomeParentId},</if>
+            <if test="incomeParentName != null">#{incomeParentName},</if>
+            <if test="incomeBookId != null">#{incomeBookId},</if>
+            <if test="incomeBookName != null">#{incomeBookName},</if>
+            <if test="incomeAccountId != null">#{incomeAccountId},</if>
+            <if test="incomeAccountName != null">#{incomeAccountName},</if>
+            <if test="incomeCategoryId != null">#{incomeCategoryId},</if>
+            <if test="incomeCategoryName != null">#{incomeCategoryName},</if>
+            <if test="incomeCityId != null">#{incomeCityId},</if>
+            <if test="incomeCityName != null">#{incomeCityName},</if>
+            <if test="incomeEmotionId != null">#{incomeEmotionId},</if>
+            <if test="incomeEmotionName != null">#{incomeEmotionName},</if>
+            <if test="incomeEnterpriseId != null">#{incomeEnterpriseId},</if>
+            <if test="incomeEnterpriseName != null">#{incomeEnterpriseName},</if>
+            <if test="incomeAddress != null">#{incomeAddress},</if>
+            <if test="incomeLabelId != null">#{incomeLabelId},</if>
+            <if test="incomeLabelName != null">#{incomeLabelName},</if>
+            <if test="incomeMemberId != null">#{incomeMemberId},</if>
+            <if test="incomeMemberName != null">#{incomeMemberName},</if>
+            <if test="incomeMoneyId != null">#{incomeMoneyId},</if>
+            <if test="incomeMoneyName != null">#{incomeMoneyName},</if>
+            <if test="incomeProjectId != null">#{incomeProjectId},</if>
+            <if test="incomeProjectName != null">#{incomeProjectName},</if>
+            <if test="incomeWeatherId != null">#{incomeWeatherId},</if>
+            <if test="incomeWeatherName != null">#{incomeWeatherName},</if>
+            <if test="incomeUserId != null">#{incomeUserId},</if>
+            <if test="incomeUserName != null">#{incomeUserName},</if>
+            <if test="incomeCountry != null">#{incomeCountry},</if>
+            <if test="incomeProvince != null">#{incomeProvince},</if>
+            <if test="incomeCounty != null">#{incomeCounty},</if>
+            <if test="incomeCity != null">#{incomeCity},</if>
+            <if test="incomeStreet != null">#{incomeStreet},</if>
+            <if test="incomeDate != null">#{incomeDate},</if>
+            <if test="incomeYear != null">#{incomeYear},</if>
+            <if test="incomeQuarter != null">#{incomeQuarter},</if>
+            <if test="incomeMonth != null">#{incomeMonth},</if>
+            <if test="incomeYearWeek != null">#{incomeYearWeek},</if>
+            <if test="incomeWeek != null">#{incomeWeek},</if>
+            <if test="incomeDay != null">#{incomeDay},</if>
+            <if test="incomePeriod != null">#{incomePeriod},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIncomeBill" parameterType="IncomeBill">
+        update bill_income
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="incomeName != null">income_name = #{incomeName},</if>
+            <if test="incomeType != null">income_type = #{incomeType},</if>
+            <if test="incomeAmount != null">income_amount = #{incomeAmount},</if>
+            <if test="incomeDatetime != null">income_datetime = #{incomeDatetime},</if>
+            <if test="incomeDesc != null">income_desc = #{incomeDesc},</if>
+            <if test="incomeImgs != null">income_imgs = #{incomeImgs},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="incomeParentId != null">income_parent_id = #{incomeParentId},</if>
+            <if test="incomeParentName != null">income_parent_name = #{incomeParentName},</if>
+            <if test="incomeBookId != null">income_book_id = #{incomeBookId},</if>
+            <if test="incomeBookName != null">income_book_name = #{incomeBookName},</if>
+            <if test="incomeAccountId != null">income_account_id = #{incomeAccountId},</if>
+            <if test="incomeAccountName != null">income_account_name = #{incomeAccountName},</if>
+            <if test="incomeCategoryId != null">income_category_id = #{incomeCategoryId},</if>
+            <if test="incomeCategoryName != null">income_category_name = #{incomeCategoryName},</if>
+            <if test="incomeCityId != null">income_city_id = #{incomeCityId},</if>
+            <if test="incomeCityName != null">income_city_name = #{incomeCityName},</if>
+            <if test="incomeEmotionId != null">income_emotion_id = #{incomeEmotionId},</if>
+            <if test="incomeEmotionName != null">income_emotion_name = #{incomeEmotionName},</if>
+            <if test="incomeEnterpriseId != null">income_enterprise_id = #{incomeEnterpriseId},</if>
+            <if test="incomeEnterpriseName != null">income_enterprise_name = #{incomeEnterpriseName},</if>
+            <if test="incomeAddress != null">income_address = #{incomeAddress},</if>
+            <if test="incomeLabelId != null">income_label_id = #{incomeLabelId},</if>
+            <if test="incomeLabelName != null">income_label_name = #{incomeLabelName},</if>
+            <if test="incomeMemberId != null">income_member_id = #{incomeMemberId},</if>
+            <if test="incomeMemberName != null">income_member_name = #{incomeMemberName},</if>
+            <if test="incomeMoneyId != null">income_money_id = #{incomeMoneyId},</if>
+            <if test="incomeMoneyName != null">income_money_name = #{incomeMoneyName},</if>
+            <if test="incomeProjectId != null">income_project_id = #{incomeProjectId},</if>
+            <if test="incomeProjectName != null">income_project_name = #{incomeProjectName},</if>
+            <if test="incomeWeatherId != null">income_weather_id = #{incomeWeatherId},</if>
+            <if test="incomeWeatherName != null">income_weather_name = #{incomeWeatherName},</if>
+            <if test="incomeUserId != null">income_user_id = #{incomeUserId},</if>
+            <if test="incomeUserName != null">income_user_name = #{incomeUserName},</if>
+            <if test="incomeCountry != null">income_country = #{incomeCountry},</if>
+            <if test="incomeProvince != null">income_province = #{incomeProvince},</if>
+            <if test="incomeCounty != null">income_county = #{incomeCounty},</if>
+            <if test="incomeCity != null">income_city = #{incomeCity},</if>
+            <if test="incomeStreet != null">income_street = #{incomeStreet},</if>
+            <if test="incomeDate != null">income_date = #{incomeDate},</if>
+            <if test="incomeYear != null">income_year = #{incomeYear},</if>
+            <if test="incomeQuarter != null">income_quarter = #{incomeQuarter},</if>
+            <if test="incomeMonth != null">income_month = #{incomeMonth},</if>
+            <if test="incomeYearWeek != null">income_year_week = #{incomeYearWeek},</if>
+            <if test="incomeWeek != null">income_week = #{incomeWeek},</if>
+            <if test="incomeDay != null">income_day = #{incomeDay},</if>
+            <if test="incomePeriod != null">income_period = #{incomePeriod},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where income_id = #{incomeId}
+    </update>
+
+    <delete id="deleteIncomeBillByIncomeId" parameterType="Long">
+        delete from bill_income where income_id = #{incomeId}
+    </delete>
+
+    <delete id="deleteIncomeBillByIncomeIds" parameterType="String">
+        delete from bill_income where income_id in 
+        <foreach item="incomeId" collection="array" open="(" separator="," close=")">
+            #{incomeId}
+        </foreach>
+    </delete>
+</mapper>
