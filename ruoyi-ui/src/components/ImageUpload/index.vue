@@ -19,7 +19,7 @@
     >
       <i class="el-icon-plus"></i>
     </el-upload>
-    
+
     <!-- 上传提示 -->
     <div class="el-upload__tip" slot="tip" v-if="showTip">
       请上传
@@ -51,7 +51,7 @@ export default {
     // 图片数量限制
     limit: {
       type: Number,
-      default: 5,
+      default: 6,
     },
     // 大小限制(MB)
     fileSize: {
