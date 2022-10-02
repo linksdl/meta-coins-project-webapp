@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectCategoryAll" parameterType="Category" resultMap="CategoryResult">
 		<include refid="selectCategoryVo"/>
         <where>
+            <if test="categoryScope != null  and categoryScope != ''"> and category_scope like concat('%', #{categoryScope}, '%')</if>
             <if test="categoryType != null  and categoryType != ''"> and category_type = #{categoryType}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>

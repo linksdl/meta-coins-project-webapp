@@ -98,7 +98,7 @@ public class CityServiceImpl implements ICityService
     }
 
     @Override
-    public List<City> selectCityAll() {
-        return cityMapper.selectCityAll();
+    public List<City> selectCityAll(City params) {
+        return cityMapper.selectCityAll(params);
     }
 }

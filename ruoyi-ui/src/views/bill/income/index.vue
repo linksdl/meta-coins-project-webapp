@@ -352,8 +352,8 @@
 
        <el-row>
          <el-col :span="24">
-          <el-form-item label="城市" prop="incomeCityId">
-            <el-radio-group v-model="form.incomeCityId" placeholder="请选择城市名">
+          <el-form-item label="城市" prop="incomeCityName">
+            <el-radio-group v-model="form.incomeCityName" placeholder="请选择城市名">
               <el-radio-button
                 v-for="item in cityOptions"
                 :key="item.cityId"
@@ -369,28 +369,28 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="标签" prop="incomeLabelId">
-            <el-select v-model="form.incomeLabelId" placeholder="请选择标签">
+            <el-select v-model="form.incomeLabelId" multiple placeholder="请选择标签">
               <el-option
                 v-for="item in labelOptions"
-                :key="item.labelId"
+                :key="parseInt(item.labelId)"
                 :label="item.labelCname"
-                :value="item.labelId">
+                :value="parseInt(item.labelId)">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="16" >
           <el-form-item label="标签" prop="incomeLabelId">
-          <el-tag
-            size="medium"
-            style="margin-left: 5px; margin-top:4px;"
-            v-for="item in labelOptions"
-            :key="item.labelId"
-            :type="item.labelCname"
-            effect="plain"
-          >
+            <el-tag
+              size="medium"
+              style="margin-left: 5px; margin-top:4px;"
+              v-for="item in labelOptions"
+              :key="item.labelCname"
+              type='info'
+              effect="plain"
+            >
             {{ item.labelCname }}
-          </el-tag>
+            </el-tag>
           </el-form-item>
         </el-col>
       </el-row>
@@ -404,7 +404,7 @@
                 v-for="item in memberOptions"
                 :key="item.memberId"
                 :label="item.memberName"
-                :value="item.memberName">
+                :value="item.memberId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -416,8 +416,8 @@
             size="medium"
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in memberOptions"
-            :key="item.memberId"
-            :type="item.memberName"
+            :key="item.memberName"
+            type='danger'
             effect="light">
             {{ item.memberName }}
           </el-tag>
@@ -442,7 +442,7 @@
               v-for="item in emotionOptions"
               :key="item.emotionId"
               :label="item.emotionCname"
-              :value="item.emotionCname">
+              :value="item.emotionId">
             </el-option>
           </el-select>
         </el-form-item>
@@ -454,8 +454,8 @@
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in emotionOptions"
             :key="item.emotionId"
-            :type="item.emotionCname"
-            effect="light">
+            type='success'
+            effect="dark">
             {{ item.emotionCname }}
           </el-tag>
           </el-form-item>
@@ -472,7 +472,7 @@
               v-for="item in weatherOptions"
               :key="item.weatherId"
               :label="item.weatherCname"
-              :value="item.weatherCname">
+              :value="item.weatherId">
             </el-option>
           </el-select>
         </el-form-item>
@@ -485,8 +485,8 @@
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in weatherOptions"
             :key="item.weatherId"
-            :type="item.weatherCname"
-            effect="light">
+            type='success'
+            effect="plain">
             {{ item.weatherCname }}
           </el-tag>
           </el-form-item>
@@ -639,7 +639,8 @@ export default {
         accountType: 'income',
         moneyScope: 'income',
         enterpriseScope: 'income',
-        projectScope: 'income'
+        projectScope: 'income',
+        categoryScope: 'income'
       },
       // 表单参数
       form: {},
@@ -679,6 +680,12 @@ export default {
       getProjectOptionSelect(this.queryParams).then(response => {
         this.projectOptions = response.data;
       });
+
+      this.queryParams.categoryScope=val;
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+
     },
     /** 选择收入账单图标 */
     selected(name) {
@@ -780,7 +787,7 @@ export default {
         incomeDatetime: null,
         incomeDesc: null,
         incomeImgs: null,
-        enableStatus: 0,
+        enableStatus: 1,
         icon: null,
         remark: null,
         orderSort: null,
@@ -789,9 +796,9 @@ export default {
         incomeParentName: null,
         incomeBookId: null,
         incomeBookName: null,
-        incomeAccountId: null,
+        incomeAccountId: [],
         incomeAccountName: null,
-        incomeCategoryId: null,
+        incomeCategoryId: [],
         incomeCategoryName: null,
         incomeCityId: null,
         incomeCityName: null,
@@ -800,7 +807,7 @@ export default {
         incomeEntityId: null,
         incomeEntityName: null,
         incomeAddress: null,
-        incomeLabelId: null,
+        incomeLabelId: [],
         incomeLabelName: null,
         incomeMemberId: null,
         incomeMemberName: null,
@@ -854,8 +861,6 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加收入账单";
-      this.form.incomeType = 'income';
-      this.form.incomeCityId = '北京';
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -863,6 +868,9 @@ export default {
       const incomeId = row.incomeId || this.ids
       getIncome(incomeId).then(response => {
         this.form = response.data;
+        this.form.incomeLabelId = this.form.incomeLabelId.split(",");
+        this.form.incomeAccountId = this.form.incomeAccountId.split(",");
+        this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
         this.open = true;
         this.title = "修改收入账单";
       });
@@ -870,6 +878,9 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
+        this.form.incomeLabelId = this.form.incomeLabelId.join(",");
+        this.form.incomeAccountId = this.form.incomeAccountId.join(",");
+        this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
         if (valid) {
           if (this.form.incomeId != null) {
             updateIncome(this.form).then(response => {

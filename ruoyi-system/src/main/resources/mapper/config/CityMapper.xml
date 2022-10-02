@@ -28,6 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectCityAll" resultMap="CityResult">
 		<include refid="selectCityVo"/>
+        <where>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+        order by order_sort asc
 	</select>
 
     <select id="selectCityList" parameterType="City" resultMap="CityResult">

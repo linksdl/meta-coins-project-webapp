@@ -64,7 +64,7 @@ public interface ICityService
      *
      * @return 结果
      */
-    public List<City> selectCityAll();
+    public List<City> selectCityAll(City params);
 
 
 

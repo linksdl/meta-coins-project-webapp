@@ -72,13 +72,13 @@ public class IncomeBill extends BaseEntity
     private String incomeBookName;
 
     /** 账户ID */
-    private Long incomeAccountId;
+    private String incomeAccountId;
 
     /** 账户名 */
     private String incomeAccountName;
 
     /** 分类ID */
-    private Long incomeCategoryId;
+    private String incomeCategoryId;
 
     /** 分类名 */
     private String incomeCategoryName;
@@ -104,8 +104,8 @@ public class IncomeBill extends BaseEntity
     /** 地址 */
     private String incomeAddress;
 
-    /** 标签ID */
-    private Long incomeLabelId;
+    /** 标签ID 列表 */
+    private String incomeLabelId;
 
     /** 标签名 */
     @Excel(name = "标签名")
@@ -322,12 +322,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeBookName;
     }
-    public void setIncomeAccountId(Long incomeAccountId) 
+    public void setIncomeAccountId(String incomeAccountId)
     {
         this.incomeAccountId = incomeAccountId;
     }
 
-    public Long getIncomeAccountId() 
+    public String getIncomeAccountId()
     {
         return incomeAccountId;
     }
@@ -340,12 +340,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeAccountName;
     }
-    public void setIncomeCategoryId(Long incomeCategoryId) 
+    public void setIncomeCategoryId(String incomeCategoryId)
     {
         this.incomeCategoryId = incomeCategoryId;
     }
 
-    public Long getIncomeCategoryId() 
+    public String getIncomeCategoryId()
     {
         return incomeCategoryId;
     }
@@ -421,12 +421,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeAddress;
     }
-    public void setIncomeLabelId(Long incomeLabelId) 
+    public void setIncomeLabelId(String incomeLabelId)
     {
         this.incomeLabelId = incomeLabelId;
     }
 
-    public Long getIncomeLabelId() 
+    public String getIncomeLabelId()
     {
         return incomeLabelId;
     }

@@ -64,5 +64,5 @@ public interface CityMapper
      *
      * @return 城市集合信息
      */
-    public List<City> selectCityAll();
+    public List<City> selectCityAll(City params);
 }

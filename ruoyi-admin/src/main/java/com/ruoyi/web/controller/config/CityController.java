@@ -113,7 +113,12 @@ public class CityController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(City params)
     {
-        List<City> list = cityService.selectCityAll();
+        // params
+
+        List<City> list = cityService.selectCityAll(params);
+        for(City city:list){
+            city.setDisabled(city.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 
