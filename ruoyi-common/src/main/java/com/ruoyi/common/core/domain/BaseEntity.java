@@ -49,6 +49,10 @@ public class BaseEntity implements Serializable
     @Column(name="remark")
     private String remark;
 
+    /** 记录是否被删除 default value 0 */
+    @Column(name="is_deleted")
+    private String isDeleted;
+
     /** 请求参数 */
     private Map<String, Object> params;
 
@@ -124,5 +128,14 @@ public class BaseEntity implements Serializable
     public void setParams(Map<String, Object> params)
     {
         this.params = params;
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
+
+
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }
