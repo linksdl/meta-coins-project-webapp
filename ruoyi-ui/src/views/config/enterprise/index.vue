@@ -175,10 +175,18 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
            <el-col :span="12">
-              <el-form-item label="名称" prop="enterpriseName">
-                <el-input v-model="form.enterpriseName" placeholder="请输入商家名称" />
-              </el-form-item>
-           </el-col>
+             <el-form-item label="名称" prop="enterpriseName" >
+              <el-autocomplete
+                class="inline-input"
+                v-model="form.enterpriseName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="true"
+                placeholder="请输入商家（实体）名称"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-form-item>
+          </el-col>
+
            <el-col :span="12">
               <el-form-item label="类型" prop="enterpriseTypeId">
                 <el-select v-model="form.enterpriseTypeId" placeholder="请选择商家类型">
@@ -329,6 +337,7 @@ export default {
       },
       // 表单参数
       form: {},
+      entities: [],
       // 表单校验
       rules: {
         enterpriseName: [
@@ -352,6 +361,7 @@ export default {
   created() {
     this.getList();
     this.getEnterpriseTypeList();
+    this.getListAll();
   },
   methods: {
     /** 选择商家管理图标 */
@@ -366,6 +376,13 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    /** 查询所有实体列表 */
+    getListAll() {
+        this.queryParams.pageSize=1000;
+        listEnterprise(this.queryParams).then(response => {
+          this.entities = response.rows;
+        });
     },
     /** 查询商家类型列表 */
     getEnterpriseTypeList() {
@@ -410,6 +427,23 @@ export default {
     handleQuery() {
       this.queryParams.pageNum = 1;
       this.getList();
+    },
+    /** 搜索操作 */
+    querySearch(queryString, cb) {
+        var entities = this.entities;
+        var results = queryString ? entities.filter(this.createFilter(queryString)) : entities;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+     createFilter(queryString) {
+        return (item) => {
+           return item.value.toUpperCase().match(queryString.toUpperCase());
+           // 第一个匹配
+           //return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+    },
+    handleSelect(item) {
+        console.log(item);
     },
     /** 重置按钮操作 */
     resetQuery() {

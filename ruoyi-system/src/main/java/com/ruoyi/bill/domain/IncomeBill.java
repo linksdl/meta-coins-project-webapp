@@ -30,7 +30,7 @@ public class IncomeBill extends BaseEntity
 
     /** 收入金额 */
     @Excel(name = "收入金额")
-    private Long incomeAmount;
+    private Double incomeAmount;
 
     /** 收入日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -66,7 +66,7 @@ public class IncomeBill extends BaseEntity
     private String incomeParentName;
 
     /** 账本ID */
-    private Long incomeBookId;
+    private String incomeBookId;
 
     /** 账本名 */
     private String incomeBookName;
@@ -84,19 +84,19 @@ public class IncomeBill extends BaseEntity
     private String incomeCategoryName;
 
     /** 城市ID */
-    private Long incomeCityId;
+    private String incomeCityId;
 
     /** 城市名 */
     private String incomeCityName;
 
     /** 心情ID */
-    private Long incomeEmotionId;
+    private String incomeEmotionId;
 
     /** 心情名 */
     private String incomeEmotionName;
 
     /** 主体ID */
-    private Long incomeEntityId;
+    private String incomeEntityId;
 
     /** 主体名 */
     private String incomeEntityName;
@@ -112,35 +112,35 @@ public class IncomeBill extends BaseEntity
     private String incomeLabelName;
 
     /** 成员ID */
-    private Long incomeMemberId;
+    private String incomeMemberId;
 
     /** 成员名 */
     @Excel(name = "成员名")
     private String incomeMemberName;
 
     /** 币种ID */
-    private Long incomeMoneyId;
+    private String incomeMoneyId;
 
     /** 币种名 */
     @Excel(name = "币种名")
     private String incomeMoneyName;
 
     /** 项目ID */
-    private Long incomeProjectId;
+    private String incomeProjectId;
 
     /** 项目名 */
     @Excel(name = "项目名")
     private String incomeProjectName;
 
     /** 天气ID */
-    private Long incomeWeatherId;
+    private String incomeWeatherId;
 
     /** 天气名 */
     @Excel(name = "天气名")
     private String incomeWeatherName;
 
     /** 用户ID */
-    private Long incomeUserId;
+    private String incomeUserId;
 
     /** 用户名 */
     private String incomeUserName;
@@ -214,12 +214,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeType;
     }
-    public void setIncomeAmount(Long incomeAmount) 
+    public void setIncomeAmount(Double incomeAmount)
     {
         this.incomeAmount = incomeAmount;
     }
 
-    public Long getIncomeAmount() 
+    public Double getIncomeAmount()
     {
         return incomeAmount;
     }
@@ -304,12 +304,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeParentName;
     }
-    public void setIncomeBookId(Long incomeBookId) 
+    public void setIncomeBookId(String incomeBookId)
     {
         this.incomeBookId = incomeBookId;
     }
 
-    public Long getIncomeBookId() 
+    public String getIncomeBookId()
     {
         return incomeBookId;
     }
@@ -358,12 +358,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeCategoryName;
     }
-    public void setIncomeCityId(Long incomeCityId) 
+    public void setIncomeCityId(String incomeCityId)
     {
         this.incomeCityId = incomeCityId;
     }
 
-    public Long getIncomeCityId() 
+    public String getIncomeCityId()
     {
         return incomeCityId;
     }
@@ -376,12 +376,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeCityName;
     }
-    public void setIncomeEmotionId(Long incomeEmotionId) 
+    public void setIncomeEmotionId(String incomeEmotionId)
     {
         this.incomeEmotionId = incomeEmotionId;
     }
 
-    public Long getIncomeEmotionId() 
+    public String getIncomeEmotionId()
     {
         return incomeEmotionId;
     }
@@ -394,12 +394,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeEmotionName;
     }
-    public void setIncomeEntityId(Long incomeEntityId) 
+    public void setIncomeEntityId(String incomeEntityId)
     {
         this.incomeEntityId = incomeEntityId;
     }
 
-    public Long getIncomeEntityId() 
+    public String getIncomeEntityId()
     {
         return incomeEntityId;
     }
@@ -439,12 +439,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeLabelName;
     }
-    public void setIncomeMemberId(Long incomeMemberId) 
+    public void setIncomeMemberId(String incomeMemberId)
     {
         this.incomeMemberId = incomeMemberId;
     }
 
-    public Long getIncomeMemberId() 
+    public String getIncomeMemberId()
     {
         return incomeMemberId;
     }
@@ -457,12 +457,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeMemberName;
     }
-    public void setIncomeMoneyId(Long incomeMoneyId) 
+    public void setIncomeMoneyId(String incomeMoneyId)
     {
         this.incomeMoneyId = incomeMoneyId;
     }
 
-    public Long getIncomeMoneyId() 
+    public String getIncomeMoneyId()
     {
         return incomeMoneyId;
     }
@@ -475,12 +475,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeMoneyName;
     }
-    public void setIncomeProjectId(Long incomeProjectId) 
+    public void setIncomeProjectId(String incomeProjectId)
     {
         this.incomeProjectId = incomeProjectId;
     }
 
-    public Long getIncomeProjectId() 
+    public String getIncomeProjectId()
     {
         return incomeProjectId;
     }
@@ -493,12 +493,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeProjectName;
     }
-    public void setIncomeWeatherId(Long incomeWeatherId) 
+    public void setIncomeWeatherId(String incomeWeatherId)
     {
         this.incomeWeatherId = incomeWeatherId;
     }
 
-    public Long getIncomeWeatherId() 
+    public String getIncomeWeatherId()
     {
         return incomeWeatherId;
     }
@@ -511,12 +511,12 @@ public class IncomeBill extends BaseEntity
     {
         return incomeWeatherName;
     }
-    public void setIncomeUserId(Long incomeUserId) 
+    public void setIncomeUserId(String incomeUserId)
     {
         this.incomeUserId = incomeUserId;
     }
 
-    public Long getIncomeUserId() 
+    public String getIncomeUserId()
     {
         return incomeUserId;
     }

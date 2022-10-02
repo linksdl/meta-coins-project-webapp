@@ -225,50 +225,16 @@
     />
 
     <!-- 添加或修改收入账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="748px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="68px">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="8">
               <el-form-item label="名称" prop="incomeName">
                 <el-input clearable v-model="form.incomeName" placeholder="请输入收入名称" />
               </el-form-item>
             </el-col>
 
-
-
-          </el-row>
-
-          <el-row>
-           <el-col :span="12">
-            <el-form-item label="类型" prop="incomeType">
-              <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型" @change="handleIncomeTypeChange" >
-                <el-radio
-                  v-for="dict in dict.type.config_function_in"
-                  :key="dict.value"
-                  :label="dict.value"
-                  :value="dict.value">
-              {{dict.label}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-           </el-col>
-
-           <el-col :span="12">
-              <el-form-item label="币种" prop="incomeMoneyId">
-                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
-                  <el-radio-button
-                    v-for="item in moneyOptions"
-                    :label="item.moneyCname"
-                    :value="item.moneyId"
-                    :disabled="item.disabled">
-                  </el-radio-button>
-                </el-radio-group>
-              </el-form-item>
-           </el-col>
-
-          </el-row>
-
-          <el-row>
-            <el-col :span="12">
+            <el-col :span="16">
               <el-form-item label="时间" prop="incomeDatetime">
                 <el-date-picker
                   clearable
@@ -282,16 +248,47 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
+          </el-row>
 
-             <el-col :span="12">
+          <el-row>
+
+            <el-col :span="8">
               <el-form-item label="金额" prop="incomeAmount">
                 <el-input-number v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
+
+           <el-col :span="16">
+              <el-form-item label="币种" prop="incomeMoneyId">
+                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
+                  <el-radio-button
+                    v-for="item in moneyOptions"
+                    :label="item.moneyCname"
+                    :value="item.moneyId"
+                    :disabled="item.disabled">
+                  </el-radio-button>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="24">
+            <el-form-item label="类型" prop="incomeType">
+              <el-radio-group v-model="form.incomeType" placeholder="请选择收入类型" @change="handleIncomeTypeChange" >
+                <el-radio
+                  v-for="dict in dict.type.config_function_in"
+                  :key="dict.value"
+                  :label="dict.value"
+                  :value="dict.value">
+              {{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+           </el-col>
          </el-row>
 
           <el-row>
-           <el-col :span="12">
+           <el-col :span="8">
             <el-form-item label="分类" prop="incomeCategoryId">
                 <el-cascader
                   clearable
@@ -304,7 +301,7 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="12">
+           <el-col :span="16">
             <el-form-item label="账户" prop="incomeAccountId">
               <el-cascader
                   clearable
@@ -320,22 +317,52 @@
         </el-row>
 
         <el-row>
-          <el-col :span="12">
-              <el-form-item label="主体" clearable filterable prop="incomeEntityId">
-                <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
+          <el-col :span="8">
+              <el-form-item label="实体" clearable filterable prop="incomeEntityName">
+                <el-select v-model="form.incomeEntityName" filterable placeholder="请选择实体名称">
                   <el-option
                     v-for="item in enterpriseOptions"
                     :key="item.enterpriseId"
                     :label="item.enterpriseName"
-                    :value="item.enterpriseId"
+                    :value="item.enterpriseName"
                     :disabled="item.disabled">
                   </el-option>
                 </el-select>
               </el-form-item>
            </el-col>
 
-           <el-col :span="12">
-            <el-form-item label="项目" prop="incomeProjectName" >
+           <el-col :span="16">
+            <el-form-item label="实体" prop="incomeEntityName" >
+              <el-autocomplete
+                class="inline-input"
+                clearable
+                v-model="form.incomeEntityName"
+                :fetch-suggestions="querySearchEntity"
+                :trigger-on-focus="true"
+                placeholder="请输入实体名称"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+           <el-col :span="8">
+              <el-form-item label="项目" clearable filterable prop="incomeProjectName">
+                <el-select v-model="form.incomeProjectName" filterable placeholder="请选择项目名称">
+                  <el-option
+                    v-for="item in projectOptions"
+                    :key="item.projectId"
+                    :label="item.projectName"
+                    :value="item.projectName"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
+
+           <el-col :span="16">
+            <el-form-item label="项目" prop="incomeProjectName" style="width: 800px;" >
               <el-autocomplete
                 class="inline-input"
                 clearable
@@ -347,6 +374,7 @@
               ></el-autocomplete>
             </el-form-item>
           </el-col>
+
         </el-row>
 
         <el-row>
@@ -678,6 +706,7 @@ export default {
       // 表单参数
       form: {},
       projects: [],
+      entities: [],
       // 表单校验
       rules: {
         incomeType: [
@@ -695,14 +724,11 @@ export default {
         incomeCategoryId: [
           { required: true, message: "分类不能为空", trigger: "change" }
         ],
-        incomeEntityId: [
-          { required: true, message: "主体不能为空", trigger: "change" }
+        incomeEntityName: [
+          { required: true, message: "实体不能为空", trigger: "change" }
         ],
         incomeProjectName: [
           { required: true, message: "项目不能为空", trigger: "change" }
-        ],
-        incomeLabelName: [
-          { required: true, message: "标签不能为空", trigger: "change" }
         ],
         incomeAmount: [
           { required: true, message: "金额不能为空", trigger: "blur" }
@@ -829,6 +855,7 @@ export default {
     getEnterpriseList() {
       getEnterpriseOptionSelect(this.queryParams).then(response => {
         this.enterpriseOptions = response.data;
+        this.entities = response.data;
       });
     },
     /** 查询商品下拉 */
@@ -892,10 +919,10 @@ export default {
         incomeParentName: null,
         incomeBookId: null,
         incomeBookName: null,
-        incomeAccountId: [],
-        incomeAccountName: [],
-        incomeCategoryId: [],
-        incomeCategoryName: [],
+        incomeAccountId: null,
+        incomeAccountName: null,
+        incomeCategoryId: null,
+        incomeCategoryName: null,
         incomeCityId: null,
         incomeCityName: null,
         incomeEmotionId: null,
@@ -903,8 +930,8 @@ export default {
         incomeEntityId: null,
         incomeEntityName: null,
         incomeAddress: null,
-        incomeLabelId: [],
-        incomeLabelName: [],
+        incomeLabelId: null,
+        incomeLabelName: null,
         incomeMemberId: null,
         incomeMemberName: null,
         incomeMoneyId: null,
@@ -943,6 +970,12 @@ export default {
         // 调用 callback 返回建议列表的数据
         cb(results);
       },
+    querySearchEntity(queryString, cb) {
+        var entities = this.entities;
+        var results = queryString ? entities.filter(this.createFilter(queryString)) : entities;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+    },
      createFilter(queryString) {
         return (item) => {
            return item.value.toUpperCase().match(queryString.toUpperCase());
@@ -981,12 +1014,8 @@ export default {
       const incomeId = row.incomeId || this.ids
       getIncome(incomeId).then(response => {
         this.form = response.data;
-        this.form.incomeLabelId = this.form.incomeLabelId.split(",");
         this.form.incomeAccountId = this.form.incomeAccountId.split(",");
         this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
-        //this.form.incomeLabelName = this.form.incomeLabelName.split(",");
-        //this.form.incomeAccountName = this.form.incomeAccountName.split(",");
-        //this.form.incomeCategoryName = this.form.incomeCategoryName.split(",");
         this.open = true;
         this.title = "修改收入账单";
       });
@@ -994,13 +1023,12 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
-        this.form.incomeLabelId = this.form.incomeLabelId.join(",");
-        this.form.incomeAccountId = this.form.incomeAccountId.join(",");
-        this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
-        this.form.incomeLabelName = this.form.incomeLabelName.join(",");
-        this.form.incomeAccountName = this.form.incomeAccountName.join(",");
-        this.form.incomeCategoryName = this.form.incomeCategoryName.join(",");
         if (valid) {
+           //this.form.incomeLabelId = this.form.incomeLabelId.join(",");
+          this.form.incomeAccountId = this.form.incomeAccountId.join(",");
+          this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
+          this.form.incomeLabelName = null;
+        console.log(this.form);
           if (this.form.incomeId != null) {
             updateIncome(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
