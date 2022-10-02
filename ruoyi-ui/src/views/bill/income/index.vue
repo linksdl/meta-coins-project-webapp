@@ -648,7 +648,9 @@ export default {
         moneyScope: 'income',
         enterpriseScope: 'income',
         projectScope: 'income',
-        categoryScope: 'income'
+        categoryScope: 'income',
+        weatherScope: 'income',
+        emotionScope: 'income'
       },
       // 表单参数
       form: {},
@@ -702,6 +704,15 @@ export default {
         this.labelOptions = response.data;
       });
 
+      this.queryParams.weatherScope=val;
+      getWeatherOptionSelect(this.queryParams).then(response => {
+        this.weatherOptions = response.data;
+      });
+
+      this.queryParams.emotionScope=val;
+      getEmotionOptionSelect(this.queryParams).then(response => {
+        this.emotionOptions = response.data;
+      });
     },
     /** 选择收入账单图标 */
     selected(name) {

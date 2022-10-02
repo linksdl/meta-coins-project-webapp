@@ -64,7 +64,7 @@ public interface IEmotionService
      *
      * @return 结果
      */
-    public List<Emotion> selectEmotionAll();
+    public List<Emotion> selectEmotionAll(Emotion params);
 
 
 

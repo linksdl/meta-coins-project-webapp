@@ -96,7 +96,7 @@ public class EmotionServiceImpl implements IEmotionService
     }
 
     @Override
-    public List<Emotion> selectEmotionAll() {
-        return emotionMapper.selectEmotionAll();
+    public List<Emotion> selectEmotionAll(Emotion params) {
+        return emotionMapper.selectEmotionAll(params);
     }
 }

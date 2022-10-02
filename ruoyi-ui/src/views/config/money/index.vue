@@ -170,18 +170,18 @@
     <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="币种名称" prop="moneyCname">
-          <el-input v-model="form.moneyCname" placeholder="请输入币种" />
+        <el-form-item label="名称" prop="moneyCname">
+          <el-input v-model="form.moneyCname" placeholder="请输入币种中文名" />
         </el-form-item>
 
 
-        <el-form-item label="英文名" prop="moneyEname">
+        <el-form-item label="英文" prop="moneyEname">
           <el-input v-model="form.moneyEname" placeholder="请输入英文名" />
         </el-form-item>
 
         <el-row>
            <el-col :span="12">
-              <el-form-item label="币种类型" prop="moneyTypeId">
+              <el-form-item label="类型" prop="moneyTypeId">
                 <el-select v-model="form.moneyTypeId" placeholder="请选择币种类型名称">
                   <el-option
                     v-for="item in typeOptions"
@@ -204,7 +204,7 @@
           <el-input v-model="form.moneyDesc" placeholder="请输入描述" />
         </el-form-item>
 
-        <el-form-item label="功能范围">
+        <el-form-item label="功能范围" prop="moneyScope">
           <el-checkbox-group v-model="form.moneyScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -254,7 +254,7 @@
            </el-col>
 
            <el-col :span="12">
-              <el-form-item label="是否可用">
+              <el-form-item label="可用" prop="enableStatus">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -322,6 +322,21 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        moneyCname: [
+          { required: true, message: "中文名称不能为空", trigger: "blur" }
+        ],
+        moneyEname: [
+          { required: true, message: "英文名称不能为空",  trigger: "blur" }
+        ],
+        moneyTypeId: [
+          { required: true, message: "币种类型不能为空",  trigger: "change" }
+        ],
+        moneyScope: [
+          { required: true, message: "功能范围不能为空",  trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

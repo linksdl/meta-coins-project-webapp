@@ -125,18 +125,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -169,11 +157,15 @@
     <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="项目名称" prop="projectName">
+        <el-form-item label="名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
         </el-form-item>
 
-        <el-form-item label="功能类型">
+        <el-form-item label="描述" prop="projectDesc">
+          <el-input v-model="form.projectDesc" placeholder="请输入描述" />
+        </el-form-item>
+
+        <el-form-item label="功能类型" prop="projectType">
           <el-radio-group v-model="form.projectType">
               <el-radio
                 v-for="dict in dict.type.config_function_type"
@@ -185,7 +177,7 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="功能范围">
+        <el-form-item label="功能范围" prop="projectScope">
           <el-checkbox-group v-model="form.projectScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -193,10 +185,6 @@
               {{dict.label}}
             </el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="描述" prop="projectDesc">
-          <el-input v-model="form.projectDesc" placeholder="请输入描述" />
         </el-form-item>
 
         <el-row>
@@ -236,7 +224,7 @@
               </el-form-item>
            </el-col>
            <el-col :span="12">
-              <el-form-item label="是否可用">
+              <el-form-item label="可用" prop="enableStatus">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -300,6 +288,18 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        projectName: [
+          { required: true, message: "项目名称不能为空", trigger: "blur" }
+        ],
+        projectType: [
+          { required: true, message: "功能类型不能为空", trigger: "change" }
+        ],
+        projectScope: [
+          { required: true, message: "功能范围不能为空", trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

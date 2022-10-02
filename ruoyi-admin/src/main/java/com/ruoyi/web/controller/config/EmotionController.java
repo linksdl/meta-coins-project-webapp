@@ -113,7 +113,7 @@ public class EmotionController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Emotion params)
     {
-        List<Emotion> list = emotionService.selectEmotionAll();
+        List<Emotion> list = emotionService.selectEmotionAll(params);
         for(Emotion emotion:list){
             emotion.setDisabled(emotion.getEnableStatus() == 0);
         }

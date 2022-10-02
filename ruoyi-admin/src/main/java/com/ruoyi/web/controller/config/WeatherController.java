@@ -2,6 +2,8 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.config.domain.Emotion;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -111,8 +113,11 @@ public class WeatherController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Weather params)
     {
-
+        //
         List<Weather> list = weatherService.selectWeatherAll(params);
+        for(Weather weather:list){
+            weather.setDisabled(weather.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

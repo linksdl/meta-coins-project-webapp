@@ -174,20 +174,18 @@
 
       <el-row>
           <el-col :span="12">
-            <el-form-item label="标签名称" prop="labelCname">
+            <el-form-item label="名称" prop="labelCname">
               <el-input v-model="form.labelCname" placeholder="请输入标签名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="英文名" prop="labelEname">
+            <el-form-item label="英文" prop="labelEname">
               <el-input v-model="form.labelEname" placeholder="请输入英文名" />
             </el-form-item>
           </el-col>
       </el-row>
 
-        <el-form-item label="描述" prop="labelDesc">
-          <el-input v-model="form.labelDesc" placeholder="请输入描述" />
-        </el-form-item>
+
 
 
         <el-form-item label="类型" prop="labelType">
@@ -200,7 +198,11 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="作用范围">
+        <el-form-item label="描述" prop="labelDesc">
+          <el-input v-model="form.labelDesc" placeholder="请输入描述" />
+        </el-form-item>
+
+        <el-form-item label="功能范围" prop="labelScope">
           <el-checkbox-group v-model="form.labelScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -249,7 +251,7 @@
               </el-form-item>
           </el-col>
           <el-col :span="12">
-              <el-form-item label="是否可用">
+              <el-form-item label="可用" prop="enableStatus">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -314,6 +316,21 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        labelCname: [
+          { required: true, message: "中文名称不能为空", trigger: "blur" }
+        ],
+        labelEname: [
+          { required: true, message: "英文名称不能为空",  trigger: "blur" }
+        ],
+        labelType: [
+          { required: true, message: "标签类型不能为空",  trigger: "change" }
+        ],
+        labelScope: [
+          { required: true, message: "功能范围不能为空",  trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

@@ -64,5 +64,5 @@ public interface EmotionMapper
      *
      * @return 心情管理集合信息
      */
-    public List<Emotion> selectEmotionAll();
+    public List<Emotion> selectEmotionAll(Emotion params);
 }

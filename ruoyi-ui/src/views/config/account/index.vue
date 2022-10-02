@@ -141,7 +141,7 @@
             </el-form-item>
          </el-col>
          <el-col :span="12">
-            <el-form-item label="节点层级" prop="accountLevel">
+            <el-form-item label="层次" prop="accountLevel">
               <el-input-number size="medium" v-model="form.accountLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
             </el-form-item>
            </el-col>
@@ -161,7 +161,7 @@
 
 
 
-        <el-form-item label="功能范围">
+        <el-form-item label="功能范围" prop="accountScope">
           <el-checkbox-group v-model="form.accountScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -173,7 +173,7 @@
         </el-form-item>
 
 
-        <el-form-item label="功能类别">
+        <el-form-item label="功能类别" prop="accountClass" >
           <el-radio-group v-model="form.accountClass">
             <el-radio
               v-for="dict in dict.type.config_function_class"
@@ -199,7 +199,7 @@
           </el-col>
         </el-row>
 
-        <el-form-item label="是否可用">
+        <el-form-item label="可用" prop="enableStatus">
           <el-radio-group v-model="form.enableStatus">
             <el-radio
               v-for="dict in dict.type.config_is_enable"
@@ -261,6 +261,24 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        accountName: [
+          { required: true, message: "账户名称不能为空", trigger: "blur" }
+        ],
+        accountParentId: [
+          { required: true, message: "父类账户不能为空", trigger: "change" }
+        ],
+        accountType: [
+          { required: true, message: "功能类型不能为空", trigger: "change" }
+        ],
+        accountScope: [
+          { required: true, message: "功能范围不能为空", trigger: "blur" }
+        ],
+        accountClass: [
+          { required: true, message: "功能类别不能为空", trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

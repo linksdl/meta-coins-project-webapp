@@ -165,20 +165,23 @@
     />
 
     <!-- 添加或修改心情管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="中文名" prop="emotionCname">
-          <el-input v-model="form.emotionCname" placeholder="请输入中文名" />
-        </el-form-item>
+      <el-row>
+          <el-col :span="12">
+            <el-form-item label="中文名" prop="emotionCname">
+              <el-input v-model="form.emotionCname" placeholder="请输入中文名" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="英文名" prop="emotionEname">
+              <el-input v-model="form.emotionEname" placeholder="请输入英文名" />
+            </el-form-item>
+          </el-col>
+       </el-row>
 
-
-        <el-form-item label="英文名" prop="emotionEname">
-          <el-input v-model="form.emotionEname" placeholder="请输入英文名" />
-        </el-form-item>
-
-
-        <el-form-item label="作用范围">
+        <el-form-item label="功能范围" prop="emotionScope">
           <el-checkbox-group v-model="form.emotionScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -194,52 +197,60 @@
         </el-form-item>
 
 
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+        <el-row>
+            <el-col :span="12">
+            <el-form-item label="权重" prop="weight">
+              <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+            </el-form-item>
+            </el-col>
+            <el-col :span="12">
+            <el-form-item label="排序" prop="orderSort">
+              <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+            </el-form-item>
+            </el-col>
+        </el-row>
 
+
+        <el-row>
+            <el-col :span="12">
+          <el-form-item label="图标" prop="icon">
+            <el-popover
+                  placement="bottom-start"
+                  width="460"
+                  trigger="click"
+                  @show="$refs['iconSelect'].reset()"
+                >
+                  <IconSelect ref="iconSelect" @selected="selected" />
+                  <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                    <svg-icon
+                      v-if="form.icon"
+                      slot="prefix"
+                      :icon-class="form.icon"
+                      class="el-input__icon"
+                      style="height: 32px;width: 16px;"
+                    />
+                    <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                  </el-input>
+                </el-popover>
+          </el-form-item>
+             </el-col>
+
+             <el-col :span="12">
+          <el-form-item label="可用">
+            <el-radio-group v-model="form.enableStatus">
+              <el-radio
+                v-for="dict in dict.type.config_is_enable"
+                :key="dict.value"
+  :label="parseInt(dict.value)"
+              >{{dict.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+              </el-col>
+         </el-row>
 
 
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
-
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-
-<el-form-item label="图标" prop="icon">
-  <el-popover
-        placement="bottom-start"
-        width="460"
-        trigger="click"
-        @show="$refs['iconSelect'].reset()"
-      >
-        <IconSelect ref="iconSelect" @selected="selected" />
-        <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-          <svg-icon
-            v-if="form.icon"
-            slot="prefix"
-            :icon-class="form.icon"
-            class="el-input__icon"
-            style="height: 32px;width: 16px;"
-          />
-          <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-        </el-input>
-      </el-popover>
-</el-form-item>
-
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
         </el-form-item>
 
       </el-form>
@@ -291,6 +302,18 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        emotionCname: [
+          { required: true, message: "中文名称不能为空", trigger: "blur" }
+        ],
+        emotionEname: [
+          { required: true, message: "英文名称不能为空",  trigger: "blur" }
+        ],
+        emotionScope: [
+          { required: true, message: "功能范围不能为空", trigger: "change" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

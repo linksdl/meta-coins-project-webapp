@@ -175,12 +175,12 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
            <el-col :span="12">
-              <el-form-item label="商家名称" prop="enterpriseName">
+              <el-form-item label="名称" prop="enterpriseName">
                 <el-input v-model="form.enterpriseName" placeholder="请输入商家名称" />
               </el-form-item>
            </el-col>
            <el-col :span="12">
-              <el-form-item label="商家类型" prop="enterpriseTypeId">
+              <el-form-item label="类型" prop="enterpriseTypeId">
                 <el-select v-model="form.enterpriseTypeId" placeholder="请选择商家类型">
                   <el-option
                     v-for="item in typeOptions"
@@ -194,7 +194,7 @@
            </el-col>
         </el-row>
 
-        <el-form-item label="商家地址" prop="enterpriseAddress">
+        <el-form-item label="地址" prop="enterpriseAddress">
           <el-input v-model="form.enterpriseAddress" placeholder="请输入商家地址" />
         </el-form-item>
 
@@ -209,12 +209,12 @@
         </el-form-item>
 
 
-        <el-form-item label="地图地址" prop="enterpriseMapLocation">
+        <el-form-item label="地图" prop="enterpriseMapLocation">
           <el-input v-model="form.enterpriseMapLocation" placeholder="请输入地图地址" />
         </el-form-item>
 
 
-        <el-form-item label="功能范围">
+        <el-form-item label="功能范围" prop="enterpriseScope">
           <el-checkbox-group v-model="form.enterpriseScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
@@ -227,7 +227,7 @@
 
         <el-row>
            <el-col :span="12">
-              <el-form-item label="是否可用">
+              <el-form-item label="可用" prop="enableStatus">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -331,6 +331,21 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        enterpriseName: [
+          { required: true, message: "商家名称不能为空", trigger: "blur" }
+        ],
+        enterpriseAddress: [
+          { required: true, message: "商家地址不能为空", trigger: "blur" }
+        ],
+        enterpriseTypeId: [
+          { required: true, message: "商家类型不能为空", trigger: "change" }
+        ],
+        enterpriseScope: [
+          { required: true, message: "功能范围不能为空", trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },

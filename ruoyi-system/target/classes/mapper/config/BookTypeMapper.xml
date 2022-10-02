@@ -23,8 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select book_type_id, book_type_name, book_type_desc, icon, weight, order_sort, enable_status, create_time, create_by, update_time, update_by, remark from config_book_type
     </sql>
 
-    <select id="selectBookTypeAll" resultMap="BookTypeResult">
+    <select id="selectBookTypeAll" parameterType="BookType" resultMap="BookTypeResult">
 		<include refid="selectBookTypeVo"/>
+        <where>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+        order by order_sort
 	</select>
 
     <select id="selectBookTypeList" parameterType="BookType" resultMap="BookTypeResult">

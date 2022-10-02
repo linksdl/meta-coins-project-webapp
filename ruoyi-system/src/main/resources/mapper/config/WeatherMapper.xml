@@ -28,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectWeatherAll" parameterType="Weather" resultMap="WeatherResult">
 		<include refid="selectWeatherVo"/>
         <where>
+            <if test="weatherScope != null  and weatherScope != ''"> and weather_scope like concat('%', #{weatherScope}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
         order by order_sort

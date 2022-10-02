@@ -137,58 +137,57 @@
     />
 
     <!-- 添加或修改成员类型对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="类型名称" prop="memberTypeName">
+        <el-form-item label="名称" prop="memberTypeName">
           <el-input v-model="form.memberTypeName" placeholder="请输入类型名称" />
         </el-form-item>
-
 
         <el-form-item label="描述" prop="memberTypeDesc">
           <el-input v-model="form.memberTypeDesc" placeholder="请输入描述" />
         </el-form-item>
 
-
+     <el-row>
+        <el-col :span="12">
         <el-form-item label="权重" prop="weight">
           <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
-
-
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
+        </el-col>
+        <el-col :span="12">
 
         <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
+        </el-col>
+     </el-row>
 
-
-
-<el-form-item label="图标" prop="icon">
-  <el-popover
-        placement="bottom-start"
-        width="460"
-        trigger="click"
-        @show="$refs['iconSelect'].reset()"
-      >
-        <IconSelect ref="iconSelect" @selected="selected" />
-        <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-          <svg-icon
-            v-if="form.icon"
-            slot="prefix"
-            :icon-class="form.icon"
-            class="el-input__icon"
-            style="height: 32px;width: 16px;"
-          />
-          <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-        </el-input>
-      </el-popover>
-</el-form-item>
-
-        <el-form-item label="是否可用">
+     <el-row>
+        <el-col :span="12">
+        <el-form-item label="图标" prop="icon">
+          <el-popover
+                placement="bottom-start"
+                width="460"
+                trigger="click"
+                @show="$refs['iconSelect'].reset()"
+              >
+                <IconSelect ref="iconSelect" @selected="selected" />
+                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                  <svg-icon
+                    v-if="form.icon"
+                    slot="prefix"
+                    :icon-class="form.icon"
+                    class="el-input__icon"
+                    style="height: 32px;width: 16px;"
+                  />
+                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                </el-input>
+              </el-popover>
+        </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item label="可用" prop="enableStatus">
           <el-radio-group v-model="form.enableStatus">
             <el-radio
               v-for="dict in dict.type.config_is_enable"
@@ -196,6 +195,12 @@
 :label="parseInt(dict.value)"
             >{{dict.label}}</el-radio>
           </el-radio-group>
+        </el-form-item>
+        </el-col>
+     </el-row>
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
 
       </el-form>
@@ -246,6 +251,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        memberTypeName: [
+          { required: true, message: "名称不能为空", trigger: "blur" }
+        ],
+        enableStatus: [
+          { required: true, message: "数据状态不能为空", trigger: "blur" }
+        ],
       }
     };
   },
