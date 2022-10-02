@@ -230,7 +230,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="名称" prop="incomeName">
-                <el-input v-model="form.incomeName" placeholder="请输入收入名称" />
+                <el-input clearable v-model="form.incomeName" placeholder="请输入收入名称" />
               </el-form-item>
             </el-col>
 
@@ -267,7 +267,7 @@
 
            <el-col :span="12">
               <el-form-item label="币种" prop="incomeMoneyId">
-                <el-radio-group v-model="form.incomeMoneyId" size="small" placeholder="请选择币种">
+                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
                   <el-radio-button
                     v-for="item in moneyOptions"
                     :label="item.moneyCname"
@@ -281,7 +281,7 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="主体" prop="incomeEntityId">
+              <el-form-item label="主体" clearable filterable prop="incomeEntityId">
                 <el-select v-model="form.incomeEntityId" filterable placeholder="请选择主体名">
                   <el-option
                     v-for="item in enterpriseOptions"
@@ -296,7 +296,7 @@
 
              <el-col :span="12">
               <el-form-item label="金额" prop="incomeAmount">
-                <el-input-number size="medium" v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+                <el-input-number v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
          </el-row>
@@ -307,7 +307,6 @@
                 <el-cascader
                   clearable
                   filterable
-                  size="medium"
                   placeholder="请选择分类"
                   v-model="form.incomeCategoryId"
                   :options="categoryOptions"
@@ -320,7 +319,6 @@
             <el-form-item label="账户" prop="incomeAccountId">
               <el-cascader
                   clearable
-                  size="medium"
                   filterable
                   placeholder="请选择账户"
                   v-model="form.incomeAccountId"
@@ -333,7 +331,7 @@
         </el-row>
 
         <el-row>
-          <el-col :span="12">
+          <el-col :span="6">
             <el-form-item label="标签" prop="incomeLabelName">
               <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
                 <el-option
@@ -348,9 +346,23 @@
             </el-form-item>
           </el-col>
 
+          <el-col :span="6">
+              <el-form-item label="标签" prop="incomeLabelName">
+                <el-input clearable v-model="form.incomeLabelName" placeholder="请输入标签名称" />
+              </el-form-item>
+          </el-col>
+
           <el-col :span="12">
-            <el-form-item label="项目" prop="incomeProjectName">
-                <el-input v-model="form.incomeProjectName" placeholder="请输入项目名称" />
+            <el-form-item label="项目" prop="incomeProjectName" >
+              <el-autocomplete
+                class="inline-input"
+                clearable
+                v-model="form.incomeProjectName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="true"
+                placeholder="请输入项目名称"
+                @select="handleSelect"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
         </el-row>
@@ -374,15 +386,15 @@
       <el-row>
         <el-col :span="24">
            <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc"  placeholder="请输入内容" />
+            <el-input v-model="form.incomeDesc" clearable placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="成员" prop="incomeMemberId">
-            <el-select v-model="form.incomeMemberId" placeholder="请选择成员名">
+          <el-form-item label="成员"  prop="incomeMemberId">
+            <el-select v-model="form.incomeMemberId" clearable filterable placeholder="请选择成员名">
               <el-option
                 v-for="item in memberOptions"
                 :key="item.memberId"
@@ -396,7 +408,6 @@
         <el-col :span="16" >
           <el-form-item label="成员" prop="incomeLabelId">
           <el-tag
-            size="medium"
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in memberOptions"
             :key="item.memberName"
@@ -411,8 +422,8 @@
 
     <el-row>
        <el-col :span="8">
-        <el-form-item label="心情" prop="incomeEmotionId">
-          <el-select v-model="form.incomeEmotionId" placeholder="请选择心情名">
+        <el-form-item label="心情"  prop="incomeEmotionId">
+          <el-select v-model="form.incomeEmotionId" clearable filterable placeholder="请选择心情名">
             <el-option
               v-for="item in emotionOptions"
               :key="item.emotionId"
@@ -425,7 +436,6 @@
        <el-col :span="16" >
           <el-form-item label="心情" prop="incomeLabelId">
           <el-tag
-            size="medium"
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in emotionOptions"
             :key="item.emotionId"
@@ -442,7 +452,7 @@
       <el-row>
         <el-col :span="8">
         <el-form-item label="天气" prop="incomeWeatherId">
-          <el-select v-model="form.incomeWeatherId" placeholder="请选择天气名">
+          <el-select v-model="form.incomeWeatherId" clearable filterable placeholder="请选择天气名">
             <el-option
               v-for="item in weatherOptions"
               :key="item.weatherId"
@@ -456,7 +466,6 @@
         <el-col :span="16" >
           <el-form-item label="天气" prop="incomeWeatherId">
           <el-tag
-            size="medium"
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in weatherOptions"
             :key="item.weatherId"
@@ -471,7 +480,7 @@
       <el-row>
         <el-col :span="24">
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
+              <el-input v-model="form.remark" clearable type="textarea" placeholder="请输入备注" />
             </el-form-item>
         </el-col>
       </el-row>
@@ -513,7 +522,7 @@ import { selectGoods as getGoodsOptionSelect } from "@/api/config/goods";
 import { selectLabel as getLabelOptionSelect } from "@/api/config/label";
 import { selectMember as getMemberOptionSelect } from "@/api/config/member";
 import { selectMoney as getMoneyOptionSelect } from "@/api/config/money";
-import { selectProject as getProjectOptionSelect } from "@/api/config/project";
+import { selectProject as getProjectOptionSelect,listProject } from "@/api/config/project";
 import { selectWeather as getWeatherOptionSelect } from "@/api/config/weather";
 
 export default {
@@ -622,6 +631,7 @@ export default {
       },
       // 表单参数
       form: {},
+      projects: [],
       // 表单校验
       rules: {
         incomeType: [
@@ -786,6 +796,7 @@ export default {
     getProjectList() {
       getProjectOptionSelect(this.queryParams).then(response => {
         this.projectOptions = response.data;
+        this.projects = response.data;
       });
     },
     /** 查询天气下拉 */
@@ -861,6 +872,23 @@ export default {
         isDeleted: 0
       };
       this.resetForm("form");
+    },
+    /** 搜索操作 */
+    querySearch(queryString, cb) {
+        var projects = this.projects;
+        var results = queryString ? labels.filter(this.createFilter(queryString)) : projects;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+     createFilter(queryString) {
+        return (item) => {
+           return item.value.toUpperCase().match(queryString.toUpperCase());
+           // 第一个匹配
+           //return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+    },
+    handleSelect(item) {
+        console.log(item);
     },
     /** 搜索按钮操作 */
     handleQuery() {
