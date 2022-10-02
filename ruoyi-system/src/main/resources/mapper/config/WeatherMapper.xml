@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.WeatherMapper">
+    
+    <resultMap type="Weather" id="WeatherResult">
+        <result property="weatherId"    column="weather_id"    />
+        <result property="weatherCname"    column="weather_cname"    />
+        <result property="weatherEname"    column="weather_ename"    />
+        <result property="weatherScope"    column="weather_scope"    />
+        <result property="weatherDesc"    column="weather_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="remark"    column="remark"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWeatherVo">
+        select weather_id, weather_cname, weather_ename, weather_scope, weather_desc, weight, order_sort, icon, remark, enable_status, create_by, create_time, update_by, update_time from config_weather
+    </sql>
+
+    <select id="selectWeatherAll" resultMap="WeatherResult">
+		<include refid="selectWeatherVo"/>
+	</select>
+
+    <select id="selectWeatherList" parameterType="Weather" resultMap="WeatherResult">
+        <include refid="selectWeatherVo"/>
+        <where>  
+            <if test="weatherCname != null  and weatherCname != ''"> and weather_cname like concat('%', #{weatherCname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectWeatherByWeatherId" parameterType="Long" resultMap="WeatherResult">
+        <include refid="selectWeatherVo"/>
+        where weather_id = #{weatherId}
+    </select>
+        
+    <insert id="insertWeather" parameterType="Weather">
+        insert into config_weather
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="weatherId != null">weather_id,</if>
+            <if test="weatherCname != null">weather_cname,</if>
+            <if test="weatherEname != null">weather_ename,</if>
+            <if test="weatherScope != null">weather_scope,</if>
+            <if test="weatherDesc != null">weather_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="remark != null">remark,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="weatherId != null">#{weatherId},</if>
+            <if test="weatherCname != null">#{weatherCname},</if>
+            <if test="weatherEname != null">#{weatherEname},</if>
+            <if test="weatherScope != null">#{weatherScope},</if>
+            <if test="weatherDesc != null">#{weatherDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWeather" parameterType="Weather">
+        update config_weather
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="weatherCname != null">weather_cname = #{weatherCname},</if>
+            <if test="weatherEname != null">weather_ename = #{weatherEname},</if>
+            <if test="weatherScope != null">weather_scope = #{weatherScope},</if>
+            <if test="weatherDesc != null">weather_desc = #{weatherDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where weather_id = #{weatherId}
+    </update>
+
+    <delete id="deleteWeatherByWeatherId" parameterType="Long">
+        delete from config_weather where weather_id = #{weatherId}
+    </delete>
+
+    <delete id="deleteWeatherByWeatherIds" parameterType="String">
+        delete from config_weather where weather_id in 
+        <foreach item="weatherId" collection="array" open="(" separator="," close=")">
+            #{weatherId}
+        </foreach>
+    </delete>
+</mapper>
