@@ -88,6 +88,8 @@ public class ${ClassName}Controller extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ${ClassName} ${className})
     {
+        ${className}.setCreateBy(getUsername());
+        ${className}.setUpdateBy(getUsername());
         return toAjax(${className}Service.insert${ClassName}(${className}));
     }
 
@@ -99,6 +101,7 @@ public class ${ClassName}Controller extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ${ClassName} ${className})
     {
+        ${className}.setUpdateBy(getUsername());
         return toAjax(${className}Service.update${ClassName}(${className}));
     }
 

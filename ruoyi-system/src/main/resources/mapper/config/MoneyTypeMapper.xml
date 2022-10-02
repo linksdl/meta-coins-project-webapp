@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.MoneyTypeMapper">
+    
+    <resultMap type="MoneyType" id="MoneyTypeResult">
+        <result property="moneyTypeId"    column="money_type_id"    />
+        <result property="moneyTypeCname"    column="money_type_cname"    />
+        <result property="moneyTypeEname"    column="money_type_ename"    />
+        <result property="moneyTypeDesc"    column="money_type_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMoneyTypeVo">
+        select money_type_id, money_type_cname, money_type_ename, money_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_money_type
+    </sql>
+
+    <select id="selectMoneyTypeAll" resultMap="MoneyTypeResult">
+		<include refid="selectMoneyTypeVo"/>
+	</select>
+
+    <select id="selectMoneyTypeList" parameterType="MoneyType" resultMap="MoneyTypeResult">
+        <include refid="selectMoneyTypeVo"/>
+        <where>  
+            <if test="moneyTypeCname != null  and moneyTypeCname != ''"> and money_type_cname like concat('%', #{moneyTypeCname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMoneyTypeByMoneyTypeId" parameterType="Long" resultMap="MoneyTypeResult">
+        <include refid="selectMoneyTypeVo"/>
+        where money_type_id = #{moneyTypeId}
+    </select>
+        
+    <insert id="insertMoneyType" parameterType="MoneyType">
+        insert into config_money_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moneyTypeId != null">money_type_id,</if>
+            <if test="moneyTypeCname != null">money_type_cname,</if>
+            <if test="moneyTypeEname != null">money_type_ename,</if>
+            <if test="moneyTypeDesc != null">money_type_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moneyTypeId != null">#{moneyTypeId},</if>
+            <if test="moneyTypeCname != null">#{moneyTypeCname},</if>
+            <if test="moneyTypeEname != null">#{moneyTypeEname},</if>
+            <if test="moneyTypeDesc != null">#{moneyTypeDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMoneyType" parameterType="MoneyType">
+        update config_money_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moneyTypeCname != null">money_type_cname = #{moneyTypeCname},</if>
+            <if test="moneyTypeEname != null">money_type_ename = #{moneyTypeEname},</if>
+            <if test="moneyTypeDesc != null">money_type_desc = #{moneyTypeDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where money_type_id = #{moneyTypeId}
+    </update>
+
+    <delete id="deleteMoneyTypeByMoneyTypeId" parameterType="Long">
+        delete from config_money_type where money_type_id = #{moneyTypeId}
+    </delete>
+
+    <delete id="deleteMoneyTypeByMoneyTypeIds" parameterType="String">
+        delete from config_money_type where money_type_id in 
+        <foreach item="moneyTypeId" collection="array" open="(" separator="," close=")">
+            #{moneyTypeId}
+        </foreach>
+    </delete>
+</mapper>
