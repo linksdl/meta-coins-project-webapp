@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.EmotionMapper">
+    
+    <resultMap type="Emotion" id="EmotionResult">
+        <result property="emotionId"    column="emotion_id"    />
+        <result property="emotionCname"    column="emotion_cname"    />
+        <result property="emotionEname"    column="emotion_ename"    />
+        <result property="emotionScope"    column="emotion_scope"    />
+        <result property="emotionDesc"    column="emotion_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEmotionVo">
+        select emotion_id, emotion_cname, emotion_ename, emotion_scope, emotion_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_emotion
+    </sql>
+
+    <select id="selectEmotionAll" resultMap="EmotionResult">
+		<include refid="selectEmotionVo"/>
+	</select>
+
+    <select id="selectEmotionList" parameterType="Emotion" resultMap="EmotionResult">
+        <include refid="selectEmotionVo"/>
+        <where>  
+            <if test="emotionCname != null  and emotionCname != ''"> and emotion_cname like concat('%', #{emotionCname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmotionByEmotionId" parameterType="Long" resultMap="EmotionResult">
+        <include refid="selectEmotionVo"/>
+        where emotion_id = #{emotionId}
+    </select>
+        
+    <insert id="insertEmotion" parameterType="Emotion">
+        insert into config_emotion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="emotionId != null">emotion_id,</if>
+            <if test="emotionCname != null">emotion_cname,</if>
+            <if test="emotionEname != null">emotion_ename,</if>
+            <if test="emotionScope != null">emotion_scope,</if>
+            <if test="emotionDesc != null">emotion_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="emotionId != null">#{emotionId},</if>
+            <if test="emotionCname != null">#{emotionCname},</if>
+            <if test="emotionEname != null">#{emotionEname},</if>
+            <if test="emotionScope != null">#{emotionScope},</if>
+            <if test="emotionDesc != null">#{emotionDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmotion" parameterType="Emotion">
+        update config_emotion
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="emotionCname != null">emotion_cname = #{emotionCname},</if>
+            <if test="emotionEname != null">emotion_ename = #{emotionEname},</if>
+            <if test="emotionScope != null">emotion_scope = #{emotionScope},</if>
+            <if test="emotionDesc != null">emotion_desc = #{emotionDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where emotion_id = #{emotionId}
+    </update>
+
+    <delete id="deleteEmotionByEmotionId" parameterType="Long">
+        delete from config_emotion where emotion_id = #{emotionId}
+    </delete>
+
+    <delete id="deleteEmotionByEmotionIds" parameterType="String">
+        delete from config_emotion where emotion_id in 
+        <foreach item="emotionId" collection="array" open="(" separator="," close=")">
+            #{emotionId}
+        </foreach>
+    </delete>
+</mapper>
