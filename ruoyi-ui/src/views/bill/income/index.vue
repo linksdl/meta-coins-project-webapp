@@ -427,14 +427,14 @@
         </el-col>
       </el-row>
 
-
       <el-row>
         <el-col :span="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" placeholder="请输入备注" />
-            </el-form-item>
+           <el-form-item label="描述" prop="incomeDesc">
+            <el-input v-model="form.incomeDesc"  placeholder="请输入内容" />
+          </el-form-item>
         </el-col>
       </el-row>
+
 
     <el-row>
        <el-col :span="8">
@@ -497,9 +497,9 @@
 
       <el-row>
         <el-col :span="24">
-           <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc" type="textarea" placeholder="请输入内容" />
-          </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
+            </el-form-item>
         </el-col>
       </el-row>
 

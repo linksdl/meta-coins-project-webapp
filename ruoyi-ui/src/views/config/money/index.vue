@@ -266,7 +266,7 @@
             </el-col>
           </el-row>
 
-          <el-form-item label="备注" prop="remark">
+          <el-form-item label="备注" type="textarea" prop="remark">
               <el-input v-model="form.remark" placeholder="请输入备注" />
           </el-form-item>
 

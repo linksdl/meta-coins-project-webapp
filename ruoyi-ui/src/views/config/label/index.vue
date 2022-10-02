@@ -185,21 +185,20 @@
           </el-col>
       </el-row>
 
-
-
-
-        <el-form-item label="类型" prop="labelType">
-          <el-select v-model="form.labelType" placeholder="请选择类型">
-            <el-option
-              v-for="dict in dict.type.config_function_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="dict.value"            ></el-option>
-          </el-select>
-        </el-form-item>
-
         <el-form-item label="描述" prop="labelDesc">
           <el-input v-model="form.labelDesc" placeholder="请输入描述" />
+        </el-form-item>
+
+        <el-form-item label="功能类型" prop="labelType">
+          <el-radio-group v-model="form.labelType">
+              <el-radio
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value"
+                >
+                {{dict.label}}
+              </el-radio>
+          </el-radio-group>
         </el-form-item>
 
         <el-form-item label="功能范围" prop="labelScope">
@@ -264,7 +263,7 @@
         </el-row>
 
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
         </el-form-item>
 
       </el-form>
