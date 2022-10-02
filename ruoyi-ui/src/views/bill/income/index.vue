@@ -549,10 +549,6 @@ export default {
   components: {IconSelect},
   data() {
     return {
-      memberArr: null,
-      accountArr: null,
-      categoryArr: null,
-      labelArr: null,
       //账户
       accountOptions: [],
       //账本
@@ -656,8 +652,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        incomeAmount: [
-          { required: true, message: "金额不能为空", trigger: "blur" }
+        incomeType: [
+          { required: true, message: "类型不能为空", trigger: "blur" }
         ]
       }
     };
@@ -806,10 +802,6 @@ export default {
     },
     // 表单重置
     reset() {
-      this.memberArr= [];
-      this.accountArr= [];
-      this.categoryArr= [];
-      this.labelArr= [];
       this.form = {
         incomeId: null,
         incomeName: null,
@@ -902,6 +894,9 @@ export default {
         this.form.incomeLabelId = this.form.incomeLabelId.split(",");
         this.form.incomeAccountId = this.form.incomeAccountId.split(",");
         this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
+        //this.form.incomeLabelName = this.form.incomeLabelName.split(",");
+        //this.form.incomeAccountName = this.form.incomeAccountName.split(",");
+        //this.form.incomeCategoryName = this.form.incomeCategoryName.split(",");
         this.open = true;
         this.title = "修改收入账单";
       });
@@ -912,6 +907,9 @@ export default {
         this.form.incomeLabelId = this.form.incomeLabelId.join(",");
         this.form.incomeAccountId = this.form.incomeAccountId.join(",");
         this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
+        this.form.incomeLabelName = this.form.incomeLabelName.join(",");
+        this.form.incomeAccountName = this.form.incomeAccountName.join(",");
+        this.form.incomeCategoryName = this.form.incomeCategoryName.join(",");
         if (valid) {
           if (this.form.incomeId != null) {
             updateIncome(this.form).then(response => {
