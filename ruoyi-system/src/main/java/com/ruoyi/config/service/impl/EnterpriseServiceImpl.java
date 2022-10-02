@@ -96,7 +96,7 @@ public class EnterpriseServiceImpl implements IEnterpriseService
     }
 
     @Override
-    public List<Enterprise> selectEnterpriseAll() {
-        return enterpriseMapper.selectEnterpriseAll();
+    public List<Enterprise> selectEnterpriseAll(Enterprise params) {
+        return enterpriseMapper.selectEnterpriseAll(params);
     }
 }

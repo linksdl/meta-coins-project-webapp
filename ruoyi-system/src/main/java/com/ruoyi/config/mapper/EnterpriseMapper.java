@@ -64,5 +64,5 @@ public interface EnterpriseMapper
      *
      * @return 商家管理集合信息
      */
-    public List<Enterprise> selectEnterpriseAll();
+    public List<Enterprise> selectEnterpriseAll(Enterprise params);
 }

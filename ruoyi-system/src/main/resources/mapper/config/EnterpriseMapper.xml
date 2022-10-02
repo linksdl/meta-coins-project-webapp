@@ -33,8 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select enterprise_id, enterprise_name, enterprise_address, enterprise_desc, enterprise_imgs, enterprise_map_location, enterprise_scope, enterprise_type_id, enterprise_type_name, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_enterprise
     </sql>
 
-    <select id="selectEnterpriseAll" resultMap="EnterpriseResult">
+    <select id="selectEnterpriseAll" parameterType="Enterprise" resultMap="EnterpriseResult">
 		<include refid="selectEnterpriseVo"/>
+        <where>
+            <if test="enterpriseScope != null  and enterpriseScope != ''"> and enterprise_scope like concat('%', #{enterpriseScope}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort asc
 	</select>
 
     <select id="selectEnterpriseList" parameterType="Enterprise" resultMap="EnterpriseResult">

@@ -129,46 +129,61 @@
     </el-table>
 
     <!-- 添加或修改分类管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="680px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+
         <el-form-item label="分类名" prop="categoryName">
           <el-input v-model="form.categoryName" placeholder="请输入分类名" />
         </el-form-item>
+
         <el-form-item label="父类名称" prop="categoryParentId">
           <treeselect v-model="form.categoryParentId" :options="categoryOptions" :normalizer="normalizer" placeholder="请选择父ID" />
         </el-form-item>
-        <el-form-item label="功能类型" prop="categoryType">
-          <el-select v-model="form.categoryType" placeholder="请选择功能类型">
-            <el-option
-              v-for="dict in dict.type.config_function_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="dict.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="功能分类">
-          <el-radio-group v-model="form.categoryClass">
-            <el-radio
-              v-for="dict in dict.type.config_function_class"
-              :key="dict.value"
-:label="dict.value"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="分类层次" prop="categoryLevel">
-          <el-input-number size="medium" v-model="form.categoryLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="功能类型">
+            <el-radio-group v-model="form.categoryType">
+              <el-radio
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value">
+                {{dict.label}}
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+        <el-row>
+           <el-col :span="12">
+              <el-form-item label="功能分类">
+                <el-radio-group v-model="form.categoryClass">
+                  <el-radio
+                    v-for="dict in dict.type.config_function_class"
+                    :key="dict.value"
+      :label="dict.value"
+                  >{{dict.label}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="分类层次" prop="categoryLevel">
+                <el-input-number size="medium" v-model="form.categoryLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+         </el-row>
+
         <el-form-item label="描述" prop="categoryDesc">
           <el-input v-model="form.categoryDesc" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="功能范围">
           <el-checkbox-group v-model="form.categoryScope">
             <el-checkbox
-              v-for="dict in dict.type.config_function_scope"
-              :key="dict.value"
-              :label="dict.value">
-              {{dict.label}}
+              v-for="item in dict.type.config_function_scope"
+              :key="item.value"
+              :label="item.value">
+              {{item.label}}
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -182,15 +197,24 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+
+        <el-row>
+            <el-col :span="12">
+              <el-form-item label="排序" prop="orderSort">
+                <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="权重" prop="weight">
+                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入权重" />
+              </el-form-item>
+            </el-col>
+        </el-row>
+
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入权重" />
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -287,15 +311,13 @@ export default {
         categoryName: null,
         categoryParentId: null,
         categoryParentName: null,
-        categoryClass: "0",
-
+        categoryClass: null,
         categoryLevel: null,
         categoryDesc: null,
         categoryScope: [],
         categorySort: null,
         categoryType: null,
         enableStatus: 0,
-
         icon: null,
         orderSort: null,
         remark: null,

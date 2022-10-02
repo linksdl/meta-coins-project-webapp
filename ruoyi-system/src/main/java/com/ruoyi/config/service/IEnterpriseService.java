@@ -64,7 +64,7 @@ public interface IEnterpriseService
      *
      * @return 结果
      */
-    public List<Enterprise> selectEnterpriseAll();
+    public List<Enterprise> selectEnterpriseAll(Enterprise params);
 
 
 

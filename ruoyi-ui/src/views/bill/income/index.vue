@@ -327,7 +327,8 @@
                 v-for="item in enterpriseOptions"
                 :key="item.enterpriseId"
                 :label="item.enterpriseName"
-                :value="item.enterpriseId">
+                :value="item.enterpriseId"
+                :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -340,7 +341,8 @@
                 v-for="item in projectOptions"
                 :key="item.projectId"
                 :label="item.projectName"
-                :value="item.projectId">
+                :value="item.projectId"
+                :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -635,7 +637,9 @@ export default {
         createTime: null,
         categoryType: 'income',
         accountType: 'income',
-        moneyScope: 'income'
+        moneyScope: 'income',
+        enterpriseScope: 'income',
+        projectScope: 'income'
       },
       // 表单参数
       form: {},
@@ -664,6 +668,16 @@ export default {
       this.queryParams.moneyScope=val;
       getMoneyOptionSelect(this.queryParams).then(response => {
         this.moneyOptions = response.data;
+      });
+
+      this.queryParams.enterpriseScope=val;
+      getEnterpriseOptionSelect(this.queryParams).then(response => {
+        this.enterpriseOptions = response.data;
+      });
+
+      this.queryParams.projectScope=val;
+      getProjectOptionSelect(this.queryParams).then(response => {
+        this.projectOptions = response.data;
       });
     },
     /** 选择收入账单图标 */

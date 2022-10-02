@@ -31,6 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectProjectAll" resultMap="ProjectResult">
 		<include refid="selectProjectVo"/>
+        <where>
+            <if test="projectScope != null  and projectScope != ''"> and project_scope like concat('%', #{projectScope}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort asc
 	</select>
 
     <select id="selectProjectList" parameterType="Project" resultMap="ProjectResult">

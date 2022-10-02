@@ -64,5 +64,5 @@ public interface ProjectMapper
      *
      * @return 项目管理集合信息
      */
-    public List<Project> selectProjectAll();
+    public List<Project> selectProjectAll(Project params);
 }

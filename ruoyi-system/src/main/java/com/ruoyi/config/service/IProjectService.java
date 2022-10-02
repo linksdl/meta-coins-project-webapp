@@ -64,7 +64,7 @@ public interface IProjectService
      *
      * @return 结果
      */
-    public List<Project> selectProjectAll();
+    public List<Project> selectProjectAll(Project params);
 
 
 

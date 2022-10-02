@@ -96,7 +96,7 @@ public class ProjectServiceImpl implements IProjectService
     }
 
     @Override
-    public List<Project> selectProjectAll() {
-        return projectMapper.selectProjectAll();
+    public List<Project> selectProjectAll(Project params) {
+        return projectMapper.selectProjectAll(params);
     }
 }

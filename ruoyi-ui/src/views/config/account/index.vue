@@ -128,27 +128,39 @@
     </el-table>
 
     <!-- 添加或修改账户管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="账户名称" prop="accountName">
           <el-input v-model="form.accountName" placeholder="请输入账户名称" />
         </el-form-item>
-        <el-form-item label="父类账户" prop="accountParentId">
-          <treeselect v-model="form.accountParentId" :options="accountOptions" :normalizer="normalizer" placeholder="请选择父类名称" />
+
+        <el-row>
+           <el-col :span="12">
+            <el-form-item label="父类账户" prop="accountParentId">
+              <treeselect v-model="form.accountParentId" :options="accountOptions" :normalizer="normalizer" placeholder="请选择父类名称" />
+            </el-form-item>
+         </el-col>
+         <el-col :span="12">
+            <el-form-item label="节点层级" prop="accountLevel">
+              <el-input-number size="medium" v-model="form.accountLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+            </el-form-item>
+           </el-col>
+        </el-row>
+
+        <el-form-item label="功能类型" prop="accountType">
+          <el-radio-group v-model="form.accountType">
+              <el-radio
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value"
+                >
+                {{dict.label}}
+              </el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item label="账户类型" prop="accountType">
-          <el-select v-model="form.accountType" placeholder="请选择类型">
-            <el-option
-              v-for="dict in dict.type.config_function_type"
-              :key="dict.value"
-              :label="dict.label"
-:value="dict.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="节点层级" prop="accountLevel">
-          <el-input-number size="medium" v-model="form.accountLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+
+
+
         <el-form-item label="功能范围">
           <el-checkbox-group v-model="form.accountScope">
             <el-checkbox
@@ -160,10 +172,8 @@
           </el-checkbox-group>
         </el-form-item>
 
-        <el-form-item label="排序" prop="accountSort">
-          <el-input-number size="medium" v-model="form.accountSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-        <el-form-item label="账户类别">
+
+        <el-form-item label="功能类别">
           <el-radio-group v-model="form.accountClass">
             <el-radio
               v-for="dict in dict.type.config_function_class"
@@ -175,9 +185,20 @@
         <el-form-item label="描述" prop="accountDesc">
           <el-input v-model="form.accountDesc" placeholder="请输入描述" />
         </el-form-item>
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+
+        <el-row>
+           <el-col :span="12">
+              <el-form-item label="权重" prop="weight">
+                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+           </el-col>
+           <el-col :span="12">
+              <el-form-item label="排序" prop="orderSort">
+                <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+          </el-col>
+        </el-row>
+
         <el-form-item label="是否可用">
           <el-radio-group v-model="form.enableStatus">
             <el-radio
@@ -186,9 +207,6 @@
 :label="parseInt(dict.value)"
             >{{dict.label}}</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">

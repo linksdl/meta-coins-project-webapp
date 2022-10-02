@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.domain.BookType;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.config.domain.EnterpriseType;
 import com.ruoyi.config.service.IEnterpriseTypeService;
@@ -145,7 +146,13 @@ public class EnterpriseController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Enterprise params)
     {
-        List<Enterprise> list = enterpriseService.selectEnterpriseAll();
+        // params
+        params.setUserId(getUserId());
+
+        List<Enterprise> list = enterpriseService.selectEnterpriseAll(params);
+        for(Enterprise enterprise:list){
+            enterprise.setDisabled(enterprise.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

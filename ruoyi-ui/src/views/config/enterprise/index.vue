@@ -171,24 +171,28 @@
     />
 
     <!-- 添加或修改商家管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-
-        <el-form-item label="商家名称" prop="enterpriseName">
-          <el-input v-model="form.enterpriseName" placeholder="请输入商家名称" />
-        </el-form-item>
-
-        <el-form-item label="商家类型" prop="enterpriseTypeId">
-          <el-select v-model="form.enterpriseTypeId" placeholder="请选择商家类型">
-            <el-option
-              v-for="item in typeOptions"
-              :key="item.enterpriseTypeId"
-              :label="item.enterpriseTypeName"
-              :value="item.enterpriseTypeId"
-              :disabled="item.disabled">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+           <el-col :span="12">
+              <el-form-item label="商家名称" prop="enterpriseName">
+                <el-input v-model="form.enterpriseName" placeholder="请输入商家名称" />
+              </el-form-item>
+           </el-col>
+           <el-col :span="12">
+              <el-form-item label="商家类型" prop="enterpriseTypeId">
+                <el-select v-model="form.enterpriseTypeId" placeholder="请选择商家类型">
+                  <el-option
+                    v-for="item in typeOptions"
+                    :key="item.enterpriseTypeId"
+                    :label="item.enterpriseTypeName"
+                    :value="item.enterpriseTypeId"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
+        </el-row>
 
         <el-form-item label="商家地址" prop="enterpriseAddress">
           <el-input v-model="form.enterpriseAddress" placeholder="请输入商家地址" />
@@ -221,46 +225,54 @@
           </el-checkbox-group>
         </el-form-item>
 
+        <el-row>
+           <el-col :span="12">
+              <el-form-item label="是否可用">
+                <el-radio-group v-model="form.enableStatus">
+                  <el-radio
+                    v-for="dict in dict.type.config_is_enable"
+                    :key="dict.value"
+      :label="parseInt(dict.value)"
+                  >{{dict.label}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+           <el-col :span="12">
+              <el-form-item label="图标" prop="icon">
+                <el-popover
+                      placement="bottom-start"
+                      width="460"
+                      trigger="click"
+                      @show="$refs['iconSelect'].reset()"
+                    >
+                      <IconSelect ref="iconSelect" @selected="selected" />
+                      <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                        <svg-icon
+                          v-if="form.icon"
+                          slot="prefix"
+                          :icon-class="form.icon"
+                          class="el-input__icon"
+                          style="height: 32px;width: 16px;"
+                        />
+                        <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                      </el-input>
+                    </el-popover>
+              </el-form-item>
+          </el-col>
+        </el-row>
 
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="图标" prop="icon">
-          <el-popover
-                placement="bottom-start"
-                width="460"
-                trigger="click"
-                @show="$refs['iconSelect'].reset()"
-              >
-                <IconSelect ref="iconSelect" @selected="selected" />
-                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-                  <svg-icon
-                    v-if="form.icon"
-                    slot="prefix"
-                    :icon-class="form.icon"
-                    class="el-input__icon"
-                    style="height: 32px;width: 16px;"
-                  />
-                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-                </el-input>
-              </el-popover>
-        </el-form-item>
-
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+        <el-row>
+           <el-col :span="12">
+              <el-form-item label="权重" prop="weight">
+                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+           </el-col>
+           <el-col :span="12">
+              <el-form-item label="排序" prop="orderSort">
+                <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
