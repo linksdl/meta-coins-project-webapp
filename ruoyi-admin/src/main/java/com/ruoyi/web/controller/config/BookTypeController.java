@@ -113,7 +113,7 @@ public class BookTypeController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(BookType params)
     {
-        List<BookType> list = bookTypeService.selectBookTypeAll();
+        List<BookType> list = bookTypeService.selectBookTypeAll(params);
         for(BookType bookType:list){
             bookType.setDisabled(bookType.getEnableStatus() == 0);
         }

@@ -97,7 +97,7 @@ public class BookServiceImpl implements IBookService
     }
 
     @Override
-    public List<Book> selectBookAll() {
-        return bookMapper.selectBookAll();
+    public List<Book> selectBookAll(Book params) {
+        return bookMapper.selectBookAll(params);
     }
 }

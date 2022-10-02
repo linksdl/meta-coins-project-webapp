@@ -114,6 +114,9 @@ public class EmotionController extends BaseController
     public AjaxResult select(Emotion params)
     {
         List<Emotion> list = emotionService.selectEmotionAll();
+        for(Emotion emotion:list){
+            emotion.setDisabled(emotion.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

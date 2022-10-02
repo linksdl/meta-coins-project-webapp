@@ -64,5 +64,5 @@ public interface BookMapper
      *
      * @return 个人账本集合信息
      */
-    public List<Book> selectBookAll();
+    public List<Book> selectBookAll(Book params);
 }

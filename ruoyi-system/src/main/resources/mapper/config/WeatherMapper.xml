@@ -25,8 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select weather_id, weather_cname, weather_ename, weather_scope, weather_desc, weight, order_sort, icon, remark, enable_status, create_by, create_time, update_by, update_time from config_weather
     </sql>
 
-    <select id="selectWeatherAll" resultMap="WeatherResult">
+    <select id="selectWeatherAll" parameterType="Weather" resultMap="WeatherResult">
 		<include refid="selectWeatherVo"/>
+        <where>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+        order by order_sort
 	</select>
 
     <select id="selectWeatherList" parameterType="Weather" resultMap="WeatherResult">

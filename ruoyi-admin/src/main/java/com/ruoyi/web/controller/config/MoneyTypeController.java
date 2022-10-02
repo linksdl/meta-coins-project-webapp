@@ -113,7 +113,7 @@ public class MoneyTypeController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(MoneyType params)
     {
-        List<MoneyType> list = moneyTypeService.selectMoneyTypeAll();
+        List<MoneyType> list = moneyTypeService.selectMoneyTypeAll(params);
         for(MoneyType moneyType:list){
             moneyType.setDisabled(moneyType.getEnableStatus() == 0);
         }

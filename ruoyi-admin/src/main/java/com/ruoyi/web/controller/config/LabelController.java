@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.domain.City;
 import com.ruoyi.config.domain.GoodsType;
 import com.ruoyi.config.service.IBookService;
 import com.ruoyi.system.service.ISysUserService;
@@ -135,7 +136,13 @@ public class LabelController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Label params)
     {
-        List<Label> list = labelService.selectLabelAll();
+        // params
+        params.setUserId(getUserId());
+
+        List<Label> list = labelService.selectLabelAll(params);
+        for(Label label:list){
+            label.setDisabled(label.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

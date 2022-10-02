@@ -96,7 +96,7 @@ public class BookTypeServiceImpl implements IBookTypeService
     }
 
     @Override
-    public List<BookType> selectBookTypeAll() {
-        return bookTypeMapper.selectBookTypeAll();
+    public List<BookType> selectBookTypeAll(BookType params) {
+        return bookTypeMapper.selectBookTypeAll(params);
     }
 }

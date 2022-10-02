@@ -368,13 +368,15 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item label="标签" prop="incomeLabelId">
-            <el-select v-model="form.incomeLabelId" multiple placeholder="请选择标签">
+          <el-form-item label="标签" prop="incomeLabelName">
+            <el-select v-model="form.incomeLabelName" multiple clearable filterable placeholder="请选择标签">
               <el-option
                 v-for="item in labelOptions"
                 :key="parseInt(item.labelId)"
                 :label="item.labelCname"
-                :value="parseInt(item.labelId)">
+                :value="item.labelCname">
+                <span style="float: left">{{ item.labelCname }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.labelEname}}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -547,6 +549,10 @@ export default {
   components: {IconSelect},
   data() {
     return {
+      memberArr: null,
+      accountArr: null,
+      categoryArr: null,
+      labelArr: null,
       //账户
       accountOptions: [],
       //账本
@@ -635,6 +641,8 @@ export default {
         incomeName: null,
         incomeDatetime: null,
         createTime: null,
+        labelType: 'income',
+        labelScope: 'income',
         categoryType: 'income',
         accountType: 'income',
         moneyScope: 'income',
@@ -646,6 +654,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        incomeAmount: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -684,6 +695,11 @@ export default {
       this.queryParams.categoryScope=val;
       getCategoryOptionSelect(this.queryParams).then(response => {
         this.categoryOptions = response.data;
+      });
+
+      this.queryParams.labelScope=val;
+      getLabelOptionSelect(this.queryParams).then(response => {
+        this.labelOptions = response.data;
       });
 
     },
@@ -779,6 +795,10 @@ export default {
     },
     // 表单重置
     reset() {
+      this.memberArr= [];
+      this.accountArr= [];
+      this.categoryArr= [];
+      this.labelArr= [];
       this.form = {
         incomeId: null,
         incomeName: null,
@@ -797,9 +817,9 @@ export default {
         incomeBookId: null,
         incomeBookName: null,
         incomeAccountId: [],
-        incomeAccountName: null,
+        incomeAccountName: [],
         incomeCategoryId: [],
-        incomeCategoryName: null,
+        incomeCategoryName: [],
         incomeCityId: null,
         incomeCityName: null,
         incomeEmotionId: null,
@@ -808,7 +828,7 @@ export default {
         incomeEntityName: null,
         incomeAddress: null,
         incomeLabelId: [],
-        incomeLabelName: null,
+        incomeLabelName: [],
         incomeMemberId: null,
         incomeMemberName: null,
         incomeMoneyId: null,

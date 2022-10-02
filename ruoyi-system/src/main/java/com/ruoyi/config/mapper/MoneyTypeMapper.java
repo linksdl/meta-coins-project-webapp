@@ -64,5 +64,5 @@ public interface MoneyTypeMapper
      *
      * @return 币种类型集合信息
      */
-    public List<MoneyType> selectMoneyTypeAll();
+    public List<MoneyType> selectMoneyTypeAll(MoneyType params);
 }

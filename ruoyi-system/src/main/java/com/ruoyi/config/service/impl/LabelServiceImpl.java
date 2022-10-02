@@ -96,7 +96,7 @@ public class LabelServiceImpl implements ILabelService
     }
 
     @Override
-    public List<Label> selectLabelAll() {
-        return labelMapper.selectLabelAll();
+    public List<Label> selectLabelAll(Label params) {
+        return labelMapper.selectLabelAll(params);
     }
 }

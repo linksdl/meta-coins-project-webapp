@@ -64,5 +64,5 @@ public interface WeatherMapper
      *
      * @return 天气管理集合信息
      */
-    public List<Weather> selectWeatherAll();
+    public List<Weather> selectWeatherAll(Weather params);
 }

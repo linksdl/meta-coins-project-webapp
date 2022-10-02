@@ -64,7 +64,7 @@ public interface IMemberTypeService
      *
      * @return 结果
      */
-    public List<MemberType> selectMemberTypeAll();
+    public List<MemberType> selectMemberTypeAll(MemberType params);
 
 
 

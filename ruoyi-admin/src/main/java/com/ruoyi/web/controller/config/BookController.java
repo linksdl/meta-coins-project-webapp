@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.config.domain.BookType;
+import com.ruoyi.config.domain.Label;
 import com.ruoyi.config.service.IBookTypeService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -145,7 +146,13 @@ public class BookController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Book params)
     {
-        List<Book> list = bookService.selectBookAll();
+        // params
+        params.setUserId(getUserId());
+
+        List<Book> list = bookService.selectBookAll(params);
+        for(Book book:list){
+            book.setDisabled(book.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 }

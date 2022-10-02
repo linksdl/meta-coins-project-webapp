@@ -30,8 +30,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select member_id, member_name, member_scope, member_type_id, member_type_name, member_desc, enable_status, icon, order_sort, remark, create_by, create_time, update_by, update_time, weight, book_id, book_name, user_id, user_name from config_member
     </sql>
 
-    <select id="selectMemberAll" resultMap="MemberResult">
+    <select id="selectMemberAll" parameterType="Member" resultMap="MemberResult">
 		<include refid="selectMemberVo"/>
+        <where>
+            <if test="memberScope != null  and memberScope != ''"> and member_scope like concat('%', #{memberScope}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort
 	</select>
 
     <select id="selectMemberList" parameterType="Member" resultMap="MemberResult">

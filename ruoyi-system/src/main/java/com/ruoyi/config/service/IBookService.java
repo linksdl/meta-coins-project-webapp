@@ -64,5 +64,5 @@ public interface IBookService
      *
      * @return 结果
      */
-    public List<Book> selectBookAll();
+    public List<Book> selectBookAll(Book params);
 }

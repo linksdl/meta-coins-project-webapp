@@ -111,7 +111,8 @@ public class WeatherController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Weather params)
     {
-        List<Weather> list = weatherService.selectWeatherAll();
+
+        List<Weather> list = weatherService.selectWeatherAll(params);
         return AjaxResult.success(list);
     }
 

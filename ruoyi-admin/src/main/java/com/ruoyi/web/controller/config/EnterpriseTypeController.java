@@ -114,7 +114,9 @@ public class EnterpriseTypeController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(EnterpriseType params)
     {
-        List<EnterpriseType> list = enterpriseTypeService.selectEnterpriseTypeAll();
+        // params
+
+        List<EnterpriseType> list = enterpriseTypeService.selectEnterpriseTypeAll(params);
         for(EnterpriseType enterpriseType:list){
             enterpriseType.setDisabled(enterpriseType.getEnableStatus() == 0);
         }

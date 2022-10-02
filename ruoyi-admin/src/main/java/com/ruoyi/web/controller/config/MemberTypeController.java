@@ -114,7 +114,7 @@ public class MemberTypeController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(MemberType params)
     {
-        List<MemberType> list = memberTypeService.selectMemberTypeAll();
+        List<MemberType> list = memberTypeService.selectMemberTypeAll(params);
         for(MemberType memberType:list){
             memberType.setDisabled(memberType.getEnableStatus() == 0);
         }

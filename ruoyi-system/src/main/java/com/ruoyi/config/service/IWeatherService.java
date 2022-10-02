@@ -64,7 +64,7 @@ public interface IWeatherService
      *
      * @return 结果
      */
-    public List<Weather> selectWeatherAll();
+    public List<Weather> selectWeatherAll(Weather params);
 
 
 

@@ -97,7 +97,7 @@ public class MemberTypeServiceImpl implements IMemberTypeService
     }
 
     @Override
-    public List<MemberType> selectMemberTypeAll() {
-        return memberTypeMapper.selectMemberTypeAll();
+    public List<MemberType> selectMemberTypeAll(MemberType params) {
+        return memberTypeMapper.selectMemberTypeAll(params);
     }
 }

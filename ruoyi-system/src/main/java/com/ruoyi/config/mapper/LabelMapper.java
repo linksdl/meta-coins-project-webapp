@@ -64,5 +64,5 @@ public interface LabelMapper
      *
      * @return 标签管理集合信息
      */
-    public List<Label> selectLabelAll();
+    public List<Label> selectLabelAll(Label params);
 }

@@ -96,7 +96,7 @@ public class MoneyTypeServiceImpl implements IMoneyTypeService
     }
 
     @Override
-    public List<MoneyType> selectMoneyTypeAll() {
-        return moneyTypeMapper.selectMoneyTypeAll();
+    public List<MoneyType> selectMoneyTypeAll(MoneyType params) {
+        return moneyTypeMapper.selectMoneyTypeAll(params);
     }
 }

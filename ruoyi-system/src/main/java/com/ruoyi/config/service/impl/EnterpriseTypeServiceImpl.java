@@ -96,7 +96,7 @@ public class EnterpriseTypeServiceImpl implements IEnterpriseTypeService
     }
 
     @Override
-    public List<EnterpriseType> selectEnterpriseTypeAll() {
-        return enterpriseTypeMapper.selectEnterpriseTypeAll();
+    public List<EnterpriseType> selectEnterpriseTypeAll(EnterpriseType params) {
+        return enterpriseTypeMapper.selectEnterpriseTypeAll(params);
     }
 }

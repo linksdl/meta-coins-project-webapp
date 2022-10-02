@@ -96,7 +96,7 @@ public class WeatherServiceImpl implements IWeatherService
     }
 
     @Override
-    public List<Weather> selectWeatherAll() {
-        return weatherMapper.selectWeatherAll();
+    public List<Weather> selectWeatherAll(Weather params) {
+        return weatherMapper.selectWeatherAll(params);
     }
 }

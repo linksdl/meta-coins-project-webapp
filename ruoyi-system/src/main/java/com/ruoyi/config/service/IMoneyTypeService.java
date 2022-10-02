@@ -64,7 +64,7 @@ public interface IMoneyTypeService
      *
      * @return 结果
      */
-    public List<MoneyType> selectMoneyTypeAll();
+    public List<MoneyType> selectMoneyTypeAll(MoneyType params);
 
 
 

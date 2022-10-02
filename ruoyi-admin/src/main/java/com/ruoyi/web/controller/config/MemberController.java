@@ -145,7 +145,13 @@ public class MemberController extends BaseController
     @GetMapping("/select")
     public AjaxResult select(Member params)
     {
-        List<Member> list = memberService.selectMemberAll();
+        // params
+        params.setUserId(getUserId());
+
+        List<Member> list = memberService.selectMemberAll(params);
+        for(Member member:list){
+            member.setDisabled(member.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

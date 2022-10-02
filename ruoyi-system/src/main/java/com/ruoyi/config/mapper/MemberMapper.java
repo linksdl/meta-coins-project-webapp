@@ -64,5 +64,5 @@ public interface MemberMapper
      *
      * @return 成员管理集合信息
      */
-    public List<Member> selectMemberAll();
+    public List<Member> selectMemberAll(Member params);
 }

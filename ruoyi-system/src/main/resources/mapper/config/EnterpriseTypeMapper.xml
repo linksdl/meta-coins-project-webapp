@@ -23,8 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select enterprise_type_id, enterprise_type_name, enterprise_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_enterprise_type
     </sql>
 
-    <select id="selectEnterpriseTypeAll" resultMap="EnterpriseTypeResult">
+    <select id="selectEnterpriseTypeAll" parameterType="EnterpriseType" resultMap="EnterpriseTypeResult">
 		<include refid="selectEnterpriseTypeVo"/>
+        <where>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+        order by order_sort
 	</select>
 
     <select id="selectEnterpriseTypeList" parameterType="EnterpriseType" resultMap="EnterpriseTypeResult">

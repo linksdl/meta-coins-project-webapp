@@ -64,7 +64,7 @@ public interface IBookTypeService
      *
      * @return 结果
      */
-    public List<BookType> selectBookTypeAll();
+    public List<BookType> selectBookTypeAll(BookType params);
 
 
 

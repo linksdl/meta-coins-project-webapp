@@ -64,7 +64,7 @@ public interface ILabelService
      *
      * @return 结果
      */
-    public List<Label> selectLabelAll();
+    public List<Label> selectLabelAll(Label params);
 
 
 

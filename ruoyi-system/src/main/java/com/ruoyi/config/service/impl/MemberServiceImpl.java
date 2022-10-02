@@ -98,7 +98,7 @@ public class MemberServiceImpl implements IMemberService
     }
 
     @Override
-    public List<Member> selectMemberAll() {
-        return memberMapper.selectMemberAll();
+    public List<Member> selectMemberAll(Member params) {
+        return memberMapper.selectMemberAll(params);
     }
 }

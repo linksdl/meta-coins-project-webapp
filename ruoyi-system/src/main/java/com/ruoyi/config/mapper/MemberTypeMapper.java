@@ -64,5 +64,5 @@ public interface MemberTypeMapper
      *
      * @return 成员类型集合信息
      */
-    public List<MemberType> selectMemberTypeAll();
+    public List<MemberType> selectMemberTypeAll(MemberType params);
 }

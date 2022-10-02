@@ -64,5 +64,5 @@ public interface BookTypeMapper
      *
      * @return 账本类型集合信息
      */
-    public List<BookType> selectBookTypeAll();
+    public List<BookType> selectBookTypeAll(BookType params);
 }

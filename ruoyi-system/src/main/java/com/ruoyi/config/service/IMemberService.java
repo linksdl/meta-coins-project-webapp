@@ -64,7 +64,7 @@ public interface IMemberService
      *
      * @return 结果
      */
-    public List<Member> selectMemberAll();
+    public List<Member> selectMemberAll(Member params);
 
 
 
