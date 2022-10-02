@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.MoneyMapper">
+    
+    <resultMap type="Money" id="MoneyResult">
+        <result property="moneyId"    column="money_id"    />
+        <result property="moneyCname"    column="money_cname"    />
+        <result property="moneyEname"    column="money_ename"    />
+        <result property="moneyDesc"    column="money_desc"    />
+        <result property="moneyRate"    column="money_rate"    />
+        <result property="moneyScope"    column="money_scope"    />
+        <result property="moneyTypeId"    column="money_type_id"    />
+        <result property="weight"    column="weight"    />
+        <result property="moneyTypeName"    column="money_type_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMoneyVo">
+        select money_id, money_cname, money_ename, money_desc, money_rate, money_scope, money_type_id, weight, money_type_name, remark, order_sort, icon, enable_status, book_id, book_name, user_id, user_name, create_by, create_time, update_by, update_time from config_money
+    </sql>
+
+    <select id="selectMoneyAll" resultMap="MoneyResult">
+		<include refid="selectMoneyVo"/>
+	</select>
+
+    <select id="selectMoneyList" parameterType="Money" resultMap="MoneyResult">
+        <include refid="selectMoneyVo"/>
+        <where>  
+            <if test="moneyCname != null  and moneyCname != ''"> and money_cname like concat('%', #{moneyCname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMoneyByMoneyId" parameterType="Long" resultMap="MoneyResult">
+        <include refid="selectMoneyVo"/>
+        where money_id = #{moneyId}
+    </select>
+        
+    <insert id="insertMoney" parameterType="Money">
+        insert into config_money
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moneyId != null">money_id,</if>
+            <if test="moneyCname != null">money_cname,</if>
+            <if test="moneyEname != null">money_ename,</if>
+            <if test="moneyDesc != null">money_desc,</if>
+            <if test="moneyRate != null">money_rate,</if>
+            <if test="moneyScope != null">money_scope,</if>
+            <if test="moneyTypeId != null">money_type_id,</if>
+            <if test="weight != null">weight,</if>
+            <if test="moneyTypeName != null">money_type_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moneyId != null">#{moneyId},</if>
+            <if test="moneyCname != null">#{moneyCname},</if>
+            <if test="moneyEname != null">#{moneyEname},</if>
+            <if test="moneyDesc != null">#{moneyDesc},</if>
+            <if test="moneyRate != null">#{moneyRate},</if>
+            <if test="moneyScope != null">#{moneyScope},</if>
+            <if test="moneyTypeId != null">#{moneyTypeId},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="moneyTypeName != null">#{moneyTypeName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMoney" parameterType="Money">
+        update config_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moneyCname != null">money_cname = #{moneyCname},</if>
+            <if test="moneyEname != null">money_ename = #{moneyEname},</if>
+            <if test="moneyDesc != null">money_desc = #{moneyDesc},</if>
+            <if test="moneyRate != null">money_rate = #{moneyRate},</if>
+            <if test="moneyScope != null">money_scope = #{moneyScope},</if>
+            <if test="moneyTypeId != null">money_type_id = #{moneyTypeId},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="moneyTypeName != null">money_type_name = #{moneyTypeName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where money_id = #{moneyId}
+    </update>
+
+    <delete id="deleteMoneyByMoneyId" parameterType="Long">
+        delete from config_money where money_id = #{moneyId}
+    </delete>
+
+    <delete id="deleteMoneyByMoneyIds" parameterType="String">
+        delete from config_money where money_id in 
+        <foreach item="moneyId" collection="array" open="(" separator="," close=")">
+            #{moneyId}
+        </foreach>
+    </delete>
+</mapper>
