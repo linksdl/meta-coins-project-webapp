@@ -5,6 +5,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * 天气管理对象 config_weather
  * 
@@ -16,38 +21,49 @@ public class Weather extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="weather_id")
     private Long weatherId;
 
     /** 中文名 */
     @Excel(name = "中文名")
+    @Column(name="weather_cname")
     private String weatherCname;
 
     /** 英文名 */
     @Excel(name = "英文名")
+    @Column(name="weather_ename")
     private String weatherEname;
 
     /** 功能范围 */
     @Excel(name = "功能范围")
+    @Column(name="weather_scope")
     private String weatherScope;
 
     /** 描述 */
     @Excel(name = "描述")
+    @Column(name="weather_desc")
     private String weatherDesc;
 
     /** 权重 */
     @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
     /** 排序 */
     @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
     /** 图标 */
     @Excel(name = "图标")
+    @Column(name="icon")
     private String icon;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
     public void setWeatherId(Long weatherId) 

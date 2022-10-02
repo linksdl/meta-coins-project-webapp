@@ -5,9 +5,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * 币种管理对象 config_money
- * 
+ *
  * @author metacoin
  * @date 2022-10-02
  */
@@ -15,101 +20,118 @@ public class Money extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="money_id")
     private Long moneyId;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 币种 */
+    @Excel(name = "币种")
+    @Column(name="money_cname")
     private String moneyCname;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 英文名 */
+    @Excel(name = "英文名")
+    @Column(name="money_ename")
     private String moneyEname;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 描述 */
+    @Excel(name = "描述")
+    @Column(name="money_desc")
     private String moneyDesc;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 汇率 */
+    @Excel(name = "汇率")
+    @Column(name="money_rate")
     private Double moneyRate;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 功能范围 */
+    @Excel(name = "功能范围")
+    @Column(name="money_scope")
     private String moneyScope;
 
-    /** $column.columnComment */
+    /** 类型ID */
+    @Column(name="money_type_id")
     private Long moneyTypeId;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 权重 */
+    @Excel(name = "权重")
+    @Column(name="weight")
     private Long weight;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 类型名称 */
+    @Excel(name = "类型名称")
+    @Column(name="money_type_name")
     private String moneyTypeName;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 排序 */
+    @Excel(name = "排序")
+    @Column(name="order_sort")
     private Long orderSort;
 
-    /** $column.columnComment */
+    /** 图标 */
+    @Column(name="icon")
     private String icon;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 是否可用 */
+    @Excel(name = "是否可用")
+    @Column(name="enable_status")
     private Long enableStatus;
 
-    /** $column.columnComment */
+    /** 账本ID */
+    @Column(name="book_id")
     private Long bookId;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 账本名称 */
+    @Excel(name = "账本名称")
+    @Column(name="book_name")
     private String bookName;
 
-    /** $column.columnComment */
+    /** 用户ID */
+    @Column(name="user_id")
     private Long userId;
 
-    /** $column.columnComment */
+    /** 用户名称 */
+    @Column(name="user_name")
     private String userName;
 
-    public void setMoneyId(Long moneyId) 
+    public void setMoneyId(Long moneyId)
     {
         this.moneyId = moneyId;
     }
 
-    public Long getMoneyId() 
+    public Long getMoneyId()
     {
         return moneyId;
     }
-    public void setMoneyCname(String moneyCname) 
+    public void setMoneyCname(String moneyCname)
     {
         this.moneyCname = moneyCname;
     }
 
-    public String getMoneyCname() 
+    public String getMoneyCname()
     {
         return moneyCname;
     }
-    public void setMoneyEname(String moneyEname) 
+    public void setMoneyEname(String moneyEname)
     {
         this.moneyEname = moneyEname;
     }
 
-    public String getMoneyEname() 
+    public String getMoneyEname()
     {
         return moneyEname;
     }
-    public void setMoneyDesc(String moneyDesc) 
+    public void setMoneyDesc(String moneyDesc)
     {
         this.moneyDesc = moneyDesc;
     }
 
-    public String getMoneyDesc() 
+    public String getMoneyDesc()
     {
         return moneyDesc;
     }
-
     public void setMoneyRate(Double moneyRate)
     {
         this.moneyRate = moneyRate;
@@ -119,30 +141,30 @@ public class Money extends BaseEntity
     {
         return moneyRate;
     }
-    public void setMoneyScope(String moneyScope) 
+    public void setMoneyScope(String moneyScope)
     {
         this.moneyScope = moneyScope;
     }
 
-    public String getMoneyScope() 
+    public String getMoneyScope()
     {
         return moneyScope;
     }
-    public void setMoneyTypeId(Long moneyTypeId) 
+    public void setMoneyTypeId(Long moneyTypeId)
     {
         this.moneyTypeId = moneyTypeId;
     }
 
-    public Long getMoneyTypeId() 
+    public Long getMoneyTypeId()
     {
         return moneyTypeId;
     }
-    public void setWeight(Long weight) 
+    public void setWeight(Long weight)
     {
         this.weight = weight;
     }
 
-    public Long getWeight() 
+    public Long getWeight()
     {
         return weight;
     }
@@ -155,39 +177,39 @@ public class Money extends BaseEntity
     {
         return moneyTypeName;
     }
-    public void setOrderSort(Long orderSort) 
+    public void setOrderSort(Long orderSort)
     {
         this.orderSort = orderSort;
     }
 
-    public Long getOrderSort() 
+    public Long getOrderSort()
     {
         return orderSort;
     }
-    public void setIcon(String icon) 
+    public void setIcon(String icon)
     {
         this.icon = icon;
     }
 
-    public String getIcon() 
+    public String getIcon()
     {
         return icon;
     }
-    public void setEnableStatus(Long enableStatus) 
+    public void setEnableStatus(Long enableStatus)
     {
         this.enableStatus = enableStatus;
     }
 
-    public Long getEnableStatus() 
+    public Long getEnableStatus()
     {
         return enableStatus;
     }
-    public void setBookId(Long bookId) 
+    public void setBookId(Long bookId)
     {
         this.bookId = bookId;
     }
 
-    public Long getBookId() 
+    public Long getBookId()
     {
         return bookId;
     }
@@ -209,12 +231,12 @@ public class Money extends BaseEntity
     {
         return userId;
     }
-    public void setUserName(String userName) 
+    public void setUserName(String userName)
     {
         this.userName = userName;
     }
 
-    public String getUserName() 
+    public String getUserName()
     {
         return userName;
     }
