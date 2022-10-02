@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.LabelMapper">
+    
+    <resultMap type="Label" id="LabelResult">
+        <result property="labelId"    column="label_id"    />
+        <result property="labelCname"    column="label_cname"    />
+        <result property="labelEname"    column="label_ename"    />
+        <result property="labelDesc"    column="label_desc"    />
+        <result property="labelType"    column="label_type"    />
+        <result property="labelScope"    column="label_scope"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="weight"    column="weight"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectLabelVo">
+        select label_id, label_cname, label_ename, label_desc, label_type, label_scope, remark, order_sort, icon, enable_status, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_label
+    </sql>
+
+    <select id="selectLabelAll" resultMap="LabelResult">
+		<include refid="selectLabelVo"/>
+	</select>
+
+    <select id="selectLabelList" parameterType="Label" resultMap="LabelResult">
+        <include refid="selectLabelVo"/>
+        <where>  
+            <if test="labelCname != null  and labelCname != ''"> and label_cname like concat('%', #{labelCname}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLabelByLabelId" parameterType="Long" resultMap="LabelResult">
+        <include refid="selectLabelVo"/>
+        where label_id = #{labelId}
+    </select>
+        
+    <insert id="insertLabel" parameterType="Label">
+        insert into config_label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="labelId != null">label_id,</if>
+            <if test="labelCname != null">label_cname,</if>
+            <if test="labelEname != null">label_ename,</if>
+            <if test="labelDesc != null">label_desc,</if>
+            <if test="labelType != null">label_type,</if>
+            <if test="labelScope != null">label_scope,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="weight != null">weight,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="labelId != null">#{labelId},</if>
+            <if test="labelCname != null">#{labelCname},</if>
+            <if test="labelEname != null">#{labelEname},</if>
+            <if test="labelDesc != null">#{labelDesc},</if>
+            <if test="labelType != null">#{labelType},</if>
+            <if test="labelScope != null">#{labelScope},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLabel" parameterType="Label">
+        update config_label
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="labelCname != null">label_cname = #{labelCname},</if>
+            <if test="labelEname != null">label_ename = #{labelEname},</if>
+            <if test="labelDesc != null">label_desc = #{labelDesc},</if>
+            <if test="labelType != null">label_type = #{labelType},</if>
+            <if test="labelScope != null">label_scope = #{labelScope},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where label_id = #{labelId}
+    </update>
+
+    <delete id="deleteLabelByLabelId" parameterType="Long">
+        delete from config_label where label_id = #{labelId}
+    </delete>
+
+    <delete id="deleteLabelByLabelIds" parameterType="String">
+        delete from config_label where label_id in 
+        <foreach item="labelId" collection="array" open="(" separator="," close=")">
+            #{labelId}
+        </foreach>
+    </delete>
+</mapper>
