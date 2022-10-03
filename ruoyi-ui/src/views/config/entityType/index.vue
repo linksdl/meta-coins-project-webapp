@@ -2,9 +2,9 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="商家类型" prop="enterpriseTypeName">
+      <el-form-item label="商家类型" prop="entityTypeName">
         <el-input
-          v-model="queryParams.enterpriseTypeName"
+          v-model="queryParams.entityTypeName"
           placeholder="请输入商家类型"
           clearable
           @keyup.enter.native="handleQuery"
@@ -37,7 +37,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['config:enterpriseType:add']"
+          v-hasPermi="['config:entityType:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -48,7 +48,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['config:enterpriseType:edit']"
+          v-hasPermi="['config:entityType:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -59,7 +59,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['config:enterpriseType:remove']"
+          v-hasPermi="['config:entityType:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -69,22 +69,22 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['config:enterpriseType:export']"
+          v-hasPermi="['config:entityType:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
 
-    <el-table v-loading="loading" :data="enterpriseTypeList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="entityTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商家类型" align="center" prop="enterpriseTypeName" :show-overflow-tooltip="true" />
+      <el-table-column label="商家类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="描述" align="center" prop="enterpriseTypeDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="描述" align="center" prop="entityTypeDesc" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
@@ -125,14 +125,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['config:enterpriseType:edit']"
+            v-hasPermi="['config:entityType:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['config:enterpriseType:remove']"
+            v-hasPermi="['config:entityType:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -150,13 +150,13 @@
     <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="名称" prop="enterpriseTypeName">
-          <el-input v-model="form.enterpriseTypeName" placeholder="请输入商家类型" />
+        <el-form-item label="名称" prop="entityTypeName">
+          <el-input v-model="form.entityTypeName" placeholder="请输入商家类型" />
         </el-form-item>
 
 
-        <el-form-item label="描述" prop="enterpriseTypeDesc">
-          <el-input v-model="form.enterpriseTypeDesc" placeholder="请输入描述" />
+        <el-form-item label="描述" prop="entityTypeDesc">
+          <el-input v-model="form.entityTypeDesc" placeholder="请输入描述" />
         </el-form-item>
 
 <el-row>
@@ -223,11 +223,11 @@
 </template>
 
 <script>
-import { listEnterpriseType, getEnterpriseType, delEnterpriseType, addEnterpriseType, updateEnterpriseType } from "@/api/config/enterpriseType";
+import { listEntityType, getEntityType, delEntityType, addEntityType, updateEntityType } from "@/api/config/entityType";
 import IconSelect from "@/components/IconSelect";
 
 export default {
-  name: "EnterpriseType",
+  name: "EntityType",
   dicts: ['config_is_enable'],
   components: {IconSelect},
   data() {
@@ -245,7 +245,7 @@ export default {
       // 总条数
       total: 0,
       // 商家类型表格数据
-      enterpriseTypeList: [],
+      entityTypeList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -254,14 +254,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        enterpriseTypeName: null,
+        entityTypeName: null,
         enableStatus: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        enterpriseTypeName: [
+        entityTypeName: [
           { required: true, message: "商家类型名称不能为空", trigger: "blur" }
         ],
         enableStatus: [
@@ -281,8 +281,8 @@ export default {
     /** 查询商家类型列表 */
     getList() {
       this.loading = true;
-      listEnterpriseType(this.queryParams).then(response => {
-        this.enterpriseTypeList = response.rows;
+      listEntityType(this.queryParams).then(response => {
+        this.entityTypeList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -295,9 +295,9 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        enterpriseTypeId: null,
-        enterpriseTypeName: null,
-        enterpriseTypeDesc: null,
+        entityTypeId: null,
+        entityTypeName: null,
+        entityTypeDesc: null,
         weight: null,
         remark: null,
         orderSort: null,
@@ -322,7 +322,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.enterpriseTypeId)
+      this.ids = selection.map(item => item.entityTypeId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -335,8 +335,8 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const enterpriseTypeId = row.enterpriseTypeId || this.ids
-      getEnterpriseType(enterpriseTypeId).then(response => {
+      const entityTypeId = row.entityTypeId || this.ids
+      getEntityType(entityTypeId).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改商家类型";
@@ -346,14 +346,14 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.enterpriseTypeId != null) {
-            updateEnterpriseType(this.form).then(response => {
+          if (this.form.entityTypeId != null) {
+            updateEntityType(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addEnterpriseType(this.form).then(response => {
+            addEntityType(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -364,9 +364,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const enterpriseTypeIds = row.enterpriseTypeId || this.ids;
-      this.$modal.confirm('是否确认删除商家类型编号为"' + enterpriseTypeIds + '"的数据项？').then(function() {
-        return delEnterpriseType(enterpriseTypeIds);
+      const entityTypeIds = row.entityTypeId || this.ids;
+      this.$modal.confirm('是否确认删除商家类型编号为"' + entityTypeIds + '"的数据项？').then(function() {
+        return delEntityType(entityTypeIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -374,9 +374,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('config/enterpriseType/export', {
+      this.download('config/entityType/export', {
         ...this.queryParams
-      }, `enterpriseType_${new Date().getTime()}.xlsx`)
+      }, `entityType_${new Date().getTime()}.xlsx`)
     }
   }
 };

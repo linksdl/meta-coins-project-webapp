@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.EntityMapper">
+    
+    <resultMap type="Entity" id="EntityResult">
+        <result property="entityId"    column="entity_id"    />
+        <result property="entityName"    column="entity_name"    />
+        <result property="entityAddress"    column="entity_address"    />
+        <result property="entityDesc"    column="entity_desc"    />
+        <result property="entityImgs"    column="entity_imgs"    />
+        <result property="entityMapLocation"    column="entity_map_location"    />
+        <result property="entityScope"    column="entity_scope"    />
+        <result property="entityTypeId"    column="entity_type_id"    />
+        <result property="entityTypeName"    column="entity_type_name"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectEntityVo">
+        select entity_id, entity_name, entity_address, entity_desc, entity_imgs, entity_map_location, entity_scope, entity_type_id, entity_type_name, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_entity
+    </sql>
+
+    <select id="selectEntityAll" parameterType="Entity" resultMap="EntityResult">
+		<include refid="selectEntityVo"/>
+        <where>
+            <if test="entityScope != null  and entityScope != ''"> and entity_scope like concat('%', #{entityScope}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort asc
+	</select>
+
+    <select id="selectEntityList" parameterType="Entity" resultMap="EntityResult">
+        <include refid="selectEntityVo"/>
+        <where>  
+            <if test="entityName != null  and entityName != ''"> and entity_name like concat('%', #{entityName}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+        order by order_sort
+    </select>
+    
+    <select id="selectEntityByEntityId" parameterType="Long" resultMap="EntityResult">
+        <include refid="selectEntityVo"/>
+        where entity_id = #{entityId}
+    </select>
+        
+    <insert id="insertEntity" parameterType="Entity">
+        insert into config_entity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entityId != null">entity_id,</if>
+            <if test="entityName != null">entity_name,</if>
+            <if test="entityAddress != null">entity_address,</if>
+            <if test="entityDesc != null">entity_desc,</if>
+            <if test="entityImgs != null">entity_imgs,</if>
+            <if test="entityMapLocation != null">entity_map_location,</if>
+            <if test="entityScope != null">entity_scope,</if>
+            <if test="entityTypeId != null">entity_type_id,</if>
+            <if test="entityTypeName != null">entity_type_name,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entityId != null">#{entityId},</if>
+            <if test="entityName != null">#{entityName},</if>
+            <if test="entityAddress != null">#{entityAddress},</if>
+            <if test="entityDesc != null">#{entityDesc},</if>
+            <if test="entityImgs != null">#{entityImgs},</if>
+            <if test="entityMapLocation != null">#{entityMapLocation},</if>
+            <if test="entityScope != null">#{entityScope},</if>
+            <if test="entityTypeId != null">#{entityTypeId},</if>
+            <if test="entityTypeName != null">#{entityTypeName},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEntity" parameterType="Entity">
+        update config_entity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entityName != null">entity_name = #{entityName},</if>
+            <if test="entityAddress != null">entity_address = #{entityAddress},</if>
+            <if test="entityDesc != null">entity_desc = #{entityDesc},</if>
+            <if test="entityImgs != null">entity_imgs = #{entityImgs},</if>
+            <if test="entityMapLocation != null">entity_map_location = #{entityMapLocation},</if>
+            <if test="entityScope != null">entity_scope = #{entityScope},</if>
+            <if test="entityTypeId != null">entity_type_id = #{entityTypeId},</if>
+            <if test="entityTypeName != null">entity_type_name = #{entityTypeName},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where entity_id = #{entityId}
+    </update>
+
+    <delete id="deleteEntityByEntityId" parameterType="Long">
+        delete from config_entity where entity_id = #{entityId}
+    </delete>
+
+    <delete id="deleteEntityByEntityIds" parameterType="String">
+        delete from config_entity where entity_id in 
+        <foreach item="entityId" collection="array" open="(" separator="," close=")">
+            #{entityId}
+        </foreach>
+    </delete>
+</mapper>

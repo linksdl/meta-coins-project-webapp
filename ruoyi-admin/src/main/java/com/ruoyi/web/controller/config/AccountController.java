@@ -111,6 +111,7 @@ public class AccountController extends BaseController
         }
         account.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         account.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
+
         return toAjax(accountService.insertAccount(account));
     }
 

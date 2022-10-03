@@ -90,6 +90,15 @@ public class LabelController extends BaseController
     }
 
     /**
+     * 获取标签管理详细信息 根据标签名
+     */
+    public AjaxResult getInfo(Label label)
+    {
+        label.setUserId(getUserId());
+        return AjaxResult.success(labelService.findLabelByLabelName(label));
+    }
+
+    /**
      * 新增标签管理
      */
     @PreAuthorize("@ss.hasPermi('config:label:add')")

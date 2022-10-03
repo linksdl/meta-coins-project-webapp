@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="收入名称" prop="incomeName">
+      <el-form-item label="名称" prop="incomeName">
         <el-input
           v-model="queryParams.incomeName"
           placeholder="请输入收入名称"
@@ -12,7 +12,7 @@
       </el-form-item>
 
 
-      <el-form-item label="收入日期" prop="incomeDatetime">
+      <el-form-item label="日期" prop="incomeDatetime">
         <el-date-picker clearable
           v-model="queryParams.incomeDatetime"
           type="date"
@@ -85,117 +85,32 @@
     <el-table v-loading="loading" :data="incomeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="收入ID" align="center" prop="incomeId" />
-
-
-
-      <el-table-column label="收入名称" align="center" prop="incomeName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="收入类型" align="center" prop="incomeType">
+      <el-table-column label="名称" align="center" prop="incomeName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" align="center" prop="incomeType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_in" :value="scope.row.incomeType"/>
         </template>
       </el-table-column>
-
-
-      <el-table-column label="收入金额" align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="收入日期" align="center" prop="incomeDatetime" width="180">
+      <el-table-column label="金额" align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
+      <el-table-column label="日期" align="center" prop="incomeDatetime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.incomeDatetime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.incomeDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-
-
-
-      <el-table-column label="收入描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="收入凭证" align="center" prop="incomeImgs" width="100">
+      <el-table-column label="描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="凭证" align="center" prop="incomeImgs" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.incomeImgs" :width="50" :height="50"/>
         </template>
       </el-table-column>
-
-
-
-      <el-table-column label="是否可用" align="center" prop="enableStatus">
+      <el-table-column label="可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-
-
-
-
-
-
-
-
-      <el-table-column label="父类名称" align="center" prop="incomeParentName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <el-table-column label="标签名" align="center" prop="incomeLabelName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="成员名" align="center" prop="incomeMemberName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="币种名" align="center" prop="incomeMoneyName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="项目名" align="center" prop="incomeProjectName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="天气名" align="center" prop="incomeWeatherName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
+      <el-table-column label="标签" align="center" prop="incomeLabelName" :show-overflow-tooltip="true" />
+      <el-table-column label="币种" align="center" prop="incomeMoneyName" :show-overflow-tooltip="true" />
+      <el-table-column label="项目" align="center" prop="incomeProjectName" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -225,7 +140,7 @@
     />
 
     <!-- 添加或修改收入账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="748px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="798px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="68px">
           <el-row>
             <el-col :span="8">
@@ -261,12 +176,15 @@
            <el-col :span="16">
               <el-form-item label="币种" prop="incomeMoneyId">
                 <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
-                  <el-radio-button
+                  <el-radio
+                    border
                     v-for="item in moneyOptions"
-                    :label="item.moneyCname"
+                    :label="item.moneyId"
                     :value="item.moneyId"
+                    :key="item.moneyId"
                     :disabled="item.disabled">
-                  </el-radio-button>
+                  {{item.moneyCname}}
+                  </el-radio>
                 </el-radio-group>
               </el-form-item>
            </el-col>
@@ -296,7 +214,7 @@
                   placeholder="请选择分类"
                   v-model="form.incomeCategoryId"
                   :options="categoryOptions"
-                  :props="{ expandTrigger: 'hover',value:'categoryId',label:'categoryName',children: 'children', disabled :'disabled'}"
+                  :props="{ expandTrigger: 'click', value:'categoryId',label:'categoryName',children: 'children', disabled :'disabled'}"
                 ></el-cascader>
             </el-form-item>
           </el-col>
@@ -309,7 +227,7 @@
                   placeholder="请选择账户"
                   v-model="form.incomeAccountId"
                   :options="accountOptions"
-                  :props="{ expandTrigger: 'hover',value:'accountId',label:'accountName',children: 'children', disabled :'disabled' }"
+                  :props="{ expandTrigger: 'click',value:'accountId', label:'accountName',children: 'children', disabled :'disabled'}"
               ></el-cascader>
             </el-form-item>
            </el-col>
@@ -318,13 +236,13 @@
 
         <el-row>
           <el-col :span="8">
-              <el-form-item label="实体" clearable filterable prop="incomeEntityName">
-                <el-select v-model="form.incomeEntityName" filterable placeholder="请选择实体名称">
+              <el-form-item label="实体" clearable filterable prop="incomeEntityId">
+                <el-select v-model="form.incomeEntityId" filterable placeholder="请选择实体名称">
                   <el-option
-                    v-for="item in enterpriseOptions"
-                    :key="item.enterpriseId"
-                    :label="item.enterpriseName"
-                    :value="item.enterpriseName"
+                    v-for="item in entityOptions"
+                    :key="item.entityId"
+                    :label="item.entityName"
+                    :value="item.entityId"
                     :disabled="item.disabled">
                   </el-option>
                 </el-select>
@@ -348,13 +266,13 @@
 
         <el-row>
            <el-col :span="8">
-              <el-form-item label="项目" clearable filterable prop="incomeProjectName">
-                <el-select v-model="form.incomeProjectName" filterable placeholder="请选择项目名称">
+              <el-form-item label="项目" clearable filterable prop="incomeProjectId">
+                <el-select v-model="form.incomeProjectId" filterable placeholder="请选择项目名称">
                   <el-option
                     v-for="item in projectOptions"
                     :key="item.projectId"
                     :label="item.projectName"
-                    :value="item.projectName"
+                    :value="item.projectId"
                     :disabled="item.disabled">
                   </el-option>
                 </el-select>
@@ -423,14 +341,14 @@
 
         <el-row>
          <el-col :span="24">
-          <el-form-item label="城市" prop="incomeCityName">
-            <el-radio-group v-model="form.incomeCityName" placeholder="请选择城市名">
+          <el-form-item label="城市" prop="incomeCityId">
+            <el-radio-group v-model="form.incomeCityId" placeholder="请选择城市名">
               <el-radio-button
                 v-for="item in cityOptions"
                 :key="item.cityId"
-                :label="item.cityCname"
-                :value="item.cityCname"
-                :disabled="item.disabled">
+                :label="item.cityId"
+                :value="item.cityId"
+                :disabled="item.disabled">{{item.cityCname}}
               </el-radio-button>
             </el-radio-group>
           </el-form-item>
@@ -460,11 +378,11 @@
         </el-col>
 
         <el-col :span="16" >
-          <el-form-item label="成员" prop="incomeLabelId">
+          <el-form-item label="成员" prop="incomeMemberName">
           <el-tag
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in memberOptions"
-            :key="item.memberName"
+            :key="item.memberId"
             type='danger'
             effect="light">
             {{ item.memberName }}
@@ -488,7 +406,7 @@
         </el-form-item>
        </el-col>
        <el-col :span="16" >
-          <el-form-item label="心情" prop="incomeLabelId">
+          <el-form-item label="心情" prop="incomeEmotionName">
           <el-tag
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in emotionOptions"
@@ -518,7 +436,7 @@
         </el-col>
 
         <el-col :span="16" >
-          <el-form-item label="天气" prop="incomeWeatherId">
+          <el-form-item label="天气" prop="incomeWeatherName">
           <el-tag
             style="margin-left: 5px; margin-top:4px;"
             v-for="item in weatherOptions"
@@ -589,7 +507,7 @@ import { selectBook as getBookOptionSelect } from "@/api/config/book";
 import { selectCategory as getCategoryOptionSelect } from "@/api/config/category";
 import { selectCity as getCityOptionSelect } from "@/api/config/city";
 import { selectEmotion as getEmotionOptionSelect } from "@/api/config/emotion";
-import { selectEnterprise as getEnterpriseOptionSelect } from "@/api/config/enterprise";
+import { selectEntity as getEntityOptionSelect } from "@/api/config/entity";
 import { selectGoods as getGoodsOptionSelect } from "@/api/config/goods";
 import { selectLabel as getLabelOptionSelect } from "@/api/config/label";
 import { selectMember as getMemberOptionSelect } from "@/api/config/member";
@@ -616,7 +534,7 @@ export default {
       //心情
       emotionOptions: [],
       //实体
-      enterpriseOptions: [],
+      entityOptions: [],
       //商品
       goodsOptions: [],
       //标签
@@ -697,7 +615,7 @@ export default {
         categoryType: 'income',
         accountType: 'income',
         moneyScope: 'income',
-        enterpriseScope: 'income',
+        entityScope: 'income',
         projectScope: 'income',
         categoryScope: 'income',
         weatherScope: 'income',
@@ -724,17 +642,20 @@ export default {
         incomeCategoryId: [
           { required: true, message: "分类不能为空", trigger: "change" }
         ],
-        incomeEntityName: [
+        incomeEntityId: [
           { required: true, message: "实体不能为空", trigger: "change" }
         ],
-        incomeProjectName: [
+        incomeProjectId: [
           { required: true, message: "项目不能为空", trigger: "change" }
         ],
         incomeAmount: [
           { required: true, message: "金额不能为空", trigger: "blur" }
         ],
-        incomeCityName: [
+        incomeCityId: [
           { required: true, message: "城市不能为空", trigger: "blur" }
+        ],
+        incomeLabelName: [
+          { required: true, message: "标签不能为空", trigger: "blur" }
         ]
       }
     };
@@ -746,7 +667,7 @@ export default {
     this.getCategoryList();
     this.getCityList();
     this.getEmotionList();
-    this.getEnterpriseList();
+    this.getEntityList();
     this.getGoodsList();
     this.getLabelList();
     this.getMemberList();
@@ -778,9 +699,9 @@ export default {
         this.moneyOptions = response.data;
       });
 
-      this.queryParams.enterpriseScope=val;
-      getEnterpriseOptionSelect(this.queryParams).then(response => {
-        this.enterpriseOptions = response.data;
+      this.queryParams.entityScope=val;
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
       });
 
       this.queryParams.projectScope=val;
@@ -852,9 +773,9 @@ export default {
       });
     },
     /** 查询实体下拉 */
-    getEnterpriseList() {
-      getEnterpriseOptionSelect(this.queryParams).then(response => {
-        this.enterpriseOptions = response.data;
+    getEntityList() {
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
         this.entities = response.data;
       });
     },
@@ -1016,6 +937,7 @@ export default {
         this.form = response.data;
         this.form.incomeAccountId = this.form.incomeAccountId.split(",");
         this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
+        this.form.incomeLabelName = this.form.incomeLabelName.split(",");
         this.open = true;
         this.title = "修改收入账单";
       });
@@ -1024,11 +946,10 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-           //this.form.incomeLabelId = this.form.incomeLabelId.join(",");
           this.form.incomeAccountId = this.form.incomeAccountId.join(",");
           this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
-          this.form.incomeLabelName = null;
-        console.log(this.form);
+          this.form.incomeLabelName = this.form.incomeLabelName.join(",");
+          console.log(this.form);
           if (this.form.incomeId != null) {
             updateIncome(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

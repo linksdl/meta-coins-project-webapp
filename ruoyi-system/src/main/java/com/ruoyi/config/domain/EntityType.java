@@ -7,39 +7,40 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
- * 商家类型对象 config_enterprise_type
+ * 商家类型对象 config_entity_type
  * 
  * @author metacoin
  * @date 2022-10-04
  */
-@Table(name="config_enterprise_type")
+@Table(name="config_entity_type")
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnterpriseType extends BaseEntity
+public class EntityType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="enterprise_type_id")
-    private Long enterpriseTypeId;
+	@Column(name="entity_type_id")
+    private Long entityTypeId;
 
     /** 商家类型 */
     @Excel(name = "商家类型")
-    @Column(name="enterprise_type_name")
-    private String enterpriseTypeName;
+    @Column(name="entity_type_name")
+    private String entityTypeName;
 
     /** 描述 */
     @Excel(name = "描述")
-    @Column(name="enterprise_type_desc")
-    private String enterpriseTypeDesc;
+    @Column(name="entity_type_desc")
+    private String entityTypeDesc;
 
     /** 权重 */
     @Excel(name = "权重")
@@ -61,32 +62,32 @@ public class EnterpriseType extends BaseEntity
     @Column(name="enable_status")
     private Long enableStatus;
 
-    public void setEnterpriseTypeId(Long enterpriseTypeId)
+    public void setEntityTypeId(Long entityTypeId)
     {
-        this.enterpriseTypeId = enterpriseTypeId;
+        this.entityTypeId = entityTypeId;
     }
 
-    public Long getEnterpriseTypeId() 
+    public Long getEntityTypeId() 
     {
-        return enterpriseTypeId;
+        return entityTypeId;
     }
-    public void setEnterpriseTypeName(String enterpriseTypeName) 
+    public void setEntityTypeName(String entityTypeName) 
     {
-        this.enterpriseTypeName = enterpriseTypeName;
-    }
-
-    public String getEnterpriseTypeName() 
-    {
-        return enterpriseTypeName;
-    }
-    public void setEnterpriseTypeDesc(String enterpriseTypeDesc) 
-    {
-        this.enterpriseTypeDesc = enterpriseTypeDesc;
+        this.entityTypeName = entityTypeName;
     }
 
-    public String getEnterpriseTypeDesc() 
+    public String getEntityTypeName() 
     {
-        return enterpriseTypeDesc;
+        return entityTypeName;
+    }
+    public void setEntityTypeDesc(String entityTypeDesc) 
+    {
+        this.entityTypeDesc = entityTypeDesc;
+    }
+
+    public String getEntityTypeDesc() 
+    {
+        return entityTypeDesc;
     }
     public void setWeight(Long weight) 
     {
@@ -128,9 +129,9 @@ public class EnterpriseType extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("enterpriseTypeId", getEnterpriseTypeId())
-            .append("enterpriseTypeName", getEnterpriseTypeName())
-            .append("enterpriseTypeDesc", getEnterpriseTypeDesc())
+            .append("entityTypeId", getEntityTypeId())
+            .append("entityTypeName", getEntityTypeName())
+            .append("entityTypeDesc", getEntityTypeDesc())
             .append("weight", getWeight())
             .append("remark", getRemark())
             .append("orderSort", getOrderSort())

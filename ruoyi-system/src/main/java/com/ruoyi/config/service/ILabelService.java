@@ -20,6 +20,14 @@ public interface ILabelService
     public Label selectLabelByLabelId(Long labelId);
 
     /**
+     * 查询标签管理
+     *
+     * @param label 标签
+     * @return 标签管理集合
+     */
+    public List<Label> findLabelByLabelName(Label label);
+
+    /**
      * 查询标签管理列表
      * 
      * @param label 标签管理
@@ -65,7 +73,6 @@ public interface ILabelService
      * @return 结果
      */
     public List<Label> selectLabelAll(Label params);
-
 
 
 }

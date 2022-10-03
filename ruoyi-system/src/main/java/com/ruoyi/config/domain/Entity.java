@@ -9,67 +9,67 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import javax.persistence.*;
 
 /**
- * 商家管理对象 config_enterprise
+ * 商家管理对象 config_entity
  * 
  * @author metacoin
  * @date 2022-10-04
  */
-@Table(name="config_enterprise")
-@Entity
+@Table(name="config_entity")
+@javax.persistence.Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Enterprise extends BaseEntity
+public class Entity extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="enterprise_id")
-    private Long enterpriseId;
+	@Column(name="entity_id")
+    private Long entityId;
 
     /** 商家名称 */
     @Excel(name = "商家名称")
-    @Column(name="enterprise_name")
-    private String enterpriseName;
+    @Column(name="entity_name")
+    private String entityName;
 
     /** 类型ID */
     @Excel(name = "类型ID")
-    @Column(name="enterprise_type_id")
-    private Long enterpriseTypeId;
+    @Column(name="entity_type_id")
+    private Long entityTypeId;
 
     /** 类型名称 */
     @Excel(name = "类型名称")
-    @Column(name="enterprise_type_name")
-    private String enterpriseTypeName;
+    @Column(name="entity_type_name")
+    private String entityTypeName;
 
     /** 商家地址 */
     @Excel(name = "商家地址")
-    @Column(name="enterprise_address")
-    private String enterpriseAddress;
+    @Column(name="entity_address")
+    private String entityAddress;
 
     /** 描述 */
     @Excel(name = "描述")
-    @Column(name="enterprise_desc")
-    private String enterpriseDesc;
+    @Column(name="entity_desc")
+    private String entityDesc;
 
     /** 图片 */
     @Excel(name = "图片")
-    @Column(name="enterprise_imgs")
-    private String enterpriseImgs;
+    @Column(name="entity_imgs")
+    private String entityImgs;
 
     /** 地图地址 */
     @Excel(name = "地图地址")
-    @Column(name="enterprise_map_location")
-    private String enterpriseMapLocation;
+    @Column(name="entity_map_location")
+    private String entityMapLocation;
 
     /** 功能范围 */
     @Excel(name = "功能范围")
-    @Column(name="enterprise_scope")
-    private String enterpriseScope;
+    @Column(name="entity_scope")
+    private String entityScope;
 
     /** 权重 */
     @Excel(name = "权重")
@@ -107,86 +107,86 @@ public class Enterprise extends BaseEntity
     @Column(name="user_name")
     private String userName;
 
-    public void setEnterpriseId(Long enterpriseId) 
+    public void setEntityId(Long entityId) 
     {
-        this.enterpriseId = enterpriseId;
+        this.entityId = entityId;
     }
 
-    public Long getEnterpriseId() 
+    public Long getEntityId() 
     {
-        return enterpriseId;
+        return entityId;
     }
-    public void setEnterpriseName(String enterpriseName) 
+    public void setEntityName(String entityName) 
     {
-        this.enterpriseName = enterpriseName;
-    }
-
-    public String getEnterpriseName() 
-    {
-        return enterpriseName;
-    }
-    public void setEnterpriseAddress(String enterpriseAddress) 
-    {
-        this.enterpriseAddress = enterpriseAddress;
+        this.entityName = entityName;
     }
 
-    public String getEnterpriseAddress() 
+    public String getEntityName() 
     {
-        return enterpriseAddress;
+        return entityName;
     }
-    public void setEnterpriseDesc(String enterpriseDesc) 
+    public void setEntityAddress(String entityAddress) 
     {
-        this.enterpriseDesc = enterpriseDesc;
-    }
-
-    public String getEnterpriseDesc() 
-    {
-        return enterpriseDesc;
-    }
-    public void setEnterpriseImgs(String enterpriseImgs) 
-    {
-        this.enterpriseImgs = enterpriseImgs;
+        this.entityAddress = entityAddress;
     }
 
-    public String getEnterpriseImgs() 
+    public String getEntityAddress() 
     {
-        return enterpriseImgs;
+        return entityAddress;
     }
-    public void setEnterpriseMapLocation(String enterpriseMapLocation) 
+    public void setEntityDesc(String entityDesc) 
     {
-        this.enterpriseMapLocation = enterpriseMapLocation;
-    }
-
-    public String getEnterpriseMapLocation() 
-    {
-        return enterpriseMapLocation;
-    }
-    public void setEnterpriseScope(String enterpriseScope) 
-    {
-        this.enterpriseScope = enterpriseScope;
+        this.entityDesc = entityDesc;
     }
 
-    public String getEnterpriseScope() 
+    public String getEntityDesc() 
     {
-        return enterpriseScope;
+        return entityDesc;
     }
-    public void setEnterpriseTypeId(Long enterpriseTypeId) 
+    public void setEntityImgs(String entityImgs) 
     {
-        this.enterpriseTypeId = enterpriseTypeId;
-    }
-
-    public Long getEnterpriseTypeId() 
-    {
-        return enterpriseTypeId;
-    }
-    public void setEnterpriseTypeName(String enterpriseTypeName) 
-    {
-        this.enterpriseTypeName = enterpriseTypeName;
+        this.entityImgs = entityImgs;
     }
 
-    public String getEnterpriseTypeName() 
+    public String getEntityImgs() 
     {
-        return enterpriseTypeName;
+        return entityImgs;
+    }
+    public void setEntityMapLocation(String entityMapLocation) 
+    {
+        this.entityMapLocation = entityMapLocation;
+    }
+
+    public String getEntityMapLocation() 
+    {
+        return entityMapLocation;
+    }
+    public void setEntityScope(String entityScope) 
+    {
+        this.entityScope = entityScope;
+    }
+
+    public String getEntityScope() 
+    {
+        return entityScope;
+    }
+    public void setEntityTypeId(Long entityTypeId) 
+    {
+        this.entityTypeId = entityTypeId;
+    }
+
+    public Long getEntityTypeId() 
+    {
+        return entityTypeId;
+    }
+    public void setEntityTypeName(String entityTypeName) 
+    {
+        this.entityTypeName = entityTypeName;
+    }
+
+    public String getEntityTypeName() 
+    {
+        return entityTypeName;
     }
     public void setEnableStatus(Long enableStatus) 
     {
@@ -264,15 +264,15 @@ public class Enterprise extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("enterpriseId", getEnterpriseId())
-            .append("enterpriseName", getEnterpriseName())
-            .append("enterpriseAddress", getEnterpriseAddress())
-            .append("enterpriseDesc", getEnterpriseDesc())
-            .append("enterpriseImgs", getEnterpriseImgs())
-            .append("enterpriseMapLocation", getEnterpriseMapLocation())
-            .append("enterpriseScope", getEnterpriseScope())
-            .append("enterpriseTypeId", getEnterpriseTypeId())
-            .append("enterpriseTypeName", getEnterpriseTypeName())
+            .append("entityId", getEntityId())
+            .append("entityName", getEntityName())
+            .append("entityAddress", getEntityAddress())
+            .append("entityDesc", getEntityDesc())
+            .append("entityImgs", getEntityImgs())
+            .append("entityMapLocation", getEntityMapLocation())
+            .append("entityScope", getEntityScope())
+            .append("entityTypeId", getEntityTypeId())
+            .append("entityTypeName", getEntityTypeName())
             .append("enableStatus", getEnableStatus())
             .append("icon", getIcon())
             .append("orderSort", getOrderSort())

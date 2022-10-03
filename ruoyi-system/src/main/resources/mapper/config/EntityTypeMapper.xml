@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.config.mapper.EnterpriseTypeMapper">
+<mapper namespace="com.ruoyi.config.mapper.EntityTypeMapper">
     
-    <resultMap type="EnterpriseType" id="EnterpriseTypeResult">
-        <result property="enterpriseTypeId"    column="enterprise_type_id"    />
-        <result property="enterpriseTypeName"    column="enterprise_type_name"    />
-        <result property="enterpriseTypeDesc"    column="enterprise_type_desc"    />
+    <resultMap type="EntityType" id="EntityTypeResult">
+        <result property="entityTypeId"    column="entity_type_id"    />
+        <result property="entityTypeName"    column="entity_type_name"    />
+        <result property="entityTypeDesc"    column="entity_type_desc"    />
         <result property="weight"    column="weight"    />
         <result property="remark"    column="remark"    />
         <result property="orderSort"    column="order_sort"    />
@@ -19,38 +19,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectEnterpriseTypeVo">
-        select enterprise_type_id, enterprise_type_name, enterprise_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_enterprise_type
+    <sql id="selectEntityTypeVo">
+        select entity_type_id, entity_type_name, entity_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_entity_type
     </sql>
 
-    <select id="selectEnterpriseTypeAll" parameterType="EnterpriseType" resultMap="EnterpriseTypeResult">
-		<include refid="selectEnterpriseTypeVo"/>
+    <select id="selectEntityTypeAll" parameterType="EntityType" resultMap="EntityTypeResult">
+		<include refid="selectEntityTypeVo"/>
         <where>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
         order by order_sort
 	</select>
 
-    <select id="selectEnterpriseTypeList" parameterType="EnterpriseType" resultMap="EnterpriseTypeResult">
-        <include refid="selectEnterpriseTypeVo"/>
+    <select id="selectEntityTypeList" parameterType="EntityType" resultMap="EntityTypeResult">
+        <include refid="selectEntityTypeVo"/>
         <where>  
-            <if test="enterpriseTypeName != null  and enterpriseTypeName != ''"> and enterprise_type_name like concat('%', #{enterpriseTypeName}, '%')</if>
+            <if test="entityTypeName != null  and entityTypeName != ''"> and entity_type_name like concat('%', #{entityTypeName}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
         order by order_sort
     </select>
     
-    <select id="selectEnterpriseTypeByEnterpriseTypeId" parameterType="Long" resultMap="EnterpriseTypeResult">
-        <include refid="selectEnterpriseTypeVo"/>
-        where enterprise_type_id = #{enterpriseTypeId}
+    <select id="selectEntityTypeByEntityTypeId" parameterType="Long" resultMap="EntityTypeResult">
+        <include refid="selectEntityTypeVo"/>
+        where entity_type_id = #{entityTypeId}
     </select>
         
-    <insert id="insertEnterpriseType" parameterType="EnterpriseType">
-        insert into config_enterprise_type
+    <insert id="insertEntityType" parameterType="EntityType">
+        insert into config_entity_type
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="enterpriseTypeId != null">enterprise_type_id,</if>
-            <if test="enterpriseTypeName != null">enterprise_type_name,</if>
-            <if test="enterpriseTypeDesc != null">enterprise_type_desc,</if>
+            <if test="entityTypeId != null">entity_type_id,</if>
+            <if test="entityTypeName != null">entity_type_name,</if>
+            <if test="entityTypeDesc != null">entity_type_desc,</if>
             <if test="weight != null">weight,</if>
             <if test="remark != null">remark,</if>
             <if test="orderSort != null">order_sort,</if>
@@ -62,9 +62,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="enterpriseTypeId != null">#{enterpriseTypeId},</if>
-            <if test="enterpriseTypeName != null">#{enterpriseTypeName},</if>
-            <if test="enterpriseTypeDesc != null">#{enterpriseTypeDesc},</if>
+            <if test="entityTypeId != null">#{entityTypeId},</if>
+            <if test="entityTypeName != null">#{entityTypeName},</if>
+            <if test="entityTypeDesc != null">#{entityTypeDesc},</if>
             <if test="weight != null">#{weight},</if>
             <if test="remark != null">#{remark},</if>
             <if test="orderSort != null">#{orderSort},</if>
@@ -77,11 +77,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateEnterpriseType" parameterType="EnterpriseType">
-        update config_enterprise_type
+    <update id="updateEntityType" parameterType="EntityType">
+        update config_entity_type
         <trim prefix="SET" suffixOverrides=",">
-            <if test="enterpriseTypeName != null">enterprise_type_name = #{enterpriseTypeName},</if>
-            <if test="enterpriseTypeDesc != null">enterprise_type_desc = #{enterpriseTypeDesc},</if>
+            <if test="entityTypeName != null">entity_type_name = #{entityTypeName},</if>
+            <if test="entityTypeDesc != null">entity_type_desc = #{entityTypeDesc},</if>
             <if test="weight != null">weight = #{weight},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="orderSort != null">order_sort = #{orderSort},</if>
@@ -92,17 +92,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where enterprise_type_id = #{enterpriseTypeId}
+        where entity_type_id = #{entityTypeId}
     </update>
 
-    <delete id="deleteEnterpriseTypeByEnterpriseTypeId" parameterType="Long">
-        delete from config_enterprise_type where enterprise_type_id = #{enterpriseTypeId}
+    <delete id="deleteEntityTypeByEntityTypeId" parameterType="Long">
+        delete from config_entity_type where entity_type_id = #{entityTypeId}
     </delete>
 
-    <delete id="deleteEnterpriseTypeByEnterpriseTypeIds" parameterType="String">
-        delete from config_enterprise_type where enterprise_type_id in 
-        <foreach item="enterpriseTypeId" collection="array" open="(" separator="," close=")">
-            #{enterpriseTypeId}
+    <delete id="deleteEntityTypeByEntityTypeIds" parameterType="String">
+        delete from config_entity_type where entity_type_id in 
+        <foreach item="entityTypeId" collection="array" open="(" separator="," close=")">
+            #{entityTypeId}
         </foreach>
     </delete>
 </mapper>

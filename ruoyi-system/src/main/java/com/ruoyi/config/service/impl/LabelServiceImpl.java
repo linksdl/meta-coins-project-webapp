@@ -33,6 +33,17 @@ public class LabelServiceImpl implements ILabelService
     }
 
     /**
+     * 查询标签管理
+     *
+     * @param label 标签
+     * @return 标签管理集合
+     */
+    @Override
+    public List<Label> findLabelByLabelName(Label label) {
+        return labelMapper.findLabelByLabelName(label);
+    }
+
+    /**
      * 查询标签管理列表
      * 
      * @param label 标签管理

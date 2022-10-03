@@ -2,9 +2,9 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="商家名称" prop="enterpriseName">
+      <el-form-item label="商家名称" prop="entityName">
         <el-input
-          v-model="queryParams.enterpriseName"
+          v-model="queryParams.entityName"
           placeholder="请输入商家名称"
           clearable
           @keyup.enter.native="handleQuery"
@@ -46,7 +46,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['config:enterprise:add']"
+          v-hasPermi="['config:entity:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -57,7 +57,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['config:enterprise:edit']"
+          v-hasPermi="['config:entity:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -68,7 +68,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['config:enterprise:remove']"
+          v-hasPermi="['config:entity:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -78,41 +78,41 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['config:enterprise:export']"
+          v-hasPermi="['config:entity:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
 
-    <el-table v-loading="loading" :data="enterpriseList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="entityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商家名称" align="center" prop="enterpriseName" :show-overflow-tooltip="true" />
-      <el-table-column label="商家类型" align="center" prop="enterpriseTypeName" :show-overflow-tooltip="true" />
+      <el-table-column label="商家名称" align="center" prop="entityName" :show-overflow-tooltip="true" />
+      <el-table-column label="商家类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商家地址" align="center" prop="enterpriseAddress" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="描述" align="center" prop="enterpriseDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="商家地址" align="center" prop="entityAddress" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="图片" align="center" prop="enterpriseImgs" width="100">
+      <el-table-column label="描述" align="center" prop="entityDesc" :show-overflow-tooltip="true" />
+
+
+      <el-table-column label="图片" align="center" prop="entityImgs" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.enterpriseImgs" :width="50" :height="50"/>
+          <image-preview :src="scope.row.entityImgs" :width="50" :height="50"/>
         </template>
       </el-table-column>
 
 
 
-      <el-table-column label="地图地址" align="center" prop="enterpriseMapLocation" :show-overflow-tooltip="true" />
+      <el-table-column label="地图地址" align="center" prop="entityMapLocation" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="功能范围" align="center" prop="enterpriseScope">
+      <el-table-column label="功能范围" align="center" prop="entityScope">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_function_scope" :value="scope.row.enterpriseScope ? scope.row.enterpriseScope.split(',') : []"/>
+          <dict-tag :options="dict.type.config_function_scope" :value="scope.row.entityScope ? scope.row.entityScope.split(',') : []"/>
         </template>
       </el-table-column>
 
@@ -149,14 +149,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['config:enterprise:edit']"
+            v-hasPermi="['config:entity:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['config:enterprise:remove']"
+            v-hasPermi="['config:entity:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -175,10 +175,10 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
            <el-col :span="12">
-             <el-form-item label="名称" prop="enterpriseName" >
+             <el-form-item label="名称" prop="entityName" >
               <el-autocomplete
                 class="inline-input"
-                v-model="form.enterpriseName"
+                v-model="form.entityName"
                 :fetch-suggestions="querySearch"
                 :trigger-on-focus="true"
                 placeholder="请输入商家（实体）名称"
@@ -188,13 +188,13 @@
           </el-col>
 
            <el-col :span="12">
-              <el-form-item label="类型" prop="enterpriseTypeId">
-                <el-select v-model="form.enterpriseTypeId" placeholder="请选择商家类型">
+              <el-form-item label="类型" prop="entityTypeId">
+                <el-select v-model="form.entityTypeId" placeholder="请选择商家类型">
                   <el-option
                     v-for="item in typeOptions"
-                    :key="item.enterpriseTypeId"
-                    :label="item.enterpriseTypeName"
-                    :value="item.enterpriseTypeId"
+                    :key="item.entityTypeId"
+                    :label="item.entityTypeName"
+                    :value="item.entityTypeId"
                     :disabled="item.disabled">
                   </el-option>
                 </el-select>
@@ -202,28 +202,28 @@
            </el-col>
         </el-row>
 
-        <el-form-item label="地址" prop="enterpriseAddress">
-          <el-input v-model="form.enterpriseAddress" placeholder="请输入商家地址" />
+        <el-form-item label="地址" prop="entityAddress">
+          <el-input v-model="form.entityAddress" placeholder="请输入商家地址" />
         </el-form-item>
 
 
-        <el-form-item label="描述" prop="enterpriseDesc">
-          <el-input v-model="form.enterpriseDesc" placeholder="请输入描述" />
+        <el-form-item label="描述" prop="entityDesc">
+          <el-input v-model="form.entityDesc" placeholder="请输入描述" />
         </el-form-item>
 
 
         <el-form-item label="图片">
-          <image-upload v-model="form.enterpriseImgs"/>
+          <image-upload v-model="form.entityImgs"/>
         </el-form-item>
 
 
-        <el-form-item label="地图" prop="enterpriseMapLocation">
-          <el-input v-model="form.enterpriseMapLocation" placeholder="请输入地图地址" />
+        <el-form-item label="地图" prop="entityMapLocation">
+          <el-input v-model="form.entityMapLocation" placeholder="请输入地图地址" />
         </el-form-item>
 
 
-        <el-form-item label="功能范围" prop="enterpriseScope">
-          <el-checkbox-group v-model="form.enterpriseScope">
+        <el-form-item label="功能范围" prop="entityScope">
+          <el-checkbox-group v-model="form.entityScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
               :key="dict.value"
@@ -297,12 +297,12 @@
 </template>
 
 <script>
-import { listEnterprise, getEnterprise, delEnterprise, addEnterprise, updateEnterprise } from "@/api/config/enterprise";
+import { listEntity, getEntity, delEntity, addEntity, updateEntity } from "@/api/config/entity";
 import IconSelect from "@/components/IconSelect";
-import { selectEnterpriseType as getEnterpriseTypeOptionSelect } from "@/api/config/enterpriseType";
+import { selectEntityType as getEntityTypeOptionSelect } from "@/api/config/entityType";
 
 export default {
-  name: "Enterprise",
+  name: "Entity",
   dicts: ['config_function_scope', 'config_is_enable'],
   components: {IconSelect},
   data() {
@@ -322,7 +322,7 @@ export default {
       // 总条数
       total: 0,
       // 商家管理表格数据
-      enterpriseList: [],
+      entityList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -331,7 +331,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        enterpriseName: null,
+        entityName: null,
         enableStatus: null,
         createTime: null,
       },
@@ -340,16 +340,16 @@ export default {
       entities: [],
       // 表单校验
       rules: {
-        enterpriseName: [
+        entityName: [
           { required: true, message: "商家名称不能为空", trigger: "blur" }
         ],
-        enterpriseAddress: [
+        entityAddress: [
           { required: true, message: "商家地址不能为空", trigger: "blur" }
         ],
-        enterpriseTypeId: [
+        entityTypeId: [
           { required: true, message: "商家类型不能为空", trigger: "change" }
         ],
-        enterpriseScope: [
+        entityScope: [
           { required: true, message: "功能范围不能为空", trigger: "blur" }
         ],
         enableStatus: [
@@ -360,7 +360,7 @@ export default {
   },
   created() {
     this.getList();
-    this.getEnterpriseTypeList();
+    this.getEntityTypeList();
     this.getListAll();
   },
   methods: {
@@ -371,8 +371,8 @@ export default {
     /** 查询商家管理列表 */
     getList() {
       this.loading = true;
-      listEnterprise(this.queryParams).then(response => {
-        this.enterpriseList = response.rows;
+      listEntity(this.queryParams).then(response => {
+        this.entityList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -380,13 +380,13 @@ export default {
     /** 查询所有实体列表 */
     getListAll() {
         this.queryParams.pageSize=1000;
-        listEnterprise(this.queryParams).then(response => {
+        listEntity(this.queryParams).then(response => {
           this.entities = response.rows;
         });
     },
     /** 查询商家类型列表 */
-    getEnterpriseTypeList() {
-      getEnterpriseTypeOptionSelect().then(response => {
+    getEntityTypeList() {
+      getEntityTypeOptionSelect().then(response => {
         this.typeOptions = response.data;
       });
     },
@@ -398,15 +398,15 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        enterpriseId: null,
-        enterpriseName: null,
-        enterpriseAddress: null,
-        enterpriseDesc: null,
-        enterpriseImgs: null,
-        enterpriseMapLocation: null,
-        enterpriseScope: [],
-        enterpriseTypeId: null,
-        enterpriseTypeName: null,
+        entityId: null,
+        entityName: null,
+        entityAddress: null,
+        entityDesc: null,
+        entityImgs: null,
+        entityMapLocation: null,
+        entityScope: [],
+        entityTypeId: null,
+        entityTypeName: null,
         enableStatus: 0,
         icon: null,
         orderSort: null,
@@ -452,7 +452,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.enterpriseId)
+      this.ids = selection.map(item => item.entityId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -465,10 +465,10 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const enterpriseId = row.enterpriseId || this.ids
-      getEnterprise(enterpriseId).then(response => {
+      const entityId = row.entityId || this.ids
+      getEntity(entityId).then(response => {
         this.form = response.data;
-        this.form.enterpriseScope = this.form.enterpriseScope.split(",");
+        this.form.entityScope = this.form.entityScope.split(",");
         this.open = true;
         this.title = "修改商家管理";
       });
@@ -477,15 +477,15 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.enterpriseScope = this.form.enterpriseScope.join(",");
-          if (this.form.enterpriseId != null) {
-            updateEnterprise(this.form).then(response => {
+          this.form.entityScope = this.form.entityScope.join(",");
+          if (this.form.entityId != null) {
+            updateEntity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addEnterprise(this.form).then(response => {
+            addEntity(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -496,9 +496,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const enterpriseIds = row.enterpriseId || this.ids;
-      this.$modal.confirm('是否确认删除商家管理编号为"' + enterpriseIds + '"的数据项？').then(function() {
-        return delEnterprise(enterpriseIds);
+      const entityIds = row.entityId || this.ids;
+      this.$modal.confirm('是否确认删除商家管理编号为"' + entityIds + '"的数据项？').then(function() {
+        return delEntity(entityIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -506,9 +506,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('config/enterprise/export', {
+      this.download('config/entity/export', {
         ...this.queryParams
-      }, `enterprise_${new Date().getTime()}.xlsx`)
+      }, `entity_${new Date().getTime()}.xlsx`)
     }
   }
 };

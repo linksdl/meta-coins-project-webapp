@@ -329,9 +329,6 @@ export default {
         labelCname: [
           { required: true, message: "中文名称不能为空", trigger: "blur" }
         ],
-        labelEname: [
-          { required: true, message: "英文名称不能为空",  trigger: "blur" }
-        ],
         labelType: [
           { required: true, message: "标签类型不能为空",  trigger: "change" }
         ],
