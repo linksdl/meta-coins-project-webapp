@@ -53,8 +53,7 @@ public class IncomeBillServiceImpl implements IIncomeBillService
     @Override
     public int insertIncomeBill(IncomeBill incomeBill)
     {
-        incomeBill.setCreateTime(DateUtils.getNowDate());
-        incomeBill.setUpdateTime(DateUtils.getNowDate());
+
         return incomeBillMapper.insertIncomeBill(incomeBill);
     }
 

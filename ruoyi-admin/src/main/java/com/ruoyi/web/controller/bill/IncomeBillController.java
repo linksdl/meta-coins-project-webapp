@@ -6,7 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.bill.service.IFlowBillService;
 import com.ruoyi.common.utils.DateStringUtils;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FullDate;
 import com.ruoyi.config.domain.*;
 import com.ruoyi.config.service.*;
@@ -75,6 +77,9 @@ public class IncomeBillController extends BaseController
     @Autowired
     private IAccountService accountService;
 
+    @Autowired
+    private IFlowBillService flowBillService;
+
     /**
      * 分页查询收入账单列表
      */
@@ -120,7 +125,8 @@ public class IncomeBillController extends BaseController
 
         // 基本信息
         Date incomeDateTime = bill.getIncomeDatetime();
-        bill.setIncomeName(bill.getIncomeDatetime() +" 收入");
+        FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
+        bill.setIncomeName(fullDate.getDate() +" 收入");
         bill.setIncomeImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -140,12 +146,11 @@ public class IncomeBillController extends BaseController
             return AjaxResult.error("请选择一个默认的账本！！！");
         }
         bill.setIncomeBookId(books.get(0).getBookId());
-        bill.setIncomeName(books.size() == 1 ? books.get(0).getBookName() : null);
+        bill.setIncomeBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         bill.setIncomeUserId(getUserId());
         bill.setIncomeUserName(getUsername());
 
         // 关于日期
-        FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
         bill.setIncomeDate(fullDate.getDate());
         bill.setIncomeYear(fullDate.getYear());
         bill.setIncomeQuarter(fullDate.getQuarter());
@@ -228,27 +233,87 @@ public class IncomeBillController extends BaseController
 
         // 商家，实体，个人，组织，公司等
         if (null != bill.getIncomeEntityId()) {
-            entityService.selectEntityByEntityId(bill.getIncomeEntityId());
+            Entity entity = entityService.selectEntityByEntityId(bill.getIncomeEntityId());
+            bill.setIncomeEntityName(entity.getEntityName());
+            String[] address = entity.getEntityAddress().split(" ");
+            // 地址
+            bill.setIncomeAddress(entity.getEntityAddress());
+            if(address.length == 1) {
+                bill.setIncomeCountry(address[0]);
+            }else if(address.length == 2) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+            }else if(address.length == 3) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+            }else if(address.length == 4) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+                bill.setIncomeCounty(address[3]);
+            }else if(address.length == 5) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+                bill.setIncomeCounty(address[3]);
+                bill.setIncomeStreet(address[4]);
+            }
+        }
+        // 表情
+        if (null != bill.getIncomeEmotionId()) {
+            Emotion emotion = emotionService.selectEmotionByEmotionId(bill.getIncomeEmotionId());
+            bill.setIncomeEmotionName(emotion.getEmotionCname());
+        }
+
+        // 城市
+        if (null != bill.getIncomeCityId()) {
+            City city = cityService.selectCityByCityId(bill.getIncomeCityId());
+            bill.setIncomeCityName(city.getCityCname());
+        }
+        // 分类
+        if (null != bill.getIncomeCategoryId()) {
+            String[] ids = bill.getIncomeCategoryId().split(",");
+            String[] names = new String[ids.length];
+            for (int i=0; i < ids.length; i++) {
+                Category category = categoryService.selectCategoryByCategoryId(Long.parseLong(ids[i]));
+                names[i] = category.getCategoryName();
+            }
+            bill.setIncomeCategoryName(String.join(" > ", names));
+        }
+
+        // 账户
+        if (null != bill.getIncomeAccountId()) {
+            String[] ids = bill.getIncomeAccountId().split(",");
+            String[] names = new String[ids.length];
+            for (int i=0; i < ids.length; i++) {
+                Account account = accountService.selectAccountByAccountId(Long.parseLong(ids[i]));
+                names[i] = account.getAccountName();
+            }
+            bill.setIncomeAccountName(String.join(" > ", names));
         }
 
         // 描述
         String desc =
-              "时间 [" + bill.getIncomeDatetime() + "]," +
-              "金额 [" + bill.getIncomeAmount() + "]" +
-              "币种 [" + bill.getIncomeMemberName() + "]"+
-              "类型 [" + bill.getIncomeType() + "]"+
-              "分类 [" + bill.getIncomeCategoryName() + "]," +
-              "账户 [" + bill.getIncomeAccountName() + "]," +
-              "实体 [" + bill.getIncomeEntityName() + "]," +
-              "项目 [" + bill.getIncomeProjectName() + "]," +
-              "标签 [" + bill.getIncomeLabelName() + "]," +
-              "城市 [" + bill.getIncomeCityName() + "]" +
-              "成员 [" + bill.getIncomeMemberName() + "]," +
-              "心情 [" + bill.getIncomeEmotionName() + "]," +
-              "成员 [" + bill.getIncomeWeatherName() + "]," +
-              "备注 [" + bill.getRemark() + "]";
+              "时间[" + fullDate.getDatetime() + "], " +
+              "金额[" + bill.getIncomeAmount() + "], " +
+              "单位[" + bill.getIncomeMoneyName() + "], "+
+              "类型[" + bill.getIncomeType() + "], "+
+              "分类[" + bill.getIncomeCategoryName() + "], " +
+              "账户[" + bill.getIncomeAccountName() + "], " +
+              "实体[" + bill.getIncomeEntityName() + "], " +
+              "项目[" + bill.getIncomeProjectName() + "], " +
+              "标签[" + bill.getIncomeLabelName() + "], " +
+              "城市[" + bill.getIncomeCityName() + "], " +
+              "成员[" + bill.getIncomeMemberName() + "], " +
+              "心情[" + bill.getIncomeEmotionName() + "], " +
+              "天气[" + bill.getIncomeWeatherName() + "], " +
+              "备注[" + bill.getRemark() + "] ";
         bill.setIncomeDesc(desc);
-
+        bill.setCreateTime(DateUtils.getNowDate());
+        bill.setUpdateTime(DateUtils.getNowDate());
+        // 保存到流水中
+        // flowBillService.
         return toAjax(incomeBillService.insertIncomeBill(bill));
     }
 
@@ -258,10 +323,195 @@ public class IncomeBillController extends BaseController
     @PreAuthorize("@ss.hasPermi('bill:income:edit')")
     @Log(title = "收入账单", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody IncomeBill incomeBill)
-    {
-        incomeBill.setUpdateBy(getUsername());
-        return toAjax(incomeBillService.updateIncomeBill(incomeBill));
+    public AjaxResult edit(@RequestBody IncomeBill bill) throws ParseException {
+        // 基本信息
+        Date incomeDateTime = bill.getIncomeDatetime();
+        FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
+        bill.setIncomeName(fullDate.getDate() +" 收入");
+        bill.setIncomeImgs("");
+        bill.setIcon("");
+        bill.setOrderSort(0L);
+        bill.setWeight(0L);
+        bill.setIsDeleted(0);
+        if (bill.getIncomeParentId() == null) {
+            bill.setIncomeParentId(0L);
+            bill.setIncomeParentName("root");
+        }
+
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
+        bill.setIncomeBookId(books.get(0).getBookId());
+        bill.setIncomeBookName(books.size() == 1 ? books.get(0).getBookName() : null);
+        bill.setIncomeUserId(getUserId());
+        bill.setIncomeUserName(getUsername());
+
+        // 关于日期
+        bill.setIncomeDate(fullDate.getDate());
+        bill.setIncomeYear(fullDate.getYear());
+        bill.setIncomeQuarter(fullDate.getQuarter());
+        bill.setIncomeMonth(fullDate.getMonth());
+        bill.setIncomeWeek(fullDate.getDayOfWeek());
+        bill.setIncomeYearWeek(fullDate.getWeekOfYear());
+        bill.setIncomeDay(fullDate.getDay());
+        bill.setIncomePeriod(fullDate.getPeriod());
+
+        // 创建者
+        bill.setUpdateBy(getUsername());
+
+        // 关联信息
+        // 天气
+        if (null != bill.getIncomeWeatherId()) {
+             Weather weather = weatherService.selectWeatherByWeatherId(bill.getIncomeWeatherId());
+             bill.setIncomeWeatherName(weather.getWeatherCname());
+        }
+        // 项目
+        if(null != bill.getIncomeProjectId()) {
+            Project project = projectService.selectProjectByProjectId(bill.getIncomeProjectId());
+            bill.setIncomeProjectName(project.getProjectName());
+        }
+        else if (null != bill.getIncomeProjectName() && !"".equals(bill.getIncomeProjectName()))
+        {
+            Project temp = new Project();
+            temp.setProjectName(bill.getIncomeProjectName());
+            temp.setProjectDesc("添加收入账单创建");
+            temp.setProjectType("income");
+            temp.setProjectScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setWeight(1L);
+            temp.setOrderSort(1L);
+            temp.setIcon("bug");
+            temp.setEnableStatus(1L);
+            temp.setIsDeleted(0);
+            temp.setRemark("添加收入账单创建");
+            projectService.insertProject(temp);
+            bill.setIncomeProjectId(temp.getProjectId());
+        }
+        // 币种
+        if (null != bill.getIncomeMoneyId())
+        {
+            Money money = moneyService.selectMoneyByMoneyId(bill.getIncomeMoneyId());
+            bill.setIncomeMoneyName(money.getMoneyCname());
+        }
+        // 成员
+        if (null != bill.getIncomeMemberId()) {
+            Member member = memberService.selectMemberByMemberId(bill.getIncomeMemberId());
+            bill.setIncomeMemberName(member.getMemberName());
+        }
+        // 标签
+        if (null != bill.getIncomeLabelName() && !"".equals(bill.getIncomeLabelName())) {
+            String[] labels = bill.getIncomeLabelName().split(" ");
+            String[] labelIds = new String[labels.length];
+            for(int i=0; i<labelIds.length; i++) {
+                Label label = new Label();
+                label.setLabelCname(labels[i]);
+                List<Label> entities = labelService.findLabelByLabelName(label);
+                if (entities.size() > 0)
+                {
+                    labelIds[i] = (entities.get(0).getLabelId().toString());
+                } else {
+                    label.setLabelEname("");
+                    label.setLabelDesc("添加收入账单创建");
+                    label.setLabelType("income");
+                    label.setLabelScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setWeight(1L);
+                    label.setOrderSort(1L);
+                    label.setIcon("component");
+                    label.setEnableStatus(1L);
+                    label.setIsDeleted(0);
+                    label.setRemark("添加收入账单创建");
+                    labelService.insertLabel(label);
+                    labelIds[i] = (label.getLabelId().toString());
+                }
+            }
+            bill.setIncomeLabelId(String.join(",", labelIds));
+        }
+
+        // 商家，实体，个人，组织，公司等
+        if (null != bill.getIncomeEntityId()) {
+            Entity entity = entityService.selectEntityByEntityId(bill.getIncomeEntityId());
+            bill.setIncomeEntityName(entity.getEntityName());
+            String[] address = entity.getEntityAddress().split(" ");
+            // 地址
+            bill.setIncomeAddress(entity.getEntityAddress());
+            if(address.length == 1) {
+                bill.setIncomeCountry(address[0]);
+            }else if(address.length == 2) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+            }else if(address.length == 3) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+            }else if(address.length == 4) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+                bill.setIncomeCounty(address[3]);
+            }else if(address.length == 5) {
+                bill.setIncomeCountry(address[0]);
+                bill.setIncomeProvince(address[1]);
+                bill.setIncomeCity(address[2]);
+                bill.setIncomeCounty(address[3]);
+                bill.setIncomeStreet(address[4]);
+            }
+        }
+        // 表情
+        if (null != bill.getIncomeEmotionId()) {
+            Emotion emotion = emotionService.selectEmotionByEmotionId(bill.getIncomeEmotionId());
+            bill.setIncomeEmotionName(emotion.getEmotionCname());
+        }
+
+        // 城市
+        if (null != bill.getIncomeCityId()) {
+            City city = cityService.selectCityByCityId(bill.getIncomeCityId());
+            bill.setIncomeCityName(city.getCityCname());
+        }
+        // 分类
+        if (null != bill.getIncomeCategoryId()) {
+            String[] ids = bill.getIncomeCategoryId().split(",");
+            String[] names = new String[ids.length];
+            for (int i=0; i < ids.length; i++) {
+                Category category = categoryService.selectCategoryByCategoryId(Long.parseLong(ids[i]));
+                names[i] = category.getCategoryName();
+            }
+            bill.setIncomeCategoryName(String.join(" > ", names));
+        }
+
+        // 账户
+        if (null != bill.getIncomeAccountId()) {
+            String[] ids = bill.getIncomeAccountId().split(",");
+            String[] names = new String[ids.length];
+            for (int i=0; i < ids.length; i++) {
+                Account account = accountService.selectAccountByAccountId(Long.parseLong(ids[i]));
+                names[i] = account.getAccountName();
+            }
+            bill.setIncomeAccountName(String.join(" > ", names));
+        }
+
+        // 描述
+        String desc =
+              "时间[" + fullDate.getDatetime() + "], " +
+              "金额[" + bill.getIncomeAmount() + "], " +
+              "单位[" + bill.getIncomeMoneyName() + "], "+
+              "类型[" + bill.getIncomeType() + "], "+
+              "分类[" + bill.getIncomeCategoryName() + "], " +
+              "账户[" + bill.getIncomeAccountName() + "], " +
+              "实体[" + bill.getIncomeEntityName() + "], " +
+              "项目[" + bill.getIncomeProjectName() + "], " +
+              "标签[" + bill.getIncomeLabelName() + "], " +
+              "城市[" + bill.getIncomeCityName() + "], " +
+              "成员[" + bill.getIncomeMemberName() + "], " +
+              "心情[" + bill.getIncomeEmotionName() + "], " +
+              "天气[" + bill.getIncomeWeatherName() + "], " +
+              "备注[" + bill.getRemark() + "] ";
+        bill.setIncomeDesc(desc);
+        bill.setUpdateTime(DateUtils.getNowDate());
+        return toAjax(incomeBillService.updateIncomeBill(bill));
     }
 
     /**

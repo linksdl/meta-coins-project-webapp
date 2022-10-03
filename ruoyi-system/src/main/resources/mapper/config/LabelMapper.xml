@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where label_id = #{labelId}
     </select>
         
-    <insert id="insertLabel" parameterType="Label">
+    <insert id="insertLabel" parameterType="Label" useGeneratedKeys="true" keyProperty="labelId">
         insert into config_label
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="labelId != null">label_id,</if>

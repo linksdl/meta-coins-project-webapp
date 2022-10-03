@@ -18,6 +18,8 @@ public class FullDate {
 
     private String fullTime;   // 2019-10-09 12:00:00
 
+    private String datetime;   // 2019-10-09 12:00:00
+
     private String date;       // 2019-10-09
 
     private String time;       // 12:00:00

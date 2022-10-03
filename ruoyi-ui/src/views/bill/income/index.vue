@@ -82,17 +82,70 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="incomeList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
+    <el-table v-loading="loading" :row-class-name="tableRowClassName"  :data="incomeList" @selection-change="handleSelectionChange">
+       <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="ID">
+              <span>{{ props.row.incomeId }}</span>
+            </el-form-item>
+            <el-form-item label="名称">
+              <span>{{ props.row.incomeName }}</span>
+            </el-form-item>
+            <el-form-item label="类型">
+              <template slot-scope="scope">
+              <dict-tag :options="dict.type.config_function_in" :value="props.row.incomeType"/>
+               </template>
+            </el-form-item>
+            <el-form-item label="时间">
+              <span>{{ props.row.incomeDate }}</span>
+            </el-form-item>
+            <el-form-item label="金额">
+              <span>{{ props.row.incomeAmount }}</span>
+            </el-form-item>
+            <el-form-item label="币种">
+              <span>{{ props.row.incomeMoneyName }}</span>
+            </el-form-item>
+            <el-form-item label="账户">
+              <span>{{ props.row.incomeAccountName }}</span>
+            </el-form-item>
+            <el-form-item label="分类">
+              <span>{{ props.row.incomeCategoryName }}</span>
+            </el-form-item>
+            <el-form-item label="实体">
+              <span>{{ props.row.incomeEntityName }}</span>
+            </el-form-item>
+            <el-form-item label="项目">
+              <span>{{ props.row.incomeProjectName }}</span>
+            </el-form-item>
+            <el-form-item label="标签">
+              <span>{{ props.row.incomeLabelName }}</span>
+            </el-form-item>
+            <el-form-item label="城市">
+              <span>{{ props.row.incomeCityName }}</span>
+            </el-form-item>
+            <el-form-item label="成员">
+              <span>{{ props.row.incomeMemberName }}</span>
+            </el-form-item>
+            <el-form-item label="心情">
+              <span>{{ props.row.incomeEmotionName }}</span>
+            </el-form-item>
+            <el-form-item label="天气">
+              <span>{{ props.row.incomeWeatherName }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
 
-      <el-table-column label="名称" align="center" prop="incomeName" :show-overflow-tooltip="true" />
-      <el-table-column label="类型" align="center" prop="incomeType">
+      <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" sortable align="center" prop="incomeName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" sortable align="center" prop="incomeType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_in" :value="scope.row.incomeType"/>
         </template>
       </el-table-column>
-      <el-table-column label="金额" align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
-      <el-table-column label="日期" align="center" prop="incomeDatetime" width="180">
+      <el-table-column label="金额" sortable align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
+      <el-table-column label="日期" sortable align="center" prop="incomeDatetime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.incomeDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
@@ -100,7 +153,7 @@
       <el-table-column label="描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
       <el-table-column label="凭证" align="center" prop="incomeImgs" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.incomeImgs" :width="50" :height="50"/>
+          <image-preview :src="scope.row.incomeImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
       <el-table-column label="可用" align="center" prop="enableStatus">
@@ -358,7 +411,7 @@
       <el-row>
         <el-col :span="24">
            <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc" clearable placeholder="请输入内容" />
+            <el-input v-model="form.incomeDesc" type="textarea" clearable placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -452,7 +505,7 @@
       <el-row>
         <el-col :span="24">
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" clearable type="textarea" placeholder="请输入备注" />
+              <el-input v-model="form.remark" clearable type="textarea" autosize placeholder="请输入备注" />
             </el-form-item>
         </el-col>
       </el-row>
@@ -495,6 +548,26 @@
     width: 150px;
     margin-left: 10px;
     vertical-align: bottom;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+  .demo-table-expand {
+    font-size: 12;
+  }
+  .demo-table-expand label {
+    width: 80px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 33%;
   }
 </style>
 
@@ -676,8 +749,18 @@ export default {
     this.getWeatherList();
   },
   methods: {
+
+      tableRowClassName({row, rowIndex}) {
+        if (row.incomeAmount > 8000 && row.incomeAmount < 10000) {
+          return 'warning-row';
+        } else if (row.incomeAmount > 10000) {
+          return 'success-row';
+        }
+        return '';
+      },
+
       handleClose(tag) {
-        this.form.incomeLabelName.splice(this.form.incomeLabelName.indexOf(tag), 1);
+        this.form.incomeLabelName.splice(this.form.incomeLabelName.indexOf(tag), 2);
       },
       showInput() {
         this.inputVisible = true;
@@ -937,7 +1020,7 @@ export default {
         this.form = response.data;
         this.form.incomeAccountId = this.form.incomeAccountId.split(",");
         this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
-        this.form.incomeLabelName = this.form.incomeLabelName.split(",");
+        this.form.incomeLabelName = this.form.incomeLabelName.split(" ");
         this.open = true;
         this.title = "修改收入账单";
       });
@@ -948,8 +1031,7 @@ export default {
         if (valid) {
           this.form.incomeAccountId = this.form.incomeAccountId.join(",");
           this.form.incomeCategoryId = this.form.incomeCategoryId.join(",");
-          this.form.incomeLabelName = this.form.incomeLabelName.join(",");
-          console.log(this.form);
+          this.form.incomeLabelName = this.form.incomeLabelName.join(" ");
           if (this.form.incomeId != null) {
             updateIncome(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

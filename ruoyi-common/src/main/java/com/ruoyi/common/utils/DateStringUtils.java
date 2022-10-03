@@ -18,6 +18,7 @@ public class DateStringUtils {
 		int week_of_year = calendar.get(Calendar.WEEK_OF_YEAR);
 		int day_of_week = calendar.get(Calendar.DAY_OF_WEEK);
 		String weekOfYear = String.valueOf(week_of_year);
+		String datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateTime);
 		String date = new SimpleDateFormat("yyyy-MM-dd").format(dateTime);
 		String year = timeStr.substring(0, 4);
 		String quarter = "";
@@ -104,6 +105,7 @@ public class DateStringUtils {
 
 		FullDate fullDate = FullDate.builder()
 				.fullTime(timeStr)
+				.datetime(datetime)
 				.date(date)
 				.time(timeStr.substring(11, 18))
 				.year(year)
