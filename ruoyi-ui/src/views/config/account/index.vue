@@ -75,24 +75,28 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column label="排序" align="center" prop="orderSort" />
-      <el-table-column label="账户名称" prop="accountName" />
-      <el-table-column label="父类名称" align="center" prop="accountParentName" />
+      <el-table-column label="名称" prop="accountName" />
+      <el-table-column label="父类" align="center" prop="accountParentName" />
       <el-table-column label="层级" align="center" prop="accountLevel" />
+
       <el-table-column label="功能范围" align="center" prop="accountScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.accountScope ? scope.row.accountScope.split(',') : []"/>
         </template>
       </el-table-column>
-      <el-table-column label="类型" align="center" prop="accountType">
+
+      <el-table-column label="功能类型" align="center" prop="accountType">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_function_type" :value="scope.row.accountType"/>
+          <dict-tag :options="dict.type.config_function_type" :value="scope.row.accountType ? scope.row.accountType.split(',') : []"/>
         </template>
       </el-table-column>
-      <el-table-column label="类别" align="center" prop="accountClass">
+
+      <el-table-column label="功能类别" align="center" prop="accountClass">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_class" :value="scope.row.accountClass"/>
         </template>
       </el-table-column>
+
       <el-table-column label="权重" align="center" prop="weight" />
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
@@ -148,17 +152,15 @@
         </el-row>
 
         <el-form-item label="功能类型" prop="accountType">
-          <el-radio-group v-model="form.accountType">
-              <el-radio
+          <el-checkbox-group v-model="form.accountType">
+              <el-checkbox
                 v-for="dict in dict.type.config_function_type"
                 :key="dict.value"
-                :label="dict.value"
-                >
+                :label="dict.value">
                 {{dict.label}}
-              </el-radio>
-          </el-radio-group>
+              </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
-
 
 
         <el-form-item label="功能范围" prop="accountScope">
@@ -327,7 +329,7 @@ export default {
         accountParentId: null,
         accountLevel: null,
         accountScope: [],
-        accountType: null,
+        accountType: [],
         accountSort: null,
         accountClass: "0",
 
@@ -388,6 +390,7 @@ export default {
       getAccount(row.accountId).then(response => {
         this.form = response.data;
         this.form.accountScope = this.form.accountScope.split(",");
+        this.form.accountType = this.form.accountType.split(",");
         this.open = true;
         this.title = "修改账户管理";
       });
@@ -397,6 +400,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.accountScope = this.form.accountScope.join(",");
+          this.form.accountType = this.form.accountType.join(",");
           if (this.form.accountId != null) {
             updateAccount(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

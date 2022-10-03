@@ -125,6 +125,8 @@ public class MoneyController extends BaseController
     {
         money.setUpdateBy(getUsername());
         money.setMoneyCname(money.getMoneyCname()+"("+money.getMoneyRate().toString()+")");
+        MoneyType moneyType = moneyTypeService.selectMoneyTypeByMoneyTypeId(money.getMoneyTypeId());
+        money.setMoneyTypeName(moneyType.getMoneyTypeCname());
         return toAjax(moneyService.updateMoney(money));
     }
 

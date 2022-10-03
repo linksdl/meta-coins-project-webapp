@@ -7,6 +7,8 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+
 
 /**
  * 成员管理对象 config_member

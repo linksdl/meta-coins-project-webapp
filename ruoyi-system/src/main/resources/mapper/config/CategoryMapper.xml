@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCategoryVo"/>
         <where>  
             <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="categoryType != null  and categoryType != ''"> and category_type = #{categoryType}</if>
             <if test="categoryClass != null  and categoryClass != ''"> and category_class = #{categoryClass}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>

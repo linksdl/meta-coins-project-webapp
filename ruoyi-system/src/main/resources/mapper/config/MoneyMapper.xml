@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort
+        order by order_sort asc
     </select>
     
     <select id="selectMoneyByMoneyId" parameterType="Long" resultMap="MoneyResult">

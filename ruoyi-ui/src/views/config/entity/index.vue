@@ -90,10 +90,10 @@
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商家名称" align="center" prop="entityName" :show-overflow-tooltip="true" />
-      <el-table-column label="商家类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" align="center" prop="entityName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="商家地址" align="center" prop="entityAddress" :show-overflow-tooltip="true" />
+      <el-table-column label="地址" align="center" prop="entityAddress" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="描述" align="center" prop="entityDesc" :show-overflow-tooltip="true" />
@@ -101,7 +101,7 @@
 
       <el-table-column label="图片" align="center" prop="entityImgs" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.entityImgs" :width="50" :height="50"/>
+          <image-preview :src="scope.row.entityImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
 
@@ -221,6 +221,17 @@
           <el-input v-model="form.entityMapLocation" placeholder="请输入地图地址" />
         </el-form-item>
 
+        <el-form-item label="功能类型" prop="entityType">
+          <el-radio-group v-model="form.entityType">
+              <el-radio
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value"
+                >
+                {{dict.label}}
+              </el-radio>
+          </el-radio-group>
+        </el-form-item>
 
         <el-form-item label="功能范围" prop="entityScope">
           <el-checkbox-group v-model="form.entityScope">
@@ -303,7 +314,7 @@ import { selectEntityType as getEntityTypeOptionSelect } from "@/api/config/enti
 
 export default {
   name: "Entity",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  dicts: ['config_function_scope', 'config_function_type', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
@@ -330,7 +341,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         entityName: null,
         enableStatus: null,
         createTime: null,
@@ -382,6 +393,7 @@ export default {
         this.queryParams.pageSize=1000;
         listEntity(this.queryParams).then(response => {
           this.entities = response.rows;
+          this.queryParams.pageSize=5;
         });
     },
     /** 查询商家类型列表 */
@@ -404,6 +416,7 @@ export default {
         entityDesc: null,
         entityImgs: null,
         entityMapLocation: null,
+        entityType: null,
         entityScope: [],
         entityTypeId: null,
         entityTypeName: null,

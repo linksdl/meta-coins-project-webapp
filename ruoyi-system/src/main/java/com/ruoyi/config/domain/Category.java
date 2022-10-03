@@ -7,6 +7,7 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.TreeEntity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * 分类管理对象 config_category

@@ -9,6 +9,18 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="功能类型" prop="categoryType">
+        <el-select v-model="queryParams.categoryType" placeholder="请选择功能类型" clearable>
+          <el-option
+            v-for="dict in dict.type.config_function_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="功能分类" prop="categoryClass">
         <el-select v-model="queryParams.categoryClass" placeholder="请选择功能分类" clearable>
           <el-option

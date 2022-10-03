@@ -7,6 +7,7 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * 币种管理对象 config_money

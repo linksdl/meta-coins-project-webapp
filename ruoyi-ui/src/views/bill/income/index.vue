@@ -193,7 +193,7 @@
     />
 
     <!-- 添加或修改收入账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="798px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="68px">
           <el-row>
             <el-col :span="8">
@@ -691,6 +691,7 @@ export default {
         entityScope: 'income',
         projectScope: 'income',
         categoryScope: 'income',
+        memberScope: 'income',
         weatherScope: 'income',
         emotionScope: 'income'
       },
@@ -800,6 +801,11 @@ export default {
       this.queryParams.labelScope=val;
       getLabelOptionSelect(this.queryParams).then(response => {
         this.labelOptions = response.data;
+      });
+
+      this.queryParams.memberScope=val;
+      getMemberOptionSelect(this.queryParams).then(response => {
+        this.memberOptions = response.data;
       });
 
       this.queryParams.weatherScope=val;

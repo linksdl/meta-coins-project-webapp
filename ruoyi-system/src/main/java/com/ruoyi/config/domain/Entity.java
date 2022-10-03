@@ -67,6 +67,11 @@ public class Entity extends BaseEntity
     private String entityMapLocation;
 
     /** 功能范围 */
+    @Excel(name = "功能类型")
+    @Column(name="entity_type")
+    private String entityType;
+
+    /** 功能范围 */
     @Excel(name = "功能范围")
     @Column(name="entity_scope")
     private String entityScope;
@@ -161,7 +166,16 @@ public class Entity extends BaseEntity
     {
         return entityMapLocation;
     }
-    public void setEntityScope(String entityScope) 
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
+    }
+
+    public void setEntityScope(String entityScope)
     {
         this.entityScope = entityScope;
     }
@@ -270,6 +284,7 @@ public class Entity extends BaseEntity
             .append("entityDesc", getEntityDesc())
             .append("entityImgs", getEntityImgs())
             .append("entityMapLocation", getEntityMapLocation())
+            .append("entityType", getEntityType())
             .append("entityScope", getEntityScope())
             .append("entityTypeId", getEntityTypeId())
             .append("entityTypeName", getEntityTypeName())

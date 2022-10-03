@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="entityDesc"    column="entity_desc"    />
         <result property="entityImgs"    column="entity_imgs"    />
         <result property="entityMapLocation"    column="entity_map_location"    />
+        <result property="entityType"    column="entity_type"    />
         <result property="entityScope"    column="entity_scope"    />
         <result property="entityTypeId"    column="entity_type_id"    />
         <result property="entityTypeName"    column="entity_type_name"    />
@@ -30,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEntityVo">
-        select entity_id, entity_name, entity_address, entity_desc, entity_imgs, entity_map_location, entity_scope, entity_type_id, entity_type_name, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_entity
+        select entity_id, entity_name, entity_address, entity_desc, entity_imgs, entity_map_location, entity_type, entity_scope, entity_type_id, entity_type_name, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_entity
     </sql>
 
     <select id="selectEntityAll" parameterType="Entity" resultMap="EntityResult">
@@ -68,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entityDesc != null">entity_desc,</if>
             <if test="entityImgs != null">entity_imgs,</if>
             <if test="entityMapLocation != null">entity_map_location,</if>
+            <if test="entityType != null">entity_type,</if>
             <if test="entityScope != null">entity_scope,</if>
             <if test="entityTypeId != null">entity_type_id,</if>
             <if test="entityTypeName != null">entity_type_name,</if>
@@ -92,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entityDesc != null">#{entityDesc},</if>
             <if test="entityImgs != null">#{entityImgs},</if>
             <if test="entityMapLocation != null">#{entityMapLocation},</if>
+            <if test="entityType != null">#{entityType},</if>
             <if test="entityScope != null">#{entityScope},</if>
             <if test="entityTypeId != null">#{entityTypeId},</if>
             <if test="entityTypeName != null">#{entityTypeName},</if>
@@ -119,6 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="entityDesc != null">entity_desc = #{entityDesc},</if>
             <if test="entityImgs != null">entity_imgs = #{entityImgs},</if>
             <if test="entityMapLocation != null">entity_map_location = #{entityMapLocation},</if>
+            <if test="entityType != null"> entity_type = #{entityType},</if>
             <if test="entityScope != null">entity_scope = #{entityScope},</if>
             <if test="entityTypeId != null">entity_type_id = #{entityTypeId},</if>
             <if test="entityTypeName != null">entity_type_name = #{entityTypeName},</if>
