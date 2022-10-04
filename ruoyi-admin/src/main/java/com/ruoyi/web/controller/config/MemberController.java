@@ -8,7 +8,6 @@ import com.ruoyi.config.book.domain.Book;
 import com.ruoyi.config.book.service.IBookService;
 import com.ruoyi.config.domain.MemberType;
 import com.ruoyi.config.service.IMemberTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

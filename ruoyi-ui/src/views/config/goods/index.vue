@@ -2,14 +2,15 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="币种" prop="moneyCname">
+      <el-form-item label="商品名称" prop="goodsCname">
         <el-input
-          v-model="queryParams.moneyCname"
-          placeholder="请输入币种"
+          v-model="queryParams.goodsCname"
+          placeholder="请输入商品名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
 
 
       <el-form-item label="是否可用" prop="enableStatus">
@@ -46,7 +47,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['config:money:add']"
+          v-hasPermi="['config:goods:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -57,7 +58,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['config:money:edit']"
+          v-hasPermi="['config:goods:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -68,7 +69,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['config:money:remove']"
+          v-hasPermi="['config:goods:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -78,55 +79,36 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['config:money:export']"
+          v-hasPermi="['config:goods:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
 
-    <el-table v-loading="loading" :data="moneyList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="moneyId" />
+      <el-table-column label="商品ID" align="center" prop="goodsId" />
 
 
 
-      <el-table-column label="币种" align="center" prop="moneyCname" :show-overflow-tooltip="true" />
+      <el-table-column label="商品名称" align="center" prop="goodsCname" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="英文名" align="center" prop="moneyEname" :show-overflow-tooltip="true" />
+      <el-table-column label="英文名称" align="center" prop="goodsEname" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="描述" align="center" prop="moneyDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="价格" align="center" prop="goodsPrice" :show-overflow-tooltip="true" />
 
 
+      <el-table-column label="描述" align="center" prop="goodsDesc" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="汇率" align="center" prop="moneyRate" :show-overflow-tooltip="true" />
+      <el-table-column label="类型ID" align="center" prop="goodsTypeId" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="功能范围" align="center" prop="moneyScope">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_function_scope" :value="scope.row.moneyScope ? scope.row.moneyScope.split(',') : []"/>
-        </template>
-      </el-table-column>
-
-
-
-
-      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="类型名称" align="center" prop="moneyTypeName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="类型名称" align="center" prop="goodsTypeName" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="是否可用" align="center" prop="enableStatus">
@@ -136,10 +118,21 @@
       </el-table-column>
 
 
+    <el-table-column label="图标" align="center" prop="icon">
+        <template slot-scope="scope">
+          <svg-icon :icon-class="scope.row.icon" />
+        </template>
+    </el-table-column>
 
 
-      <el-table-column label="账本名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
 
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
+
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+
+
+      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -149,14 +142,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['config:money:edit']"
+            v-hasPermi="['config:goods:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['config:money:remove']"
+            v-hasPermi="['config:goods:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -170,67 +163,51 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改币种管理对话框 -->
+    <!-- 添加或修改商品管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
-        <el-form-item label="币种名称" prop="moneyCname">
-          <el-input v-model="form.moneyCname" placeholder="请输入币种" />
+        <el-form-item label="商品名称" prop="goodsCname">
+          <el-input v-model="form.goodsCname" placeholder="请输入商品名称" />
         </el-form-item>
 
 
-        <el-form-item label="英文名" prop="moneyEname">
-          <el-input v-model="form.moneyEname" placeholder="请输入英文名" />
+        <el-form-item label="英文名称" prop="goodsEname">
+          <el-input v-model="form.goodsEname" placeholder="请输入英文名称" />
         </el-form-item>
 
-        <el-form-item label="币种类型" prop="moneyTypeId">
-          <el-select v-model="form.moneyTypeId" placeholder="请选择币种类型名称">
+
+        <el-form-item label="价格" prop="goodsPrice">
+          <el-input-number size="medium" v-model="form.goodsPrice" type="input-number" :precision="4" :step="0.0001" :max="10000" :min="0" placeholder="请输入内容"/>
+        </el-form-item>
+
+
+
+        <el-form-item label="描述" prop="goodsDesc">
+          <el-input v-model="form.goodsDesc" placeholder="请输入描述" />
+        </el-form-item>
+
+
+        <el-form-item label="类型ID" prop="goodsTypeId">
+          <el-select v-model="form.goodsTypeId" placeholder="请选择商品类型ID">
             <el-option
               v-for="item in typeOptions"
-              :key="item.moneyTypeId"
-              :label="item.moneyTypeCname"
-              :value="item.moneyTypeId">
+              :key="item.goodsTypeId"
+              :label="item.goodsTypeName"
+              :value="item.goodsTypeId">
             </el-option>
           </el-select>
         </el-form-item>
 
-
-        <el-form-item label="描述" prop="moneyDesc">
-          <el-input v-model="form.moneyDesc" placeholder="请输入描述" />
-        </el-form-item>
-
-        <el-form-item label="汇率" prop="moneyRate">
-          <el-input-number size="medium" v-model="form.moneyRate" type="input-number" :precision="4" :step="0.0001" :max="10000" :min="0" placeholder="请输入内容"/>
-        </el-form-item>
-
-        <el-form-item label="功能范围">
-          <el-checkbox-group v-model="form.moneyScope">
-            <el-checkbox
-              v-for="dict in dict.type.config_function_scope"
+        <el-form-item label="是否可用">
+          <el-radio-group v-model="form.enableStatus">
+            <el-radio
+              v-for="dict in dict.type.config_is_enable"
               :key="dict.value"
-              :label="dict.value">
-              {{dict.label}}
-            </el-checkbox>
-          </el-checkbox-group>
+:label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-
-
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
-
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
 
 <el-form-item label="图标" prop="icon">
   <el-popover
@@ -253,15 +230,22 @@
       </el-popover>
 </el-form-item>
 
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
+        <el-form-item label="排序" prop="orderSort">
+          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
+
+
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
+        </el-form-item>
+
+
+        <el-form-item label="权重" prop="weight">
+          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+        </el-form-item>
+
+
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -273,17 +257,17 @@
 </template>
 
 <script>
-import { listMoney, getMoney, delMoney, addMoney, updateMoney } from "@/api/config/money";
+import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/config/goods";
 import IconSelect from "@/components/IconSelect";
-import { selectMoneyType as getMoneyTypeOptionSelect } from "@/api/config/moneyType";
+import { selectGoodsType as getGoodsTypeOptionSelect } from "@/api/config/goodsType";
 
 export default {
-  name: "Money",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  name: "Goods",
+  dicts: ['config_is_enable'],
   components: {IconSelect},
   data() {
     return {
-      // 币种类型列表
+      // 商品类型列表
       typeOptions: [],
       // 遮罩层
       loading: true,
@@ -297,8 +281,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 币种管理表格数据
-      moneyList: [],
+      // 商品管理表格数据
+      goodsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -307,7 +291,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        moneyCname: null,
+        goodsCname: null,
+        goodsPrice: null,
         enableStatus: null,
         createTime: null,
       },
@@ -320,25 +305,25 @@ export default {
   },
   created() {
     this.getList();
-    this.getMoneyTypeList();
+    this.getGoodsTypeList();
   },
   methods: {
-    /** 选择币种管理图标 */
+    /** 选择商品管理图标 */
     selected(name) {
       this.form.icon = name;
     },
-    /** 查询币种管理列表 */
+    /** 查询商品管理列表 */
     getList() {
       this.loading = true;
-      listMoney(this.queryParams).then(response => {
-        this.moneyList = response.rows;
+      listGoods(this.queryParams).then(response => {
+        this.goodsList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
-    /** 查询币种类型列表 */
-    getMoneyTypeList() {
-      getMoneyTypeOptionSelect().then(response => {
+    /** 查询商品类型列表 */
+    getGoodsTypeList() {
+      getGoodsTypeOptionSelect().then(response => {
         this.typeOptions = response.data;
       });
     },
@@ -350,28 +335,26 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        moneyId: null,
-        moneyCname: null,
-        moneyEname: null,
-        moneyDesc: null,
-        moneyIcon: null,
-        moneyRate: null,
-        moneyScope: [],
-        moneyTypeId: null,
-        weight: null,
-        moneyTypeName: null,
-        remark: null,
-        orderSort: null,
-        icon: null,
+        goodsId: null,
+        goodsCname: null,
+        goodsEname: null,
+        goodsPrice: null,
+        goodsDesc: null,
+        goodsTypeId: null,
+        goodsTypeName: null,
         enableStatus: 0,
-        bookId: null,
-        bookName: null,
-        userId: null,
-        userName: null,
+        icon: null,
+        orderSort: null,
+        remark: null,
+        weight: null,
         createBy: null,
         createTime: null,
         updateBy: null,
-        updateTime: null
+        updateTime: null,
+        bookId: null,
+        bookName: null,
+        userId: null,
+        userName: null
       };
       this.resetForm("form");
     },
@@ -387,7 +370,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.moneyId)
+      this.ids = selection.map(item => item.goodsId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -395,32 +378,30 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加币种管理";
+      this.title = "添加商品管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const moneyId = row.moneyId || this.ids
-      getMoney(moneyId).then(response => {
+      const goodsId = row.goodsId || this.ids
+      getGoods(goodsId).then(response => {
         this.form = response.data;
-        this.form.moneyScope = this.form.moneyScope.split(",");
         this.open = true;
-        this.title = "修改币种管理";
+        this.title = "修改商品管理";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.moneyScope = this.form.moneyScope.join(",");
-          if (this.form.moneyId != null) {
-            updateMoney(this.form).then(response => {
+          if (this.form.goodsId != null) {
+            updateGoods(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addMoney(this.form).then(response => {
+            addGoods(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -431,9 +412,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const moneyIds = row.moneyId || this.ids;
-      this.$modal.confirm('是否确认删除币种管理编号为"' + moneyIds + '"的数据项？').then(function() {
-        return delMoney(moneyIds);
+      const goodsIds = row.goodsId || this.ids;
+      this.$modal.confirm('是否确认删除商品管理编号为"' + goodsIds + '"的数据项？').then(function() {
+        return delGoods(goodsIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -441,9 +422,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('config/money/export', {
+      this.download('config/goods/export', {
         ...this.queryParams
-      }, `money_${new Date().getTime()}.xlsx`)
+      }, `goods_${new Date().getTime()}.xlsx`)
     }
   }
 };

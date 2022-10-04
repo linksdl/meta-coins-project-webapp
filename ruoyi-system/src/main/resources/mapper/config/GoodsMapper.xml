@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.GoodsMapper">
+    
+    <resultMap type="Goods" id="GoodsResult">
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsCname"    column="goods_cname"    />
+        <result property="goodsEname"    column="goods_ename"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="goodsDesc"    column="goods_desc"    />
+        <result property="goodsTypeId"    column="goods_type_id"    />
+        <result property="goodsTypeName"    column="goods_type_name"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectGoodsVo">
+        select goods_id, goods_cname, goods_ename, goods_price, goods_desc, goods_type_id, goods_type_name, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_goods
+    </sql>
+
+    <select id="selectGoodsAll" resultMap="GoodsResult">
+		<include refid="selectGoodsVo"/>
+	</select>
+
+    <select id="selectGoodsList" parameterType="Goods" resultMap="GoodsResult">
+        <include refid="selectGoodsVo"/>
+        <where>  
+            <if test="goodsCname != null  and goodsCname != ''"> and goods_cname like concat('%', #{goodsCname}, '%')</if>
+            <if test="params.beginGoodsPrice != null and params.beginGoodsPrice != '' and params.endGoodsPrice != null and params.endGoodsPrice != ''"> and goods_price between #{params.beginGoodsPrice} and #{params.endGoodsPrice}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGoodsByGoodsId" parameterType="Long" resultMap="GoodsResult">
+        <include refid="selectGoodsVo"/>
+        where goods_id = #{goodsId}
+    </select>
+        
+    <insert id="insertGoods" parameterType="Goods">
+        insert into config_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">goods_id,</if>
+            <if test="goodsCname != null">goods_cname,</if>
+            <if test="goodsEname != null">goods_ename,</if>
+            <if test="goodsPrice != null">goods_price,</if>
+            <if test="goodsDesc != null">goods_desc,</if>
+            <if test="goodsTypeId != null">goods_type_id,</if>
+            <if test="goodsTypeName != null">goods_type_name,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="goodsCname != null">#{goodsCname},</if>
+            <if test="goodsEname != null">#{goodsEname},</if>
+            <if test="goodsPrice != null">#{goodsPrice},</if>
+            <if test="goodsDesc != null">#{goodsDesc},</if>
+            <if test="goodsTypeId != null">#{goodsTypeId},</if>
+            <if test="goodsTypeName != null">#{goodsTypeName},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoods" parameterType="Goods">
+        update config_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsCname != null">goods_cname = #{goodsCname},</if>
+            <if test="goodsEname != null">goods_ename = #{goodsEname},</if>
+            <if test="goodsPrice != null">goods_price = #{goodsPrice},</if>
+            <if test="goodsDesc != null">goods_desc = #{goodsDesc},</if>
+            <if test="goodsTypeId != null">goods_type_id = #{goodsTypeId},</if>
+            <if test="goodsTypeName != null">goods_type_name = #{goodsTypeName},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="deleteGoodsByGoodsId" parameterType="Long">
+        delete from config_goods where goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsByGoodsIds" parameterType="String">
+        delete from config_goods where goods_id in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+</mapper>
