@@ -684,9 +684,10 @@ export default {
         incomeDatetime: null,
         createTime: null,
         labelType: 'income',
-        labelScope: 'income',
         categoryType: 'income',
         accountType: 'income',
+        accountScope: 'income',
+        labelScope: 'income',
         moneyScope: 'income',
         entityScope: 'income',
         projectScope: 'income',
@@ -796,6 +797,11 @@ export default {
       this.queryParams.categoryScope=val;
       getCategoryOptionSelect(this.queryParams).then(response => {
         this.categoryOptions = response.data;
+      });
+
+      this.queryParams.accountScope=val;
+      getAccountOptionSelect(this.queryParams).then(response => {
+        this.accountOptions = response.data;
       });
 
       this.queryParams.labelScope=val;
@@ -1024,8 +1030,8 @@ export default {
       const incomeId = row.incomeId || this.ids
       getIncome(incomeId).then(response => {
         this.form = response.data;
-        this.form.incomeAccountId = this.form.incomeAccountId.split(",");
-        this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
+        //this.form.incomeAccountId = this.form.incomeAccountId.split(",");
+        //this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
         this.form.incomeLabelName = this.form.incomeLabelName.split(" ");
         this.open = true;
         this.title = "修改收入账单";

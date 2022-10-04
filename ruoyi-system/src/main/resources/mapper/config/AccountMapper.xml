@@ -37,7 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAccountAll" parameterType="Account" resultMap="AccountResult">
 		<include refid="selectAccountVo"/>
         <where>
-            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="accountType != null  and accountType != ''"> and account_type like concat('%', #{accountType}, '%')</if>
+            <if test="accountScope != null  and accountScope != ''"> and account_scope like concat('%', #{accountScope}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
