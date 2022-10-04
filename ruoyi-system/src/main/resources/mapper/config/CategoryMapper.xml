@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.CategoryMapper">
+    
+    <resultMap type="Category" id="CategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="categoryParentId"    column="category_parent_id"    />
+        <result property="categoryParentName"    column="category_parent_name"    />
+        <result property="categoryClass"    column="category_class"    />
+        <result property="categoryLevel"    column="category_level"    />
+        <result property="categoryDesc"    column="category_desc"    />
+        <result property="categoryScope"    column="category_scope"    />
+        <result property="categorySort"    column="category_sort"    />
+        <result property="categoryType"    column="category_type"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="icon"    column="icon"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="weight"    column="weight"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectCategoryVo">
+        select category_id, category_name, category_parent_id, category_parent_name, category_class, category_level, category_desc, category_scope, category_sort, category_type, enable_status, icon, order_sort, remark, weight, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_category
+    </sql>
+
+    <select id="selectCategoryAll" resultMap="CategoryResult">
+		<include refid="selectCategoryVo"/>
+	</select>
+
+    <select id="selectCategoryList" parameterType="Category" resultMap="CategoryResult">
+        <include refid="selectCategoryVo"/>
+        <where>  
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="categoryClass != null  and categoryClass != ''"> and category_class = #{categoryClass}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCategoryByCategoryId" parameterType="Long" resultMap="CategoryResult">
+        <include refid="selectCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertCategory" parameterType="Category">
+        insert into config_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">category_id,</if>
+            <if test="categoryName != null">category_name,</if>
+            <if test="categoryParentId != null">category_parent_id,</if>
+            <if test="categoryParentName != null">category_parent_name,</if>
+            <if test="categoryClass != null">category_class,</if>
+            <if test="categoryLevel != null">category_level,</if>
+            <if test="categoryDesc != null">category_desc,</if>
+            <if test="categoryScope != null">category_scope,</if>
+            <if test="categorySort != null">category_sort,</if>
+            <if test="categoryType != null">category_type,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="icon != null">icon,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="weight != null">weight,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+            <if test="categoryParentId != null">#{categoryParentId},</if>
+            <if test="categoryParentName != null">#{categoryParentName},</if>
+            <if test="categoryClass != null">#{categoryClass},</if>
+            <if test="categoryLevel != null">#{categoryLevel},</if>
+            <if test="categoryDesc != null">#{categoryDesc},</if>
+            <if test="categoryScope != null">#{categoryScope},</if>
+            <if test="categorySort != null">#{categorySort},</if>
+            <if test="categoryType != null">#{categoryType},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCategory" parameterType="Category">
+        update config_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+            <if test="categoryParentId != null">category_parent_id = #{categoryParentId},</if>
+            <if test="categoryParentName != null">category_parent_name = #{categoryParentName},</if>
+            <if test="categoryClass != null">category_class = #{categoryClass},</if>
+            <if test="categoryLevel != null">category_level = #{categoryLevel},</if>
+            <if test="categoryDesc != null">category_desc = #{categoryDesc},</if>
+            <if test="categoryScope != null">category_scope = #{categoryScope},</if>
+            <if test="categorySort != null">category_sort = #{categorySort},</if>
+            <if test="categoryType != null">category_type = #{categoryType},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteCategoryByCategoryId" parameterType="Long">
+        delete from config_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteCategoryByCategoryIds" parameterType="String">
+        delete from config_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+</mapper>
