@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.GoodsTypeMapper">
+
+    <resultMap type="GoodsType" id="GoodsTypeResult">
+        <result property="goodsTypeId"    column="goods_type_id"    />
+        <result property="goodsTypeName"    column="goods_type_name"    />
+        <result property="goodsTypeDesc"    column="goods_type_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectGoodsTypeVo">
+        select goods_type_id, goods_type_name, goods_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_goods_type
+    </sql>
+
+    <select id="selectGoodsTypeAll" resultMap="GoodsTypeResult">
+		<include refid="selectGoodsTypeVo"/>
+	</select>
+
+    <select id="selectGoodsTypeList" parameterType="GoodsType" resultMap="GoodsTypeResult">
+        <include refid="selectGoodsTypeVo"/>
+        <where>
+            <if test="goodsTypeName != null  and goodsTypeName != ''"> and goods_type_name like concat('%', #{goodsTypeName}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectGoodsTypeByGoodsTypeId" parameterType="Long" resultMap="GoodsTypeResult">
+        <include refid="selectGoodsTypeVo"/>
+        where goods_type_id = #{goodsTypeId}
+    </select>
+
+    <insert id="insertGoodsType" parameterType="GoodsType">
+        insert into config_goods_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsTypeId != null">goods_type_id,</if>
+            <if test="goodsTypeName != null">goods_type_name,</if>
+            <if test="goodsTypeDesc != null">goods_type_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsTypeId != null">#{goodsTypeId},</if>
+            <if test="goodsTypeName != null">#{goodsTypeName},</if>
+            <if test="goodsTypeDesc != null">#{goodsTypeDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodsType" parameterType="GoodsType">
+        update config_goods_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsTypeName != null">goods_type_name = #{goodsTypeName},</if>
+            <if test="goodsTypeDesc != null">goods_type_desc = #{goodsTypeDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where goods_type_id = #{goodsTypeId}
+    </update>
+
+    <delete id="deleteGoodsTypeByGoodsTypeId" parameterType="Long">
+        delete from config_goods_type where goods_type_id = #{goodsTypeId}
+    </delete>
+
+    <delete id="deleteGoodsTypeByGoodsTypeIds" parameterType="String">
+        delete from config_goods_type where goods_type_id in
+        <foreach item="goodsTypeId" collection="array" open="(" separator="," close=")">
+            #{goodsTypeId}
+        </foreach>
+    </delete>
+</mapper>
