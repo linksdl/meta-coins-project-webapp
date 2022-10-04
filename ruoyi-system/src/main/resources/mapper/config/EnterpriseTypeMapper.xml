@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.EnterpriseTypeMapper">
+    
+    <resultMap type="EnterpriseType" id="EnterpriseTypeResult">
+        <result property="enterpriseTypeId"    column="enterprise_type_id"    />
+        <result property="enterpriseTypeName"    column="enterprise_type_name"    />
+        <result property="enterpriseTypeDesc"    column="enterprise_type_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEnterpriseTypeVo">
+        select enterprise_type_id, enterprise_type_name, enterprise_type_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_enterprise_type
+    </sql>
+
+    <select id="selectEnterpriseTypeAll" resultMap="EnterpriseTypeResult">
+		<include refid="selectEnterpriseTypeVo"/>
+	</select>
+
+    <select id="selectEnterpriseTypeList" parameterType="EnterpriseType" resultMap="EnterpriseTypeResult">
+        <include refid="selectEnterpriseTypeVo"/>
+        <where>  
+            <if test="enterpriseTypeName != null  and enterpriseTypeName != ''"> and enterprise_type_name like concat('%', #{enterpriseTypeName}, '%')</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectEnterpriseTypeByEnterpriseTypeId" parameterType="Long" resultMap="EnterpriseTypeResult">
+        <include refid="selectEnterpriseTypeVo"/>
+        where enterprise_type_id = #{enterpriseTypeId}
+    </select>
+        
+    <insert id="insertEnterpriseType" parameterType="EnterpriseType">
+        insert into config_enterprise_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enterpriseTypeId != null">enterprise_type_id,</if>
+            <if test="enterpriseTypeName != null">enterprise_type_name,</if>
+            <if test="enterpriseTypeDesc != null">enterprise_type_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enterpriseTypeId != null">#{enterpriseTypeId},</if>
+            <if test="enterpriseTypeName != null">#{enterpriseTypeName},</if>
+            <if test="enterpriseTypeDesc != null">#{enterpriseTypeDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEnterpriseType" parameterType="EnterpriseType">
+        update config_enterprise_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enterpriseTypeName != null">enterprise_type_name = #{enterpriseTypeName},</if>
+            <if test="enterpriseTypeDesc != null">enterprise_type_desc = #{enterpriseTypeDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where enterprise_type_id = #{enterpriseTypeId}
+    </update>
+
+    <delete id="deleteEnterpriseTypeByEnterpriseTypeId" parameterType="Long">
+        delete from config_enterprise_type where enterprise_type_id = #{enterpriseTypeId}
+    </delete>
+
+    <delete id="deleteEnterpriseTypeByEnterpriseTypeIds" parameterType="String">
+        delete from config_enterprise_type where enterprise_type_id in 
+        <foreach item="enterpriseTypeId" collection="array" open="(" separator="," close=")">
+            #{enterpriseTypeId}
+        </foreach>
+    </delete>
+</mapper>
