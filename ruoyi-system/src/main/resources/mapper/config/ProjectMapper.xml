@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.ProjectMapper">
+    
+    <resultMap type="Project" id="ProjectResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="projectScope"    column="project_scope"    />
+        <result property="projectType"    column="project_type"    />
+        <result property="projectDesc"    column="project_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="remark"    column="remark"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectProjectVo">
+        select project_id, project_name, project_scope, project_type, project_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_project
+    </sql>
+
+    <select id="selectProjectAll" resultMap="ProjectResult">
+		<include refid="selectProjectVo"/>
+	</select>
+
+    <select id="selectProjectList" parameterType="Project" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectByProjectId" parameterType="Long" resultMap="ProjectResult">
+        <include refid="selectProjectVo"/>
+        where project_id = #{projectId}
+    </select>
+        
+    <insert id="insertProject" parameterType="Project">
+        insert into config_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="projectScope != null">project_scope,</if>
+            <if test="projectType != null">project_type,</if>
+            <if test="projectDesc != null">project_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="projectScope != null">#{projectScope},</if>
+            <if test="projectType != null">#{projectType},</if>
+            <if test="projectDesc != null">#{projectDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProject" parameterType="Project">
+        update config_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="projectScope != null">project_scope = #{projectScope},</if>
+            <if test="projectType != null">project_type = #{projectType},</if>
+            <if test="projectDesc != null">project_desc = #{projectDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteProjectByProjectId" parameterType="Long">
+        delete from config_project where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteProjectByProjectIds" parameterType="String">
+        delete from config_project where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+</mapper>
