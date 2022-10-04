@@ -49,7 +49,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['config:type:add']"
+          v-hasPermi="['config:bookType:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -60,7 +60,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['config:type:edit']"
+          v-hasPermi="['config:bookType:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -71,7 +71,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['config:type:remove']"
+          v-hasPermi="['config:bookType:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -81,14 +81,14 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['config:type:export']"
+          v-hasPermi="['config:bookType:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
 
-    <el-table v-loading="loading" :data="typeList" stripe @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="bookTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="类型ID" align="center" prop="bookTypeId" />
@@ -145,14 +145,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['config:type:edit']"
+            v-hasPermi="['config:bookType:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['config:type:remove']"
+            v-hasPermi="['config:bookType:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -238,11 +238,11 @@
 </template>
 
 <script>
-import { listType, getType, delType, addType, updateType } from "@/api/config/type";
+import { listBookType, getBookType, delBookType, addBookType, updateBookType } from "@/api/config/bookType";
 import IconSelect from "@/components/IconSelect";
 
 export default {
-  name: "Type",
+  name: "BookType",
   dicts: ['config_is_enable'],
   components: {IconSelect},
   data() {
@@ -260,7 +260,7 @@ export default {
       // 总条数
       total: 0,
       // 账本类型表格数据
-      typeList: [],
+      bookTypeList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -307,8 +307,8 @@ export default {
         this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
         this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
       }
-      listType(this.queryParams).then(response => {
-        this.typeList = response.rows;
+      listBookType(this.queryParams).then(response => {
+        this.bookTypeList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -364,7 +364,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const bookTypeId = row.bookTypeId || this.ids
-      getType(bookTypeId).then(response => {
+      getBookType(bookTypeId).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改账本类型";
@@ -375,13 +375,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.bookTypeId != null) {
-            updateType(this.form).then(response => {
+            updateBookType(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addType(this.form).then(response => {
+            addBookType(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -394,7 +394,7 @@ export default {
     handleDelete(row) {
       const bookTypeIds = row.bookTypeId || this.ids;
       this.$modal.confirm('是否确认删除账本类型编号为"' + bookTypeIds + '"的数据项？').then(function() {
-        return delType(bookTypeIds);
+        return delBookType(bookTypeIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -402,9 +402,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('config/type/export', {
+      this.download('config/bookType/export', {
         ...this.queryParams
-      }, `type_${new Date().getTime()}.xlsx`)
+      }, `bookType_${new Date().getTime()}.xlsx`)
     }
   }
 };

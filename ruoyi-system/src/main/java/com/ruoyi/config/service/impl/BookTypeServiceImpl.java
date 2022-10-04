@@ -2,28 +2,27 @@ package com.ruoyi.config.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.config.mapper.BookTypeMapper;
 import com.ruoyi.config.domain.BookType;
 import com.ruoyi.config.service.IBookTypeService;
 
-import javax.annotation.Resource;
-
 /**
  * 账本类型Service业务层处理
- *
+ * 
  * @author metacoin
- * @date 2022-09-21
+ * @date 2022-10-04
  */
 @Service
-public class BookTypeServiceImpl implements IBookTypeService
+public class BookTypeServiceImpl implements IBookTypeService 
 {
-    @Resource
+    @Autowired
     private BookTypeMapper bookTypeMapper;
 
     /**
      * 查询账本类型
-     *
+     * 
      * @param bookTypeId 账本类型主键
      * @return 账本类型
      */
@@ -35,7 +34,7 @@ public class BookTypeServiceImpl implements IBookTypeService
 
     /**
      * 查询账本类型列表
-     *
+     * 
      * @param bookType 账本类型
      * @return 账本类型
      */
@@ -47,7 +46,7 @@ public class BookTypeServiceImpl implements IBookTypeService
 
     /**
      * 新增账本类型
-     *
+     * 
      * @param bookType 账本类型
      * @return 结果
      */
@@ -61,7 +60,7 @@ public class BookTypeServiceImpl implements IBookTypeService
 
     /**
      * 修改账本类型
-     *
+     * 
      * @param bookType 账本类型
      * @return 结果
      */
@@ -74,7 +73,7 @@ public class BookTypeServiceImpl implements IBookTypeService
 
     /**
      * 批量删除账本类型
-     *
+     * 
      * @param bookTypeIds 需要删除的账本类型主键
      * @return 结果
      */
@@ -86,7 +85,7 @@ public class BookTypeServiceImpl implements IBookTypeService
 
     /**
      * 删除账本类型信息
-     *
+     * 
      * @param bookTypeId 账本类型主键
      * @return 结果
      */
@@ -95,7 +94,6 @@ public class BookTypeServiceImpl implements IBookTypeService
     {
         return bookTypeMapper.deleteBookTypeByBookTypeId(bookTypeId);
     }
-
 
     @Override
     public List<BookType> selectBookTypeAll() {

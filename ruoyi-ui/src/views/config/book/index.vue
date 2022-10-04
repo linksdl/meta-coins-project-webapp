@@ -243,7 +243,7 @@
 
 <script>
 import { listBook, getBook, delBook, addBook, updateBook } from "@/api/config/book";
-import { selectBookType as getBookOptionSelect, getType } from "@/api/config/type";
+import { selectBookType as getBookOptionSelect, getType } from "@/api/config/bookType";
 import IconSelect from "@/components/IconSelect";
 
 export default {

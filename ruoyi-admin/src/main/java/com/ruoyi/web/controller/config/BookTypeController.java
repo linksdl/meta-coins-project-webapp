@@ -2,7 +2,6 @@ package com.ruoyi.web.controller.config;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,21 +23,21 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 账本类型Controller
- *
+ * 
  * @author metacoin
- * @date 2022-09-21
+ * @date 2022-10-04
  */
 @RestController
-@RequestMapping("/config/type")
+@RequestMapping("/config/bookType")
 public class BookTypeController extends BaseController
 {
     @Autowired
     private IBookTypeService bookTypeService;
 
     /**
-     * 查询账本类型列表
+     * 分页查询账本类型列表
      */
-    @PreAuthorize("@ss.hasPermi('config:type:list')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:list')")
     @GetMapping("/list")
     public TableDataInfo list(BookType bookType)
     {
@@ -50,7 +49,7 @@ public class BookTypeController extends BaseController
     /**
      * 导出账本类型列表
      */
-    @PreAuthorize("@ss.hasPermi('config:type:export')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:export')")
     @Log(title = "账本类型", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BookType bookType)
@@ -63,7 +62,7 @@ public class BookTypeController extends BaseController
     /**
      * 获取账本类型详细信息
      */
-    @PreAuthorize("@ss.hasPermi('config:type:query')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:query')")
     @GetMapping(value = "/{bookTypeId}")
     public AjaxResult getInfo(@PathVariable("bookTypeId") Long bookTypeId)
     {
@@ -73,7 +72,7 @@ public class BookTypeController extends BaseController
     /**
      * 新增账本类型
      */
-    @PreAuthorize("@ss.hasPermi('config:type:add')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:add')")
     @Log(title = "账本类型", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BookType bookType)
@@ -86,7 +85,7 @@ public class BookTypeController extends BaseController
     /**
      * 修改账本类型
      */
-    @PreAuthorize("@ss.hasPermi('config:type:edit')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:edit')")
     @Log(title = "账本类型", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BookType bookType)
@@ -98,7 +97,7 @@ public class BookTypeController extends BaseController
     /**
      * 删除账本类型
      */
-    @PreAuthorize("@ss.hasPermi('config:type:remove')")
+    @PreAuthorize("@ss.hasPermi('config:bookType:remove')")
     @Log(title = "账本类型", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{bookTypeIds}")
     public AjaxResult remove(@PathVariable Long[] bookTypeIds)
@@ -107,12 +106,13 @@ public class BookTypeController extends BaseController
     }
 
     /**
-     * 获取选择框列表
+     * 获取账本类型下拉框列表
      */
     @GetMapping("/select")
     public AjaxResult select()
     {
-        List<BookType> bookTypes = bookTypeService.selectBookTypeAll();
-        return AjaxResult.success(bookTypes);
+        List<BookType> list = bookTypeService.selectBookTypeAll();
+        return AjaxResult.success(list);
     }
+
 }
