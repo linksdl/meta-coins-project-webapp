@@ -17,8 +17,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.config.book.domain.BookType;
-import com.ruoyi.config.book.service.IBookTypeService;
+import com.ruoyi.config.domain.BookType;
+import com.ruoyi.config.service.IBookTypeService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 

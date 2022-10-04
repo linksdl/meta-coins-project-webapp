@@ -1,4 +1,4 @@
-package com.ruoyi.config.book.domain;
+package com.ruoyi.config.domain;
 
 import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;

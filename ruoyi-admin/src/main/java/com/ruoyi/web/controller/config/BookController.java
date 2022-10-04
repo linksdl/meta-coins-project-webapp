@@ -4,8 +4,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.config.book.domain.BookType;
-import com.ruoyi.config.book.service.IBookTypeService;
+import com.ruoyi.config.domain.BookType;
+import com.ruoyi.config.service.IBookTypeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +20,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.config.book.domain.Book;
-import com.ruoyi.config.book.service.IBookService;
+import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.service.IBookService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 

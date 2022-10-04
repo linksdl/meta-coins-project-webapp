@@ -1,7 +1,7 @@
-package com.ruoyi.config.book.mapper;
+package com.ruoyi.config.mapper;
 
 import java.util.List;
-import com.ruoyi.config.book.domain.Book;
+import com.ruoyi.config.domain.Book;
 
 /**
  * 个人账本Mapper接口

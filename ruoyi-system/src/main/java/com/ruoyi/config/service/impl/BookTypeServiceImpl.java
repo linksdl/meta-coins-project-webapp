@@ -1,12 +1,11 @@
-package com.ruoyi.config.book.service.impl;
+package com.ruoyi.config.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.config.book.mapper.BookTypeMapper;
-import com.ruoyi.config.book.domain.BookType;
-import com.ruoyi.config.book.service.IBookTypeService;
+import com.ruoyi.config.mapper.BookTypeMapper;
+import com.ruoyi.config.domain.BookType;
+import com.ruoyi.config.service.IBookTypeService;
 
 import javax.annotation.Resource;
 

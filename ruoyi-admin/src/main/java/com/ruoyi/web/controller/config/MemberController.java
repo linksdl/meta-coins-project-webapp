@@ -4,8 +4,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.config.book.domain.Book;
-import com.ruoyi.config.book.service.IBookService;
+import com.ruoyi.config.domain.Book;
+import com.ruoyi.config.service.IBookService;
 import com.ruoyi.config.domain.MemberType;
 import com.ruoyi.config.service.IMemberTypeService;
 import org.springframework.security.access.prepost.PreAuthorize;

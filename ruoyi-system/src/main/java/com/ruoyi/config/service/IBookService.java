@@ -1,7 +1,7 @@
-package com.ruoyi.config.book.service;
+package com.ruoyi.config.service;
 
 import java.util.List;
-import com.ruoyi.config.book.domain.Book;
+import com.ruoyi.config.domain.Book;
 
 /**
  * 个人账本Service接口

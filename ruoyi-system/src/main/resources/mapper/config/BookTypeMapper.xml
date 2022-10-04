@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.config.book.mapper.BookTypeMapper">
+<mapper namespace="com.ruoyi.config.mapper.BookTypeMapper">
 
     <resultMap type="BookType" id="BookTypeResult">
         <result property="bookTypeId"    column="book_type_id"    />
