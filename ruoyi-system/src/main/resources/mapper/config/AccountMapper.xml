@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.config.mapper.AccountMapper">
+    
+    <resultMap type="Account" id="AccountResult">
+        <result property="accountId"    column="account_id"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="accountParentId"    column="account_parent_id"    />
+        <result property="accountParentName"    column="account_parent_name"    />
+        <result property="accountLevel"    column="account_level"    />
+        <result property="accountScope"    column="account_scope"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="accountSort"    column="account_sort"    />
+        <result property="accountClass"    column="account_class"    />
+        <result property="accountDesc"    column="account_desc"    />
+        <result property="weight"    column="weight"    />
+        <result property="icon"    column="icon"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectAccountVo">
+        select account_id, account_name, account_parent_id, account_parent_name, account_level, account_scope, account_type, account_sort, account_class, account_desc, weight, icon, enable_status, order_sort, remark, create_by, create_time, update_by, update_time, book_id, book_name, user_id, user_name from config_account
+    </sql>
+
+    <select id="selectAccountAll" resultMap="AccountResult">
+		<include refid="selectAccountVo"/>
+	</select>
+
+    <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        <where>  
+            <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
+            <if test="accountClass != null  and accountClass != ''"> and account_class = #{accountClass}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAccountByAccountId" parameterType="Long" resultMap="AccountResult">
+        <include refid="selectAccountVo"/>
+        where account_id = #{accountId}
+    </select>
+        
+    <insert id="insertAccount" parameterType="Account">
+        insert into config_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id,</if>
+            <if test="accountName != null">account_name,</if>
+            <if test="accountParentId != null">account_parent_id,</if>
+            <if test="accountParentName != null">account_parent_name,</if>
+            <if test="accountLevel != null">account_level,</if>
+            <if test="accountScope != null">account_scope,</if>
+            <if test="accountType != null">account_type,</if>
+            <if test="accountSort != null">account_sort,</if>
+            <if test="accountClass != null">account_class,</if>
+            <if test="accountDesc != null">account_desc,</if>
+            <if test="weight != null">weight,</if>
+            <if test="icon != null">icon,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="bookId != null">book_id,</if>
+            <if test="bookName != null">book_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId},</if>
+            <if test="accountName != null">#{accountName},</if>
+            <if test="accountParentId != null">#{accountParentId},</if>
+            <if test="accountParentName != null">#{accountParentName},</if>
+            <if test="accountLevel != null">#{accountLevel},</if>
+            <if test="accountScope != null">#{accountScope},</if>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="accountSort != null">#{accountSort},</if>
+            <if test="accountClass != null">#{accountClass},</if>
+            <if test="accountDesc != null">#{accountDesc},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="bookId != null">#{bookId},</if>
+            <if test="bookName != null">#{bookName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccount" parameterType="Account">
+        update config_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountName != null">account_name = #{accountName},</if>
+            <if test="accountParentId != null">account_parent_id = #{accountParentId},</if>
+            <if test="accountParentName != null">account_parent_name = #{accountParentName},</if>
+            <if test="accountLevel != null">account_level = #{accountLevel},</if>
+            <if test="accountScope != null">account_scope = #{accountScope},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="accountSort != null">account_sort = #{accountSort},</if>
+            <if test="accountClass != null">account_class = #{accountClass},</if>
+            <if test="accountDesc != null">account_desc = #{accountDesc},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="bookId != null">book_id = #{bookId},</if>
+            <if test="bookName != null">book_name = #{bookName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+        </trim>
+        where account_id = #{accountId}
+    </update>
+
+    <delete id="deleteAccountByAccountId" parameterType="Long">
+        delete from config_account where account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteAccountByAccountIds" parameterType="String">
+        delete from config_account where account_id in 
+        <foreach item="accountId" collection="array" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+</mapper>
