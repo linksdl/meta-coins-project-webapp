@@ -86,15 +86,16 @@
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column label="分类名称" prop="categoryName" />
-      <el-table-column label="父类名称" align="center" prop="categoryParentName" />
+      <el-table-column label="排序" align="center" prop="orderSort" />
+      <el-table-column label="名称" prop="categoryName" />
+      <el-table-column label="父类" align="center" prop="categoryParentName" />
+      <el-table-column label="层次" align="center" prop="categoryLevel" />
+      <el-table-column label="描述" align="center" prop="categoryDesc" />
       <el-table-column label="功能分类" align="center" prop="categoryClass">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_class" :value="scope.row.categoryClass"/>
         </template>
       </el-table-column>
-      <el-table-column label="层次" align="center" prop="categoryLevel" />
-      <el-table-column label="描述" align="center" prop="categoryDesc" />
       <el-table-column label="功能范围" align="center" prop="categoryScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.categoryScope ? scope.row.categoryScope.split(',') : []"/>
