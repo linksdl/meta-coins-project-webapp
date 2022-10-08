@@ -93,6 +93,10 @@ public class ProjectController extends BaseController
         project.setUpdateBy(getUsername());
         project.setUserId(getUserId());
         project.setUserName(getUsername());
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
         project.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         project.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(projectService.insertProject(project));

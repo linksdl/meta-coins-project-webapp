@@ -101,6 +101,10 @@ public class EnterpriseController extends BaseController
         enterprise.setUpdateBy(getUsername());
         enterprise.setUserId(getUserId());
         enterprise.setUserName(getUsername());
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
         enterprise.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         enterprise.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(enterpriseService.insertEnterprise(enterprise));

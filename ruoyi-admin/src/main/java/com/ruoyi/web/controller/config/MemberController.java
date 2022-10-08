@@ -100,6 +100,10 @@ public class MemberController extends BaseController
         member.setUpdateBy(getUsername());
         member.setUserId(getUserId());
         member.setUserName(getUsername());
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
         member.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         member.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(memberService.insertMember(member));

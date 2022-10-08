@@ -85,6 +85,14 @@ public class BookController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Book book)
     {
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() >= 1 && book.getBookDefault() == 1)
+        {
+            return AjaxResult.error("只能创建一个设置为默认的账本！！！");
+        }
         book.setCreateBy(getUsername());
         book.setUpdateBy(getUsername());
         book.setUserId(getUserId());
@@ -102,6 +110,14 @@ public class BookController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Book book)
     {
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() >= 1 && book.getBookDefault() == 1)
+        {
+            return AjaxResult.error("只能创建一个设置为默认的账本！！！");
+        }
         book.setUpdateBy(getUsername());
         return toAjax(bookService.updateBook(book));
     }

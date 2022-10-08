@@ -93,6 +93,10 @@ public class LabelController extends BaseController
         label.setUpdateBy(getUsername());
         label.setUserId(getUserId());
         label.setUserName(getUsername());
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
         label.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
         label.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(labelService.insertLabel(label));

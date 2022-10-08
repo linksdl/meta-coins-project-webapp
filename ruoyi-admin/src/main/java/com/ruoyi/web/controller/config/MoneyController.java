@@ -99,10 +99,14 @@ public class MoneyController extends BaseController
         List<Book> books = bookService.selectBookList(param);
         money.setUserId(getUserId());
         money.setUserName(getUsername());
-        money.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
-        money.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         money.setCreateBy(getUsername());
         money.setUpdateBy(getUsername());
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
+        money.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
+        money.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(moneyService.insertMoney(money));
     }
 
