@@ -38,8 +38,8 @@ public class Book extends BaseEntity
 
     /** 账本类型 */
     @Excel(name = "账本类型")
-    @Column(name="book_type")
-    private String bookType;
+    @Column(name="book_type_name")
+    private String bookTypeName;
 
     /** 类型ID */
     @Excel(name = "类型ID")
@@ -82,7 +82,8 @@ public class Book extends BaseEntity
     @Column(name="enable_status")
     private Integer enableStatus;
 
-    public void setBookId(Long bookId) 
+
+    public void setBookId(Long bookId)
     {
         this.bookId = bookId;
     }
@@ -100,14 +101,14 @@ public class Book extends BaseEntity
     {
         return bookName;
     }
-    public void setBookType(String bookType) 
+    public void setBookTypeName(String bookTypeName)
     {
-        this.bookType = bookType;
+        this.bookTypeName = bookTypeName;
     }
 
-    public String getBookType() 
+    public String getBookTypeName()
     {
-        return bookType;
+        return bookTypeName;
     }
     public void setBookTypeId(Long bookTypeId)
     {
@@ -197,7 +198,7 @@ public class Book extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("bookId", getBookId())
             .append("bookName", getBookName())
-            .append("bookType", getBookType())
+            .append("bookTypeName", getBookTypeName())
             .append("bookTypeId", getBookTypeId())
             .append("bookDesc", getBookDesc())
             .append("bookDefault", getBookDefault())

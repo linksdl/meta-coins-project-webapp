@@ -91,10 +91,6 @@
     <el-table v-loading="loading" :data="bookTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="类型ID" align="center" prop="bookTypeId" />
-
-
-
       <el-table-column label="类型名称" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
 

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Book" id="BookResult">
         <result property="bookId"    column="book_id"    />
         <result property="bookName"    column="book_name"    />
-        <result property="bookType"    column="book_type"    />
+        <result property="bookTypeName"    column="book_type_name"    />
         <result property="bookTypeId"    column="book_type_id"    />
         <result property="bookDesc"    column="book_desc"    />
         <result property="bookDefault"    column="book_default"    />
@@ -25,14 +25,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBookVo">
-        select book_id, book_name, book_type, book_type_id, book_desc, book_default, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time, user_id, user_name from config_book
+        select book_id, book_name, book_type_name, book_type_id, book_desc, book_default, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time, user_id, user_name from config_book
     </sql>
 
     <select id="selectBookList" parameterType="Book" resultMap="BookResult">
         <include refid="selectBookVo"/>
         <where>
             <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
-            <if test="bookType != null  and bookType != ''"> and book_type = #{bookType}</if>
+            <if test="bookTypeName != null  and bookTypeName != ''"> and book_type_name = #{bookTypeName}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="bookDefault != null "> and book_default = #{bookDefault}</if>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="bookId != null">book_id,</if>
             <if test="bookName != null and bookName != ''">book_name,</if>
-            <if test="bookType != null and bookType != ''">book_type,</if>
+            <if test="bookTypeName != null and bookTypeName != ''">book_type_name,</if>
             <if test="bookTypeId != null">book_type_id,</if>
             <if test="bookDesc != null">book_desc,</if>
             <if test="bookDefault != null">book_default,</if>
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bookId != null">#{bookId},</if>
             <if test="bookName != null and bookName != ''">#{bookName},</if>
-            <if test="bookType != null and bookType != ''">#{bookType},</if>
+            <if test="bookTypeName != null and bookTypeName != ''">#{bookTypeName},</if>
             <if test="bookTypeId != null">#{bookTypeId},</if>
             <if test="bookDesc != null">#{bookDesc},</if>
             <if test="bookDefault != null">#{bookDefault},</if>
@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update config_book
         <trim prefix="SET" suffixOverrides=",">
             <if test="bookName != null and bookName != ''">book_name = #{bookName},</if>
-            <if test="bookType != null and bookType != ''">book_type = #{bookType},</if>
+            <if test="bookTypeName != null and bookTypeName != ''">book_type_name = #{bookTypeName},</if>
             <if test="bookTypeId != null">book_type_id = #{bookTypeId},</if>
             <if test="bookDesc != null">book_desc = #{bookDesc},</if>
             <if test="bookDefault != null">book_default = #{bookDefault},</if>

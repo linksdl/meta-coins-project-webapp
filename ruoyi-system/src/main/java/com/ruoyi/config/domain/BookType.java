@@ -57,6 +57,18 @@ public class BookType extends BaseEntity
     @Excel(name = "数据是否可用")
     private Integer enableStatus;
 
+    /** 是否可以下拉*/
+    @Transient
+    private boolean disabled;
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+    }
+
     public void setBookTypeId(Long bookTypeId)
     {
         this.bookTypeId = bookTypeId;

@@ -12,7 +12,7 @@
       </el-form-item>
 
 
-      <el-form-item label="数据状态" prop="enableStatus">
+      <el-form-item label="是否可用" prop="enableStatus">
         <el-select v-model="queryParams.enableStatus" placeholder="请选择数据状态" clearable>
           <el-option
             v-for="dict in dict.type.config_is_enable"
@@ -88,11 +88,10 @@
     <el-table v-loading="loading" :data="bookList" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="账本ID" align="center" prop="bookId" />
-
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="账本名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="账本类型" align="center" prop="bookType" :show-overflow-tooltip="true" />
+      <el-table-column label="账本类型" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
       <el-table-column label="描述" align="center" prop="bookDesc" :show-overflow-tooltip="true" />
 
@@ -104,7 +103,7 @@
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
 
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+
 
       <el-table-column label="图标" align="center" prop="icon">
           <template slot-scope="scope">
@@ -112,7 +111,7 @@
           </template>
       </el-table-column>
 
-      <el-table-column label="数据状态" align="center" prop="enableStatus">
+      <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
@@ -164,7 +163,8 @@
               v-for="item in typeOptions"
               :key="item.bookTypeId"
               :label="item.bookTypeName"
-              :value="item.bookTypeId">
+              :value="item.bookTypeId"
+              :disabled="item.disabled">
             </el-option>
           </el-select>
         </el-form-item>
@@ -222,7 +222,7 @@
       </el-popover>
 </el-form-item>
 
-        <el-form-item label="数据状态">
+        <el-form-item label="是否可用">
           <el-radio-group v-model="form.enableStatus">
             <el-radio
               v-for="dict in dict.type.config_is_enable"
@@ -333,7 +333,7 @@ export default {
       this.form = {
         bookId: null,
         bookName: null,
-        bookType: null,
+        bookTypeName: null,
         bookTypeId: null,
         bookDesc: null,
         bookDefault: 0,

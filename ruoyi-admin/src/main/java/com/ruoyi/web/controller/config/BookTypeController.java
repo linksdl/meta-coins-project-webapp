@@ -112,6 +112,9 @@ public class BookTypeController extends BaseController
     public AjaxResult select()
     {
         List<BookType> list = bookTypeService.selectBookTypeAll();
+        for(BookType bookType:list){
+            bookType.setDisabled(bookType.getEnableStatus() == 0);
+        }
         return AjaxResult.success(list);
     }
 

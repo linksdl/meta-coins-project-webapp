@@ -98,7 +98,7 @@ public class BookController extends BaseController
         book.setUserId(getUserId());
         book.setUserName(getUsername());
         BookType bookType = bookTypeService.selectBookTypeByBookTypeId(book.getBookTypeId());
-        book.setBookType(bookType.getBookTypeName());
+        book.setBookTypeName(bookType.getBookTypeName());
         return toAjax(bookService.insertBook(book));
     }
 
