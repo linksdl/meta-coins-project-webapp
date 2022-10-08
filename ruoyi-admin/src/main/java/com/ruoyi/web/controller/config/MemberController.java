@@ -53,6 +53,7 @@ public class MemberController extends BaseController
     public TableDataInfo list(Member member)
     {
         startPage();
+        member.setUserId(getUserId());
         List<Member> list = memberService.selectMemberList(member);
         return getDataTable(list);
     }

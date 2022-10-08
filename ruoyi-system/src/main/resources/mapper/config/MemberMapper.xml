@@ -41,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="memberScope != null  and memberScope != ''"> and member_scope = #{memberScope}</if>
             <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name = #{memberTypeName}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
     </select>
     

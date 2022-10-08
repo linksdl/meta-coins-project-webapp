@@ -45,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="accountClass != null  and accountClass != ''"> and account_class = #{accountClass}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
     </select>
     

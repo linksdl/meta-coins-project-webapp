@@ -47,6 +47,7 @@ public class AccountController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(Account account)
     {
+        account.setUserId(getUserId());
         List<Account> list = accountService.selectAccountList(account);
         return AjaxResult.success(list);
     }

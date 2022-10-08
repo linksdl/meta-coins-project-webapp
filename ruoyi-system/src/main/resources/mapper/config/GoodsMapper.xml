@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginGoodsPrice != null and params.beginGoodsPrice != '' and params.endGoodsPrice != null and params.endGoodsPrice != ''"> and goods_price between #{params.beginGoodsPrice} and #{params.endGoodsPrice}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
     </select>
     

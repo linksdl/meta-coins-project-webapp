@@ -47,6 +47,7 @@ public class CategoryController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(Category category)
     {
+        category.setUserId(getUserId());
         List<Category> list = categoryService.selectCategoryList(category);
         return AjaxResult.success(list);
     }

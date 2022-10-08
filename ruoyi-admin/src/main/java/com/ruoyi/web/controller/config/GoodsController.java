@@ -54,6 +54,7 @@ public class GoodsController extends BaseController
     public TableDataInfo list(Goods goods)
     {
         startPage();
+        goods.setUserId(getUserId());
         List<Goods> list = goodsService.selectGoodsList(goods);
         return getDataTable(list);
     }

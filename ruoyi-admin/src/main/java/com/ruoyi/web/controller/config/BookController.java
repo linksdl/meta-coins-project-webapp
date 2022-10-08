@@ -49,6 +49,7 @@ public class BookController extends BaseController
     public TableDataInfo list(Book book)
     {
         startPage();
+        book.setUserId(getUserId());
         List<Book> list = bookService.selectBookList(book);
         return getDataTable(list);
     }

@@ -49,6 +49,7 @@ public class LabelController extends BaseController
     public TableDataInfo list(Label label)
     {
         startPage();
+        label.setUserId(getUserId());
         List<Label> list = labelService.selectLabelList(label);
         return getDataTable(list);
     }

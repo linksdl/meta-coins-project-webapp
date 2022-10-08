@@ -54,6 +54,7 @@ public class MoneyController extends BaseController
     public TableDataInfo list(Money money)
     {
         startPage();
+        money.setUserId(getUserId());
         List<Money> list = moneyService.selectMoneyList(money);
         return getDataTable(list);
     }

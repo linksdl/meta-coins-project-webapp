@@ -49,6 +49,7 @@ public class ProjectController extends BaseController
     public TableDataInfo list(Project project)
     {
         startPage();
+        project.setUserId(getUserId());
         List<Project> list = projectService.selectProjectList(project);
         return getDataTable(list);
     }

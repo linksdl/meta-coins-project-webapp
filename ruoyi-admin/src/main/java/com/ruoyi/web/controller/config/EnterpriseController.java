@@ -54,6 +54,7 @@ public class EnterpriseController extends BaseController
     public TableDataInfo list(Enterprise enterprise)
     {
         startPage();
+        enterprise.setUserId(getUserId());
         List<Enterprise> list = enterpriseService.selectEnterpriseList(enterprise);
         return getDataTable(list);
     }

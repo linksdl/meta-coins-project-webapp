@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bookType != null  and bookType != ''"> and book_type = #{bookType}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="bookDefault != null "> and book_default = #{bookDefault}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
     </select>
 
