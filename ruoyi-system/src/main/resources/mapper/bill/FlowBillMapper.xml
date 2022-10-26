@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="flowAmount"    column="flow_amount"    />
         <result property="flowSign"    column="flow_sign"    />
         <result property="flowType"    column="flow_type"    />
+        <result property="flowCategory"    column="flow_category"    />
         <result property="flowDatetime"    column="flow_datetime"    />
         <result property="flowParentId"    column="flow_parent_id"    />
         <result property="flowParentName"    column="flow_parent_name"    />
@@ -70,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFlowBillVo">
-        select flow_id, flow_name, flow_source, flow_target, flow_amount, flow_sign, flow_type, flow_datetime, flow_parent_id, flow_parent_name, flow_bill_id, is_deleted, order_sort, flow_desc, flow_imgs, flow_remark, create_by, create_time, update_by, update_time, enable_status, icon, remark, weight, flow_user_id, flow_user_name, flow_weather_id, flow_weather_name, flow_money_name, flow_money_id, flow_member_name, flow_member_id, flow_label_name, flow_label_id, flow_project_id, flow_project_name, flow_emotion_id, flow_emotion_name, flow_category_name, flow_category_id, flow_account_name, flow_account_id, flow_entity_name, flow_entity_id, flow_city_id, flow_city_name, flow_book_id, flow_book_name, flow_year, flow_month, flow_date, flow_day, flow_quarter, flow_period, flow_week, flow_year_week, flow_county, flow_province, flow_street, flow_country, flow_city, flow_address from bill_flow
+        select flow_id, flow_name, flow_source, flow_target, flow_amount, flow_sign, flow_type, flow_category, flow_datetime, flow_parent_id, flow_parent_name, flow_bill_id, is_deleted, order_sort, flow_desc, flow_imgs, flow_remark, create_by, create_time, update_by, update_time, enable_status, icon, remark, weight, flow_user_id, flow_user_name, flow_weather_id, flow_weather_name, flow_money_name, flow_money_id, flow_member_name, flow_member_id, flow_label_name, flow_label_id, flow_project_id, flow_project_name, flow_emotion_id, flow_emotion_name, flow_category_name, flow_category_id, flow_account_name, flow_account_id, flow_entity_name, flow_entity_id, flow_city_id, flow_city_name, flow_book_id, flow_book_name, flow_year, flow_month, flow_date, flow_day, flow_quarter, flow_period, flow_week, flow_year_week, flow_county, flow_province, flow_street, flow_country, flow_city, flow_address from bill_flow
     </sql>
 
     <select id="selectFlowBillAll" resultMap="FlowBillResult">
@@ -80,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectFlowBillList" parameterType="FlowBill" resultMap="FlowBillResult">
         <include refid="selectFlowBillVo"/>
         <where>  
+            <if test="flowType != null  and flowType != ''"> and flow_type = #{flowType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
     </select>
@@ -89,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where flow_id = #{flowId}
     </select>
         
-    <insert id="insertFlowBill" parameterType="FlowBill">
+    <insert id="insertFlowBill" parameterType="FlowBill" useGeneratedKeys="true" keyProperty="flowId">
         insert into bill_flow
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="flowId != null">flow_id,</if>
@@ -99,6 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="flowAmount != null">flow_amount,</if>
             <if test="flowSign != null">flow_sign,</if>
             <if test="flowType != null">flow_type,</if>
+            <if test="flowCategory != null">flow_category,</if>
             <if test="flowDatetime != null">flow_datetime,</if>
             <if test="flowParentId != null">flow_parent_id,</if>
             <if test="flowParentName != null">flow_parent_name,</if>
@@ -163,6 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="flowAmount != null">#{flowAmount},</if>
             <if test="flowSign != null">#{flowSign},</if>
             <if test="flowType != null">#{flowType},</if>
+            <if test="flowCategory != null">#{flowCategory},</if>
             <if test="flowDatetime != null">#{flowDatetime},</if>
             <if test="flowParentId != null">#{flowParentId},</if>
             <if test="flowParentName != null">#{flowParentName},</if>
@@ -221,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateFlowBill" parameterType="FlowBill">
+    <update id="updateFlowBill" parameterType="FlowBill" useGeneratedKeys="true" keyProperty="flowId">
         update bill_flow
         <trim prefix="SET" suffixOverrides=",">
             <if test="flowName != null">flow_name = #{flowName},</if>
@@ -230,6 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="flowAmount != null">flow_amount = #{flowAmount},</if>
             <if test="flowSign != null">flow_sign = #{flowSign},</if>
             <if test="flowType != null">flow_type = #{flowType},</if>
+            <if test="flowCategory != null">flow_category = #{flowCategory},</if>
             <if test="flowDatetime != null">flow_datetime = #{flowDatetime},</if>
             <if test="flowParentId != null">flow_parent_id = #{flowParentId},</if>
             <if test="flowParentName != null">flow_parent_name = #{flowParentName},</if>
@@ -288,6 +293,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where flow_id = #{flowId}
     </update>
+
+
+    <delete id="deleteFlowBillByFlowBillIdAndFlowCategory" parameterType="FlowBill">
+        delete from bill_flow where flow_bill_id = #{flowBillId} and flow_category = #{flowCategory}
+    </delete>
 
     <delete id="deleteFlowBillByFlowId" parameterType="Long">
         delete from bill_flow where flow_id = #{flowId}

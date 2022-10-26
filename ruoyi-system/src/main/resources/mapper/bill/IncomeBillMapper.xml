@@ -90,6 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertIncomeBill" parameterType="IncomeBill" useGeneratedKeys="true" keyProperty="incomeId">
         insert into bill_income
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="incomeId != null">income_id,</if>
             <if test="incomeName != null">income_name,</if>
             <if test="incomeType != null">income_type,</if>
             <if test="incomeAmount != null">income_amount,</if>
@@ -148,6 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">is_deleted,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="incomeId != null">#{incomeId},</if>
             <if test="incomeName != null">#{incomeName},</if>
             <if test="incomeType != null">#{incomeType},</if>
             <if test="incomeAmount != null">#{incomeAmount},</if>
@@ -207,7 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateIncomeBill" parameterType="IncomeBill">
+    <update id="updateIncomeBill" parameterType="IncomeBill" useGeneratedKeys="true" keyProperty="incomeId">
         update bill_income
         <trim prefix="SET" suffixOverrides=",">
             <if test="incomeName != null">income_name = #{incomeName},</if>

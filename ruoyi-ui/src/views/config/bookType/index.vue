@@ -90,26 +90,18 @@
 
     <el-table v-loading="loading" :data="bookTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
+      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="类型名称" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
+      <el-table-column label="描述" align="left" prop="bookTypeDesc" :show-overflow-tooltip="true" />
 
-
-      <el-table-column label="描述" align="center" prop="bookTypeDesc" :show-overflow-tooltip="true" />
-
-
-    <el-table-column label="图标" align="center" prop="icon">
-        <template slot-scope="scope">
-          <svg-icon :icon-class="scope.row.icon" />
-        </template>
-    </el-table-column>
-
-
+      <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <svg-icon :icon-class="scope.row.icon" />
+          </template>
+      </el-table-column>
 
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
 
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
@@ -117,22 +109,13 @@
         </template>
       </el-table-column>
 
-
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
 
-
-
-
-
-
-
-
-
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

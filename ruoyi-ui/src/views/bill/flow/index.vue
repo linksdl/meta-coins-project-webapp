@@ -1,6 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="流水类型" prop="flowType">
+        <el-select v-model="queryParams.flowType" placeholder="请选择流水类型" clearable>
+          <el-option
+            v-for="dict in dict.type.config_function_scope"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
 
       <el-form-item label="创建时间" prop="createTime">
         <el-date-picker clearable

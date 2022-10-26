@@ -89,9 +89,9 @@
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-      <el-table-column label="账本名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="账本类型" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
       <el-table-column label="描述" align="center" prop="bookDesc" :show-overflow-tooltip="true" />
 
@@ -102,8 +102,6 @@
       </el-table-column>
 
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
 
       <el-table-column label="图标" align="center" prop="icon">
           <template slot-scope="scope">
@@ -116,7 +114,6 @@
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
 
       <el-table-column label="用户名" align="center" prop="userName" :show-overflow-tooltip="true" />
 

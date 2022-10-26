@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where transfer_id = #{transferId}
     </select>
         
-    <insert id="insertTransferBill" parameterType="TransferBill">
+    <insert id="insertTransferBill" parameterType="TransferBill" useGeneratedKeys="true" keyProperty="transferId">
         insert into bill_transfer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="transferId != null">transfer_id,</if>
@@ -208,7 +208,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateTransferBill" parameterType="TransferBill">
+    <update id="updateTransferBill" parameterType="TransferBill" useGeneratedKeys="true" keyProperty="transferId">
         update bill_transfer
         <trim prefix="SET" suffixOverrides=",">
             <if test="transferName != null">transfer_name = #{transferName},</if>

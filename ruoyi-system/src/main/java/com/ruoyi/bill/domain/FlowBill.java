@@ -34,7 +34,7 @@ public class FlowBill extends BaseEntity
 
     /** 流水金额 */
     @Excel(name = "流水金额")
-    private Long flowAmount;
+    private Double flowAmount;
 
     /** 流水标志 */
     @Excel(name = "流水标志")
@@ -43,6 +43,10 @@ public class FlowBill extends BaseEntity
     /** 流水类型 */
     @Excel(name = "流水类型")
     private String flowType;
+
+    /** 流水分类 */
+    @Excel(name = "流水分类")
+    private String flowCategory;  // income, consume, debt, transfer, balance, invest
 
     /** 流水日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -119,7 +123,7 @@ public class FlowBill extends BaseEntity
     private String flowLabelName;
 
     /** 标签ID */
-    private Long flowLabelId;
+    private String flowLabelId;
 
     /** 项目ID */
     private Long flowProjectId;
@@ -140,14 +144,14 @@ public class FlowBill extends BaseEntity
     private String flowCategoryName;
 
     /** 分类ID */
-    private Long flowCategoryId;
+    private String flowCategoryId;
 
     /** 账户名 */
     @Excel(name = "账户名")
     private String flowAccountName;
 
     /** 账户ID */
-    private Long flowAccountId;
+    private String flowAccountId;
 
     /** 实体名 */
     @Excel(name = "实体名")
@@ -248,12 +252,12 @@ public class FlowBill extends BaseEntity
     {
         return flowTarget;
     }
-    public void setFlowAmount(Long flowAmount) 
+    public void setFlowAmount(Double flowAmount)
     {
         this.flowAmount = flowAmount;
     }
 
-    public Long getFlowAmount() 
+    public Double getFlowAmount()
     {
         return flowAmount;
     }
@@ -275,7 +279,16 @@ public class FlowBill extends BaseEntity
     {
         return flowType;
     }
-    public void setFlowDatetime(Date flowDatetime) 
+
+    public String getFlowCategory() {
+        return flowCategory;
+    }
+
+    public void setFlowCategory(String flowCategory) {
+        this.flowCategory = flowCategory;
+    }
+
+    public void setFlowDatetime(Date flowDatetime)
     {
         this.flowDatetime = flowDatetime;
     }
@@ -464,12 +477,12 @@ public class FlowBill extends BaseEntity
     {
         return flowLabelName;
     }
-    public void setFlowLabelId(Long flowLabelId) 
+    public void setFlowLabelId(String flowLabelId)
     {
         this.flowLabelId = flowLabelId;
     }
 
-    public Long getFlowLabelId() 
+    public String getFlowLabelId()
     {
         return flowLabelId;
     }
@@ -518,12 +531,12 @@ public class FlowBill extends BaseEntity
     {
         return flowCategoryName;
     }
-    public void setFlowCategoryId(Long flowCategoryId) 
+    public void setFlowCategoryId(String flowCategoryId)
     {
         this.flowCategoryId = flowCategoryId;
     }
 
-    public Long getFlowCategoryId() 
+    public String getFlowCategoryId()
     {
         return flowCategoryId;
     }
@@ -536,12 +549,12 @@ public class FlowBill extends BaseEntity
     {
         return flowAccountName;
     }
-    public void setFlowAccountId(Long flowAccountId) 
+    public void setFlowAccountId(String flowAccountId)
     {
         this.flowAccountId = flowAccountId;
     }
 
-    public Long getFlowAccountId() 
+    public String getFlowAccountId()
     {
         return flowAccountId;
     }

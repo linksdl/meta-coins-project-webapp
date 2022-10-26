@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.bill.domain.FlowBill;
 import com.ruoyi.bill.service.IFlowBillService;
 import com.ruoyi.common.utils.DateStringUtils;
 import com.ruoyi.common.utils.DateUtils;
@@ -312,10 +313,104 @@ public class IncomeBillController extends BaseController
         bill.setIncomeDesc(desc);
         bill.setCreateTime(DateUtils.getNowDate());
         bill.setUpdateTime(DateUtils.getNowDate());
+
+        incomeBillService.insertIncomeBill(bill);
+        FlowBill flowBill = convertIncomeBillToFlowBill(bill);
         // 保存到流水中
-        // flowBillService.
-        return toAjax(incomeBillService.insertIncomeBill(bill));
+        flowBillService.deleteFlowBillByFlowBillIdAndFlowCategory(flowBill);
+        return toAjax(flowBillService.insertFlowBill(flowBill));
     }
+
+    /**
+     * 收入账单转流水账单
+     * @param bill
+     * @return
+     */
+    public FlowBill convertIncomeBillToFlowBill(IncomeBill bill) {
+        FlowBill flowBill = new FlowBill();
+        flowBill.setFlowName(bill.getIncomeName());
+        flowBill.setFlowSource(bill.getIncomeEntityName());
+        flowBill.setFlowTarget(bill.getIncomeAccountName());
+        flowBill.setFlowAmount(bill.getIncomeAmount());
+        flowBill.setFlowSign("+");
+        flowBill.setFlowType(bill.getIncomeType());
+        flowBill.setFlowCategory("income");
+        flowBill.setFlowDatetime(bill.getIncomeDatetime());
+        flowBill.setFlowParentId(bill.getIncomeParentId());
+        flowBill.setFlowParentName(bill.getIncomeParentName());
+        flowBill.setFlowBillId(bill.getIncomeId());     //
+        flowBill.setIsDeleted(bill.getIsDeleted());
+        flowBill.setOrderSort(bill.getOrderSort()+10000000);
+        flowBill.setFlowDesc(bill.getIncomeDesc());
+        flowBill.setFlowImgs(bill.getIncomeImgs());
+        flowBill.setFlowRemark(bill.getRemark());
+        flowBill.setEnableStatus(bill.getEnableStatus());
+        flowBill.setIcon(bill.getIcon());
+        flowBill.setWeight(bill.getWeight()+10000000);
+        // 关联
+        flowBill.setFlowUserId(bill.getIncomeUserId());
+        flowBill.setFlowUserName(bill.getIncomeUserName());
+
+        flowBill.setFlowWeatherId(bill.getIncomeWeatherId());
+        flowBill.setFlowWeatherName(bill.getIncomeWeatherName());
+
+        flowBill.setFlowMoneyId(bill.getIncomeMoneyId());
+        flowBill.setFlowMoneyName(bill.getIncomeMoneyName());
+
+        flowBill.setFlowMemberId(bill.getIncomeMemberId());
+        flowBill.setFlowMemberName(bill.getIncomeMemberName());
+
+        flowBill.setFlowLabelId(bill.getIncomeLabelId());
+        flowBill.setFlowLabelName(bill.getIncomeLabelName());
+
+        flowBill.setFlowProjectId(bill.getIncomeProjectId());
+        flowBill.setFlowProjectName(bill.getIncomeProjectName());
+
+        flowBill.setFlowEmotionId(bill.getIncomeEmotionId());
+        flowBill.setFlowEmotionName(bill.getIncomeEmotionName());
+
+        flowBill.setFlowCategoryId(bill.getIncomeCategoryId());
+        flowBill.setFlowCategoryName(bill.getIncomeCategoryName());
+
+        flowBill.setFlowAccountId(bill.getIncomeAccountId());
+        flowBill.setFlowAccountName(bill.getIncomeAccountName());
+
+        flowBill.setFlowEntityId(bill.getIncomeEntityId());
+        flowBill.setFlowEntityName(bill.getIncomeEntityName());
+
+        flowBill.setFlowCityId(bill.getIncomeCityId());
+        flowBill.setFlowCityName(bill.getIncomeCityName());
+
+        flowBill.setFlowBookId(bill.getIncomeBookId());
+        flowBill.setFlowBookName(bill.getIncomeBookName());
+
+        // 其他信息
+        flowBill.setFlowYear(bill.getIncomeYear());
+        flowBill.setFlowMonth(bill.getIncomeMonth());
+        flowBill.setFlowDate(bill.getIncomeDate());
+        flowBill.setFlowDay(bill.getIncomeDay());
+        flowBill.setFlowQuarter(bill.getIncomeQuarter());
+        flowBill.setFlowWeek(bill.getIncomeWeek());
+        flowBill.setFlowYearWeek(bill.getIncomeYearWeek());
+        flowBill.setFlowPeriod(bill.getIncomePeriod());
+
+        flowBill.setFlowCounty(bill.getIncomeCounty());
+        flowBill.setFlowProvince(bill.getIncomeProvince());
+        flowBill.setFlowStreet(bill.getIncomeStreet());
+        flowBill.setFlowCountry(bill.getIncomeCountry());
+        flowBill.setFlowCity(bill.getIncomeCity());
+        flowBill.setFlowAddress(bill.getIncomeAddress());
+
+        //
+        flowBill.setCreateBy(bill.getCreateBy());
+        flowBill.setUpdateBy(bill.getUpdateBy());
+        flowBill.setCreateTime(bill.getCreateTime());
+        flowBill.setUpdateTime(bill.getUpdateTime());
+        flowBill.setRemark(bill.getRemark());
+
+        return flowBill;
+    }
+
 
     /**
      * 修改收入账单
@@ -511,7 +606,12 @@ public class IncomeBillController extends BaseController
               "备注[" + bill.getRemark() + "] ";
         bill.setIncomeDesc(desc);
         bill.setUpdateTime(DateUtils.getNowDate());
-        return toAjax(incomeBillService.updateIncomeBill(bill));
+
+        incomeBillService.updateIncomeBill(bill);
+        FlowBill flowBill = convertIncomeBillToFlowBill(bill);
+        // 更新到流水中
+        flowBillService.deleteFlowBillByFlowBillIdAndFlowCategory(flowBill);
+        return toAjax(flowBillService.insertFlowBill(flowBill));
     }
 
     /**

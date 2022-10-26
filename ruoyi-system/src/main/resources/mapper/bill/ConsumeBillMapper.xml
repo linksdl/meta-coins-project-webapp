@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where consume_id = #{consumeId}
     </select>
         
-    <insert id="insertConsumeBill" parameterType="ConsumeBill">
+    <insert id="insertConsumeBill" parameterType="ConsumeBill" useGeneratedKeys="true" keyProperty="consumeId">
         insert into bill_consume
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="consumeId != null">consume_id,</if>
@@ -197,7 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateConsumeBill" parameterType="ConsumeBill">
+    <update id="updateConsumeBill" parameterType="ConsumeBill" useGeneratedKeys="true" keyProperty="consumeId">
         update bill_consume
         <trim prefix="SET" suffixOverrides=",">
             <if test="consumeName != null">consume_name = #{consumeName},</if>

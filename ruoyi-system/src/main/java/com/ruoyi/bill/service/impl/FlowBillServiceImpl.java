@@ -99,4 +99,15 @@ public class FlowBillServiceImpl implements IFlowBillService
     public List<FlowBill> selectFlowBillAll() {
         return flowBillMapper.selectFlowBillAll();
     }
+
+    /**
+     * 删除账单流水信息 根据账单ID和流水类型
+     *
+     * @param flowBill
+     * @return
+     */
+    @Override
+    public int deleteFlowBillByFlowBillIdAndFlowCategory(FlowBill flowBill) {
+        return flowBillMapper.deleteFlowBillByFlowBillIdAndFlowCategory(flowBill);
+    }
 }
