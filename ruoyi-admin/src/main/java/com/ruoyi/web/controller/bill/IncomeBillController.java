@@ -135,6 +135,9 @@ public class IncomeBillController extends BaseController
         bill.setIsDeleted(0);
         if (bill.getIncomeParentId() == null) {
             bill.setIncomeParentId(0L);
+        }
+        if (bill.getIncomeParentName() == null)
+        {
             bill.setIncomeParentName("root");
         }
 
@@ -430,6 +433,9 @@ public class IncomeBillController extends BaseController
         bill.setIsDeleted(0);
         if (bill.getIncomeParentId() == null) {
             bill.setIncomeParentId(0L);
+        }
+        if (bill.getIncomeParentName() == null)
+        {
             bill.setIncomeParentName("root");
         }
 

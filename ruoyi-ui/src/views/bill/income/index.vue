@@ -1030,9 +1030,15 @@ export default {
       const incomeId = row.incomeId || this.ids
       getIncome(incomeId).then(response => {
         this.form = response.data;
-        //this.form.incomeAccountId = this.form.incomeAccountId.split(",");
-        //this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
-        this.form.incomeLabelName = this.form.incomeLabelName.split(" ");
+        if(this.form.incomeAccountId != null) {
+          this.form.incomeAccountId  = this.form.incomeAccountId.split(",");
+        }
+        if (this.form.incomeCategoryId != null) {
+          this.form.incomeCategoryId = this.form.incomeCategoryId.split(",");
+        }
+        if (this.form.incomeLabelName != null) {
+          this.form.incomeLabelName  = this.form.incomeLabelName.split(" ");
+        }
         this.open = true;
         this.title = "修改收入账单";
       });
