@@ -149,7 +149,7 @@ public class MoneyController extends BaseController
     {
         //params
         params.setUserId(getUserId());
-
+        params.setEnableStatus(1L);
         List<Money> list = moneyService.selectMoneyAll(params);
         for(Money money:list){
             money.setDisabled(money.getEnableStatus() == 0);

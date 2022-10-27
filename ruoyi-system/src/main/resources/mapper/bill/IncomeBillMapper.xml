@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="incomeDatetime != null "> and income_datetime = #{incomeDatetime}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
-        order by create_time desc
+        order by income_datetime desc
     </select>
     
     <select id="selectIncomeBillByIncomeId" parameterType="Long" resultMap="IncomeBillResult">

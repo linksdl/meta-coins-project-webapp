@@ -84,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="flowType != null  and flowType != ''"> and flow_type = #{flowType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
+        order by flow_datetime desc
     </select>
     
     <select id="selectFlowBillByFlowId" parameterType="Long" resultMap="FlowBillResult">

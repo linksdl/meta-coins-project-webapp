@@ -590,10 +590,11 @@ import { selectWeather as getWeatherOptionSelect } from "@/api/config/weather";
 
 export default {
   name: "Income",
-  dicts: ['config_function_in', 'config_is_enable'],
+  dicts: ['config_function_in','config_is_deleted', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
+      // 新建标签输入
       inputVisible: false,
       inputValue: '',
       //账户
@@ -658,6 +659,8 @@ export default {
         }
         ]
       },
+      projects: [],
+      entities: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -681,6 +684,7 @@ export default {
         pageNum: 1,
         pageSize: 5,
         incomeName: null,
+        incomeType: null,
         incomeDatetime: null,
         createTime: null,
         labelType: 'income',
@@ -698,8 +702,7 @@ export default {
       },
       // 表单参数
       form: {},
-      projects: [],
-      entities: [],
+
       // 表单校验
       rules: {
         incomeType: [
@@ -751,8 +754,7 @@ export default {
     this.getWeatherList();
   },
   methods: {
-
-      tableRowClassName({row, rowIndex}) {
+     tableRowClassName({row, rowIndex}) {
         if (row.incomeAmount > 8000 && row.incomeAmount < 10000) {
           return 'warning-row';
         } else if (row.incomeAmount > 10000) {
@@ -822,19 +824,6 @@ export default {
       this.queryParams.emotionScope=val;
       getEmotionOptionSelect(this.queryParams).then(response => {
         this.emotionOptions = response.data;
-      });
-    },
-    /** 选择收入账单图标 */
-    selected(name) {
-      this.form.icon = name;
-    },
-    /** 查询收入账单列表 */
-    getList() {
-      this.loading = true;
-      listIncome(this.queryParams).then(response => {
-        this.incomeList = response.rows;
-        this.total = response.total;
-        this.loading = false;
       });
     },
     /** 查询账户下拉 */
@@ -909,6 +898,19 @@ export default {
     getWeatherList() {
       getWeatherOptionSelect(this.queryParams).then(response => {
         this.weatherOptions = response.data;
+      });
+    },
+    /** 选择收入账单图标 */
+    selected(name) {
+      this.form.icon = name;
+    },
+    /** 查询收入账单列表 */
+    getList() {
+      this.loading = true;
+      listIncome(this.queryParams).then(response => {
+        this.incomeList = response.rows;
+        this.total = response.total;
+        this.loading = false;
       });
     },
     // 取消按钮

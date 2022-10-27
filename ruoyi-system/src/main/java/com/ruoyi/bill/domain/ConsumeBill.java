@@ -29,13 +29,13 @@ public class ConsumeBill extends BaseEntity
     private String consumeType;
 
     /** 消费时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "消费时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "消费时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date consumeDatetime;
 
     /** 消费金额 */
     @Excel(name = "消费金额")
-    private Long consumeAmount;
+    private Double consumeAmount;
 
     /** 描述 */
     @Excel(name = "描述")
@@ -89,7 +89,7 @@ public class ConsumeBill extends BaseEntity
     private String consumeProjectName;
 
     /** 标签ID */
-    private Long consumeLabelId;
+    private String consumeLabelId;
 
     /** 标签名 */
     @Excel(name = "标签名")
@@ -117,14 +117,14 @@ public class ConsumeBill extends BaseEntity
     private String consumeEntityName;
 
     /** 分类ID */
-    private Long consumeCategoryId;
+    private String consumeCategoryId;
 
     /** 分类名 */
     @Excel(name = "分类名")
     private String consumeCategoryName;
 
     /** 账户ID */
-    private Long consumeAccountId;
+    private String consumeAccountId;
 
     /** 账户名 */
     @Excel(name = "账户名")
@@ -135,6 +135,50 @@ public class ConsumeBill extends BaseEntity
 
     /** 账本名 */
     private String consumeBookName;
+
+    /** 心情ID */
+    private Long consumeEmotionId;
+
+    public Long getConsumeEmotionId() {
+        return consumeEmotionId;
+    }
+
+    public void setConsumeEmotionId(Long consumeEmotionId) {
+        this.consumeEmotionId = consumeEmotionId;
+    }
+
+    public String getConsumeEmotionName() {
+        return consumeEmotionName;
+    }
+
+    public void setConsumeEmotionName(String consumeEmotionName) {
+        this.consumeEmotionName = consumeEmotionName;
+    }
+
+    /** 心情名 */
+    private String consumeEmotionName;
+
+    /** 城市ID */
+    private Long consumeCityId;
+
+    /** 城市名 */
+    private String consumeCityName;
+
+    public Long getConsumeCityId() {
+        return consumeCityId;
+    }
+
+    public void setConsumeCityId(Long consumeCityId) {
+        this.consumeCityId = consumeCityId;
+    }
+
+    public String getConsumeCityName() {
+        return consumeCityName;
+    }
+
+    public void setConsumeCityName(String consumeCityName) {
+        this.consumeCityName = consumeCityName;
+    }
 
     /** 郡市区县 */
     private String consumeCounty;
@@ -214,12 +258,12 @@ public class ConsumeBill extends BaseEntity
     {
         return consumeDatetime;
     }
-    public void setConsumeAmount(Long consumeAmount) 
+    public void setConsumeAmount(Double consumeAmount)
     {
         this.consumeAmount = consumeAmount;
     }
 
-    public Long getConsumeAmount() 
+    public Double getConsumeAmount()
     {
         return consumeAmount;
     }
@@ -358,12 +402,12 @@ public class ConsumeBill extends BaseEntity
     {
         return consumeProjectName;
     }
-    public void setConsumeLabelId(Long consumeLabelId) 
+    public void setConsumeLabelId(String consumeLabelId)
     {
         this.consumeLabelId = consumeLabelId;
     }
 
-    public Long getConsumeLabelId() 
+    public String getConsumeLabelId()
     {
         return consumeLabelId;
     }
@@ -430,12 +474,12 @@ public class ConsumeBill extends BaseEntity
     {
         return consumeEntityName;
     }
-    public void setConsumeCategoryId(Long consumeCategoryId) 
+    public void setConsumeCategoryId(String consumeCategoryId)
     {
         this.consumeCategoryId = consumeCategoryId;
     }
 
-    public Long getConsumeCategoryId() 
+    public String getConsumeCategoryId()
     {
         return consumeCategoryId;
     }
@@ -448,12 +492,12 @@ public class ConsumeBill extends BaseEntity
     {
         return consumeCategoryName;
     }
-    public void setConsumeAccountId(Long consumeAccountId) 
+    public void setConsumeAccountId(String consumeAccountId)
     {
         this.consumeAccountId = consumeAccountId;
     }
 
-    public Long getConsumeAccountId() 
+    public String getConsumeAccountId()
     {
         return consumeAccountId;
     }
@@ -653,6 +697,10 @@ public class ConsumeBill extends BaseEntity
             .append("consumeAccountName", getConsumeAccountName())
             .append("consumeBookId", getConsumeBookId())
             .append("consumeBookName", getConsumeBookName())
+            .append("consumeEmotionId", getConsumeEmotionId())
+            .append("consumeEmotionName", getConsumeEmotionName())
+            .append("consumeCityId", getConsumeCityId())
+            .append("consumeCityName", getConsumeCityName())
             .append("consumeCounty", getConsumeCounty())
             .append("consumeProvince", getConsumeProvince())
             .append("consumeCity", getConsumeCity())

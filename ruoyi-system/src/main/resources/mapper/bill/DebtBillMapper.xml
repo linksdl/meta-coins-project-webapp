@@ -79,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtType != null  and debtType != ''"> and debt_type = #{debtType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
+        order by debt_datetime desc
     </select>
     
     <select id="selectDebtBillByDebtId" parameterType="Long" resultMap="DebtBillResult">

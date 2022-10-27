@@ -79,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="transferDatetime != null "> and transfer_datetime = #{transferDatetime}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
+        order by transfer_datetime desc
     </select>
     
     <select id="selectTransferBillByTransferId" parameterType="Long" resultMap="TransferBillResult">
