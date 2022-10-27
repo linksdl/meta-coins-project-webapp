@@ -41,8 +41,8 @@ public class TransferBill extends BaseEntity
     private String transferImgs;
 
     /** 转账日期 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "转账日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "转账日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date transferDatetime;
 
     /** 父类ID */

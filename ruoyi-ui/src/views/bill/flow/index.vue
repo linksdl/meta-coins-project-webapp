@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="流水类型" prop="flowType">
+      <el-form-item label="类型" prop="flowType">
         <el-select v-model="queryParams.flowType" placeholder="请选择流水类型" clearable>
           <el-option
             v-for="dict in dict.type.config_function_scope"
@@ -73,183 +73,101 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="flowList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :row-class-name="tableRowClassName" :data="flowList" @selection-change="handleSelectionChange">
+
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="ID">
+              <span>{{ props.row.flowId }}</span>
+            </el-form-item>
+            <el-form-item label="名称">
+              <span>{{ props.row.flowName }}</span>
+            </el-form-item>
+            <el-form-item label="类型">
+              <template slot-scope="scope">
+              <dict-tag :options="dict.type.config_function_scope" :value="props.row.flowType"/>
+               </template>
+            </el-form-item>
+            <el-form-item label="时间">
+              <span>{{ props.row.flowDate }}</span>
+            </el-form-item>
+            <el-form-item label="金额">
+              <span>{{ props.row.flowAmount }}</span>
+            </el-form-item>
+            <el-form-item label="币种">
+              <span>{{ props.row.flowMoneyName }}</span>
+            </el-form-item>
+            <el-form-item label="账户">
+              <span>{{ props.row.flowAccountName }}</span>
+            </el-form-item>
+            <el-form-item label="分类">
+              <span>{{ props.row.flowCategoryName }}</span>
+            </el-form-item>
+            <el-form-item label="实体">
+              <span>{{ props.row.flowEntityName }}</span>
+            </el-form-item>
+            <el-form-item label="项目">
+              <span>{{ props.row.flowProjectName }}</span>
+            </el-form-item>
+            <el-form-item label="标签">
+              <span>{{ props.row.flowLabelName }}</span>
+            </el-form-item>
+            <el-form-item label="城市">
+              <span>{{ props.row.flowCityName }}</span>
+            </el-form-item>
+            <el-form-item label="成员">
+              <span>{{ props.row.flowMemberName }}</span>
+            </el-form-item>
+            <el-form-item label="心情">
+              <span>{{ props.row.flowEmotionName }}</span>
+            </el-form-item>
+            <el-form-item label="天气">
+              <span>{{ props.row.flowWeatherName }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-
-      <el-table-column label="流水ID" align="center" prop="flowId" />
-
-
-
-      <el-table-column label="流水名称" align="center" prop="flowName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="流水源头" align="center" prop="flowSource" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="流水目的" align="center" prop="flowTarget" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="流水金额" align="center" prop="flowAmount" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="流水标志" align="center" prop="flowSign">
+      <el-table-column label="名称" align="center" prop="flowName" :show-overflow-tooltip="true" />
+      <el-table-column label="源头" align="center" prop="flowSource" :show-overflow-tooltip="true" />
+      <el-table-column label="目的" align="center" prop="flowTarget" :show-overflow-tooltip="true" />
+      <el-table-column label="金额" align="center" prop="flowAmount" :show-overflow-tooltip="true" />
+      <el-table-column label="标志" align="center" prop="flowSign">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_sign" :value="scope.row.flowSign"/>
         </template>
       </el-table-column>
-
-
-      <el-table-column label="流水类型" align="center" prop="flowType">
+      <el-table-column label="类型" align="center" prop="flowType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.flowType"/>
         </template>
       </el-table-column>
-
-
-      <el-table-column label="流水日期" align="center" prop="flowDatetime" width="180">
+      <el-table-column label="日期" align="center" prop="flowDatetime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.flowDatetime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.flowDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-
-
-
-
-
-      <el-table-column label="父类名" align="center" prop="flowParentName" :show-overflow-tooltip="true" />
-
-
-
-
+      <el-table-column label="描述" align="center" prop="flowDesc" :show-overflow-tooltip="true" />
+      <el-table-column label="图片凭证" align="center" prop="flowImgs" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.flowImgs" :width="25" :height="25"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="币种" align="center" prop="flowMoneyName" :show-overflow-tooltip="true" />
+      <el-table-column label="标签" align="center" prop="flowLabelName" :show-overflow-tooltip="true" />
+      <el-table-column label="实体" align="center" prop="flowEntityName" :show-overflow-tooltip="true" />
+      <el-table-column label="是否入账" align="center" prop="enableStatus">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
+        </template>
+      </el-table-column>
       <el-table-column label="是否删除" align="center" prop="isDeleted">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_deleted" :value="scope.row.isDeleted"/>
         </template>
       </el-table-column>
-
-
-
-
-      <el-table-column label="描述" align="center" prop="flowDesc" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="图片凭证" align="center" prop="flowImgs" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.flowImgs" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <el-table-column label="是否可用" align="center" prop="enableStatus">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
-        </template>
-      </el-table-column>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <el-table-column label="天气名" align="center" prop="flowWeatherName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="币种名" align="center" prop="flowMoneyName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="成员名" align="center" prop="flowMemberName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="标签名" align="center" prop="flowLabelName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-      <el-table-column label="项目名" align="center" prop="flowProjectName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="心情名" align="center" prop="flowEmotionName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="分类名" align="center" prop="flowCategoryName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="账户名" align="center" prop="flowAccountName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="实体名" align="center" prop="flowEntityName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-      <el-table-column label="城市名" align="center" prop="flowCityName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="账本名" align="center" prop="flowBookName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -547,6 +465,44 @@
   </div>
 </template>
 
+<style>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 20px;
+    line-height: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 150px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+  .demo-table-expand {
+    font-size: 12;
+  }
+  .demo-table-expand label {
+    width: 80px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 33%;
+  }
+</style>
+
 <script>
 import { listFlow, getFlow, delFlow, addFlow, updateFlow } from "@/api/bill/flow";
 import IconSelect from "@/components/IconSelect";
@@ -557,6 +513,14 @@ export default {
   components: {IconSelect},
   data() {
     return {
+      tableRowClassName({row, rowIndex}) {
+        if (row.flowAmount > 10 && row.flowAmount < 100) {
+          return 'warning-row';
+        } else if (row.flowAmount > 100) {
+          return 'success-row';
+        }
+        return '';
+      },
       // 遮罩层
       loading: true,
       // 选中数组

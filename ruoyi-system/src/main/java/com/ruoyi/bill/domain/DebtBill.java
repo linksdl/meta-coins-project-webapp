@@ -37,8 +37,8 @@ public class DebtBill extends BaseEntity
     private String debtDesc;
 
     /** 日期 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "日期", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date debtDatetime;
 
     /** 金额 */
