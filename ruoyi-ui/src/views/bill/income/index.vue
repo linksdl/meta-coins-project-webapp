@@ -702,7 +702,6 @@ export default {
       },
       // 表单参数
       form: {},
-
       // 表单校验
       rules: {
         incomeType: [

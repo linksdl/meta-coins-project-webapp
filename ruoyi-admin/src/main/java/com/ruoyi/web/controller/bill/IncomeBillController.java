@@ -378,7 +378,7 @@ public class IncomeBillController extends BaseController
         flowBill.setFlowAccountId(bill.getIncomeAccountId());
         flowBill.setFlowAccountName(bill.getIncomeAccountName());
 
-        flowBill.setFlowEntityId(bill.getIncomeEntityId());
+        flowBill.setFlowEntityId(bill.getIncomeEntityId().toString());
         flowBill.setFlowEntityName(bill.getIncomeEntityName());
 
         flowBill.setFlowCityId(bill.getIncomeCityId());

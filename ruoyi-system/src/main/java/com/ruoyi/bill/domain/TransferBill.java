@@ -30,7 +30,7 @@ public class TransferBill extends BaseEntity
 
     /** 转账金额 */
     @Excel(name = "转账金额")
-    private Long transferAmount;
+    private Double transferAmount;
 
     /** 描述 */
     @Excel(name = "描述")
@@ -85,21 +85,21 @@ public class TransferBill extends BaseEntity
     private String transferBookName;
 
     /** 分类ID */
-    private Long transferCategoryId;
+    private String transferCategoryId;
 
     /** 分类名 */
     @Excel(name = "分类名")
     private String transferCategoryName;
 
     /** 实体ID */
-    private Long transferEntityId;
+    private String transferEntityId;
 
     /** 实体名 */
     @Excel(name = "实体名")
     private String transferEntityName;
 
     /** 账户ID */
-    private Long transferAccountId;
+    private String transferAccountId;
 
     /** 账户名 */
     @Excel(name = "账户名")
@@ -120,7 +120,7 @@ public class TransferBill extends BaseEntity
     private String transferEmotionName;
 
     /** 标签ID */
-    private Long transferLabelId;
+    private String transferLabelId;
 
     /** 标签名 */
     @Excel(name = "标签名")
@@ -223,12 +223,12 @@ public class TransferBill extends BaseEntity
     {
         return transferType;
     }
-    public void setTransferAmount(Long transferAmount) 
+    public void setTransferAmount(Double transferAmount)
     {
         this.transferAmount = transferAmount;
     }
 
-    public Long getTransferAmount() 
+    public Double getTransferAmount()
     {
         return transferAmount;
     }
@@ -358,12 +358,12 @@ public class TransferBill extends BaseEntity
     {
         return transferBookName;
     }
-    public void setTransferCategoryId(Long transferCategoryId) 
+    public void setTransferCategoryId(String transferCategoryId)
     {
         this.transferCategoryId = transferCategoryId;
     }
 
-    public Long getTransferCategoryId() 
+    public String getTransferCategoryId()
     {
         return transferCategoryId;
     }
@@ -376,12 +376,12 @@ public class TransferBill extends BaseEntity
     {
         return transferCategoryName;
     }
-    public void setTransferEntityId(Long transferEntityId) 
+    public void setTransferEntityId(String transferEntityId)
     {
         this.transferEntityId = transferEntityId;
     }
 
-    public Long getTransferEntityId() 
+    public String getTransferEntityId()
     {
         return transferEntityId;
     }
@@ -394,12 +394,12 @@ public class TransferBill extends BaseEntity
     {
         return transferEntityName;
     }
-    public void setTransferAccountId(Long transferAccountId) 
+    public void setTransferAccountId(String transferAccountId)
     {
         this.transferAccountId = transferAccountId;
     }
 
-    public Long getTransferAccountId() 
+    public String getTransferAccountId()
     {
         return transferAccountId;
     }
@@ -448,12 +448,12 @@ public class TransferBill extends BaseEntity
     {
         return transferEmotionName;
     }
-    public void setTransferLabelId(Long transferLabelId) 
+    public void setTransferLabelId(String transferLabelId)
     {
         this.transferLabelId = transferLabelId;
     }
 
-    public Long getTransferLabelId() 
+    public String getTransferLabelId()
     {
         return transferLabelId;
     }

@@ -158,7 +158,7 @@ public class FlowBill extends BaseEntity
     private String flowEntityName;
 
     /** 实体ID */
-    private Long flowEntityId;
+    private String flowEntityId;
 
     /** 城市ID */
     private Long flowCityId;
@@ -567,12 +567,12 @@ public class FlowBill extends BaseEntity
     {
         return flowEntityName;
     }
-    public void setFlowEntityId(Long flowEntityId) 
+    public void setFlowEntityId(String flowEntityId)
     {
         this.flowEntityId = flowEntityId;
     }
 
-    public Long getFlowEntityId() 
+    public String getFlowEntityId()
     {
         return flowEntityId;
     }

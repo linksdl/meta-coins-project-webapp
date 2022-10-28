@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="转账名称" prop="transferName">
+      <el-form-item label="名称" prop="transferName">
         <el-input
           v-model="queryParams.transferName"
           placeholder="请输入转账名称"
@@ -12,7 +12,7 @@
       </el-form-item>
 
 
-      <el-form-item label="转账日期" prop="transferDatetime">
+      <el-form-item label="日期" prop="transferDatetime">
         <el-date-picker clearable
           v-model="queryParams.transferDatetime"
           type="date"
@@ -82,169 +82,92 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="transferList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-
-      <el-table-column label="转账ID" align="center" prop="transferId" />
-
-
-
-      <el-table-column label="转账名称" align="center" prop="transferName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="转账类型" align="center" prop="transferType">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.config_function_count" :value="scope.row.transferType"/>
+    <el-table v-loading="loading" :row-class-name="tableRowClassName" :data="transferList" @selection-change="handleSelectionChange">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="ID">
+              <span>{{ props.row.transferId }}</span>
+            </el-form-item>
+            <el-form-item label="名称">
+              <span>{{ props.row.transferName }}</span>
+            </el-form-item>
+            <el-form-item label="类型">
+              <template slot-scope="scope">
+              <dict-tag :options="dict.type.config_function_in" :value="props.row.transferType"/>
+               </template>
+            </el-form-item>
+            <el-form-item label="时间">
+              <span>{{ props.row.transferDate }}</span>
+            </el-form-item>
+            <el-form-item label="金额">
+              <span>{{ props.row.transferAmount }}</span>
+            </el-form-item>
+            <el-form-item label="币种">
+              <span>{{ props.row.transferMoneyName }}</span>
+            </el-form-item>
+            <el-form-item label="账户">
+              <span>{{ props.row.transferAccountName }}</span>
+            </el-form-item>
+            <el-form-item label="分类">
+              <span>{{ props.row.transferCategoryName }}</span>
+            </el-form-item>
+            <el-form-item label="实体">
+              <span>{{ props.row.transferEntityName }}</span>
+            </el-form-item>
+            <el-form-item label="项目">
+              <span>{{ props.row.transferProjectName }}</span>
+            </el-form-item>
+            <el-form-item label="标签">
+              <span>{{ props.row.transferLabelName }}</span>
+            </el-form-item>
+            <el-form-item label="城市">
+              <span>{{ props.row.transferCityName }}</span>
+            </el-form-item>
+            <el-form-item label="成员">
+              <span>{{ props.row.transferMemberName }}</span>
+            </el-form-item>
+            <el-form-item label="心情">
+              <span>{{ props.row.transferEmotionName }}</span>
+            </el-form-item>
+            <el-form-item label="天气">
+              <span>{{ props.row.transferWeatherName }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
 
-
-      <el-table-column label="转账金额" align="center" prop="transferAmount" :show-overflow-tooltip="true" />
-
-
+      <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" align="center" prop="transferName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" align="center" prop="transferType">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.config_function_transfer" :value="scope.row.transferType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="金额" align="center" prop="transferAmount" :show-overflow-tooltip="true" />
       <el-table-column label="描述" align="center" prop="transferDesc" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="凭证" align="center" prop="transferImgs" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.transferImgs" :width="50" :height="50"/>
+          <image-preview :src="scope.row.transferImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
-
-
-
       <el-table-column label="转账日期" align="center" prop="transferDatetime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.transferDatetime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.transferDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-
-
-
-
-
-      <el-table-column label="父类名" align="center" prop="transferParentName" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="标签" align="center" prop="transferLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="是否删除" align="center" prop="isDeleted">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_deleted" :value="scope.row.isDeleted"/>
         </template>
       </el-table-column>
-
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <el-table-column label="账本名" align="center" prop="transferBookName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="分类名" align="center" prop="transferCategoryName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="实体名" align="center" prop="transferEntityName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="账户名" align="center" prop="transferAccountName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="城市名" align="center" prop="transferCityName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="心情名" align="center" prop="transferEmotionName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="标签名" align="center" prop="transferLabelName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="成员名" align="center" prop="transferMemberName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="币种名" align="center" prop="transferMoneyName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-      <el-table-column label="项目名" align="center" prop="transferProjectName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="天气名" align="center" prop="transferWeatherName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -274,222 +197,319 @@
     />
 
     <!-- 添加或修改转账账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
+      <el-row>
+            <el-col :span="8">
+              <el-form-item label="名称" prop="transferName">
+                <el-input clearable v-model="form.transferName" placeholder="请输入转账名称" />
+              </el-form-item>
+            </el-col>
 
-        <el-form-item label="转账名称" prop="transferName">
-          <el-input v-model="form.transferName" placeholder="请输入转账名称" />
-        </el-form-item>
+            <el-col :span="16">
+              <el-form-item label="时间" prop="transferDatetime">
+                <el-date-picker
+                  clearable
+                  v-model="form.transferDatetime"
+                  type="datetime"
+                  placeholder="请选择转账日期"
+                  value-format="yyyy-MM-dd HH:mm:SS"
+                  align="right"
+                  :picker-options="pickerOptions"
+                  >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+
+            <el-col :span="8">
+              <el-form-item label="金额" prop="transferAmount">
+                <el-input-number v-model="form.transferAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+
+           <el-col :span="16">
+              <el-form-item label="币种" prop="transferMoneyId">
+                <el-radio-group v-model="form.transferMoneyId" placeholder="请选择币种">
+                  <el-radio
+                    border
+                    v-for="item in moneyOptions"
+                    :label="item.moneyId"
+                    :value="item.moneyId"
+                    :key="item.moneyId"
+                    :disabled="item.disabled">
+                  {{item.moneyCname}}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="24">
+            <el-form-item label="类型" prop="transferType">
+              <el-radio-group v-model="form.transferType" placeholder="请选择转账类型" @change="handleTransferTypeChange" >
+                <el-radio
+                  v-for="dict in dict.type.config_function_transfer"
+                  :key="dict.value"
+                  :label="dict.value"
+                  :value="dict.value">
+              {{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+           </el-col>
+         </el-row>
+
+          <el-row>
+           <el-col :span="8">
+            <el-form-item label="分类" prop="transferCategoryId">
+                <el-cascader
+                  clearable
+                  filterable
+                  placeholder="请选择分类"
+                  v-model="form.transferCategoryId"
+                  :options="categoryOptions"
+                  :props="{ expandTrigger: 'click', value:'categoryId',label:'categoryName',children: 'children', disabled :'disabled'}"
+                ></el-cascader>
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="8">
+            <el-form-item label="转出" prop="transferAccountId">
+              <el-cascader
+                  clearable
+                  filterable
+                  placeholder="请选择账户"
+                  v-model="form.transferAccountId"
+                  :options="accountOptions"
+                  :props="{ expandTrigger: 'click',value:'accountId', label:'accountName',children: 'children', disabled :'disabled'}"
+              ></el-cascader>
+            </el-form-item>
+           </el-col>
+
+           <el-col :span="8">
+            <el-form-item label="转入" prop="transferEntityId">
+              <el-cascader
+                  clearable
+                  filterable
+                  placeholder="请选择账户"
+                  v-model="form.transferEntityId"
+                  :options="accountOptions"
+                  :props="{ expandTrigger: 'click',value:'accountId', label:'accountName',children: 'children', disabled :'disabled'}"
+              ></el-cascader>
+            </el-form-item>
+           </el-col>
+        </el-row>
 
 
-        <el-form-item label="转账类型" prop="transferType">
-          <el-select v-model="form.transferType" placeholder="请选择转账类型">
+        <el-row>
+           <el-col :span="8">
+              <el-form-item label="项目" clearable filterable prop="transferProjectId">
+                <el-select v-model="form.transferProjectId" filterable placeholder="请选择项目名称">
+                  <el-option
+                    v-for="item in projectOptions"
+                    :key="item.projectId"
+                    :label="item.projectName"
+                    :value="item.projectId"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
+
+           <el-col :span="16">
+            <el-form-item label="项目" prop="transferProjectName" style="width: 800px;" >
+              <el-autocomplete
+                class="inline-input"
+                clearable
+                v-model="form.transferProjectName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="true"
+                placeholder="请输入项目名称"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="标签" prop="transferLabelName">
+              <el-select v-model="form.transferLabelName" multiple clearable filterable collapse-tags placeholder="请选择标签">
+                <el-option
+                  v-for="item in labelOptions"
+                  :key="parseInt(item.labelId)"
+                  :label="item.labelCname"
+                  :value="item.labelCname">
+                  <span style="float: left">{{ item.labelCname }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 12px">{{ item.labelEname}}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="16">
+            <el-form-item label="标签" prop="transferLabelName">
+              <el-tag
+                :key="tag"
+                v-for="tag in form.transferLabelName"
+                closable
+                :disable-transitions="false"
+                @close="handleClose(tag)"
+                type='success'
+                effect="dark">
+                {{tag}}
+              </el-tag>
+              <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+              >
+              </el-input>
+              <el-button v-else class="button-new-tag" @click="showInput">+ New 标签</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+
+        <el-row>
+         <el-col :span="24">
+          <el-form-item label="城市" prop="transferCityId">
+            <el-radio-group v-model="form.transferCityId" placeholder="请选择城市名">
+              <el-radio-button
+                v-for="item in cityOptions"
+                :key="item.cityId"
+                :label="item.cityId"
+                :value="item.cityId"
+                :disabled="item.disabled">{{item.cityCname}}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+         </el-col>
+       </el-row>
+
+      <el-row>
+        <el-col :span="24">
+           <el-form-item label="描述" prop="transferDesc">
+            <el-input v-model="form.transferDesc" type="textarea" clearable placeholder="请输入内容" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="成员"  prop="transferMemberId">
+            <el-select v-model="form.transferMemberId" clearable filterable placeholder="请选择成员名">
+              <el-option
+                v-for="item in memberOptions"
+                :key="item.memberId"
+                :label="item.memberName"
+                :value="item.memberId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="16" >
+          <el-form-item label="成员" prop="transferMemberName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in memberOptions"
+            :key="item.memberId"
+            type='danger'
+            effect="light">
+            {{ item.memberName }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+    <el-row>
+       <el-col :span="8">
+        <el-form-item label="心情"  prop="transferEmotionId">
+          <el-select v-model="form.transferEmotionId" clearable filterable placeholder="请选择心情名">
             <el-option
-              v-for="dict in dict.type.config_function_count"
-              :key="dict.value"
-              :label="dict.label"
-:value="dict.value"            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="转账金额" prop="transferAmount">
-          <el-input-number size="medium" v-model="form.transferAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-
-        <el-form-item label="描述" prop="transferDesc">
-          <el-input v-model="form.transferDesc" type="textarea" placeholder="请输入描述" />
-        </el-form-item>
-
-
-        <el-form-item label="凭证">
-          <image-upload v-model="form.transferImgs"/>
-        </el-form-item>
-
-
-        <el-form-item label="转账日期" prop="transferDatetime">
-          <el-date-picker clearable
-            v-model="form.transferDatetime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择转账日期">
-          </el-date-picker>
-        </el-form-item>
-
-
-        <el-form-item label="父类ID" prop="transferParentId">
-          <el-input v-model="form.transferParentId" placeholder="请输入父类ID" />
-        </el-form-item>
-
-
-        <el-form-item label="是否删除">
-          <el-radio-group v-model="form.isDeleted">
-            <el-radio
-              v-for="dict in dict.type.config_is_deleted"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-        <el-form-item label="账本ID" prop="transferBookId">
-          <el-select v-model="form.transferBookId" placeholder="请选择账本ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in emotionOptions"
+              :key="item.emotionId"
+              :label="item.emotionCname"
+              :value="item.emotionId">
             </el-option>
           </el-select>
         </el-form-item>
+       </el-col>
+       <el-col :span="16" >
+          <el-form-item label="心情" prop="transferEmotionName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in emotionOptions"
+            :key="item.emotionId"
+            type='success'
+            effect="dark">
+            {{ item.emotionCname }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
 
-        <el-form-item label="分类ID" prop="transferCategoryId">
-          <el-select v-model="form.transferCategoryId" placeholder="请选择分类ID">
+
+      <el-row>
+        <el-col :span="8">
+        <el-form-item label="天气" prop="transferWeatherId">
+          <el-select v-model="form.transferWeatherId" clearable filterable placeholder="请选择天气名">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in weatherOptions"
+              :key="item.weatherId"
+              :label="item.weatherCname"
+              :value="item.weatherId">
             </el-option>
           </el-select>
         </el-form-item>
+        </el-col>
 
+        <el-col :span="16" >
+          <el-form-item label="天气" prop="transferWeatherName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in weatherOptions"
+            :key="item.weatherId"
+            type='success'
+            effect="plain">
+            {{ item.weatherCname }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-        <el-form-item label="实体ID" prop="transferEntityId">
-          <el-select v-model="form.transferEntityId" placeholder="请选择实体ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+      <el-row>
+        <el-col :span="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" clearable type="textarea" autosize placeholder="请输入备注" />
+            </el-form-item>
+        </el-col>
+      </el-row>
 
-
-        <el-form-item label="账户ID" prop="transferAccountId">
-          <el-select v-model="form.transferAccountId" placeholder="请选择账户ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="城市ID" prop="transferCityId">
-          <el-select v-model="form.transferCityId" placeholder="请选择城市ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="心情ID" prop="transferEmotionId">
-          <el-select v-model="form.transferEmotionId" placeholder="请选择心情ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="标签ID" prop="transferLabelId">
-          <el-select v-model="form.transferLabelId" placeholder="请选择标签ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="成员ID" prop="transferMemberId">
-          <el-select v-model="form.transferMemberId" placeholder="请选择成员ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="币种ID" prop="transferMoneyId">
-          <el-select v-model="form.transferMoneyId" placeholder="请选择币种ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="项目ID" prop="transferProjectId">
-          <el-select v-model="form.transferProjectId" placeholder="请选择项目ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="天气ID" prop="transferWeatherId">
-          <el-select v-model="form.transferWeatherId" placeholder="请选择天气ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
+      <el-row>
+          <el-col :span="24">
+              <el-form-item label="是否记录">
+                <el-radio-group v-model="form.enableStatus">
+                  <el-radio
+                    v-for="dict in dict.type.config_is_enable"
+                    :key="dict.value"
+      :label="parseInt(dict.value)"
+                  >{{dict.label}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+          </el-col>
+      </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -499,16 +519,135 @@
   </div>
 </template>
 
+<style>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 20px;
+    line-height: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 150px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+  .demo-table-expand {
+    font-size: 12;
+  }
+  .demo-table-expand label {
+    width: 80px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 33%;
+  }
+</style>
+
+
 <script>
 import { listTransfer, getTransfer, delTransfer, addTransfer, updateTransfer } from "@/api/bill/transfer";
 import IconSelect from "@/components/IconSelect";
 
+import { selectAccount as getAccountOptionSelect } from "@/api/config/account";
+import { selectBook as getBookOptionSelect } from "@/api/config/book";
+import { selectCategory as getCategoryOptionSelect } from "@/api/config/category";
+import { selectCity as getCityOptionSelect } from "@/api/config/city";
+import { selectEmotion as getEmotionOptionSelect } from "@/api/config/emotion";
+import { selectEntity as getEntityOptionSelect } from "@/api/config/entity";
+import { selectGoods as getGoodsOptionSelect } from "@/api/config/goods";
+import { selectLabel as getLabelOptionSelect } from "@/api/config/label";
+import { selectMember as getMemberOptionSelect } from "@/api/config/member";
+import { selectMoney as getMoneyOptionSelect } from "@/api/config/money";
+import { selectProject as getProjectOptionSelect,listProject } from "@/api/config/project";
+import { selectWeather as getWeatherOptionSelect } from "@/api/config/weather";
+
 export default {
   name: "Transfer",
-  dicts: ['config_is_enable', 'config_is_deleted', 'config_function_count'],
+  dicts: ['config_is_enable', 'config_is_deleted', 'config_function_transfer'],
   components: {IconSelect},
   data() {
     return {
+    // 新建标签输入
+      inputVisible: false,
+      inputValue: '',
+      //账户
+      accountOptions: [],
+      //账本
+      bookOptions: [],
+      //分类
+      categoryOptions: [],
+      //城市
+      cityOptions: [],
+      //心情
+      emotionOptions: [],
+      //实体
+      entityOptions: [],
+      //商品
+      goodsOptions: [],
+      //标签
+      labelOptions: [],
+      //成员
+      memberOptions: [],
+      //币种
+      moneyOptions: [],
+      //项目
+      projectOptions: [],
+      //天气
+      weatherOptions: [],
+      // 日期选择
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '二周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 2);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '四周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 4);
+            picker.$emit('pick', date);
+          }
+        }
+        ]
+      },
+      projects: [],
+      entities: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -534,18 +673,218 @@ export default {
         transferName: null,
         transferDatetime: null,
         createTime: null,
+        labelType: 'transfer',
+        categoryType: 'transfer',
+        accountType: 'transfer',
+        accountScope: 'transfer',
+        labelScope: 'transfer',
+        moneyScope: 'transfer',
+        entityScope: 'transfer',
+        projectScope: 'transfer',
+        categoryScope: 'transfer',
+        memberScope: 'transfer',
+        weatherScope: 'transfer',
+        emotionScope: 'transfer'
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        transferType: [
+          { required: true, message: "类型不能为空", trigger: "blur" }
+        ],
+        transferDatetime: [
+          { required: true, message: "时间不能为空", trigger: "blur" }
+        ],
+        transferMoneyId: [
+          { required: true, message: "币种不能为空", trigger: "blur" }
+        ],
+        transferAccountId: [
+          { required: true, message: "转出账户不能为空", trigger: "change" }
+        ],
+        transferCategoryId: [
+          { required: true, message: "分类不能为空", trigger: "change" }
+        ],
+        transferEntityId: [
+          { required: true, message: "转入账户不能为空", trigger: "change" }
+        ],
+        transferProjectId: [
+          { required: true, message: "项目不能为空", trigger: "change" }
+        ],
+        transferAmount: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ],
+        transferCityId: [
+          { required: true, message: "城市不能为空", trigger: "blur" }
+        ],
+        transferLabelName: [
+          { required: true, message: "标签不能为空", trigger: "blur" }
+        ]
       }
     };
   },
   created() {
     this.getList();
+    this.getAccountList();
+    this.getBookList();
+    this.getCategoryList();
+    this.getCityList();
+    this.getEmotionList();
+    this.getEntityList();
+    this.getGoodsList();
+    this.getLabelList();
+    this.getMemberList();
+    this.getMoneyList();
+    this.getProjectList();
+    this.getWeatherList();
   },
   methods: {
+  tableRowClassName({row, rowIndex}) {
+        if (row.transferAmount > 8000 && row.transferAmount < 10000) {
+          return 'warning-row';
+        } else if (row.transferAmount > 10000) {
+          return 'success-row';
+        }
+        return '';
+      },
+
+      handleClose(tag) {
+        this.form.transferLabelName.splice(this.form.transferLabelName.indexOf(tag), 2);
+      },
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.form.transferLabelName.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
+      },
+    handleTransferTypeChange(val) {
+      this.queryParams.moneyScope=val;
+      getMoneyOptionSelect(this.queryParams).then(response => {
+        this.moneyOptions = response.data;
+      });
+
+      this.queryParams.entityScope=val;
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
+      });
+
+      this.queryParams.projectScope=val;
+      getProjectOptionSelect(this.queryParams).then(response => {
+        this.projectOptions = response.data;
+      });
+
+      this.queryParams.categoryScope=val;
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+
+      this.queryParams.accountScope=val;
+      getAccountOptionSelect(this.queryParams).then(response => {
+        this.accountOptions = response.data;
+      });
+
+      this.queryParams.labelScope=val;
+      getLabelOptionSelect(this.queryParams).then(response => {
+        this.labelOptions = response.data;
+      });
+
+      this.queryParams.memberScope=val;
+      getMemberOptionSelect(this.queryParams).then(response => {
+        this.memberOptions = response.data;
+      });
+
+      this.queryParams.weatherScope=val;
+      getWeatherOptionSelect(this.queryParams).then(response => {
+        this.weatherOptions = response.data;
+      });
+
+      this.queryParams.emotionScope=val;
+      getEmotionOptionSelect(this.queryParams).then(response => {
+        this.emotionOptions = response.data;
+      });
+    },
+    /** 查询账户下拉 */
+    getAccountList() {
+      getAccountOptionSelect(this.queryParams).then(response => {
+        this.accountOptions = response.data;
+      });
+    },
+    /** 查询账本下拉 */
+    getBookList() {
+      getBookOptionSelect(this.queryParams).then(response => {
+        this.bookOptions = response.data;
+      });
+    },
+    /** 查询分类下拉 */
+    getCategoryList() {
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+    },
+    /** 查询城市下拉 */
+    getCityList() {
+      getCityOptionSelect(this.queryParams).then(response => {
+        this.cityOptions = response.data;
+      });
+    },
+    /** 查询心情下拉 */
+    getEmotionList() {
+      getEmotionOptionSelect(this.queryParams).then(response => {
+        this.emotionOptions = response.data;
+      });
+    },
+    /** 查询实体下拉 */
+    getEntityList() {
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
+        this.entities = response.data;
+      });
+    },
+    /** 查询商品下拉 */
+    getGoodsList() {
+      getGoodsOptionSelect(this.queryParams).then(response => {
+        this.goodsOptions = response.data;
+      });
+    },
+    /** 查询标签下拉 */
+    getLabelList() {
+      getLabelOptionSelect(this.queryParams).then(response => {
+        this.labelOptions = response.data;
+      });
+    },
+    /** 查询成员下拉 */
+    getMemberList() {
+      getMemberOptionSelect(this.queryParams).then(response => {
+        this.memberOptions = response.data;
+      });
+    },
+    /** 查询币种下拉 */
+    getMoneyList() {
+      getMoneyOptionSelect(this.queryParams).then(response => {
+        this.moneyOptions = response.data;
+      });
+    },
+    /** 查询项目下拉 */
+    getProjectList() {
+      getProjectOptionSelect(this.queryParams).then(response => {
+        this.projectOptions = response.data;
+        this.projects = response.data;
+      });
+    },
+    /** 查询天气下拉 */
+    getWeatherList() {
+      getWeatherOptionSelect(this.queryParams).then(response => {
+        this.weatherOptions = response.data;
+      });
+    },
     /** 选择转账账单图标 */
     selected(name) {
       this.form.icon = name;
@@ -627,6 +966,29 @@ export default {
       };
       this.resetForm("form");
     },
+    /** 搜索操作 */
+    querySearch(queryString, cb) {
+        var projects = this.projects;
+        var results = queryString ? labels.filter(this.createFilter(queryString)) : projects;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+    querySearchEntity(queryString, cb) {
+        var entities = this.entities;
+        var results = queryString ? entities.filter(this.createFilter(queryString)) : entities;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+    },
+     createFilter(queryString) {
+        return (item) => {
+           return item.value.toUpperCase().match(queryString.toUpperCase());
+           // 第一个匹配
+           //return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+    },
+    handleSelect(item) {
+        console.log(item);
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -655,6 +1017,18 @@ export default {
       const transferId = row.transferId || this.ids
       getTransfer(transferId).then(response => {
         this.form = response.data;
+        if(this.form.transferAccountId != null) {
+          this.form.transferAccountId  = this.form.transferAccountId.split(",");
+        }
+        if(this.form.transferEntityId != null) {
+          this.form.transferEntityId  = this.form.transferEntityId.split(",");
+        }
+        if (this.form.transferCategoryId != null) {
+          this.form.transferCategoryId = this.form.transferCategoryId.split(",");
+        }
+        if (this.form.transferLabelName != null) {
+          this.form.transferLabelName  = this.form.transferLabelName.split(" ");
+        }
         this.open = true;
         this.title = "修改转账账单";
       });
@@ -663,6 +1037,10 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.transferAccountId = this.form.transferAccountId.join(",");
+          this.form.transferEntityId = this.form.transferEntityId.join(",");
+          this.form.transferCategoryId = this.form.transferCategoryId.join(",");
+          this.form.transferLabelName = this.form.transferLabelName.join(" ");
           if (this.form.transferId != null) {
             updateTransfer(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

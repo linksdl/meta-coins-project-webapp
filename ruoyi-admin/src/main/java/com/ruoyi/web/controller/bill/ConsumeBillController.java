@@ -378,7 +378,7 @@ public class ConsumeBillController extends BaseController
         flowBill.setFlowAccountId(bill.getConsumeAccountId());
         flowBill.setFlowAccountName(bill.getConsumeAccountName());
 
-        flowBill.setFlowEntityId(bill.getConsumeEntityId());
+        flowBill.setFlowEntityId(bill.getConsumeEntityId().toString());
         flowBill.setFlowEntityName(bill.getConsumeEntityName());
 
         flowBill.setFlowCityId(bill.getConsumeCityId());
