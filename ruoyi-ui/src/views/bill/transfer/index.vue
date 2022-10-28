@@ -94,7 +94,7 @@
             </el-form-item>
             <el-form-item label="类型">
               <template slot-scope="scope">
-              <dict-tag :options="dict.type.config_function_in" :value="props.row.transferType"/>
+              <dict-tag :options="dict.type.config_function_transfer" :value="props.row.transferType"/>
                </template>
             </el-form-item>
             <el-form-item label="时间">
@@ -106,14 +106,14 @@
             <el-form-item label="币种">
               <span>{{ props.row.transferMoneyName }}</span>
             </el-form-item>
-            <el-form-item label="账户">
+            <el-form-item label="转出账户">
               <span>{{ props.row.transferAccountName }}</span>
+            </el-form-item>
+            <el-form-item label="转入账户">
+              <span>{{ props.row.transferEntityName }}</span>
             </el-form-item>
             <el-form-item label="分类">
               <span>{{ props.row.transferCategoryName }}</span>
-            </el-form-item>
-            <el-form-item label="实体">
-              <span>{{ props.row.transferEntityName }}</span>
             </el-form-item>
             <el-form-item label="项目">
               <span>{{ props.row.transferProjectName }}</span>

@@ -99,7 +99,7 @@
             </el-form-item>
             <el-form-item label="类型">
               <template slot-scope="scope">
-              <dict-tag :options="dict.type.config_function_in" :value="props.row.consumeType"/>
+              <dict-tag :options="dict.type.config_function_out" :value="props.row.consumeType"/>
                </template>
             </el-form-item>
             <el-form-item label="时间">

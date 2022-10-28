@@ -104,7 +104,7 @@
             <el-form-item label="分类">
               <span>{{ props.row.flowCategoryName }}</span>
             </el-form-item>
-            <el-form-item label="实体">
+            <el-form-item label="实体(商家，个人，收入账户)">
               <span>{{ props.row.flowEntityName }}</span>
             </el-form-item>
             <el-form-item label="项目">
@@ -168,6 +168,7 @@
           <dict-tag :options="dict.type.config_is_deleted" :value="scope.row.isDeleted"/>
         </template>
       </el-table-column>
+  <!--
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -185,7 +186,7 @@
             v-hasPermi="['bill:flow:remove']"
           >删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <pagination

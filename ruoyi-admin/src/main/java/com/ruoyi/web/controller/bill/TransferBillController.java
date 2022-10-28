@@ -596,7 +596,7 @@ public class TransferBillController extends BaseController
 
         transferBillService.updateTransferBill(bill);
         FlowBill flowBill = convertTransferBillToFlowBill(bill);
-        // 更新到流水中
+        // 更新到流水中 可以逻辑删除
         flowBillService.deleteFlowBillByFlowBillIdAndFlowCategory(flowBill);
         return toAjax(flowBillService.insertFlowBill(flowBill));
     }
