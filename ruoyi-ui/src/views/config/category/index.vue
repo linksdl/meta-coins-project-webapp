@@ -169,14 +169,14 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="功能类型" prop="categoryType">
-            <el-radio-group v-model="form.categoryType">
-              <el-radio
+            <el-checkbox-group v-model="form.categoryType">
+              <el-checkbox
                 v-for="dict in dict.type.config_function_type"
                 :key="dict.value"
                 :label="dict.value">
                 {{dict.label}}
-              </el-radio>
-            </el-radio-group>
+              </el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
         </el-col>
       </el-row>
@@ -354,7 +354,7 @@ export default {
         categoryDesc: null,
         categoryScope: [],
         categorySort: null,
-        categoryType: null,
+        categoryType: [],
         enableStatus: 0,
         icon: null,
         orderSort: null,
@@ -410,6 +410,7 @@ export default {
       getCategory(row.categoryId).then(response => {
         this.form = response.data;
         this.form.categoryScope = this.form.categoryScope.split(",");
+        this.form.categoryType = this.form.categoryType.split(",");
         this.open = true;
         this.title = "修改分类管理";
       });
@@ -419,6 +420,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.categoryScope = this.form.categoryScope.join(",");
+          this.form.categoryType = this.form.categoryType.join(",");
           if (this.form.categoryId != null) {
             updateCategory(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

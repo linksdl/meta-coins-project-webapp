@@ -100,57 +100,32 @@
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-      <el-table-column label="标签名称" align="center" prop="labelCname" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="英文名" align="center" prop="labelEname" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="名称" align="center" prop="labelCname" :show-overflow-tooltip="true" />
+      <el-table-column label="英名" align="center" prop="labelEname" :show-overflow-tooltip="true" />
       <el-table-column label="描述" align="center" prop="labelDesc" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="类型" align="center" prop="labelType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_type" :value="scope.row.labelType"/>
         </template>
       </el-table-column>
-
-
       <el-table-column label="作用范围" align="center" prop="labelScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.labelScope ? scope.row.labelScope.split(',') : []"/>
         </template>
       </el-table-column>
-
-
-
-
-
-
-
-    <el-table-column label="图标" align="center" prop="icon">
-        <template slot-scope="scope">
-          <svg-icon :icon-class="scope.row.icon" />
-        </template>
-    </el-table-column>
-
-
-
+      <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <svg-icon :icon-class="scope.row.icon" />
+          </template>
+      </el-table-column>
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
 
-
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -184,7 +159,6 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 
       <el-row>
-
          <el-col :span="12">
           <el-form-item label="名称" prop="labelCname" >
               <el-autocomplete
@@ -210,15 +184,15 @@
         </el-form-item>
 
         <el-form-item label="功能类型" prop="labelType">
-          <el-radio-group v-model="form.labelType">
-              <el-radio
+          <el-checkbox-group v-model="form.labelType">
+              <el-checkbox
                 v-for="dict in dict.type.config_function_type"
                 :key="dict.value"
                 :label="dict.value"
                 >
                 {{dict.label}}
-              </el-radio>
-          </el-radio-group>
+              </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="功能范围" prop="labelScope">
@@ -390,7 +364,7 @@ export default {
         labelCname: null,
         labelEname: null,
         labelDesc: null,
-        labelType: null,
+        labelType: [],
         labelScope: [],
         remark: null,
         orderSort: null,
@@ -454,6 +428,7 @@ export default {
       getLabel(labelId).then(response => {
         this.form = response.data;
         this.form.labelScope = this.form.labelScope.split(",");
+        this.form.labelType = this.form.labelType.split(",");
         this.open = true;
         this.title = "修改标签管理";
       });
@@ -463,6 +438,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.labelScope = this.form.labelScope.join(",");
+          this.form.labelType = this.form.labelType.join(",");
           if (this.form.labelId != null) {
             updateLabel(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

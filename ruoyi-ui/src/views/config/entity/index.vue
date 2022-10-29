@@ -222,15 +222,15 @@
         </el-form-item>
 
         <el-form-item label="功能类型" prop="entityType">
-          <el-radio-group v-model="form.entityType">
-              <el-radio
+          <el-checkbox-group v-model="form.entityType">
+              <el-checkbox
                 v-for="dict in dict.type.config_function_type"
                 :key="dict.value"
                 :label="dict.value"
                 >
                 {{dict.label}}
-              </el-radio>
-          </el-radio-group>
+              </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="功能范围" prop="entityScope">
@@ -416,7 +416,7 @@ export default {
         entityDesc: null,
         entityImgs: null,
         entityMapLocation: null,
-        entityType: null,
+        entityType: [],
         entityScope: [],
         entityTypeId: null,
         entityTypeName: null,
@@ -482,6 +482,7 @@ export default {
       getEntity(entityId).then(response => {
         this.form = response.data;
         this.form.entityScope = this.form.entityScope.split(",");
+        this.form.entityType = this.form.entityType.split(",");
         this.open = true;
         this.title = "修改商家管理";
       });
@@ -491,6 +492,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.entityScope = this.form.entityScope.join(",");
+          this.form.entityType = this.form.entityType.join(",");
           if (this.form.entityId != null) {
             updateEntity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

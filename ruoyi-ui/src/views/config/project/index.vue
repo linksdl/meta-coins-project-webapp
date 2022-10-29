@@ -173,21 +173,21 @@
         </el-form-item>
 
         <el-form-item label="功能类型" prop="projectType">
-          <el-radio-group v-model="form.projectType">
-              <el-radio
+          <el-checkbox-group v-model="form.projectType">
+              <el-checkbox
                 v-for="dict in dict.type.config_function_type"
                 :key="dict.value"
-                :label="dict.value"
-                >
+                :label="dict.value">
                 {{dict.label}}
-              </el-radio>
-          </el-radio-group>
+              </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="功能范围" prop="projectScope">
           <el-checkbox-group v-model="form.projectScope">
             <el-checkbox
               v-for="dict in dict.type.config_function_scope"
+              :key="dict.value"
               :label="dict.value">
               {{dict.label}}
             </el-checkbox>
@@ -347,13 +347,13 @@ export default {
         projectId: null,
         projectName: null,
         projectScope: [],
-        projectType: null,
+        projectType: [],
         projectDesc: null,
         weight: null,
         remark: null,
         orderSort: null,
         icon: null,
-        enableStatus: 0,
+        enableStatus: 1,
         createBy: null,
         createTime: null,
         updateBy: null,
@@ -411,7 +411,7 @@ export default {
       getProject(projectId).then(response => {
         this.form = response.data;
         this.form.projectScope = this.form.projectScope.split(",");
-        //this.form.projectType = this.form.projectType.split(",");
+        this.form.projectType = this.form.projectType.split(",");
         this.open = true;
         this.title = "修改项目管理";
       });
@@ -421,7 +421,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.projectScope = this.form.projectScope.join(",");
-          //this.form.projectType = this.form.projectType.join(",");
+          this.form.projectType = this.form.projectType.join(",");
           if (this.form.projectId != null) {
             updateProject(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");

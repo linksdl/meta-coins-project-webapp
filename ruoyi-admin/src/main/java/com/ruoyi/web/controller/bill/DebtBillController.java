@@ -14,6 +14,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FullDate;
 import com.ruoyi.config.domain.*;
 import com.ruoyi.config.service.*;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,9 @@ public class DebtBillController extends BaseController
 {
     @Autowired
     private IDebtBillService debtBillService;
+
+    @Resource
+    private ISysUserService userService;
     
     @Resource
     private IBookService bookService;
@@ -153,6 +157,11 @@ public class DebtBillController extends BaseController
         bill.setDebtBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         bill.setDebtUserId(getUserId());
         bill.setDebtUserName(getUsername());
+        bill.setCreateTime(DateUtils.getNowDate());
+        bill.setUpdateTime(DateUtils.getNowDate());
+        // 创建者
+        bill.setCreateBy(getUsername());
+        bill.setUpdateBy(getUsername());
 
         // 关于日期
         bill.setDebtDate(fullDate.getDate());
@@ -164,9 +173,7 @@ public class DebtBillController extends BaseController
         bill.setDebtDay(fullDate.getDay());
         bill.setDebtPeriod(fullDate.getPeriod());
 
-        // 创建者
-        bill.setCreateBy(getUsername());
-        bill.setUpdateBy(getUsername());
+
 
         // 关联信息
         // 天气
@@ -183,15 +190,21 @@ public class DebtBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getDebtProjectName());
-            temp.setProjectDesc("添加借贷账单创建");
+            temp.setProjectDesc(bill.getDebtProjectName());
             temp.setProjectType("debt");
-            temp.setProjectScope("debt,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getDebtType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加借贷账单创建");
+            temp.setUserId(bill.getDebtUserId());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+            temp.setBookId(bill.getDebtBookId());
+            temp.setBookName(bill.getDebtBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setDebtProjectId(temp.getProjectId());
         }
@@ -218,16 +231,22 @@ public class DebtBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加借贷账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("debt");
-                    label.setLabelScope("debt,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getDebtType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加借贷账单创建");
+                    label.setUserId(bill.getDebtUserId());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+                    label.setBookId(bill.getDebtBookId());
+                    label.setBookName(bill.getDebtBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }
@@ -314,8 +333,7 @@ public class DebtBillController extends BaseController
               "天气[" + bill.getDebtWeatherName() + "], " +
               "备注[" + bill.getRemark() + "] ";
         bill.setDebtDesc(desc);
-        bill.setCreateTime(DateUtils.getNowDate());
-        bill.setUpdateTime(DateUtils.getNowDate());
+
 
         debtBillService.insertDebtBill(bill);
         FlowBill flowBill = convertDebtBillToFlowBill(bill);
@@ -479,15 +497,21 @@ public class DebtBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getDebtProjectName());
-            temp.setProjectDesc("添加借贷账单创建");
+            temp.setProjectDesc(bill.getDebtProjectName());
             temp.setProjectType("debt");
-            temp.setProjectScope("debt,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getDebtType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加借贷账单创建");
+            temp.setUserId(bill.getDebtUserId());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+            temp.setBookId(bill.getDebtBookId());
+            temp.setBookName(bill.getDebtBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setDebtProjectId(temp.getProjectId());
         }
@@ -514,16 +538,22 @@ public class DebtBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加借贷账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("debt");
-                    label.setLabelScope("debt,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getDebtType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加借贷账单创建");
+                    label.setUserId(bill.getDebtUserId());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+                    label.setBookId(bill.getDebtBookId());
+                    label.setBookName(bill.getDebtBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }

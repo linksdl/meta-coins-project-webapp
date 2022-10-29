@@ -200,55 +200,30 @@
     />
 
     <!-- 添加或修改借贷账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
+    <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="88px">
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="名称" prop="debtName">
-                <el-input clearable v-model="form.debtName" placeholder="请输入借贷名称" />
-              </el-form-item>
-            </el-col>
+             <el-col :span="8">
+                <el-form-item label="时间" prop="debtDatetime">
+                  <el-date-picker
+                    clearable
+                    v-model="form.debtDatetime"
+                    type="datetime"
+                    placeholder="请选择借贷日期"
+                    value-format="yyyy-MM-dd HH:mm:SS"
+                    align="right"
+                    :picker-options="pickerOptions"
+                    >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
 
-            <el-col :span="16">
-              <el-form-item label="时间" prop="debtDatetime">
-                <el-date-picker
-                  clearable
-                  v-model="form.debtDatetime"
-                  type="datetime"
-                  placeholder="请选择借贷日期"
-                  value-format="yyyy-MM-dd HH:mm:SS"
-                  align="right"
-                  :picker-options="pickerOptions"
-                  >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row>
-
-            <el-col :span="8">
-              <el-form-item label="金额" prop="debtAmount">
-                <el-input-number v-model="form.debtAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
-              </el-form-item>
-            </el-col>
-
-           <el-col :span="16">
-              <el-form-item label="币种" prop="debtMoneyId">
-                <el-radio-group v-model="form.debtMoneyId" placeholder="请选择币种">
-                  <el-radio
-                    border
-                    v-for="item in moneyOptions"
-                    :label="item.moneyId"
-                    :value="item.moneyId"
-                    :key="item.moneyId"
-                    :disabled="item.disabled">
-                  {{item.moneyCname}}
-                  </el-radio>
-                </el-radio-group>
-              </el-form-item>
-           </el-col>
-          </el-row>
+              <el-col :span="16">
+                <el-form-item label="名称" prop="debtName">
+                  <el-input :disabled="true" clearable v-model="form.debtName" placeholder="请输入借贷名称" />
+                </el-form-item>
+              </el-col>
+            </el-row>
 
           <el-row>
             <el-col :span="24">
@@ -264,6 +239,29 @@
             </el-form-item>
            </el-col>
          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="金额" prop="debtAmount">
+                <el-input-number v-model="form.debtAmount" type="input-number" :min="0.01" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+
+           <el-col :span="16">
+              <el-form-item label="币种" prop="debtMoneyId">
+                <el-radio-group v-model="form.debtMoneyId" placeholder="请选择币种">
+                  <el-radio
+                    v-for="item in moneyOptions"
+                    :label="item.moneyId"
+                    :value="item.moneyId"
+                    :key="item.moneyId"
+                    :disabled="item.disabled">
+                  {{item.moneyCname}}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+          </el-row>
 
           <el-row>
            <el-col :span="8">
@@ -297,7 +295,7 @@
         <el-row>
           <el-col :span="8">
               <el-form-item label="实体" clearable filterable prop="debtEntityId">
-                <el-select v-model="form.debtEntityId" filterable placeholder="请选择实体名称">
+                <el-select clearable v-model="form.debtEntityId" filterable placeholder="请选择实体名称">
                   <el-option
                     v-for="item in entityOptions"
                     :key="item.entityId"
@@ -309,7 +307,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="16" v-if='false'>
             <el-form-item label="实体" prop="debtEntityName" >
               <el-autocomplete
                 class="inline-input"
@@ -319,15 +317,14 @@
                 :trigger-on-focus="true"
                 placeholder="请输入实体名称"
                 @select="handleSelect"
+                @clear="handleClear"
               ></el-autocomplete>
             </el-form-item>
           </el-col>
-        </el-row>
 
-        <el-row>
-           <el-col :span="8">
+          <el-col :span="8" v-if='false'>
               <el-form-item label="项目" clearable filterable prop="debtProjectId">
-                <el-select v-model="form.debtProjectId" filterable placeholder="请选择项目名称">
+                <el-select clearable @change="handleSelectProjectName" v-model="form.debtProjectId" filterable placeholder="请选择项目名称">
                   <el-option
                     v-for="item in projectOptions"
                     :key="item.projectId"
@@ -339,7 +336,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="8">
             <el-form-item label="项目" prop="debtProjectName" style="width: 800px;" >
               <el-autocomplete
                 class="inline-input"
@@ -418,7 +415,7 @@
       <el-row>
         <el-col :span="24">
            <el-form-item label="描述" prop="debtDesc">
-            <el-input v-model="form.debtDesc" type="textarea" clearable placeholder="请输入内容" />
+            <el-input :disabled="true" v-model="form.debtDesc" type="textarea" clearable placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -452,7 +449,7 @@
       </el-row>
 
 
-    <el-row>
+    <el-row v-if="emotionOptions != undefined && emotionOptions != null && emotionOptions.length > 0 ">
        <el-col :span="8">
         <el-form-item label="心情"  prop="debtEmotionId">
           <el-select v-model="form.debtEmotionId" clearable filterable placeholder="请选择心情名">
@@ -481,7 +478,7 @@
 
 
 
-      <el-row>
+      <el-row v-if="weatherOptions != undefined && weatherOptions != null && weatherOptions.length > 0 ">
         <el-col :span="8">
         <el-form-item label="天气" prop="debtWeatherId">
           <el-select v-model="form.debtWeatherId" clearable filterable placeholder="请选择天气名">
@@ -519,12 +516,12 @@
 
       <el-row>
           <el-col :span="24">
-              <el-form-item label="是否记录">
+              <el-form-item label="进账">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
                     :key="dict.value"
-      :label="parseInt(dict.value)"
+                    :label="parseInt(dict.value)"
                   >{{dict.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -693,10 +690,12 @@ export default {
         debtName: null,
         debtType: null,
         createTime: null,
+
         labelType: 'debt',
-        categoryType: 'income',
+        categoryType: 'debt',
+        accountType: 'debt',
+
         categoryScope: 'debt',
-        accountType: 'income',
         accountScope: 'debt',
         labelScope: 'debt',
         moneyScope: 'debt',
@@ -710,11 +709,11 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        debtType: [
-          { required: true, message: "类型不能为空", trigger: "blur" }
-        ],
         debtDatetime: [
           { required: true, message: "时间不能为空", trigger: "blur" }
+        ],
+        debtType: [
+          { required: true, message: "类型不能为空", trigger: "blur" }
         ],
         debtMoneyId: [
           { required: true, message: "币种不能为空", trigger: "blur" }
@@ -728,7 +727,10 @@ export default {
         debtEntityId: [
           { required: true, message: "实体不能为空", trigger: "change" }
         ],
-        debtProjectId: [
+        debtEntityName: [
+          { required: true, message: "实体不能为空", trigger: "change" }
+        ],
+        debtProjectName: [
           { required: true, message: "项目不能为空", trigger: "change" }
         ],
         debtAmount: [
@@ -739,6 +741,9 @@ export default {
         ],
         debtLabelName: [
           { required: true, message: "标签不能为空", trigger: "blur" }
+        ],
+        debtMemberId: [
+          { required: true, message: "成员不能为空", trigger: "blur" }
         ]
       }
     };
@@ -785,56 +790,85 @@ export default {
         this.inputVisible = false;
         this.inputValue = '';
       },
-    handleDebtTypeChange(val) {
-      this.queryParams.moneyScope=val;
-      getMoneyOptionSelect(this.queryParams).then(response => {
-        this.moneyOptions = response.data;
-      });
+      handleDebtTypeChange(val) {
+        this.queryParams.moneyScope=val;
+        getMoneyOptionSelect(this.queryParams).then(response => {
+          this.moneyOptions = response.data;
+          if(this.moneyOptions != null)
+          {
+            this.form.debtMoneyId = this.moneyOptions[0].moneyId;
+          }
+        });
 
-      this.queryParams.entityScope=val;
-      getEntityOptionSelect(this.queryParams).then(response => {
-        this.entityOptions = response.data;
-      });
+        this.queryParams.entityScope=val;
+        getEntityOptionSelect(this.queryParams).then(response => {
+          this.entityOptions = response.data;
+        });
 
-      this.queryParams.projectScope=val;
-      getProjectOptionSelect(this.queryParams).then(response => {
-        this.projectOptions = response.data;
-      });
+        this.queryParams.projectScope=val;
+        getProjectOptionSelect(this.queryParams).then(response => {
+          this.projectOptions = response.data;
+        });
 
-      this.queryParams.categoryScope=val;
-      getCategoryOptionSelect(this.queryParams).then(response => {
-        this.categoryOptions = response.data;
-      });
+        this.queryParams.categoryScope=val;
+        getCategoryOptionSelect(this.queryParams).then(response => {
+          this.categoryOptions = response.data;
+        });
 
-      this.queryParams.accountScope=val;
-      if(val == 'borrow' || val == 'loan-in' || val == 'debt-in')
-      {
-        this.queryParams.accountType = 'income';
-      }else {
-        this.queryParams.accountType = 'consume';
-      }
-      getAccountOptionSelect(this.queryParams).then(response => {
-        this.accountOptions = response.data;
-      });
+        this.queryParams.accountScope=val;
+        if(val == 'borrow' || val == 'loan-in' || val == 'debt-in')
+        {
+          this.queryParams.accountType = 'debt';
+        }else {
+          this.queryParams.accountType = 'consume';
+        }
+        getAccountOptionSelect(this.queryParams).then(response => {
+          this.accountOptions = response.data;
+        });
 
-      this.queryParams.labelScope=val;
-      getLabelOptionSelect(this.queryParams).then(response => {
-        this.labelOptions = response.data;
-      });
+        this.queryParams.labelScope=val;
+        getLabelOptionSelect(this.queryParams).then(response => {
+          this.labelOptions = response.data;
+        });
 
-      this.queryParams.memberScope=val;
-      getMemberOptionSelect(this.queryParams).then(response => {
-        this.memberOptions = response.data;
-      });
+        this.queryParams.memberScope=val;
+        getMemberOptionSelect(this.queryParams).then(response => {
+          this.memberOptions = response.data;
+          if(this.memberOptions != null)
+          {
+            this.form.debtMemberId = this.memberOptions[0].memberId;
+          }
+        });
 
-      this.queryParams.weatherScope=val;
-      getWeatherOptionSelect(this.queryParams).then(response => {
-        this.weatherOptions = response.data;
-      });
+        this.queryParams.weatherScope=val;
+        getWeatherOptionSelect(this.queryParams).then(response => {
+          this.weatherOptions = response.data;
+          if(this.weatherOptions != null)
+          {
+            this.form.debtWeatherId = this.weatherOptions[0].weatherId;
+          }
+        });
 
-      this.queryParams.emotionScope=val;
-      getEmotionOptionSelect(this.queryParams).then(response => {
-        this.emotionOptions = response.data;
+        this.queryParams.emotionScope=val;
+        getEmotionOptionSelect(this.queryParams).then(response => {
+          this.emotionOptions = response.data;
+          if(this.emotionOptions != null)
+          {
+            this.form.debtEmotionId = this.emotionOptions[0].emotionId;
+          }
+        });
+
+        this.form.debtCityId = this.cityOptions[0].cityId;
+    },
+    handleSelectProjectName(val) {
+      this.projectOptions.forEach((item, index)=>{
+        if(item.projectId === val)
+        {
+          this.form.debtProjectName = item.projectName;
+          this.form.debtProjectId = item.projectId;
+        }else {
+          this.form.debtProjectId = null;
+        }
       });
     },
     /** 查询账户下拉 */
@@ -939,7 +973,7 @@ export default {
         debtDesc: null,
         debtDatetime: null,
         debtAmount: null,
-        enableStatus: 0,
+        enableStatus: 1,
         debtParentId: null,
         createBy: null,
         debtParentName: null,
@@ -1018,7 +1052,14 @@ export default {
         };
     },
     handleSelect(item) {
-        console.log(item);
+        if(item != null && item != undefined)
+        {
+          this.form.debtProjectId = item.projectId;
+        }
+    },
+    handleClear()
+    {
+      this.form.debtProjectId = null;
     },
     /** 重置按钮操作 */
     resetQuery() {

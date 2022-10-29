@@ -180,7 +180,7 @@
             <el-radio
               v-for="dict in dict.type.config_function_class"
               :key="dict.value"
-:label="dict.value"
+              :label="dict.value"
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
