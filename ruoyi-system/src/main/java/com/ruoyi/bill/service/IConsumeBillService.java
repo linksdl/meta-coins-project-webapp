@@ -51,6 +51,7 @@ public interface IConsumeBillService
      */
     public int deleteConsumeBillByConsumeIds(Long[] consumeIds);
 
+
     /**
      * 删除支出账单信息
      * 

@@ -517,18 +517,24 @@
       </el-row>
 
       <el-row>
-          <el-col :span="24">
+          <el-col :span="21">
               <el-form-item label="是否记录">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
                     :key="dict.value"
-      :label="parseInt(dict.value)"
+                    :label="parseInt(dict.value)"
                   >{{dict.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
           </el-col>
+
+          <el-col :span="3">
+            <el-button  type="success"  icon="el-icon-edit" @click="innerVisible = true">增加商品</el-button>
+          </el-col>
       </el-row>
+
+
 
       </el-form>
 
@@ -537,6 +543,60 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+        width="800px"
+        height="600px"
+        title="增加商品列表"
+        :visible.sync="innerVisible"
+        append-to-body>
+        <!-- <el-divider content-position="center">消费商品信息</el-divider> -->
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddBillConsumeGoods">增加</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteBillConsumeGoods">删除</el-button>
+          </el-col>
+        </el-row>
+
+        <el-table :data="billConsumeGoodsList"
+            :row-class-name="rowBillConsumeGoodsIndex"
+            @selection-change="handleBillConsumeGoodsSelectionChange"
+            ref="billConsumeGoods">
+
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column label="序号" align="center" prop="index" width="50"/>
+          <el-table-column label="商品" prop="goodsId" width="200">
+            <template slot-scope="scope">
+              <el-select v-model="scope.row.goodsId" placeholder="请选择商品">
+                <el-option label="请选择字典生成" value="" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="数量" prop="goodsTotal" width="150">
+            <template slot-scope="scope">
+              <el-input-number v-model="scope.row.goodsTotal" :step="1" placeholder="请输入数量" />
+            </template>
+          </el-table-column>
+          <el-table-column label="价格" prop="goodsPrice" width="150">
+            <template slot-scope="scope">
+              <el-input-number v-model="scope.row.goodsPrice" :min="0.01" :precision="2" :step="0.01" :max="999999.99" placeholder="请输入数量" />
+            </template>
+          </el-table-column>
+          <el-table-column label="总价" prop="goodsTotal" width="150">
+            <template slot-scope="scope">
+              <el-input-number v-model="scope.row.goodsTotalPrice" :min="0.01" :precision="2" :step="0.01" :max="999999.99" placeholder="请输入数量" />
+            </template>
+          </el-table-column>
+
+        </el-table>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="innerVisible = false">确 定</el-button>
+          <el-button @click="innerVisible = false">取 消</el-button>
+        </div>
+     </el-dialog>
+
   </div>
 </template>
 
@@ -602,6 +662,7 @@ export default {
   components: {IconSelect},
   data() {
     return {
+      innerVisible: false,
       // 新建标签输入
       inputVisible: false,
       inputValue: '',
@@ -673,6 +734,8 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      // 子表选中数据
+      checkedBillConsumeGoods: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -683,6 +746,8 @@ export default {
       total: 0,
       // 支出账单表格数据
       consumeList: [],
+      // 消费商品表格数据
+      billConsumeGoodsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -981,6 +1046,7 @@ export default {
         consumePeriod: null,
         consumeYearWeek: null
       };
+      this.billConsumeGoodsList = [];
       this.resetForm("form");
     },
     /** 搜索操作 */
@@ -1034,6 +1100,7 @@ export default {
       const consumeId = row.consumeId || this.ids
       getConsume(consumeId).then(response => {
         this.form = response.data;
+        this.billConsumeGoodsList = response.data.billConsumeGoodsList;
         if(this.form.consumeAccountId != null) {
           this.form.consumeAccountId  = this.form.consumeAccountId.split(",");
         }
@@ -1051,6 +1118,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+        this.form.billConsumeGoodsList = this.billConsumeGoodsList;
           this.form.consumeAccountId = this.form.consumeAccountId.join(",");
           this.form.consumeCategoryId = this.form.consumeCategoryId.join(",");
           this.form.consumeLabelName = this.form.consumeLabelName.join(" ");
@@ -1079,6 +1147,39 @@ export default {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
+    },
+    /** 消费商品序号 */
+    rowBillConsumeGoodsIndex({ row, rowIndex }) {
+      row.index = rowIndex + 1;
+    },
+    /** 消费商品添加按钮操作 */
+    handleAddBillConsumeGoods() {
+      let obj = {};
+      obj.goodsId = "";
+      obj.goodsCname = "";
+      obj.goodsEname = "";
+      obj.goodsPrice = "";
+      obj.goodsTotal = "";
+      obj.goodsTotalPrice = "";
+      obj.enableStatus = "";
+      obj.isDeleted = "";
+      this.billConsumeGoodsList.push(obj);
+    },
+    /** 消费商品删除按钮操作 */
+    handleDeleteBillConsumeGoods() {
+      if (this.checkedBillConsumeGoods.length == 0) {
+        this.$modal.msgError("请先选择要删除的消费商品数据");
+      } else {
+        const billConsumeGoodsList = this.billConsumeGoodsList;
+        const checkedBillConsumeGoods = this.checkedBillConsumeGoods;
+        this.billConsumeGoodsList = billConsumeGoodsList.filter(function(item) {
+          return checkedBillConsumeGoods.indexOf(item.index) == -1
+        });
+      }
+    },
+    /** 复选框选中数据 */
+    handleBillConsumeGoodsSelectionChange(selection) {
+      this.checkedBillConsumeGoods = selection.map(item => item.index)
     },
     /** 导出按钮操作 */
     handleExport() {

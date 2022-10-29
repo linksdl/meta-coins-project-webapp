@@ -64,8 +64,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="consumeYearWeek"    column="consume_year_week"    />
     </resultMap>
 
+    <resultMap id="ConsumeBillBillConsumeGoodsResult" type="ConsumeBill" extends="ConsumeBillResult">
+        <collection property="billConsumeGoodsList" notNullColumn="sub_consume_goods_id" javaType="java.util.List" resultMap="BillConsumeGoodsResult" />
+    </resultMap>
+
+    <resultMap type="ConsumeGoods" id="BillConsumeGoodsResult">
+        <result property="consumeGoodsId"    column="sub_consume_goods_id"    />
+        <result property="consumeBillId"    column="sub_consume_bill_id"    />
+        <result property="goodsId"    column="sub_goods_id"    />
+        <result property="goodsCname"    column="sub_goods_cname"    />
+        <result property="goodsEname"    column="sub_goods_ename"    />
+        <result property="goodsPrice"    column="sub_goods_price"    />
+        <result property="goodsTotal"    column="sub_goods_total"    />
+        <result property="goodsTotalPrice"    column="sub_goods_total_price"    />
+        <result property="enableStatus"    column="sub_enable_status"    />
+        <result property="weight"    column="sub_weight"    />
+        <result property="icon"    column="sub_icon"    />
+        <result property="isDeleted"    column="sub_is_deleted"    />
+        <result property="orderSort"    column="sub_order_sort"    />
+        <result property="remark"    column="sub_remark"    />
+        <result property="createBy"    column="sub_create_by"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="updateBy"    column="sub_update_by"    />
+        <result property="updateTime"    column="sub_update_time"    />
+        <result property="goodsDesc"    column="sub_goods_desc"    />
+    </resultMap>
+
     <sql id="selectConsumeBillVo">
-        select consume_id, consume_name, consume_type, consume_datetime, consume_amount, consume_desc, consume_imgs, consume_parent_id, consume_parent_name, enable_status, icon, remark, weight, is_deleted, order_sort, create_by, create_time, update_by, update_time, consume_user_id, consume_user_name, consume_weather_id, consume_weather_name, consume_project_id, consume_project_name, consume_label_id, consume_label_name, consume_member_id, consume_member_name, consume_money_id, consume_money_name, consume_entity_id, consume_entity_name, consume_city_id, consume_city_name, consume_emotion_id, consume_emotion_name, consume_category_id, consume_category_name, consume_account_id, consume_account_name, consume_book_id, consume_book_name, consume_county, consume_province, consume_city, consume_country, consume_address, consume_street, consume_date, consume_year, consume_quarter, consume_month, consume_week, consume_day, consume_period, consume_year_week from bill_consume
+        select consume_id, consume_name, consume_type, consume_datetime, consume_amount, consume_desc, consume_imgs, consume_parent_id, consume_parent_name, enable_status, icon, remark, weight, is_deleted, order_sort, create_by, create_time, update_by, update_time, consume_user_id, consume_user_name, consume_weather_id, consume_weather_name, consume_project_id, consume_project_name, consume_label_id, consume_label_name, consume_member_id, consume_member_name, consume_money_id, consume_money_name, consume_entity_id, consume_entity_name, consume_category_id, consume_category_name, consume_account_id, consume_account_name, consume_book_id, consume_book_name, consume_county, consume_province, consume_city, consume_country, consume_address, consume_street, consume_date, consume_year, consume_quarter, consume_month, consume_week, consume_day, consume_period, consume_year_week from bill_consume
     </sql>
 
     <select id="selectConsumeBillAll" resultMap="ConsumeBillResult">
@@ -74,19 +100,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectConsumeBillList" parameterType="ConsumeBill" resultMap="ConsumeBillResult">
         <include refid="selectConsumeBillVo"/>
-        <where>  
+        <where>
             <if test="consumeName != null  and consumeName != ''"> and consume_name like concat('%', #{consumeName}, '%')</if>
             <if test="consumeType != null  and consumeType != ''"> and consume_type = #{consumeType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="consumeBookName != null  and consumeBookName != ''"> and consume_book_name like concat('%', #{consumeBookName}, '%')</if>
         </where>
-        order by consume_datetime desc
     </select>
     
-    <select id="selectConsumeBillByConsumeId" parameterType="Long" resultMap="ConsumeBillResult">
-        <include refid="selectConsumeBillVo"/>
-        where consume_id = #{consumeId}
+    <select id="selectConsumeBillByConsumeId" parameterType="Long" resultMap="ConsumeBillBillConsumeGoodsResult">
+        select a.consume_id, a.consume_name, a.consume_type, a.consume_datetime, a.consume_amount, a.consume_desc, a.consume_imgs, a.consume_parent_id, a.consume_parent_name, a.enable_status, a.icon, a.remark, a.weight, a.is_deleted, a.order_sort, a.create_by, a.create_time, a.update_by, a.update_time, a.consume_user_id, a.consume_user_name, a.consume_weather_id, a.consume_weather_name, a.consume_project_id, a.consume_project_name, a.consume_label_id, a.consume_label_name, a.consume_member_id, a.consume_member_name, a.consume_money_id, a.consume_money_name, a.consume_entity_id, a.consume_entity_name, a.consume_category_id, a.consume_category_name, a.consume_account_id, a.consume_account_name, a.consume_book_id, a.consume_book_name, a.consume_county, a.consume_province, a.consume_city, a.consume_country, a.consume_address, a.consume_street, a.consume_date, a.consume_year, a.consume_quarter, a.consume_month, a.consume_week, a.consume_day, a.consume_period, a.consume_year_week,
+ b.consume_goods_id as sub_consume_goods_id, b.consume_bill_id as sub_consume_bill_id, b.goods_id as sub_goods_id, b.goods_cname as sub_goods_cname, b.goods_ename as sub_goods_ename, b.goods_price as sub_goods_price, b.goods_total as sub_goods_total, b.goods_total_price as sub_goods_total_price, b.enable_status as sub_enable_status, b.weight as sub_weight, b.icon as sub_icon, b.is_deleted as sub_is_deleted, b.order_sort as sub_order_sort, b.remark as sub_remark, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.goods_desc as sub_goods_desc
+        from bill_consume a
+        left join bill_consume_goods b on b.consume_bill_id = a.consume_id
+        where a.consume_id = #{consumeId}
     </select>
-        
+
     <insert id="insertConsumeBill" parameterType="ConsumeBill" useGeneratedKeys="true" keyProperty="consumeId">
         insert into bill_consume
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -272,14 +301,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where consume_id = #{consumeId}
     </update>
 
+
     <delete id="deleteConsumeBillByConsumeId" parameterType="Long">
         delete from bill_consume where consume_id = #{consumeId}
     </delete>
 
     <delete id="deleteConsumeBillByConsumeIds" parameterType="String">
-        delete from bill_consume where consume_id in 
+        delete from bill_consume where consume_id in
         <foreach item="consumeId" collection="array" open="(" separator="," close=")">
             #{consumeId}
         </foreach>
     </delete>
+
+    <delete id="deleteBillConsumeGoodsByConsumeBillIds" parameterType="String">
+        delete from bill_consume_goods where consume_bill_id in
+        <foreach item="consumeBillId" collection="array" open="(" separator="," close=")">
+            #{consumeBillId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBillConsumeGoodsByConsumeBillId" parameterType="Long">
+        delete from bill_consume_goods where consume_bill_id = #{consumeBillId}
+    </delete>
+
+    <insert id="batchBillConsumeGoods">
+        insert into bill_consume_goods( consume_goods_id, consume_bill_id, goods_id, goods_cname, goods_ename, goods_price, goods_total, goods_total_price, enable_status, weight, icon, is_deleted, order_sort, remark, create_by, create_time, update_by, update_time, goods_desc) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.consumeGoodsId}, #{item.consumeBillId}, #{item.goodsId}, #{item.goodsCname}, #{item.goodsEname}, #{item.goodsPrice}, #{item.goodsTotal}, #{item.goodsTotalPrice}, #{item.enableStatus}, #{item.weight}, #{item.icon}, #{item.isDeleted}, #{item.orderSort}, #{item.remark}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.goodsDesc})
+        </foreach>
+    </insert>
+
 </mapper>

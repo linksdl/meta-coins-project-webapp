@@ -1,12 +1,19 @@
 package com.ruoyi.bill.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.bill.domain.ConsumeGoods;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.config.domain.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.bill.mapper.ConsumeBillMapper;
 import com.ruoyi.bill.domain.ConsumeBill;
 import com.ruoyi.bill.service.IConsumeBillService;
+
+import javax.annotation.Resource;
 
 /**
  * 支出账单Service业务层处理
@@ -17,7 +24,7 @@ import com.ruoyi.bill.service.IConsumeBillService;
 @Service
 public class ConsumeBillServiceImpl implements IConsumeBillService 
 {
-    @Autowired
+    @Resource
     private ConsumeBillMapper consumeBillMapper;
 
     /**
@@ -68,6 +75,8 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
     public int updateConsumeBill(ConsumeBill consumeBill)
     {
         consumeBill.setUpdateTime(DateUtils.getNowDate());
+        consumeBillMapper.deleteBillConsumeGoodsByConsumeBillId(consumeBill.getConsumeId());
+        insertGoods(consumeBill);
         return consumeBillMapper.updateConsumeBill(consumeBill);
     }
 
@@ -80,6 +89,7 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
     @Override
     public int deleteConsumeBillByConsumeIds(Long[] consumeIds)
     {
+        consumeBillMapper.deleteBillConsumeGoodsByConsumeBillIds(consumeIds);
         return consumeBillMapper.deleteConsumeBillByConsumeIds(consumeIds);
     }
 
@@ -92,7 +102,32 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
     @Override
     public int deleteConsumeBillByConsumeId(Long consumeId)
     {
+        consumeBillMapper.deleteBillConsumeGoodsByConsumeBillId(consumeId);
         return consumeBillMapper.deleteConsumeBillByConsumeId(consumeId);
+    }
+
+    /**
+     * 新增商品管理信息
+     *
+     * @param consumeBill 支出账单对象
+     */
+    public void insertGoods(ConsumeBill consumeBill)
+    {
+        List<ConsumeGoods> billConsumeGoodsList = consumeBill.getBillConsumeGoodsList();
+        Long consumeId = consumeBill.getConsumeId();
+        if (StringUtils.isNotNull(billConsumeGoodsList))
+        {
+            List<ConsumeGoods> list = new ArrayList<ConsumeGoods>();
+            for (ConsumeGoods billConsumeGoods : billConsumeGoodsList)
+            {
+                billConsumeGoods.setConsumeBillId(consumeId);
+                list.add(billConsumeGoods);
+            }
+            if (list.size() > 0)
+            {
+                consumeBillMapper.batchBillConsumeGoods(list);
+            }
+        }
     }
 
     @Override

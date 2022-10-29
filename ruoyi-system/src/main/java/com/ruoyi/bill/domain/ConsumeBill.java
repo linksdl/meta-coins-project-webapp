@@ -1,6 +1,8 @@
 package com.ruoyi.bill.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -221,6 +223,19 @@ public class ConsumeBill extends BaseEntity
 
     /** 周 */
     private String consumeYearWeek;
+
+     /** 消费商品信息 */
+    private List<ConsumeGoods> billConsumeGoodsList;
+
+    public List<ConsumeGoods> getBillConsumeGoodsList()
+    {
+        return billConsumeGoodsList;
+    }
+
+    public void setBillConsumeGoodsList(List<ConsumeGoods> billConsumeGoodsList)
+    {
+        this.billConsumeGoodsList = billConsumeGoodsList;
+    }
 
     public void setConsumeId(Long consumeId) 
     {
@@ -715,6 +730,7 @@ public class ConsumeBill extends BaseEntity
             .append("consumeDay", getConsumeDay())
             .append("consumePeriod", getConsumePeriod())
             .append("consumeYearWeek", getConsumeYearWeek())
+            .append("goodsList", getBillConsumeGoodsList())
             .toString();
     }
 }

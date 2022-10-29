@@ -52,17 +52,33 @@ public class Goods extends BaseEntity
     @Column(name="goods_ename")
     private String goodsEname;
 
+    /** 账单ID */
+    @Column(name="goods_bill_id")
+    private Long goodsBillId;
+
+     /** 账单名称 */
+    @Column(name="goods_bill_name")
+    private String goodsBillName;
+
     /** 价格 */
     @Excel(name = "价格")
     @Column(name="goods_price")
     private Double goodsPrice;
 
+    /** 数量 */
+    @Excel(name = "数量")
+    @Column(name="goods_total")
+    private Integer goodsTotal;
+
+    /** 总价格 */
+    @Excel(name = "总价格")
+    @Column(name="goods_total_price")
+    private Double goodsTotalPrice;
+
     /** 描述 */
     @Excel(name = "描述")
     @Column(name="goods_desc")
     private String goodsDesc;
-
-
 
     /** 权重 */
     @Excel(name = "权重")
@@ -99,6 +115,8 @@ public class Goods extends BaseEntity
     /** 用户名 */
     @Column(name="user_name")
     private String userName;
+
+
 
     public void setGoodsId(Long goodsId) 
     {
