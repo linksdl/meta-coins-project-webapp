@@ -145,17 +145,17 @@
         </template>
       </el-table-column>
       <el-table-column label="金额" align="center" prop="transferAmount" :show-overflow-tooltip="true" />
-      <el-table-column label="描述" align="center" prop="transferDesc" :show-overflow-tooltip="true" />
-      <el-table-column label="凭证" align="center" prop="transferImgs" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.transferImgs" :width="25" :height="25"/>
-        </template>
-      </el-table-column>
       <el-table-column label="转账日期" align="center" prop="transferDatetime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.transferDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
+      <el-table-column label="凭证" align="center" prop="transferImgs" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.transferImgs" :width="25" :height="25"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="描述" align="center" prop="transferDesc" :show-overflow-tooltip="true" />
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="标签" align="center" prop="transferLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="是否删除" align="center" prop="isDeleted">

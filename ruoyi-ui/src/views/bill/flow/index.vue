@@ -134,6 +134,7 @@
       <el-table-column label="源头" align="center" prop="flowSource" :show-overflow-tooltip="true" />
       <el-table-column label="目的" align="center" prop="flowTarget" :show-overflow-tooltip="true" />
       <el-table-column label="金额" align="center" prop="flowAmount" :show-overflow-tooltip="true" />
+      <el-table-column label="币种" align="center" prop="flowMoneyName" :show-overflow-tooltip="true" />
       <el-table-column label="标志" align="center" prop="flowSign">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_sign" :value="scope.row.flowSign"/>
@@ -155,9 +156,7 @@
           <image-preview :src="scope.row.flowImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
-      <el-table-column label="币种" align="center" prop="flowMoneyName" :show-overflow-tooltip="true" />
       <el-table-column label="标签" align="center" prop="flowLabelName" :show-overflow-tooltip="true" />
-      <el-table-column label="实体" align="center" prop="flowEntityName" :show-overflow-tooltip="true" />
       <el-table-column label="是否入账" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>

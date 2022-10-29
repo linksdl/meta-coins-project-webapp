@@ -148,18 +148,18 @@
           <dict-tag :options="dict.type.config_function_debt" :value="scope.row.debtType"/>
         </template>
       </el-table-column>
-      <el-table-column label="凭证" align="center" prop="debtImgs" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.debtImgs" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="描述" align="center" prop="debtDesc" :show-overflow-tooltip="true" />
       <el-table-column label="日期" align="center" prop="debtDatetime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.debtDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
       <el-table-column label="金额" align="center" prop="debtAmount" :show-overflow-tooltip="true" />
+     <el-table-column label="凭证" align="center" prop="debtImgs" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.debtImgs" :width="25" :height="25"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="描述" align="center" prop="debtDesc" :show-overflow-tooltip="true" />
       <el-table-column label="标签" align="center" prop="debtLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
