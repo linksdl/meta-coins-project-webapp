@@ -89,10 +89,10 @@
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-      <el-table-column label="中文名" align="center" prop="emotionCname" :show-overflow-tooltip="true" />
+      <el-table-column label="中文" align="center" prop="emotionCname" :show-overflow-tooltip="true" />
 
 
-      <el-table-column label="英文名" align="center" prop="emotionEname" :show-overflow-tooltip="true" />
+      <el-table-column label="英文" align="center" prop="emotionEname" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="作用范围" align="center" prop="emotionScope">

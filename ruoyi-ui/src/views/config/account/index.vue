@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="账户名称" prop="accountName">
+      <el-form-item label="名称" prop="accountName">
         <el-input
           v-model="queryParams.accountName"
           placeholder="请输入账户名称"
@@ -9,7 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="账户类别" prop="accountClass">
+      <el-form-item label="类别" prop="accountClass">
         <el-select v-model="queryParams.accountClass" placeholder="请选择类别" clearable>
           <el-option
             v-for="dict in dict.type.config_function_class"

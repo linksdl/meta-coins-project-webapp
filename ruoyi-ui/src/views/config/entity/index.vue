@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="商家名称" prop="entityName">
+      <el-form-item label="名称" prop="entityName">
         <el-input
           v-model="queryParams.entityName"
           placeholder="请输入商家名称"
@@ -90,10 +90,10 @@
 
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
 
-      <el-table-column label="名称" align="center" prop="entityName" :show-overflow-tooltip="true" />
+      <el-table-column label="名称" align="left" prop="entityName" :show-overflow-tooltip="true" />
       <el-table-column label="类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="地址" align="center" prop="entityAddress" :show-overflow-tooltip="true" />
+      <el-table-column label="地址" align="left" prop="entityAddress" :show-overflow-tooltip="true" />
 
 
       <el-table-column label="描述" align="center" prop="entityDesc" :show-overflow-tooltip="true" />
@@ -251,7 +251,7 @@
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
                     :key="dict.value"
-      :label="parseInt(dict.value)"
+                    :label="parseInt(dict.value)"
                   >{{dict.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>

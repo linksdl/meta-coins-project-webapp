@@ -90,44 +90,22 @@
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="中文" align="center" prop="cityCname" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="英文" align="center" prop="cityEname" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="英文" align="left" prop="cityEname" :show-overflow-tooltip="true" />
       <el-table-column label="描述" align="left" prop="cityDesc" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="国家" align="center" prop="cityCountry" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="省份" align="center" prop="cityProvince" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-
-
-
-    <el-table-column label="图标" align="center" prop="icon">
-        <template slot-scope="scope">
-          <svg-icon :icon-class="scope.row.icon" />
-        </template>
-    </el-table-column>
-
-
-
+      <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <svg-icon :icon-class="scope.row.icon" />
+          </template>
+      </el-table-column>
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
