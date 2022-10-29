@@ -43,7 +43,7 @@ public class DebtBill extends BaseEntity
 
     /** 金额 */
     @Excel(name = "金额")
-    private Long debtAmount;
+    private Double debtAmount;
 
     /** 是否可用 */
     @Excel(name = "是否可用")
@@ -78,7 +78,7 @@ public class DebtBill extends BaseEntity
     private String debtUserName;
 
     /** 账户ID */
-    private Long debtAccountId;
+    private String debtAccountId;
 
     /** 账户名 */
     @Excel(name = "账户名")
@@ -92,7 +92,7 @@ public class DebtBill extends BaseEntity
     private String debtBookName;
 
     /** 分类ID */
-    private Long debtCategoryId;
+    private String debtCategoryId;
 
     /** 分类名 */
     @Excel(name = "分类名")
@@ -113,14 +113,14 @@ public class DebtBill extends BaseEntity
     private String debtEmotionName;
 
     /** 实体ID */
-    private Long debtEntityId;
+    private String debtEntityId;
 
     /** 实体名 */
     @Excel(name = "实体名")
     private String debtEntityName;
 
     /** 标签ID */
-    private Long debtLabelId;
+    private String debtLabelId;
 
     /** 标签名 */
     @Excel(name = "标签名")
@@ -249,12 +249,12 @@ public class DebtBill extends BaseEntity
     {
         return debtDatetime;
     }
-    public void setDebtAmount(Long debtAmount) 
+    public void setDebtAmount(Double debtAmount)
     {
         this.debtAmount = debtAmount;
     }
 
-    public Long getDebtAmount() 
+    public Double getDebtAmount()
     {
         return debtAmount;
     }
@@ -339,12 +339,12 @@ public class DebtBill extends BaseEntity
     {
         return debtUserName;
     }
-    public void setDebtAccountId(Long debtAccountId) 
+    public void setDebtAccountId(String debtAccountId)
     {
         this.debtAccountId = debtAccountId;
     }
 
-    public Long getDebtAccountId() 
+    public String getDebtAccountId()
     {
         return debtAccountId;
     }
@@ -375,12 +375,12 @@ public class DebtBill extends BaseEntity
     {
         return debtBookName;
     }
-    public void setDebtCategoryId(Long debtCategoryId) 
+    public void setDebtCategoryId(String debtCategoryId)
     {
         this.debtCategoryId = debtCategoryId;
     }
 
-    public Long getDebtCategoryId() 
+    public String getDebtCategoryId()
     {
         return debtCategoryId;
     }
@@ -429,12 +429,12 @@ public class DebtBill extends BaseEntity
     {
         return debtEmotionName;
     }
-    public void setDebtEntityId(Long debtEntityId) 
+    public void setDebtEntityId(String debtEntityId)
     {
         this.debtEntityId = debtEntityId;
     }
 
-    public Long getDebtEntityId() 
+    public String getDebtEntityId()
     {
         return debtEntityId;
     }
@@ -447,12 +447,12 @@ public class DebtBill extends BaseEntity
     {
         return debtEntityName;
     }
-    public void setDebtLabelId(Long debtLabelId) 
+    public void setDebtLabelId(String debtLabelId)
     {
         this.debtLabelId = debtLabelId;
     }
 
-    public Long getDebtLabelId() 
+    public String getDebtLabelId()
     {
         return debtLabelId;
     }

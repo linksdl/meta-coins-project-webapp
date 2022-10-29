@@ -104,7 +104,7 @@
             <el-form-item label="分类">
               <span>{{ props.row.flowCategoryName }}</span>
             </el-form-item>
-            <el-form-item label="实体(商家，个人，收入账户)">
+            <el-form-item label="实体">
               <span>{{ props.row.flowEntityName }}</span>
             </el-form-item>
             <el-form-item label="项目">
