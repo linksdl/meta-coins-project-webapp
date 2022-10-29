@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="借贷名称" prop="debtName">
+      <el-form-item label="名称" prop="debtName">
         <el-input
           v-model="queryParams.debtName"
           placeholder="请输入借贷名称"
@@ -12,7 +12,7 @@
       </el-form-item>
 
 
-      <el-form-item label="借贷类型" prop="debtType">
+      <el-form-item label="类型" prop="debtType">
         <el-select v-model="queryParams.debtType" placeholder="请选择借贷类型" clearable>
           <el-option
             v-for="dict in dict.type.config_function_debt"
@@ -85,168 +85,92 @@
     </el-row>
 
 
-    <el-table v-loading="loading" :data="debtList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :row-class-name="tableRowClassName" :data="debtList" @selection-change="handleSelectionChange">
+
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="ID">
+              <span>{{ props.row.debtId }}</span>
+            </el-form-item>
+            <el-form-item label="名称">
+              <span>{{ props.row.debtName }}</span>
+            </el-form-item>
+            <el-form-item label="类型">
+              <template slot-scope="scope">
+              <dict-tag :options="dict.type.config_function_debt" :value="props.row.debtType"/>
+               </template>
+            </el-form-item>
+            <el-form-item label="时间">
+              <span>{{ props.row.debtDate }}</span>
+            </el-form-item>
+            <el-form-item label="金额">
+              <span>{{ props.row.debtAmount }}</span>
+            </el-form-item>
+            <el-form-item label="币种">
+              <span>{{ props.row.debtMoneyName }}</span>
+            </el-form-item>
+            <el-form-item label="账户">
+              <span>{{ props.row.debtAccountName }}</span>
+            </el-form-item>
+            <el-form-item label="分类">
+              <span>{{ props.row.debtCategoryName }}</span>
+            </el-form-item>
+            <el-form-item label="实体">
+              <span>{{ props.row.debtEntityName }}</span>
+            </el-form-item>
+            <el-form-item label="项目">
+              <span>{{ props.row.debtProjectName }}</span>
+            </el-form-item>
+            <el-form-item label="标签">
+              <span>{{ props.row.debtLabelName }}</span>
+            </el-form-item>
+            <el-form-item label="城市">
+              <span>{{ props.row.debtCityName }}</span>
+            </el-form-item>
+            <el-form-item label="成员">
+              <span>{{ props.row.debtMemberName }}</span>
+            </el-form-item>
+            <el-form-item label="心情">
+              <span>{{ props.row.debtEmotionName }}</span>
+            </el-form-item>
+            <el-form-item label="天气">
+              <span>{{ props.row.debtWeatherName }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-
-      <el-table-column label="借贷ID" align="center" prop="debtId" />
-
-
-
-      <el-table-column label="借贷名称" align="center" prop="debtName" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="借贷类型" align="center" prop="debtType">
+      <el-table-column label="名称" align="center" prop="debtName" :show-overflow-tooltip="true" />
+      <el-table-column label="类型" align="center" prop="debtType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_debt" :value="scope.row.debtType"/>
         </template>
       </el-table-column>
-
-
       <el-table-column label="凭证" align="center" prop="debtImgs" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.debtImgs" :width="50" :height="50"/>
         </template>
       </el-table-column>
-
-
-
       <el-table-column label="描述" align="center" prop="debtDesc" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="日期" align="center" prop="debtDatetime" width="180">
         <template slot-scope="scope">
-          <span>{{parseTime(scope.row.debtDatetime, '{y}-{m}-{d}')}}</span>
+          <span>{{parseTime(scope.row.debtDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-
-
-
       <el-table-column label="金额" align="center" prop="debtAmount" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="标签" align="center" prop="debtLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-
-
-      <el-table-column label="父类名称" align="center" prop="debtParentName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-
-
       <el-table-column label="是否删除" align="center" prop="isDeleted">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_deleted" :value="scope.row.isDeleted"/>
         </template>
       </el-table-column>
-
-
-      <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-      <el-table-column label="账户名" align="center" prop="debtAccountName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="账本名" align="center" prop="debtBookName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="分类名" align="center" prop="debtCategoryName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="城市名" align="center" prop="debtCityName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="心情名" align="center" prop="debtEmotionName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="实体名" align="center" prop="debtEntityName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="标签名" align="center" prop="debtLabelName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-      <el-table-column label="币种名" align="center" prop="debtMoneyName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="项目名" align="center" prop="debtProjectName" :show-overflow-tooltip="true" />
-
-
-
-
-      <el-table-column label="天气名" align="center" prop="debtWeatherName" :show-overflow-tooltip="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -276,198 +200,336 @@
     />
 
     <!-- 添加或修改借贷账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="名称" prop="debtName">
+                <el-input clearable v-model="form.debtName" placeholder="请输入借贷名称" />
+              </el-form-item>
+            </el-col>
 
-        <el-form-item label="借贷名称" prop="debtName">
-          <el-input v-model="form.debtName" placeholder="请输入借贷名称" />
-        </el-form-item>
+            <el-col :span="16">
+              <el-form-item label="时间" prop="debtDatetime">
+                <el-date-picker
+                  clearable
+                  v-model="form.debtDatetime"
+                  type="datetime"
+                  placeholder="请选择借贷日期"
+                  value-format="yyyy-MM-dd HH:mm:SS"
+                  align="right"
+                  :picker-options="pickerOptions"
+                  >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+
+            <el-col :span="8">
+              <el-form-item label="金额" prop="debtAmount">
+                <el-input-number v-model="form.debtAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+
+           <el-col :span="16">
+              <el-form-item label="币种" prop="debtMoneyId">
+                <el-radio-group v-model="form.debtMoneyId" placeholder="请选择币种">
+                  <el-radio
+                    border
+                    v-for="item in moneyOptions"
+                    :label="item.moneyId"
+                    :value="item.moneyId"
+                    :key="item.moneyId"
+                    :disabled="item.disabled">
+                  {{item.moneyCname}}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="24">
+            <el-form-item label="类型" prop="debtType">
+              <el-radio-group v-model="form.debtType" placeholder="请选择借贷类型" @change="handleDebtTypeChange" >
+                <el-radio
+                  v-for="dict in dict.type.config_function_debt"
+                  :key="dict.value"
+                  :label="dict.value"
+                  :value="dict.value">
+              {{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+           </el-col>
+         </el-row>
+
+          <el-row>
+           <el-col :span="8">
+            <el-form-item label="分类" prop="debtCategoryId">
+                <el-cascader
+                  clearable
+                  filterable
+                  placeholder="请选择分类"
+                  v-model="form.debtCategoryId"
+                  :options="categoryOptions"
+                  :props="{ expandTrigger: 'click', value:'categoryId',label:'categoryName',children: 'children', disabled :'disabled'}"
+                ></el-cascader>
+            </el-form-item>
+          </el-col>
+
+           <el-col :span="16">
+            <el-form-item label="账户" prop="debtAccountId">
+              <el-cascader
+                  clearable
+                  filterable
+                  placeholder="请选择账户"
+                  v-model="form.debtAccountId"
+                  :options="accountOptions"
+                  :props="{ expandTrigger: 'click',value:'accountId', label:'accountName',children: 'children', disabled :'disabled'}"
+              ></el-cascader>
+            </el-form-item>
+           </el-col>
+
+        </el-row>
+
+        <el-row>
+          <el-col :span="8">
+              <el-form-item label="实体" clearable filterable prop="debtEntityId">
+                <el-select v-model="form.debtEntityId" filterable placeholder="请选择实体名称">
+                  <el-option
+                    v-for="item in entityOptions"
+                    :key="item.entityId"
+                    :label="item.entityName"
+                    :value="item.entityId"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
+
+           <el-col :span="16">
+            <el-form-item label="实体" prop="debtEntityName" >
+              <el-autocomplete
+                class="inline-input"
+                clearable
+                v-model="form.debtEntityName"
+                :fetch-suggestions="querySearchEntity"
+                :trigger-on-focus="true"
+                placeholder="请输入实体名称"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+           <el-col :span="8">
+              <el-form-item label="项目" clearable filterable prop="debtProjectId">
+                <el-select v-model="form.debtProjectId" filterable placeholder="请选择项目名称">
+                  <el-option
+                    v-for="item in projectOptions"
+                    :key="item.projectId"
+                    :label="item.projectName"
+                    :value="item.projectId"
+                    :disabled="item.disabled">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+           </el-col>
+
+           <el-col :span="16">
+            <el-form-item label="项目" prop="debtProjectName" style="width: 800px;" >
+              <el-autocomplete
+                class="inline-input"
+                clearable
+                v-model="form.debtProjectName"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="true"
+                placeholder="请输入项目名称"
+                @select="handleSelect"
+              ></el-autocomplete>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="标签" prop="debtLabelName">
+              <el-select v-model="form.debtLabelName" multiple clearable filterable collapse-tags placeholder="请选择标签">
+                <el-option
+                  v-for="item in labelOptions"
+                  :key="parseInt(item.labelId)"
+                  :label="item.labelCname"
+                  :value="item.labelCname">
+                  <span style="float: left">{{ item.labelCname }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 12px">{{ item.labelEname}}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="16">
+            <el-form-item label="标签" prop="debtLabelName">
+              <el-tag
+                :key="tag"
+                v-for="tag in form.debtLabelName"
+                closable
+                :disable-transitions="false"
+                @close="handleClose(tag)"
+                type='success'
+                effect="dark">
+                {{tag}}
+              </el-tag>
+              <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+              >
+              </el-input>
+              <el-button v-else class="button-new-tag" @click="showInput">+ New 标签</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
 
-        <el-form-item label="借贷类型" prop="debtType">
-          <el-select v-model="form.debtType" placeholder="请选择借贷类型">
+
+        <el-row>
+         <el-col :span="24">
+          <el-form-item label="城市" prop="debtCityId">
+            <el-radio-group v-model="form.debtCityId" placeholder="请选择城市名">
+              <el-radio-button
+                v-for="item in cityOptions"
+                :key="item.cityId"
+                :label="item.cityId"
+                :value="item.cityId"
+                :disabled="item.disabled">{{item.cityCname}}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+         </el-col>
+       </el-row>
+
+      <el-row>
+        <el-col :span="24">
+           <el-form-item label="描述" prop="debtDesc">
+            <el-input v-model="form.debtDesc" type="textarea" clearable placeholder="请输入内容" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="成员"  prop="debtMemberId">
+            <el-select v-model="form.debtMemberId" clearable filterable placeholder="请选择成员名">
+              <el-option
+                v-for="item in memberOptions"
+                :key="item.memberId"
+                :label="item.memberName"
+                :value="item.memberId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="16" >
+          <el-form-item label="成员" prop="debtMemberName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in memberOptions"
+            :key="item.memberId"
+            type='danger'
+            effect="light">
+            {{ item.memberName }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+
+    <el-row>
+       <el-col :span="8">
+        <el-form-item label="心情"  prop="debtEmotionId">
+          <el-select v-model="form.debtEmotionId" clearable filterable placeholder="请选择心情名">
             <el-option
-              v-for="dict in dict.type.config_function_debt"
-              :key="dict.value"
-              :label="dict.label"
-:value="dict.value"            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="凭证">
-          <image-upload v-model="form.debtImgs"/>
-        </el-form-item>
-
-
-        <el-form-item label="描述" prop="debtDesc">
-          <el-input v-model="form.debtDesc" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-
-
-        <el-form-item label="日期" prop="debtDatetime">
-          <el-date-picker clearable
-            v-model="form.debtDatetime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择日期">
-          </el-date-picker>
-        </el-form-item>
-
-
-        <el-form-item label="金额" prop="debtAmount">
-          <el-input-number size="medium" v-model="form.debtAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-
-        <el-form-item label="是否可用">
-          <el-radio-group v-model="form.enableStatus">
-            <el-radio
-              v-for="dict in dict.type.config_is_enable"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="父类ID" prop="debtParentId">
-          <el-select v-model="form.debtParentId" placeholder="请选择父类ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in emotionOptions"
+              :key="item.emotionId"
+              :label="item.emotionCname"
+              :value="item.emotionId">
             </el-option>
           </el-select>
         </el-form-item>
+       </el-col>
+       <el-col :span="16" >
+          <el-form-item label="心情" prop="debtEmotionName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in emotionOptions"
+            :key="item.emotionId"
+            type='success'
+            effect="dark">
+            {{ item.emotionCname }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
 
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
 
-
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-
-
-        <el-form-item label="账户ID" prop="debtAccountId">
-          <el-select v-model="form.debtAccountId" placeholder="请选择账户ID">
+      <el-row>
+        <el-col :span="8">
+        <el-form-item label="天气" prop="debtWeatherId">
+          <el-select v-model="form.debtWeatherId" clearable filterable placeholder="请选择天气名">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in weatherOptions"
+              :key="item.weatherId"
+              :label="item.weatherCname"
+              :value="item.weatherId">
             </el-option>
           </el-select>
         </el-form-item>
+        </el-col>
 
+        <el-col :span="16" >
+          <el-form-item label="天气" prop="debtWeatherName">
+          <el-tag
+            style="margin-left: 5px; margin-top:4px;"
+            v-for="item in weatherOptions"
+            :key="item.weatherId"
+            type='success'
+            effect="plain">
+            {{ item.weatherCname }}
+          </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-        <el-form-item label="账本ID" prop="debtBookId">
-          <el-select v-model="form.debtBookId" placeholder="请选择账本ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+      <el-row>
+        <el-col :span="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" clearable type="textarea" autosize placeholder="请输入备注" />
+            </el-form-item>
+        </el-col>
+      </el-row>
 
-
-        <el-form-item label="分类ID" prop="debtCategoryId">
-          <el-select v-model="form.debtCategoryId" placeholder="请选择分类ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="城市ID" prop="debtCityId">
-          <el-select v-model="form.debtCityId" placeholder="请选择城市ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="心情ID" prop="debtEmotionId">
-          <el-select v-model="form.debtEmotionId" placeholder="请选择心情ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="实体ID" prop="debtEntityId">
-          <el-select v-model="form.debtEntityId" placeholder="请选择实体ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="标签ID" prop="debtLabelId">
-          <el-select v-model="form.debtLabelId" placeholder="请选择标签ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="成员ID" prop="debtMemberId">
-          <el-select v-model="form.debtMemberId" placeholder="请选择成员ID">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-
-        <el-form-item label="币种ID" prop="debtMoneyId">
-          <el-input v-model="form.debtMoneyId" placeholder="请输入币种ID" />
-        </el-form-item>
-
-
-        <el-form-item label="项目ID" prop="debtProjectId">
-          <el-input v-model="form.debtProjectId" placeholder="请输入项目ID" />
-        </el-form-item>
-
-
-        <el-form-item label="天气ID" prop="debtWeatherId">
-          <el-input v-model="form.debtWeatherId" placeholder="请输入天气ID" />
-        </el-form-item>
-
-
+      <el-row>
+          <el-col :span="24">
+              <el-form-item label="是否记录">
+                <el-radio-group v-model="form.enableStatus">
+                  <el-radio
+                    v-for="dict in dict.type.config_is_enable"
+                    :key="dict.value"
+      :label="parseInt(dict.value)"
+                  >{{dict.label}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+          </el-col>
+      </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -477,9 +539,61 @@
   </div>
 </template>
 
+<style>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 20px;
+    line-height: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 150px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+  .demo-table-expand {
+    font-size: 12;
+  }
+  .demo-table-expand label {
+    width: 80px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 33%;
+  }
+</style>
+
 <script>
 import { listDebt, getDebt, delDebt, addDebt, updateDebt } from "@/api/bill/debt";
 import IconSelect from "@/components/IconSelect";
+
+import { selectAccount as getAccountOptionSelect } from "@/api/config/account";
+import { selectBook as getBookOptionSelect } from "@/api/config/book";
+import { selectCategory as getCategoryOptionSelect } from "@/api/config/category";
+import { selectCity as getCityOptionSelect } from "@/api/config/city";
+import { selectEmotion as getEmotionOptionSelect } from "@/api/config/emotion";
+import { selectEntity as getEntityOptionSelect } from "@/api/config/entity";
+import { selectGoods as getGoodsOptionSelect } from "@/api/config/goods";
+import { selectLabel as getLabelOptionSelect } from "@/api/config/label";
+import { selectMember as getMemberOptionSelect } from "@/api/config/member";
+import { selectMoney as getMoneyOptionSelect } from "@/api/config/money";
+import { selectProject as getProjectOptionSelect,listProject } from "@/api/config/project";
+import { selectWeather as getWeatherOptionSelect } from "@/api/config/weather";
+
 
 export default {
   name: "Debt",
@@ -487,6 +601,73 @@ export default {
   components: {IconSelect},
   data() {
     return {
+    // 新建标签输入
+      inputVisible: false,
+      inputValue: '',
+      //账户
+      accountOptions: [],
+      //账本
+      bookOptions: [],
+      //分类
+      categoryOptions: [],
+      //城市
+      cityOptions: [],
+      //心情
+      emotionOptions: [],
+      //实体
+      entityOptions: [],
+      //商品
+      goodsOptions: [],
+      //标签
+      labelOptions: [],
+      //成员
+      memberOptions: [],
+      //币种
+      moneyOptions: [],
+      //项目
+      projectOptions: [],
+      //天气
+      weatherOptions: [],
+      // 日期选择
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '二周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 2);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '四周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7 * 4);
+            picker.$emit('pick', date);
+          }
+        }
+        ]
+      },
+      projects: [],
+      entities: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -512,18 +693,224 @@ export default {
         debtName: null,
         debtType: null,
         createTime: null,
+        labelType: 'debt',
+        categoryType: 'income',
+        categoryScope: 'debt',
+        accountType: 'income',
+        accountScope: 'debt',
+        labelScope: 'debt',
+        moneyScope: 'debt',
+        entityScope: 'debt',
+        projectScope: 'debt',
+        memberScope: 'debt',
+        weatherScope: 'debt',
+        emotionScope: 'debt'
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        debtType: [
+          { required: true, message: "类型不能为空", trigger: "blur" }
+        ],
+        debtDatetime: [
+          { required: true, message: "时间不能为空", trigger: "blur" }
+        ],
+        debtMoneyId: [
+          { required: true, message: "币种不能为空", trigger: "blur" }
+        ],
+        debtAccountId: [
+          { required: true, message: "账户不能为空", trigger: "change" }
+        ],
+        debtCategoryId: [
+          { required: true, message: "分类不能为空", trigger: "change" }
+        ],
+        debtEntityId: [
+          { required: true, message: "实体不能为空", trigger: "change" }
+        ],
+        debtProjectId: [
+          { required: true, message: "项目不能为空", trigger: "change" }
+        ],
+        debtAmount: [
+          { required: true, message: "金额不能为空", trigger: "blur" }
+        ],
+        debtCityId: [
+          { required: true, message: "城市不能为空", trigger: "blur" }
+        ],
+        debtLabelName: [
+          { required: true, message: "标签不能为空", trigger: "blur" }
+        ]
       }
     };
   },
   created() {
     this.getList();
+    this.getAccountList();
+    this.getBookList();
+    this.getCategoryList();
+    this.getCityList();
+    this.getEmotionList();
+    this.getEntityList();
+    this.getGoodsList();
+    this.getLabelList();
+    this.getMemberList();
+    this.getMoneyList();
+    this.getProjectList();
+    this.getWeatherList();
   },
   methods: {
+  tableRowClassName({row, rowIndex}) {
+        if (row.debtAmount > 8000 && row.debtAmount < 10000) {
+          return 'warning-row';
+        } else if (row.debtAmount > 10000) {
+          return 'success-row';
+        }
+        return '';
+      },
+
+      handleClose(tag) {
+        this.form.debtLabelName.splice(this.form.debtLabelName.indexOf(tag), 2);
+      },
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.form.debtLabelName.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
+      },
+    handleDebtTypeChange(val) {
+      this.queryParams.moneyScope=val;
+      getMoneyOptionSelect(this.queryParams).then(response => {
+        this.moneyOptions = response.data;
+      });
+
+      this.queryParams.entityScope=val;
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
+      });
+
+      this.queryParams.projectScope=val;
+      getProjectOptionSelect(this.queryParams).then(response => {
+        this.projectOptions = response.data;
+      });
+
+      this.queryParams.categoryScope=val;
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+
+      this.queryParams.accountScope=val;
+      if(val == 'borrow' || val == 'loan-in' || val == 'debt-in')
+      {
+        this.queryParams.accountType = 'income';
+      }else {
+        this.queryParams.accountType = 'consume';
+      }
+      getAccountOptionSelect(this.queryParams).then(response => {
+        this.accountOptions = response.data;
+      });
+
+      this.queryParams.labelScope=val;
+      getLabelOptionSelect(this.queryParams).then(response => {
+        this.labelOptions = response.data;
+      });
+
+      this.queryParams.memberScope=val;
+      getMemberOptionSelect(this.queryParams).then(response => {
+        this.memberOptions = response.data;
+      });
+
+      this.queryParams.weatherScope=val;
+      getWeatherOptionSelect(this.queryParams).then(response => {
+        this.weatherOptions = response.data;
+      });
+
+      this.queryParams.emotionScope=val;
+      getEmotionOptionSelect(this.queryParams).then(response => {
+        this.emotionOptions = response.data;
+      });
+    },
+    /** 查询账户下拉 */
+    getAccountList() {
+      getAccountOptionSelect(this.queryParams).then(response => {
+        this.accountOptions = response.data;
+      });
+    },
+    /** 查询账本下拉 */
+    getBookList() {
+      getBookOptionSelect(this.queryParams).then(response => {
+        this.bookOptions = response.data;
+      });
+    },
+    /** 查询分类下拉 */
+    getCategoryList() {
+      getCategoryOptionSelect(this.queryParams).then(response => {
+        this.categoryOptions = response.data;
+      });
+    },
+    /** 查询城市下拉 */
+    getCityList() {
+      getCityOptionSelect(this.queryParams).then(response => {
+        this.cityOptions = response.data;
+      });
+    },
+    /** 查询心情下拉 */
+    getEmotionList() {
+      getEmotionOptionSelect(this.queryParams).then(response => {
+        this.emotionOptions = response.data;
+      });
+    },
+    /** 查询实体下拉 */
+    getEntityList() {
+      getEntityOptionSelect(this.queryParams).then(response => {
+        this.entityOptions = response.data;
+        this.entities = response.data;
+      });
+    },
+    /** 查询商品下拉 */
+    getGoodsList() {
+      getGoodsOptionSelect(this.queryParams).then(response => {
+        this.goodsOptions = response.data;
+      });
+    },
+    /** 查询标签下拉 */
+    getLabelList() {
+      getLabelOptionSelect(this.queryParams).then(response => {
+        this.labelOptions = response.data;
+      });
+    },
+    /** 查询成员下拉 */
+    getMemberList() {
+      getMemberOptionSelect(this.queryParams).then(response => {
+        this.memberOptions = response.data;
+      });
+    },
+    /** 查询币种下拉 */
+    getMoneyList() {
+      getMoneyOptionSelect(this.queryParams).then(response => {
+        this.moneyOptions = response.data;
+      });
+    },
+    /** 查询项目下拉 */
+    getProjectList() {
+      getProjectOptionSelect(this.queryParams).then(response => {
+        this.projectOptions = response.data;
+        this.projects = response.data;
+      });
+    },
+    /** 查询天气下拉 */
+    getWeatherList() {
+      getWeatherOptionSelect(this.queryParams).then(response => {
+        this.weatherOptions = response.data;
+      });
+    },
     /** 选择借贷账单图标 */
     selected(name) {
       this.form.icon = name;
@@ -610,6 +997,29 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
+    /** 搜索操作 */
+    querySearch(queryString, cb) {
+        var projects = this.projects;
+        var results = queryString ? labels.filter(this.createFilter(queryString)) : projects;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+    querySearchEntity(queryString, cb) {
+        var entities = this.entities;
+        var results = queryString ? entities.filter(this.createFilter(queryString)) : entities;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+    },
+     createFilter(queryString) {
+        return (item) => {
+           return item.value.toUpperCase().match(queryString.toUpperCase());
+           // 第一个匹配
+           //return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+    },
+    handleSelect(item) {
+        console.log(item);
+    },
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
@@ -633,6 +1043,15 @@ export default {
       const debtId = row.debtId || this.ids
       getDebt(debtId).then(response => {
         this.form = response.data;
+        if(this.form.debtAccountId != null) {
+          this.form.debtAccountId  = this.form.debtAccountId.split(",");
+        }
+        if (this.form.debtCategoryId != null) {
+          this.form.debtCategoryId = this.form.debtCategoryId.split(",");
+        }
+        if (this.form.debtLabelName != null) {
+          this.form.debtLabelName  = this.form.debtLabelName.split(" ");
+        }
         this.open = true;
         this.title = "修改借贷账单";
       });
@@ -641,6 +1060,9 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.debtAccountId = this.form.debtAccountId.join(",");
+          this.form.debtCategoryId = this.form.debtCategoryId.join(",");
+          this.form.debtLabelName = this.form.debtLabelName.join(" ");
           if (this.form.debtId != null) {
             updateDebt(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
