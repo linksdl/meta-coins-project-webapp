@@ -14,6 +14,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FullDate;
 import com.ruoyi.config.domain.*;
 import com.ruoyi.config.service.*;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,9 @@ public class TransferBillController extends BaseController
 {
     @Autowired
     private ITransferBillService transferBillService;
+
+    @Resource
+    private ISysUserService userService;
 
     @Resource
     private IBookService bookService;
@@ -153,6 +157,11 @@ public class TransferBillController extends BaseController
         bill.setTransferBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         bill.setTransferUserId(getUserId());
         bill.setTransferUserName(getUsername());
+        bill.setCreateTime(DateUtils.getNowDate());
+        bill.setUpdateTime(DateUtils.getNowDate());
+        // 创建者
+        bill.setCreateBy(getUsername());
+        bill.setUpdateBy(getUsername());
 
         // 关于日期
         bill.setTransferDate(fullDate.getDate());
@@ -163,10 +172,6 @@ public class TransferBillController extends BaseController
         bill.setTransferYearWeek(fullDate.getWeekOfYear());
         bill.setTransferDay(fullDate.getDay());
         bill.setTransferPeriod(fullDate.getPeriod());
-
-        // 创建者
-        bill.setCreateBy(getUsername());
-        bill.setUpdateBy(getUsername());
 
         // 关联信息
         // 天气
@@ -183,15 +188,21 @@ public class TransferBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getTransferProjectName());
-            temp.setProjectDesc("添加转账账单创建");
+            temp.setProjectDesc(bill.getTransferProjectName());
             temp.setProjectType("transfer");
-            temp.setProjectScope("transfer,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getTransferType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加转账账单创建");
+            temp.setUserId(bill.getTransferUserId());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+            temp.setBookId(bill.getTransferBookId());
+            temp.setBookName(bill.getTransferBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setTransferProjectId(temp.getProjectId());
         }
@@ -218,16 +229,22 @@ public class TransferBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加转账账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("transfer");
-                    label.setLabelScope("transfer,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getTransferType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加转账账单创建");
+                    label.setUserId(bill.getTransferUserId());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+                    label.setBookId(bill.getTransferBookId());
+                    label.setBookName(bill.getTransferBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }
@@ -305,8 +322,7 @@ public class TransferBillController extends BaseController
               "备注[" + bill.getRemark() + "] ";
 
         bill.setTransferDesc(desc);
-        bill.setCreateTime(DateUtils.getNowDate());
-        bill.setUpdateTime(DateUtils.getNowDate());
+
 
         transferBillService.insertTransferBill(bill);
         FlowBill flowBill = convertTransferBillToFlowBill(bill);
@@ -441,6 +457,9 @@ public class TransferBillController extends BaseController
         bill.setTransferBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         bill.setTransferUserId(getUserId());
         bill.setTransferUserName(getUsername());
+        bill.setUpdateTime(DateUtils.getNowDate());
+        // 创建者
+        bill.setUpdateBy(getUsername());
 
         // 关于日期
         bill.setTransferDate(fullDate.getDate());
@@ -452,8 +471,7 @@ public class TransferBillController extends BaseController
         bill.setTransferDay(fullDate.getDay());
         bill.setTransferPeriod(fullDate.getPeriod());
 
-        // 创建者
-        bill.setUpdateBy(getUsername());
+
 
         // 关联信息
         // 天气
@@ -470,15 +488,21 @@ public class TransferBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getTransferProjectName());
-            temp.setProjectDesc("添加转账账单创建");
+            temp.setProjectDesc(bill.getTransferProjectName());
             temp.setProjectType("transfer");
-            temp.setProjectScope("transfer,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getTransferType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加转账账单创建");
+            temp.setUserId(bill.getTransferUserId());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+            temp.setBookId(bill.getTransferBookId());
+            temp.setBookName(bill.getTransferBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setTransferProjectId(temp.getProjectId());
         }
@@ -505,16 +529,22 @@ public class TransferBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加转账账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("transfer");
-                    label.setLabelScope("transfer,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getTransferType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加转账账单创建");
+                    label.setUserId(bill.getTransferUserId());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+                    label.setBookId(bill.getTransferBookId());
+                    label.setBookName(bill.getTransferBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }
@@ -592,7 +622,7 @@ public class TransferBillController extends BaseController
               "天气[" + bill.getTransferWeatherName() + "], " +
               "备注[" + bill.getRemark() + "] ";
         bill.setTransferDesc(desc);
-        bill.setUpdateTime(DateUtils.getNowDate());
+
 
         transferBillService.updateTransferBill(bill);
         FlowBill flowBill = convertTransferBillToFlowBill(bill);

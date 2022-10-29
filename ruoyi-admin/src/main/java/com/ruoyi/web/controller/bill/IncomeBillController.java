@@ -13,6 +13,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FullDate;
 import com.ruoyi.config.domain.*;
 import com.ruoyi.config.service.*;
+import com.ruoyi.system.service.ISysUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,10 @@ public class IncomeBillController extends BaseController
 {
     @Autowired
     private IIncomeBillService incomeBillService;
+
+    @Resource
+    private ISysUserService userService;
+
 
     @Resource
     private IBookService bookService;
@@ -194,7 +199,7 @@ public class IncomeBillController extends BaseController
             temp.setIsDeleted(0);
             temp.setRemark("添加收入账单创建");
             temp.setUserId(bill.getIncomeUserId());
-            temp.setUserName(bill.getIncomeUserName());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
             temp.setBookId(bill.getIncomeBookId());
             temp.setBookName(bill.getIncomeBookName());
             temp.setCreateBy(getUsername());
@@ -236,7 +241,7 @@ public class IncomeBillController extends BaseController
                     label.setIsDeleted(0);
                     label.setRemark("添加收入账单创建");
                     label.setUserId(bill.getIncomeUserId());
-                    label.setUserName(bill.getIncomeUserName());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
                     label.setBookId(bill.getIncomeBookId());
                     label.setBookName(bill.getIncomeBookName());
                     label.setCreateBy(getUsername());
@@ -502,7 +507,7 @@ public class IncomeBillController extends BaseController
             temp.setIsDeleted(0);
             temp.setRemark("添加收入账单创建");
             temp.setUserId(bill.getIncomeUserId());
-            temp.setUserName(bill.getIncomeUserName());
+            temp.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
             temp.setBookId(bill.getIncomeBookId());
             temp.setBookName(bill.getIncomeBookName());
             temp.setCreateBy(getUsername());
@@ -544,7 +549,7 @@ public class IncomeBillController extends BaseController
                     label.setIsDeleted(0);
                     label.setRemark("添加收入账单创建");
                     label.setUserId(bill.getIncomeUserId());
-                    label.setUserName(bill.getIncomeUserName());
+                    label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
                     label.setBookId(bill.getIncomeBookId());
                     label.setBookName(bill.getIncomeBookName());
                     label.setCreateBy(getUsername());
