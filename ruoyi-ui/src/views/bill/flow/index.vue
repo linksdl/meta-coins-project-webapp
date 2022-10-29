@@ -156,7 +156,7 @@
           <image-preview :src="scope.row.flowImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
-      <el-table-column label="标签" align="center" prop="flowLabelName" :show-overflow-tooltip="true" />
+       <el-table-column label="标签" align="center" prop="flowLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="是否入账" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>

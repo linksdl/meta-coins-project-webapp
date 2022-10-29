@@ -193,54 +193,30 @@
     />
 
     <!-- 添加或修改收入账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
-        <el-form ref="form" :model="form" :rules="rules" label-width="68px">
+    <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
+        <el-form ref="form" :model="form" :rules="rules" label-width="88px">
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="名称" prop="incomeName">
-                <el-input clearable v-model="form.incomeName" placeholder="请输入收入名称" />
-              </el-form-item>
+              <el-col :span="8">
+                <el-form-item label="时间" prop="incomeDatetime">
+                  <el-date-picker
+                    clearable
+                    v-model="form.incomeDatetime"
+                    type="datetime"
+                    placeholder="请选择收入日期"
+                    value-format="yyyy-MM-dd HH:mm:SS"
+                    align="right"
+                    :picker-options="pickerOptions"
+                    >
+                  </el-date-picker>
+                </el-form-item>
             </el-col>
 
             <el-col :span="16">
-              <el-form-item label="时间" prop="incomeDatetime">
-                <el-date-picker
-                  clearable
-                  v-model="form.incomeDatetime"
-                  type="datetime"
-                  placeholder="请选择收入日期"
-                  value-format="yyyy-MM-dd HH:mm:SS"
-                  align="right"
-                  :picker-options="pickerOptions"
-                  >
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row>
-
-            <el-col :span="8">
-              <el-form-item label="金额" prop="incomeAmount">
-                <el-input-number v-model="form.incomeAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
+              <el-form-item label="名称" prop="incomeName">
+                <el-input :disabled="true" clearable v-model="form.incomeName" placeholder="请输入收入名称" />
               </el-form-item>
             </el-col>
 
-           <el-col :span="16">
-              <el-form-item label="币种" prop="incomeMoneyId">
-                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
-                  <el-radio
-                    border
-                    v-for="item in moneyOptions"
-                    :label="item.moneyId"
-                    :value="item.moneyId"
-                    :key="item.moneyId"
-                    :disabled="item.disabled">
-                  {{item.moneyCname}}
-                  </el-radio>
-                </el-radio-group>
-              </el-form-item>
-           </el-col>
           </el-row>
 
           <el-row>
@@ -257,6 +233,29 @@
             </el-form-item>
            </el-col>
          </el-row>
+
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="金额" prop="incomeAmount">
+                <el-input-number v-model="form.incomeAmount" type="input-number" :min="0.01" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+
+           <el-col :span="16">
+              <el-form-item label="币种" prop="incomeMoneyId">
+                <el-radio-group v-model="form.incomeMoneyId" placeholder="请选择币种">
+                  <el-radio
+                    v-for="item in moneyOptions"
+                    :label="item.moneyId"
+                    :value="item.moneyId"
+                    :key="item.moneyId"
+                    :disabled="item.disabled">
+                  {{item.moneyCname}}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+           </el-col>
+          </el-row>
 
           <el-row>
            <el-col :span="8">
@@ -290,7 +289,7 @@
         <el-row>
           <el-col :span="8">
               <el-form-item label="实体" clearable filterable prop="incomeEntityId">
-                <el-select v-model="form.incomeEntityId" filterable placeholder="请选择实体名称">
+                <el-select v-model="form.incomeEntityId" clearable filterable placeholder="请选择实体名称">
                   <el-option
                     v-for="item in entityOptions"
                     :key="item.entityId"
@@ -302,7 +301,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="16" v-if='false'>
             <el-form-item label="实体" prop="incomeEntityName" >
               <el-autocomplete
                 class="inline-input"
@@ -315,13 +314,12 @@
               ></el-autocomplete>
             </el-form-item>
           </el-col>
-        </el-row>
 
-        <el-row>
-           <el-col :span="8">
+          <el-col :span="8" v-if='false'>
               <el-form-item label="项目" clearable filterable prop="incomeProjectId">
-                <el-select v-model="form.incomeProjectId" filterable placeholder="请选择项目名称">
+                <el-select clearable @change="handleSelectProjectName" v-model="form.incomeProjectId" filterable placeholder="请选择项目名称">
                   <el-option
+                    clearable
                     v-for="item in projectOptions"
                     :key="item.projectId"
                     :label="item.projectName"
@@ -332,7 +330,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="8">
             <el-form-item label="项目" prop="incomeProjectName" style="width: 800px;" >
               <el-autocomplete
                 class="inline-input"
@@ -342,6 +340,7 @@
                 :trigger-on-focus="true"
                 placeholder="请输入项目名称"
                 @select="handleSelect"
+                @clear="handleClear"
               ></el-autocomplete>
             </el-form-item>
           </el-col>
@@ -411,7 +410,7 @@
       <el-row>
         <el-col :span="24">
            <el-form-item label="描述" prop="incomeDesc">
-            <el-input v-model="form.incomeDesc" type="textarea" clearable placeholder="请输入内容" />
+            <el-input :disabled="true" v-model="form.incomeDesc" type="textarea" clearable placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -445,36 +444,35 @@
       </el-row>
 
 
-    <el-row>
-       <el-col :span="8">
-        <el-form-item label="心情"  prop="incomeEmotionId">
-          <el-select v-model="form.incomeEmotionId" clearable filterable placeholder="请选择心情名">
-            <el-option
+      <el-row v-if="emotionOptions != undefined && emotionOptions != null && emotionOptions.length > 0 ">
+         <el-col :span="8">
+          <el-form-item label="心情"  prop="incomeEmotionId">
+            <el-select v-model="form.incomeEmotionId" clearable filterable placeholder="请选择心情名">
+              <el-option
+                v-for="item in emotionOptions"
+                :key="item.emotionId"
+                :label="item.emotionCname"
+                :value="item.emotionId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+         </el-col>
+
+         <el-col :span="16" >
+            <el-form-item label="心情" prop="incomeEmotionName">
+            <el-tag
+              style="margin-left: 5px; margin-top:4px;"
               v-for="item in emotionOptions"
               :key="item.emotionId"
-              :label="item.emotionCname"
-              :value="item.emotionId">
-            </el-option>
-          </el-select>
-        </el-form-item>
-       </el-col>
-       <el-col :span="16" >
-          <el-form-item label="心情" prop="incomeEmotionName">
-          <el-tag
-            style="margin-left: 5px; margin-top:4px;"
-            v-for="item in emotionOptions"
-            :key="item.emotionId"
-            type='success'
-            effect="dark">
-            {{ item.emotionCname }}
-          </el-tag>
-          </el-form-item>
-        </el-col>
+              type='success'
+              effect="dark">
+              {{ item.emotionCname }}
+            </el-tag>
+            </el-form-item>
+          </el-col>
       </el-row>
 
-
-
-      <el-row>
+      <el-row v-if="weatherOptions != undefined && weatherOptions != null && weatherOptions.length > 0 ">
         <el-col :span="8">
         <el-form-item label="天气" prop="incomeWeatherId">
           <el-select v-model="form.incomeWeatherId" clearable filterable placeholder="请选择天气名">
@@ -512,12 +510,12 @@
 
       <el-row>
           <el-col :span="24">
-              <el-form-item label="是否记录">
+              <el-form-item label="进账">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
                     :key="dict.value"
-      :label="parseInt(dict.value)"
+                    :label="parseInt(dict.value)"
                   >{{dict.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -704,25 +702,28 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        incomeDatetime: [
+          { required: true, message: "日期时间不能为空", trigger: "blur" }
+        ],
         incomeType: [
           { required: true, message: "类型不能为空", trigger: "blur" }
-        ],
-        incomeDatetime: [
-          { required: true, message: "时间不能为空", trigger: "blur" }
         ],
         incomeMoneyId: [
           { required: true, message: "币种不能为空", trigger: "blur" }
         ],
-        incomeAccountId: [
-          { required: true, message: "账户不能为空", trigger: "change" }
-        ],
         incomeCategoryId: [
           { required: true, message: "分类不能为空", trigger: "change" }
+        ],
+        incomeAccountId: [
+          { required: true, message: "账户不能为空", trigger: "change" }
         ],
         incomeEntityId: [
           { required: true, message: "实体不能为空", trigger: "change" }
         ],
-        incomeProjectId: [
+        incomeEntityName: [
+          { required: true, message: "实体不能为空", trigger: "blur" }
+        ],
+        incomeProjectName: [
           { required: true, message: "项目不能为空", trigger: "change" }
         ],
         incomeAmount: [
@@ -733,6 +734,9 @@ export default {
         ],
         incomeLabelName: [
           { required: true, message: "标签不能为空", trigger: "blur" }
+        ],
+        incomeMemberId: [
+          { required: true, message: "成员不能为空", trigger: "blur" }
         ]
       }
     };
@@ -753,7 +757,7 @@ export default {
     this.getWeatherList();
   },
   methods: {
-     tableRowClassName({row, rowIndex}) {
+      tableRowClassName({row, rowIndex}) {
         if (row.incomeAmount > 8000 && row.incomeAmount < 10000) {
           return 'warning-row';
         } else if (row.incomeAmount > 10000) {
@@ -761,7 +765,6 @@ export default {
         }
         return '';
       },
-
       handleClose(tag) {
         this.form.incomeLabelName.splice(this.form.incomeLabelName.indexOf(tag), 2);
       },
@@ -779,50 +782,78 @@ export default {
         this.inputVisible = false;
         this.inputValue = '';
       },
-    handleIncomeTypeChange(val) {
-      this.queryParams.moneyScope=val;
-      getMoneyOptionSelect(this.queryParams).then(response => {
-        this.moneyOptions = response.data;
-      });
+      handleIncomeTypeChange(val) {
+        this.queryParams.moneyScope=val;
+        getMoneyOptionSelect(this.queryParams).then(response => {
+          this.moneyOptions = response.data;
+          if(this.moneyOptions != null)
+          {
+            this.form.incomeMoneyId = this.moneyOptions[0].moneyId;
+          }
+        });
+        this.queryParams.entityScope=val;
+        getEntityOptionSelect(this.queryParams).then(response => {
+          this.entityOptions = response.data;
+        });
 
-      this.queryParams.entityScope=val;
-      getEntityOptionSelect(this.queryParams).then(response => {
-        this.entityOptions = response.data;
-      });
+        this.queryParams.projectScope=val;
+        getProjectOptionSelect(this.queryParams).then(response => {
+          this.projectOptions = response.data;
+        });
 
-      this.queryParams.projectScope=val;
-      getProjectOptionSelect(this.queryParams).then(response => {
-        this.projectOptions = response.data;
-      });
+        this.queryParams.categoryScope=val;
+        getCategoryOptionSelect(this.queryParams).then(response => {
+          this.categoryOptions = response.data;
+        });
 
-      this.queryParams.categoryScope=val;
-      getCategoryOptionSelect(this.queryParams).then(response => {
-        this.categoryOptions = response.data;
-      });
+        this.queryParams.accountScope=val;
+        getAccountOptionSelect(this.queryParams).then(response => {
+          this.accountOptions = response.data;
+        });
 
-      this.queryParams.accountScope=val;
-      getAccountOptionSelect(this.queryParams).then(response => {
-        this.accountOptions = response.data;
-      });
+        this.queryParams.labelScope=val;
+        getLabelOptionSelect(this.queryParams).then(response => {
+          this.labelOptions = response.data;
+        });
 
-      this.queryParams.labelScope=val;
-      getLabelOptionSelect(this.queryParams).then(response => {
-        this.labelOptions = response.data;
-      });
+        this.queryParams.memberScope=val;
+        getMemberOptionSelect(this.queryParams).then(response => {
+          this.memberOptions = response.data;
+          if(this.memberOptions != null)
+          {
+            this.form.incomeMemberId = this.memberOptions[0].memberId;
+          }
+        });
 
-      this.queryParams.memberScope=val;
-      getMemberOptionSelect(this.queryParams).then(response => {
-        this.memberOptions = response.data;
-      });
+        this.queryParams.weatherScope=val;
+        getWeatherOptionSelect(this.queryParams).then(response => {
+          this.weatherOptions = response.data;
+          if(this.weatherOptions != null)
+          {
+            this.form.incomeWeatherId = this.weatherOptions[0].weatherId;
+          }
+        });
 
-      this.queryParams.weatherScope=val;
-      getWeatherOptionSelect(this.queryParams).then(response => {
-        this.weatherOptions = response.data;
-      });
+        this.queryParams.emotionScope=val;
+        getEmotionOptionSelect(this.queryParams).then(response => {
+          this.emotionOptions = response.data;
+          if(this.emotionOptions != null)
+          {
+            this.form.incomeEmotionId = this.emotionOptions[0].emotionId;
+          }
+        });
 
-      this.queryParams.emotionScope=val;
-      getEmotionOptionSelect(this.queryParams).then(response => {
-        this.emotionOptions = response.data;
+        this.form.incomeCityId = this.cityOptions[0].cityId;
+    },
+    handleSelectProjectName(val) {
+      this.projectOptions.forEach((item, index)=>{
+        if(item.projectId === val)
+        {
+          this.form.incomeProjectName = item.projectName;
+          this.form.incomeProjectId = item.projectId;
+        }else {
+          this.form.incomeProjectId = null;
+        }
       });
     },
     /** 查询账户下拉 */
@@ -983,7 +1014,7 @@ export default {
     /** 搜索操作 */
     querySearch(queryString, cb) {
         var projects = this.projects;
-        var results = queryString ? labels.filter(this.createFilter(queryString)) : projects;
+        var results = queryString ? projects.filter(this.createFilter(queryString)) : projects;
         // 调用 callback 返回建议列表的数据
         cb(results);
       },
@@ -1001,7 +1032,14 @@ export default {
         };
     },
     handleSelect(item) {
-        console.log(item);
+        if(item != null && item != undefined)
+        {
+          this.form.incomeProjectId = item.projectId;
+        }
+    },
+    handleClear()
+    {
+      this.form.incomeProjectId = null;
     },
     /** 搜索按钮操作 */
     handleQuery() {

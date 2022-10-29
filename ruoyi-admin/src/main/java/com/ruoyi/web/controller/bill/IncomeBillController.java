@@ -153,6 +153,11 @@ public class IncomeBillController extends BaseController
         bill.setIncomeBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         bill.setIncomeUserId(getUserId());
         bill.setIncomeUserName(getUsername());
+        bill.setCreateTime(DateUtils.getNowDate());
+        bill.setUpdateTime(DateUtils.getNowDate());
+        // 创建者
+        bill.setCreateBy(getUsername());
+        bill.setUpdateBy(getUsername());
 
         // 关于日期
         bill.setIncomeDate(fullDate.getDate());
@@ -163,10 +168,6 @@ public class IncomeBillController extends BaseController
         bill.setIncomeYearWeek(fullDate.getWeekOfYear());
         bill.setIncomeDay(fullDate.getDay());
         bill.setIncomePeriod(fullDate.getPeriod());
-
-        // 创建者
-        bill.setCreateBy(getUsername());
-        bill.setUpdateBy(getUsername());
 
         // 关联信息
         // 天气
@@ -183,15 +184,21 @@ public class IncomeBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getIncomeProjectName());
-            temp.setProjectDesc("添加收入账单创建");
+            temp.setProjectDesc(bill.getIncomeProjectName());
             temp.setProjectType("income");
-            temp.setProjectScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getIncomeType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加收入账单创建");
+            temp.setUserId(bill.getIncomeUserId());
+            temp.setUserName(bill.getIncomeUserName());
+            temp.setBookId(bill.getIncomeBookId());
+            temp.setBookName(bill.getIncomeBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setIncomeProjectId(temp.getProjectId());
         }
@@ -218,16 +225,22 @@ public class IncomeBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加收入账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("income");
-                    label.setLabelScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getIncomeType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加收入账单创建");
+                    label.setUserId(bill.getIncomeUserId());
+                    label.setUserName(bill.getIncomeUserName());
+                    label.setBookId(bill.getIncomeBookId());
+                    label.setBookName(bill.getIncomeBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }
@@ -314,8 +327,7 @@ public class IncomeBillController extends BaseController
               "天气[" + bill.getIncomeWeatherName() + "], " +
               "备注[" + bill.getRemark() + "] ";
         bill.setIncomeDesc(desc);
-        bill.setCreateTime(DateUtils.getNowDate());
-        bill.setUpdateTime(DateUtils.getNowDate());
+
 
         incomeBillService.insertIncomeBill(bill);
         FlowBill flowBill = convertIncomeBillToFlowBill(bill);
@@ -480,15 +492,21 @@ public class IncomeBillController extends BaseController
         {
             Project temp = new Project();
             temp.setProjectName(bill.getIncomeProjectName());
-            temp.setProjectDesc("添加收入账单创建");
+            temp.setProjectDesc(bill.getIncomeProjectName());
             temp.setProjectType("income");
-            temp.setProjectScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+            temp.setProjectScope(bill.getIncomeType());
             temp.setWeight(1L);
             temp.setOrderSort(1L);
             temp.setIcon("bug");
             temp.setEnableStatus(1L);
             temp.setIsDeleted(0);
             temp.setRemark("添加收入账单创建");
+            temp.setUserId(bill.getIncomeUserId());
+            temp.setUserName(bill.getIncomeUserName());
+            temp.setBookId(bill.getIncomeBookId());
+            temp.setBookName(bill.getIncomeBookName());
+            temp.setCreateBy(getUsername());
+            temp.setUpdateBy(getUsername());
             projectService.insertProject(temp);
             bill.setIncomeProjectId(temp.getProjectId());
         }
@@ -515,16 +533,22 @@ public class IncomeBillController extends BaseController
                 {
                     labelIds[i] = (entities.get(0).getLabelId().toString());
                 } else {
-                    label.setLabelEname("");
-                    label.setLabelDesc("添加收入账单创建");
+                    label.setLabelEname(label.getLabelCname());
+                    label.setLabelDesc(label.getLabelCname());
                     label.setLabelType("income");
-                    label.setLabelScope("income,loan-in,reimbursement-in,borrow,return-in,pay-in,debt-in");
+                    label.setLabelScope(bill.getIncomeType());
                     label.setWeight(1L);
                     label.setOrderSort(1L);
                     label.setIcon("component");
                     label.setEnableStatus(1L);
                     label.setIsDeleted(0);
                     label.setRemark("添加收入账单创建");
+                    label.setUserId(bill.getIncomeUserId());
+                    label.setUserName(bill.getIncomeUserName());
+                    label.setBookId(bill.getIncomeBookId());
+                    label.setBookName(bill.getIncomeBookName());
+                    label.setCreateBy(getUsername());
+                    label.setUpdateBy(getUsername());
                     labelService.insertLabel(label);
                     labelIds[i] = (label.getLabelId().toString());
                 }
