@@ -125,7 +125,7 @@ public class ConsumeBillController extends BaseController
         // 基本信息
         Date incomeDateTime = bill.getConsumeDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
-        bill.setConsumeName(fullDate.getDate() +" 支出");
+        bill.setConsumeName(fullDate.getDatetime() +" 支出");
         bill.setConsumeImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -424,7 +424,7 @@ public class ConsumeBillController extends BaseController
         // 基本信息
         Date incomeDateTime = bill.getConsumeDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
-        bill.setConsumeName(fullDate.getDate() +" 支出");
+        bill.setConsumeName(fullDate.getDatetime() +" 支出");
         bill.setConsumeImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);

@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtType != null  and debtType != ''"> and debt_type = #{debtType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
-        order by debt_datetime desc
+         order by debt_datetime desc
     </select>
     
     <select id="selectDebtBillByDebtId" parameterType="Long" resultMap="DebtBillResult">
@@ -90,7 +90,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertDebtBill" parameterType="DebtBill" useGeneratedKeys="true" keyProperty="debtId">
         insert into bill_debt
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="debtId != null">debt_id,</if>
             <if test="debtName != null">debt_name,</if>
             <if test="debtType != null">debt_type,</if>
             <if test="debtImgs != null">debt_imgs,</if>
@@ -149,7 +148,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtYearWeek != null">debt_year_week,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="debtId != null">#{debtId},</if>
             <if test="debtName != null">#{debtName},</if>
             <if test="debtType != null">#{debtType},</if>
             <if test="debtImgs != null">#{debtImgs},</if>
@@ -209,7 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateDebtBill" parameterType="DebtBill" useGeneratedKeys="true" keyProperty="debtId">
+    <update id="updateDebtBill" parameterType="DebtBill">
         update bill_debt
         <trim prefix="SET" suffixOverrides=",">
             <if test="debtName != null">debt_name = #{debtName},</if>

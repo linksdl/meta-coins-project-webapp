@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.domain.TreeEntity;
 
 /**
  * 借贷账单对象 bill_debt
  * 
  * @author metacoin
- * @date 2022-10-01
+ * @date 2022-10-29
  */
-public class DebtBill extends BaseEntity
+public class DebtBill extends TreeEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -81,49 +81,42 @@ public class DebtBill extends BaseEntity
     private String debtAccountId;
 
     /** 账户名 */
-    @Excel(name = "账户名")
     private String debtAccountName;
 
     /** 账本ID */
     private Long debtBookId;
 
     /** 账本名 */
-    @Excel(name = "账本名")
     private String debtBookName;
 
     /** 分类ID */
     private String debtCategoryId;
 
     /** 分类名 */
-    @Excel(name = "分类名")
     private String debtCategoryName;
 
     /** 城市ID */
     private Long debtCityId;
 
     /** 城市名 */
-    @Excel(name = "城市名")
     private String debtCityName;
 
     /** 心情ID */
     private Long debtEmotionId;
 
     /** 心情名 */
-    @Excel(name = "心情名")
     private String debtEmotionName;
 
     /** 实体ID */
-    private String debtEntityId;
+    private Long debtEntityId;
 
     /** 实体名 */
-    @Excel(name = "实体名")
     private String debtEntityName;
 
     /** 标签ID */
     private String debtLabelId;
 
     /** 标签名 */
-    @Excel(name = "标签名")
     private String debtLabelName;
 
     /** 成员ID */
@@ -136,21 +129,18 @@ public class DebtBill extends BaseEntity
     private Long debtMoneyId;
 
     /** 币种名 */
-    @Excel(name = "币种名")
     private String debtMoneyName;
 
     /** 项目ID */
     private Long debtProjectId;
 
     /** 项目名 */
-    @Excel(name = "项目名")
     private String debtProjectName;
 
     /** 天气ID */
     private Long debtWeatherId;
 
     /** 天气名 */
-    @Excel(name = "天气名")
     private String debtWeatherName;
 
     /** 地址 */
@@ -429,12 +419,12 @@ public class DebtBill extends BaseEntity
     {
         return debtEmotionName;
     }
-    public void setDebtEntityId(String debtEntityId)
+    public void setDebtEntityId(Long debtEntityId)
     {
         this.debtEntityId = debtEntityId;
     }
 
-    public String getDebtEntityId()
+    public Long getDebtEntityId()
     {
         return debtEntityId;
     }

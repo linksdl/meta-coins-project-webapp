@@ -132,7 +132,7 @@ public class IncomeBillController extends BaseController
         // 基本信息
         Date incomeDateTime = bill.getIncomeDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
-        bill.setIncomeName(fullDate.getDate() +" 收入");
+        bill.setIncomeName(fullDate.getDatetime() +" 收入");
         bill.setIncomeImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -442,7 +442,7 @@ public class IncomeBillController extends BaseController
         // 基本信息
         Date incomeDateTime = bill.getIncomeDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(incomeDateTime);
-        bill.setIncomeName(fullDate.getDate() +" 收入");
+        bill.setIncomeName(fullDate.getDatetime() +" 收入");
         bill.setIncomeImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);

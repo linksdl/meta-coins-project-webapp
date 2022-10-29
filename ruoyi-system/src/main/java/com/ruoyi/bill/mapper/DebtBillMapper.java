@@ -7,7 +7,7 @@ import com.ruoyi.bill.domain.DebtBill;
  * 借贷账单Mapper接口
  * 
  * @author metacoin
- * @date 2022-10-01
+ * @date 2022-10-29
  */
 public interface DebtBillMapper 
 {

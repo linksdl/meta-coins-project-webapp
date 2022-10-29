@@ -131,7 +131,7 @@ public class TransferBillController extends BaseController
         // 基本信息
         Date transferDateTime = bill.getTransferDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(transferDateTime);
-        bill.setTransferName(fullDate.getDate() +" 转账");
+        bill.setTransferName(fullDate.getDatetime() +" 转账");
         bill.setTransferImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -431,7 +431,7 @@ public class TransferBillController extends BaseController
         // 基本信息
         Date transferDateTime = bill.getTransferDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(transferDateTime);
-        bill.setTransferName(fullDate.getDate() +" 转账");
+        bill.setTransferName(fullDate.getDatetime() +" 转账");
         bill.setTransferImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);

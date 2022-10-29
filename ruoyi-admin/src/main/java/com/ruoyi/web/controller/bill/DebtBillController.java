@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.bill.domain.FlowBill;
-import com.ruoyi.bill.domain.DebtBill;
 import com.ruoyi.bill.service.IFlowBillService;
 import com.ruoyi.common.utils.DateStringUtils;
 import com.ruoyi.common.utils.DateUtils;
@@ -32,13 +31,12 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.bill.domain.DebtBill;
 import com.ruoyi.bill.service.IDebtBillService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 借贷账单Controller
  * 
  * @author metacoin
- * @date 2022-10-01
+ * @date 2022-10-29
  */
 @RestController
 @RequestMapping("/bill/debt")
@@ -49,7 +47,7 @@ public class DebtBillController extends BaseController
 
     @Resource
     private ISysUserService userService;
-    
+
     @Resource
     private IBookService bookService;
 
@@ -91,11 +89,11 @@ public class DebtBillController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('bill:debt:list')")
     @GetMapping("/list")
-    public TableDataInfo list(DebtBill debtBill)
+    public AjaxResult list(DebtBill debtBill)
     {
-        startPage();
+//        startPage();
         List<DebtBill> list = debtBillService.selectDebtBillList(debtBill);
-        return getDataTable(list);
+        return AjaxResult.success(list);
     }
 
     /**
@@ -131,7 +129,7 @@ public class DebtBillController extends BaseController
         // 基本信息
         Date debtDateTime = bill.getDebtDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(debtDateTime);
-        bill.setDebtName(fullDate.getDate() +" 借贷");
+        bill.setDebtName(fullDate.getDatetime() +" 借贷");
         bill.setDebtImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -139,12 +137,14 @@ public class DebtBillController extends BaseController
         bill.setIsDeleted(0);
         if (bill.getDebtParentId() == null) {
             bill.setDebtParentId(0L);
+        }else {
+            DebtBill parent = debtBillService.selectDebtBillByDebtId(bill.getDebtParentId());
+            if(parent != null){
+                bill.setDebtParentName(parent.getDebtName());
+            }else{
+                bill.setDebtParentName("root");
+            }
         }
-        if (bill.getDebtParentName() == null)
-        {
-            bill.setDebtParentName("root");
-        }
-
         Book param = new Book();
         param.setUserId(getUserId());
         param.setBookDefault(1);
@@ -256,7 +256,7 @@ public class DebtBillController extends BaseController
 
         // 商家，实体，个人，组织，公司等
         if (null != bill.getDebtEntityId()) {
-            Entity entity = entityService.selectEntityByEntityId(Long.parseLong(bill.getDebtEntityId()));
+            Entity entity = entityService.selectEntityByEntityId(bill.getDebtEntityId());
             bill.setDebtEntityName(entity.getEntityName());
             String[] address = entity.getEntityAddress().split(" ");
             // 地址
@@ -341,7 +341,7 @@ public class DebtBillController extends BaseController
         flowBillService.deleteFlowBillByFlowBillIdAndFlowCategory(flowBill);
         return toAjax(flowBillService.insertFlowBill(flowBill));
     }
-    
+
     /**
      * 借贷账单转流水账单
      * @param bill
@@ -432,6 +432,7 @@ public class DebtBillController extends BaseController
         return flowBill;
     }
 
+
     /**
      * 修改借贷账单
      */
@@ -439,10 +440,10 @@ public class DebtBillController extends BaseController
     @Log(title = "借贷账单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody DebtBill bill) throws ParseException {
-// 基本信息
+        // 基本信息
         Date debtDateTime = bill.getDebtDatetime();
         FullDate fullDate = DateStringUtils.getFullDate(debtDateTime);
-        bill.setDebtName(fullDate.getDate() +" 借贷");
+        bill.setDebtName(fullDate.getDatetime() +" 借贷");
         bill.setDebtImgs("");
         bill.setIcon("");
         bill.setOrderSort(0L);
@@ -450,12 +451,14 @@ public class DebtBillController extends BaseController
         bill.setIsDeleted(0);
         if (bill.getDebtParentId() == null) {
             bill.setDebtParentId(0L);
+        }else {
+            DebtBill parent = debtBillService.selectDebtBillByDebtId(bill.getDebtParentId());
+            if(parent != null){
+                bill.setDebtParentName(parent.getDebtName());
+            }else{
+                bill.setDebtParentName("root");
+            }
         }
-        if (bill.getDebtParentName() == null)
-        {
-            bill.setDebtParentName("root");
-        }
-
         Book param = new Book();
         param.setUserId(getUserId());
         param.setBookDefault(1);
@@ -563,7 +566,7 @@ public class DebtBillController extends BaseController
 
         // 商家，实体，个人，组织，公司等
         if (null != bill.getDebtEntityId()) {
-            Entity entity = entityService.selectEntityByEntityId(Long.parseLong(bill.getDebtEntityId()));
+            Entity entity = entityService.selectEntityByEntityId(bill.getDebtEntityId());
             bill.setDebtEntityName(entity.getEntityName());
             String[] address = entity.getEntityAddress().split(" ");
             // 地址
