@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bill.mapper.ConsumeGoodsMapper">
+    
+    <resultMap type="ConsumeGoods" id="ConsumeGoodsResult">
+        <result property="consumeGoodsId"    column="consume_goods_id"    />
+        <result property="consumeBillId"    column="consume_bill_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsCname"    column="goods_cname"    />
+        <result property="goodsEname"    column="goods_ename"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="goodsTotal"    column="goods_total"    />
+        <result property="goodsTotalPrice"    column="goods_total_price"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="weight"    column="weight"    />
+        <result property="icon"    column="icon"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="orderSort"    column="order_sort"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="goodsDesc"    column="goods_desc"    />
+    </resultMap>
+
+    <sql id="selectConsumeGoodsVo">
+        select consume_goods_id, consume_bill_id, goods_id, goods_cname, goods_ename, goods_price, goods_total, goods_total_price, enable_status, weight, icon, is_deleted, order_sort, remark, create_by, create_time, update_by, update_time, goods_desc from bill_consume_goods
+    </sql>
+
+    <select id="selectConsumeGoodsAll" resultMap="ConsumeGoodsResult">
+		<include refid="selectConsumeGoodsVo"/>
+	</select>
+
+    <select id="selectConsumeGoodsList" parameterType="ConsumeGoods" resultMap="ConsumeGoodsResult">
+        <include refid="selectConsumeGoodsVo"/>
+        <where>  
+            <if test="goodsCname != null  and goodsCname != ''"> and goods_cname like concat('%', #{goodsCname}, '%')</if>
+            <if test="params.beginGoodsPrice != null and params.beginGoodsPrice != '' and params.endGoodsPrice != null and params.endGoodsPrice != ''"> and goods_price between #{params.beginGoodsPrice} and #{params.endGoodsPrice}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectConsumeGoodsByConsumeGoodsId" parameterType="Long" resultMap="ConsumeGoodsResult">
+        <include refid="selectConsumeGoodsVo"/>
+        where consume_goods_id = #{consumeGoodsId}
+    </select>
+        
+    <insert id="insertConsumeGoods" parameterType="ConsumeGoods">
+        insert into bill_consume_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="consumeGoodsId != null">consume_goods_id,</if>
+            <if test="consumeBillId != null">consume_bill_id,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="goodsCname != null">goods_cname,</if>
+            <if test="goodsEname != null">goods_ename,</if>
+            <if test="goodsPrice != null">goods_price,</if>
+            <if test="goodsTotal != null">goods_total,</if>
+            <if test="goodsTotalPrice != null">goods_total_price,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="weight != null">weight,</if>
+            <if test="icon != null">icon,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="orderSort != null">order_sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="goodsDesc != null">goods_desc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="consumeGoodsId != null">#{consumeGoodsId},</if>
+            <if test="consumeBillId != null">#{consumeBillId},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="goodsCname != null">#{goodsCname},</if>
+            <if test="goodsEname != null">#{goodsEname},</if>
+            <if test="goodsPrice != null">#{goodsPrice},</if>
+            <if test="goodsTotal != null">#{goodsTotal},</if>
+            <if test="goodsTotalPrice != null">#{goodsTotalPrice},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="orderSort != null">#{orderSort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="goodsDesc != null">#{goodsDesc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConsumeGoods" parameterType="ConsumeGoods">
+        update bill_consume_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="consumeBillId != null">consume_bill_id = #{consumeBillId},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="goodsCname != null">goods_cname = #{goodsCname},</if>
+            <if test="goodsEname != null">goods_ename = #{goodsEname},</if>
+            <if test="goodsPrice != null">goods_price = #{goodsPrice},</if>
+            <if test="goodsTotal != null">goods_total = #{goodsTotal},</if>
+            <if test="goodsTotalPrice != null">goods_total_price = #{goodsTotalPrice},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="orderSort != null">order_sort = #{orderSort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="goodsDesc != null">goods_desc = #{goodsDesc},</if>
+        </trim>
+        where consume_goods_id = #{consumeGoodsId}
+    </update>
+
+    <delete id="deleteConsumeGoodsByConsumeGoodsId" parameterType="Long">
+        delete from bill_consume_goods where consume_goods_id = #{consumeGoodsId}
+    </delete>
+
+    <delete id="deleteConsumeGoodsByConsumeGoodsIds" parameterType="String">
+        delete from bill_consume_goods where consume_goods_id in 
+        <foreach item="consumeGoodsId" collection="array" open="(" separator="," close=")">
+            #{consumeGoodsId}
+        </foreach>
+    </delete>
+</mapper>
