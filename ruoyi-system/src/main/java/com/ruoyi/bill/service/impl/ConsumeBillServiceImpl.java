@@ -7,11 +7,14 @@ import com.ruoyi.bill.domain.ConsumeGoods;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.config.domain.Goods;
+import com.ruoyi.config.mapper.GoodsMapper;
+import com.ruoyi.config.mapper.GoodsTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.bill.mapper.ConsumeBillMapper;
 import com.ruoyi.bill.domain.ConsumeBill;
 import com.ruoyi.bill.service.IConsumeBillService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -26,6 +29,9 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
 {
     @Resource
     private ConsumeBillMapper consumeBillMapper;
+
+    @Resource
+    private GoodsMapper goodsMapper;
 
     /**
      * 查询支出账单
@@ -62,7 +68,9 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
     {
         consumeBill.setCreateTime(DateUtils.getNowDate());
         consumeBill.setUpdateTime(DateUtils.getNowDate());
-        return consumeBillMapper.insertConsumeBill(consumeBill);
+        int rows = consumeBillMapper.insertConsumeBill(consumeBill);
+        insertBillConsumeGoods(consumeBill);
+        return rows;
     }
 
     /**
@@ -76,7 +84,7 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
     {
         consumeBill.setUpdateTime(DateUtils.getNowDate());
         consumeBillMapper.deleteBillConsumeGoodsByConsumeBillId(consumeBill.getConsumeId());
-        insertGoods(consumeBill);
+        insertBillConsumeGoods(consumeBill);
         return consumeBillMapper.updateConsumeBill(consumeBill);
     }
 
@@ -111,7 +119,7 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
      *
      * @param consumeBill 支出账单对象
      */
-    public void insertGoods(ConsumeBill consumeBill)
+    public void insertBillConsumeGoods(ConsumeBill consumeBill)
     {
         List<ConsumeGoods> billConsumeGoodsList = consumeBill.getBillConsumeGoodsList();
         Long consumeId = consumeBill.getConsumeId();
@@ -121,6 +129,24 @@ public class ConsumeBillServiceImpl implements IConsumeBillService
             for (ConsumeGoods billConsumeGoods : billConsumeGoodsList)
             {
                 billConsumeGoods.setConsumeBillId(consumeId);
+                Goods goods = goodsMapper.selectGoodsByGoodsId(billConsumeGoods.getGoodsId());
+                //billConsumeGoods.setGoodsId();
+                billConsumeGoods.setGoodsCname(goods.getGoodsCname());
+                billConsumeGoods.setGoodsEname(goods.getGoodsEname());
+                //billConsumeGoods.setGoodsPrice();
+                //billConsumeGoods.setGoodsTotalPrice();
+                //billConsumeGoods.setGoodsTotal();
+                billConsumeGoods.setEnableStatus(1);
+                billConsumeGoods.setWeight(1);
+                billConsumeGoods.setIcon("");
+                billConsumeGoods.setOrderSort(1);
+                billConsumeGoods.setGoodsDesc(consumeBill.getRemark());
+                billConsumeGoods.setUpdateBy(consumeBill.getUpdateBy());
+                billConsumeGoods.setCreateBy(consumeBill.getCreateBy());
+                billConsumeGoods.setCreateTime(consumeBill.getCreateTime());
+                billConsumeGoods.setUpdateTime(consumeBill.getUpdateTime());
+                billConsumeGoods.setRemark("消费购买的商品");
+                billConsumeGoods.setIsDeleted(0);
                 list.add(billConsumeGoods);
             }
             if (list.size() > 0)

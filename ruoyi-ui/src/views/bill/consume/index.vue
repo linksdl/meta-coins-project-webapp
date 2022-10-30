@@ -200,16 +200,10 @@
     />
 
     <!-- 添加或修改支出账单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="888px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-row>
+    <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="88px">
+        <el-row>
             <el-col :span="8">
-              <el-form-item label="名称" prop="consumeName">
-                <el-input clearable v-model="form.consumeName" placeholder="请输入支出名称" />
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="16">
               <el-form-item label="时间" prop="consumeDatetime">
                 <el-date-picker
                   clearable
@@ -223,17 +217,36 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-          </el-row>
 
-          <el-row>
-
-            <el-col :span="8">
-              <el-form-item label="金额" prop="consumeAmount">
-                <el-input-number v-model="form.consumeAmount" type="input-number" :min="0.00" :step="0.01" :precision="3" :max="999999999.00" placeholder="请输入内容"/>
+            <el-col :span="16">
+              <el-form-item label="名称" prop="consumeName">
+                <el-input :disabled="true" clearable v-model="form.consumeName" placeholder="请输入支出名称" />
               </el-form-item>
             </el-col>
+        </el-row>
 
-           <el-col :span="16">
+        <el-row>
+            <el-col :span="24">
+            <el-form-item label="类型" prop="consumeType">
+              <el-radio-group v-model="form.consumeType" placeholder="请选择支出类型" @change="handleConsumeTypeChange" >
+                <el-radio
+                  v-for="dict in dict.type.config_function_out"
+                  :key="dict.value"
+                  :label="dict.value"
+                  :value="dict.value">
+              {{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+           </el-col>
+         </el-row>
+
+        <el-row>
+            <el-col :span="8">
+              <el-form-item label="金额" prop="consumeAmount">
+                <el-input-number v-model="form.consumeAmount" type="input-number" :min="0.01" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
               <el-form-item label="币种" prop="consumeMoneyId">
                 <el-radio-group v-model="form.consumeMoneyId" placeholder="请选择币种">
                   <el-radio
@@ -248,21 +261,6 @@
               </el-form-item>
            </el-col>
           </el-row>
-
-          <el-row>
-            <el-col :span="24">
-            <el-form-item label="类型" prop="consumeType">
-              <el-radio-group v-model="form.consumeType" placeholder="请选择支出类型" @change="handleIncomeTypeChange" >
-                <el-radio
-                  v-for="dict in dict.type.config_function_out"
-                  :key="dict.value"
-                  :label="dict.value"
-                  :value="dict.value">
-              {{dict.label}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-           </el-col>
-         </el-row>
 
           <el-row>
            <el-col :span="8">
@@ -308,7 +306,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="16" v-if='false'>
             <el-form-item label="实体" prop="consumeEntityName" >
               <el-autocomplete
                 class="inline-input"
@@ -321,13 +319,12 @@
               ></el-autocomplete>
             </el-form-item>
           </el-col>
-        </el-row>
 
-        <el-row>
-           <el-col :span="8">
+           <el-col :span="8" v-if='false'>
               <el-form-item label="项目" clearable filterable prop="consumeProjectId">
-                <el-select v-model="form.consumeProjectId" filterable placeholder="请选择项目名称">
+                <el-select clearable @change="handleSelectProjectName" v-model="form.consumeProjectId" filterable placeholder="请选择项目名称">
                   <el-option
+                    clearable
                     v-for="item in projectOptions"
                     :key="item.projectId"
                     :label="item.projectName"
@@ -338,7 +335,7 @@
               </el-form-item>
            </el-col>
 
-           <el-col :span="16">
+           <el-col :span="8">
             <el-form-item label="项目" prop="consumeProjectName" style="width: 800px;" >
               <el-autocomplete
                 class="inline-input"
@@ -417,7 +414,7 @@
       <el-row>
         <el-col :span="24">
            <el-form-item label="描述" prop="consumeDesc">
-            <el-input v-model="form.consumeDesc" type="textarea" clearable placeholder="请输入内容" />
+            <el-input :disabled="true" v-model="form.consumeDesc" type="textarea" clearable placeholder="请输入内容" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -451,7 +448,7 @@
       </el-row>
 
 
-    <el-row>
+    <el-row v-if="emotionOptions != undefined && emotionOptions != null && emotionOptions.length > 0 ">
        <el-col :span="8">
         <el-form-item label="心情"  prop="consumeEmotionId">
           <el-select v-model="form.consumeEmotionId" clearable filterable placeholder="请选择心情名">
@@ -480,7 +477,7 @@
 
 
 
-      <el-row>
+      <el-row v-if="weatherOptions != undefined && weatherOptions != null && weatherOptions.length > 0 ">
         <el-col :span="8">
         <el-form-item label="天气" prop="consumeWeatherId">
           <el-select v-model="form.consumeWeatherId" clearable filterable placeholder="请选择天气名">
@@ -518,7 +515,7 @@
 
       <el-row>
           <el-col :span="21">
-              <el-form-item label="是否记录">
+              <el-form-item label="进账">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
@@ -569,9 +566,14 @@
           <el-table-column label="序号" align="center" prop="index" width="50"/>
           <el-table-column label="商品" prop="goodsId" width="200">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.goodsId" placeholder="请选择商品">
-                <el-option label="请选择字典生成" value="" />
-              </el-select>
+              <el-select v-model="scope.row.goodsId" clearable filterable placeholder="请选择商品">
+                <el-option
+                  v-for="item in goodsOptions"
+                  :key="item.goodsId"
+                  :label="item.goodsCname"
+                  :value="item.goodsId">
+                </el-option>
+               </el-select>
             </template>
           </el-table-column>
           <el-table-column label="数量" prop="goodsTotal" width="150">
@@ -777,11 +779,11 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      consumeType: [
-          { required: true, message: "类型不能为空", trigger: "blur" }
-        ],
         consumeDatetime: [
           { required: true, message: "时间不能为空", trigger: "blur" }
+        ],
+        consumeType: [
+          { required: true, message: "类型不能为空", trigger: "blur" }
         ],
         consumeMoneyId: [
           { required: true, message: "币种不能为空", trigger: "blur" }
@@ -795,7 +797,13 @@ export default {
         consumeEntityId: [
           { required: true, message: "实体不能为空", trigger: "change" }
         ],
+        consumeEntityName: [
+          { required: true, message: "实体不能为空", trigger: "change" }
+        ],
         consumeProjectId: [
+          { required: true, message: "项目不能为空", trigger: "change" }
+        ],
+        consumeProjectName: [
           { required: true, message: "项目不能为空", trigger: "change" }
         ],
         consumeAmount: [
@@ -806,6 +814,9 @@ export default {
         ],
         consumeLabelName: [
           { required: true, message: "标签不能为空", trigger: "blur" }
+        ],
+        consumeMemberId: [
+          { required: true, message: "成员不能为空", trigger: "blur" }
         ]
       }
     };
@@ -851,10 +862,14 @@ export default {
         this.inputVisible = false;
         this.inputValue = '';
       },
-    handleIncomeTypeChange(val) {
+    handleConsumeTypeChange(val) {
       this.queryParams.moneyScope=val;
       getMoneyOptionSelect(this.queryParams).then(response => {
         this.moneyOptions = response.data;
+        if(this.moneyOptions != null)
+        {
+          this.form.consumeMoneyId = this.moneyOptions[0].moneyId;
+        }
       });
 
       this.queryParams.entityScope=val;
@@ -885,16 +900,41 @@ export default {
       this.queryParams.memberScope=val;
       getMemberOptionSelect(this.queryParams).then(response => {
         this.memberOptions = response.data;
+         if(this.memberOptions != null)
+        {
+          this.form.consumeMemberId = this.memberOptions[0].memberId;
+        }
       });
 
       this.queryParams.weatherScope=val;
       getWeatherOptionSelect(this.queryParams).then(response => {
         this.weatherOptions = response.data;
+         if(this.weatherOptions != null)
+        {
+          this.form.consumeWeatherId = this.weatherOptions[0].weatherId;
+        }
       });
 
       this.queryParams.emotionScope=val;
       getEmotionOptionSelect(this.queryParams).then(response => {
         this.emotionOptions = response.data;
+        if(this.emotionOptions != null)
+        {
+          this.form.consumeEmotionId = this.emotionOptions[0].emotionId;
+        }
+      });
+
+      this.form.consumeCityId = this.cityOptions[0].cityId;
+    },
+    handleSelectProjectName(val) {
+      this.projectOptions.forEach((item, index)=>{
+        if(item.projectId === val)
+        {
+          this.form.consumeProjectName = item.projectName;
+          this.form.consumeProjectId = item.projectId;
+        }else {
+          this.form.consumeProjectId = null;
+        }
       });
     },
     /** 查询账户下拉 */
@@ -1001,7 +1041,7 @@ export default {
         consumeImgs: null,
         consumeParentId: null,
         consumeParentName: null,
-        enableStatus: 0,
+        enableStatus: 1,
         icon: null,
         remark: null,
         weight: null,
@@ -1015,6 +1055,10 @@ export default {
         consumeUserName: null,
         consumeWeatherId: null,
         consumeWeatherName: null,
+        consumeEmotionId: null,
+        consumeEmotionName: null,
+        consumeCityId: null,
+        consumeCityName: null,
         consumeProjectId: null,
         consumeProjectName: null,
         consumeLabelId: null,

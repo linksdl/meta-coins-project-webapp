@@ -106,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="consumeBookName != null  and consumeBookName != ''"> and consume_book_name like concat('%', #{consumeBookName}, '%')</if>
         </where>
+        order by consume_datetime desc
     </select>
     
     <select id="selectConsumeBillByConsumeId" parameterType="Long" resultMap="ConsumeBillBillConsumeGoodsResult">
