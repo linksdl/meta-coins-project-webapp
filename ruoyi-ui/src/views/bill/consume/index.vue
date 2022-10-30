@@ -169,8 +169,13 @@
       <el-table-column label="项目" align="center" prop="consumeProjectName" :show-overflow-tooltip="true" />
       <el-table-column label="标签" align="center" prop="consumeLabelName" :show-overflow-tooltip="true" />
       <el-table-column label="币种" align="center" prop="consumeMoneyName" :show-overflow-tooltip="true" />
-      <el-table-column label="分类" align="center" prop="consumeCategoryName" :show-overflow-tooltip="true" />
-      <el-table-column label="账户" align="center" prop="consumeAccountName" :show-overflow-tooltip="true" />
+
+      <el-table-column label="商品" align="center" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <el-button type="text" @click="showConsumeGoods(scope.row.consumeId)">商品</el-button>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -198,6 +203,21 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
+
+    <el-dialog title="商品列表" width="788px" :visible.sync="dialogTableVisible">
+      <el-table :data="consumeGoodsList">
+        <el-table-column property="consumeGoodsId"     label="ID" width="50"></el-table-column>
+        <el-table-column property="goodsId"     label="商品ID" width="100"></el-table-column>
+        <el-table-column property="goodsCname"  label="名称" width="120" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column property="goodsPrice"  label="单价" width="80"></el-table-column>
+        <el-table-column property="goodsTotal"  label="数量" width="80"></el-table-column>
+        <el-table-column property="goodsTotalPrice" label="总价" width="100"></el-table-column>
+        <el-table-column label="币种" width="80">{{this.form.consumeMoneyName}}</el-table-column>
+        <el-table-column property="goodsDesc"   label="描述" width="130" :show-overflow-tooltip="true" ></el-table-column>
+      </el-table>
+    </el-dialog>
+
+
 
     <!-- 添加或修改支出账单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="868px" append-to-body>
@@ -664,6 +684,8 @@ export default {
   components: {IconSelect},
   data() {
     return {
+      dialogTableVisible: false,
+      goodsMoneyName: null,
       innerVisible: false,
       // 新建标签输入
       inputVisible: false,
@@ -837,6 +859,16 @@ export default {
     this.getWeatherList();
   },
   methods: {
+    // 获得商品列表
+    showConsumeGoods(consumeId)
+    {
+      getConsume(consumeId).then(response => {
+        this.form = response.data;
+        this.consumeGoodsList = response.data.billConsumeGoodsList;
+        this.title = "";
+        this.dialogTableVisible = true;
+      });
+    },
     tableRowClassName({row, rowIndex}) {
         if (row.consumeAmount > 50 && row.consumeAmount < 1000) {
           return 'warning-row';
