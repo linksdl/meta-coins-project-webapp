@@ -6,14 +6,14 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://localhost:43306/meta_coin?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://mysql:3306/meta_coins?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
                 password: fudansdl
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
                 enabled: false
-                url: jdbc:mysql://localhost:3306/meta_coins?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://localhost:3307/meta_coins?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
                 password: fudansdl
             # 初始连接数
