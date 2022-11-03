@@ -40,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="cityCname != null  and cityCname != ''"> and city_cname like concat('%', #{cityCname}, '%')</if>
             <if test="cityEname != null  and cityEname != ''"> and city_ename like concat('%', #{cityEname}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
         order by create_time desc, order_sort asc, weight asc

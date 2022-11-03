@@ -34,10 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectMemberVo"/>
         <where>
             <if test="memberScope != null  and memberScope != ''"> and member_scope like concat('%', #{memberScope}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
 	</select>
 
     <select id="selectMemberList" parameterType="Member" resultMap="MemberResult">
@@ -46,10 +47,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
             <if test="memberScope != null  and memberScope != ''"> and member_scope = #{memberScope}</if>
             <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name = #{memberTypeName}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
     </select>
     
     <select id="selectMemberByMemberId" parameterType="Long" resultMap="MemberResult">
