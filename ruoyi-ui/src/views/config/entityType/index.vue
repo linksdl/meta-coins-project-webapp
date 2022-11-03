@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="商家类型" prop="entityTypeName">
         <el-input
@@ -10,7 +10,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
 
       <el-form-item label="是否可用" prop="enableStatus">
         <el-select v-model="queryParams.enableStatus" placeholder="请选择是否可用" clearable>
@@ -23,9 +22,21 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
+          value-format="yyyy-MM-dd hh:mm:ss"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -35,7 +46,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:entityType:add']"
         >新增</el-button>
@@ -45,7 +55,6 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['config:entityType:edit']"
@@ -56,7 +65,6 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['config:entityType:remove']"
@@ -67,7 +75,6 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
           @click="handleExport"
           v-hasPermi="['config:entityType:export']"
         >导出</el-button>
@@ -78,57 +85,35 @@
 
     <el-table v-loading="loading" :data="entityTypeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
-      <el-table-column label="商家类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="类型" align="center" prop="entityTypeName" :show-overflow-tooltip="true" />
       <el-table-column label="描述" align="center" prop="entityTypeDesc" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-
-
-
-    <el-table-column label="图标" align="center" prop="icon">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
-          <svg-icon :icon-class="scope.row.icon" />
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
-    </el-table-column>
-
-
-
+      </el-table-column>
+      <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
+      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <svg-icon :icon-class="scope.row.icon" />
+          </template>
+      </el-table-column>
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-
-
-
-
-
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['config:entityType:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -147,8 +132,8 @@
     />
 
     <!-- 添加或修改商家类型对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
 
         <el-form-item label="名称" prop="entityTypeName">
           <el-input v-model="form.entityTypeName" placeholder="请输入商家类型" />
@@ -159,16 +144,16 @@
           <el-input v-model="form.entityTypeDesc" placeholder="请输入描述" />
         </el-form-item>
 
-<el-row>
+        <el-row>
            <el-col :span="12">
               <el-form-item label="权重" prop="weight">
-                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+                <el-input-number v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
               </el-form-item>
            </el-col>
 
            <el-col :span="12">
             <el-form-item label="排序" prop="orderSort">
-              <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              <el-input-number  v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
             </el-form-item>
             </el-col>
           </el-row>
@@ -202,7 +187,7 @@
                   <el-radio
                     v-for="dict in dict.type.config_is_enable"
                     :key="dict.value"
-      :label="parseInt(dict.value)"
+                    :label="parseInt(dict.value)"
                   >{{dict.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -250,10 +235,14 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 备注时间范围
+      daterangeCreateTime: [],
+      // 备注时间范围
+      daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         entityTypeName: null,
         enableStatus: null,
       },
@@ -281,6 +270,15 @@ export default {
     /** 查询商家类型列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
+      if (null != this.daterangeUpdateTime && '' != this.daterangeUpdateTime) {
+        this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
+        this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
+      }
       listEntityType(this.queryParams).then(response => {
         this.entityTypeList = response.rows;
         this.total = response.total;
@@ -317,6 +315,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.daterangeUpdateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
