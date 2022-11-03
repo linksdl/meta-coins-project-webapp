@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="币种" prop="moneyCname">
+      <el-form-item label="币种名称" prop="moneyCname">
         <el-input
           v-model="queryParams.moneyCname"
           placeholder="请输入币种"
@@ -23,18 +23,21 @@
         </el-select>
       </el-form-item>
 
-
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
           value-format="yyyy-MM-dd hh:mm:ss"
-          placeholder="请选择创建时间">
-        </el-date-picker>
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search"  @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,7 +47,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:money:add']"
         >新增</el-button>
@@ -54,7 +56,6 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['config:money:edit']"
@@ -65,7 +66,6 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['config:money:remove']"
@@ -76,7 +76,6 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
           @click="handleExport"
           v-hasPermi="['config:money:export']"
         >导出</el-button>
@@ -87,68 +86,39 @@
 
     <el-table v-loading="loading" :data="moneyList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
-
       <el-table-column label="币种" align="center" prop="moneyCname" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="英文名" align="center" prop="moneyEname" :show-overflow-tooltip="true" />
-
-
+      <el-table-column label="类型" align="center" prop="moneyTypeName" :show-overflow-tooltip="true" />
       <el-table-column label="描述" align="center" prop="moneyDesc" :show-overflow-tooltip="true" />
-
-
-
-
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="汇率" align="center" prop="moneyRate" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="功能范围" align="center" prop="moneyScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.moneyScope ? scope.row.moneyScope.split(',') : []"/>
         </template>
       </el-table-column>
-
-
-
-
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
-
-      <el-table-column label="类型名称" align="center" prop="moneyTypeName" :show-overflow-tooltip="true" />
-
-
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-
-
-
-
-
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
-
-
-
-      <el-table-column label="账本名称" align="center" prop="bookName" :show-overflow-tooltip="true" />
-
-
-
+      <el-table-column label="账本" align="center" prop="bookName" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['config:money:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -167,17 +137,20 @@
     />
 
     <!-- 添加或修改币种管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-
-        <el-form-item label="名称" prop="moneyCname">
-          <el-input v-model="form.moneyCname" placeholder="请输入币种中文名" />
-        </el-form-item>
-
-
-        <el-form-item label="英文" prop="moneyEname">
-          <el-input v-model="form.moneyEname" placeholder="请输入英文名" />
-        </el-form-item>
+    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="88px">
+      <el-row>
+          <el-col :span="12">
+            <el-form-item label="名称" prop="moneyCname">
+              <el-input v-model="form.moneyCname" placeholder="请输入币种中文名" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="英文" prop="moneyEname">
+              <el-input v-model="form.moneyEname" placeholder="请输入英文名" />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-row>
            <el-col :span="12">
@@ -195,7 +168,7 @@
             </el-col>
             <el-col :span="12">
                <el-form-item label="汇率" prop="moneyRate">
-                <el-input-number size="medium" v-model="form.moneyRate" type="input-number" :precision="4" :step="0.0001" :max="10000" :min="0" placeholder="请输入内容"/>
+                <el-input-number size="medium" v-model="form.moneyRate" type="input-number" :precision="4" :step="0.0001" :max="9999999999" :min="0.0001" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -218,13 +191,13 @@
         <el-row>
            <el-col :span="12">
               <el-form-item label="权重" prop="weight">
-                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+                <el-input-number v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
               </el-form-item>
            </el-col>
 
            <el-col :span="12">
             <el-form-item label="排序" prop="orderSort">
-              <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+              <el-input-number v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
             </el-form-item>
             </el-col>
           </el-row>
@@ -310,10 +283,14 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 备注时间范围
+      daterangeCreateTime: [],
+      // 备注时间范围
+      daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         moneyCname: null,
         enableStatus: null,
         createTime: null,
@@ -352,6 +329,15 @@ export default {
     /** 查询币种管理列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
+      if (null != this.daterangeUpdateTime && '' != this.daterangeUpdateTime) {
+        this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
+        this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
+      }
       listMoney(this.queryParams).then(response => {
         this.moneyList = response.rows;
         this.total = response.total;
@@ -385,7 +371,7 @@ export default {
         remark: null,
         orderSort: null,
         icon: null,
-        enableStatus: 0,
+        enableStatus: 1,
         bookId: null,
         bookName: null,
         userId: null,
@@ -404,6 +390,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.daterangeUpdateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
