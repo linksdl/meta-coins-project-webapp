@@ -182,12 +182,12 @@
      <el-row>
         <el-col :span="12">
         <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number  v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
         </el-col>
         <el-col :span="12">
         <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number  v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
         </el-col>
      </el-row>
@@ -221,7 +221,7 @@
                     <el-radio
                       v-for="dict in dict.type.config_is_enable"
                       :key="dict.value"
-        :label="parseInt(dict.value)"
+                      :label="parseInt(dict.value)"
                     >{{dict.label}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
