@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
 	</select>
 
     <select id="selectBookTypeList" parameterType="BookType" resultMap="BookTypeResult">
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
     </select>
     
     <select id="selectBookTypeByBookTypeId" parameterType="Long" resultMap="BookTypeResult">

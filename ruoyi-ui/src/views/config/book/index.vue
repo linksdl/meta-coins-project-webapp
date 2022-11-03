@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="账本名称" prop="bookName">
         <el-input
@@ -24,17 +24,20 @@
       </el-form-item>
 
 
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
           value-format="yyyy-MM-dd hh:mm:ss"
-          placeholder="请选择创建时间">
-        </el-date-picker>
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -44,7 +47,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:book:add']"
         >新增</el-button>
@@ -54,7 +56,6 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['config:book:edit']"
@@ -65,7 +66,6 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['config:book:remove']"
@@ -76,7 +76,6 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
           @click="handleExport"
           v-hasPermi="['config:book:export']"
         >导出</el-button>
@@ -120,14 +119,12 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['config:book:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -146,90 +143,92 @@
     />
 
     <!-- 添加或修改个人账本对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
 
         <el-form-item label="名称" prop="bookName">
           <el-input v-model="form.bookName" placeholder="请输入账本名称" />
         </el-form-item>
 
-
-        <el-form-item label="类型" prop="bookTypeId">
-          <el-select v-model="form.bookTypeId" placeholder="请选择账本类型">
-            <el-option
-              v-for="item in typeOptions"
-              :key="item.bookTypeId"
-              :label="item.bookTypeName"
-              :value="item.bookTypeId"
-              :disabled="item.disabled">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="描述" prop="bookDesc">
-          <el-input v-model="form.bookDesc" placeholder="请输入描述" />
-        </el-form-item>
-
-
-        <el-form-item label="默认" prop="bookDefault">
-          <el-radio-group v-model="form.bookDefault">
-            <el-radio
-              v-for="dict in dict.type.config_is_default"
-              :key="dict.value"
-:label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
       <el-row>
         <el-col :span="12">
-        <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
+          <el-form-item label="类型" prop="bookTypeId">
+              <el-select v-model="form.bookTypeId" placeholder="请选择账本类型">
+                <el-option
+                  v-for="item in typeOptions"
+                  :key="item.bookTypeId"
+                  :label="item.bookTypeName"
+                  :value="item.bookTypeId"
+                  :disabled="item.disabled">
+                </el-option>
+              </el-select>
+            </el-form-item>
         </el-col>
         <el-col :span="12">
-        <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
-        </el-form-item>
-         </el-col>
-        </el-row>
-
-
-      <el-row>
-        <el-col :span="12">
-        <el-form-item label="图标" prop="icon">
-          <el-popover
-                placement="bottom-start"
-                width="460"
-                trigger="click"
-                @show="$refs['iconSelect'].reset()"
-              >
-                <IconSelect ref="iconSelect" @selected="selected" />
-                <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
-                  <svg-icon
-                    v-if="form.icon"
-                    slot="prefix"
-                    :icon-class="form.icon"
-                    class="el-input__icon"
-                    style="height: 32px;width: 16px;"
-                  />
-                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
-                </el-input>
-              </el-popover>
-        </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="可用" prop="enableStatus">
-            <el-radio-group v-model="form.enableStatus">
+          <el-form-item label="默认" prop="bookDefault">
+            <el-radio-group v-model="form.bookDefault">
               <el-radio
-                v-for="dict in dict.type.config_is_enable"
+                v-for="dict in dict.type.config_is_default"
                 :key="dict.value"
-  :label="parseInt(dict.value)"
+                :label="parseInt(dict.value)"
               >{{dict.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
             </el-col>
         </el-row>
+
+        <el-form-item label="描述" prop="bookDesc">
+          <el-input v-model="form.bookDesc" placeholder="请输入描述" />
+        </el-form-item>
+
+        <el-row>
+          <el-col :span="12">
+          <el-form-item label="权重" prop="weight">
+            <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          </el-form-item>
+          </el-col>
+          <el-col :span="12">
+          <el-form-item label="排序" prop="orderSort">
+            <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+          </el-form-item>
+           </el-col>
+          </el-row>
+
+        <el-row>
+          <el-col :span="12">
+          <el-form-item label="图标" prop="icon">
+            <el-popover
+                  placement="bottom-start"
+                  width="460"
+                  trigger="click"
+                  @show="$refs['iconSelect'].reset()"
+                >
+                  <IconSelect ref="iconSelect" @selected="selected" />
+                  <el-input slot="reference" v-model="form.icon" placeholder="点击选择图标" readonly>
+                    <svg-icon
+                      v-if="form.icon"
+                      slot="prefix"
+                      :icon-class="form.icon"
+                      class="el-input__icon"
+                      style="height: 32px;width: 16px;"
+                    />
+                    <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                  </el-input>
+                </el-popover>
+          </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="可用" prop="enableStatus">
+              <el-radio-group v-model="form.enableStatus">
+                <el-radio
+                  v-for="dict in dict.type.config_is_enable"
+                  :key="dict.value"
+    :label="parseInt(dict.value)"
+                >{{dict.label}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+              </el-col>
+          </el-row>
 
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
@@ -275,6 +274,10 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 备注时间范围
+      daterangeCreateTime: [],
+      // 备注时间范围
+      daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -314,6 +317,15 @@ export default {
     /** 查询个人账本列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
+      if (null != this.daterangeUpdateTime && '' != this.daterangeUpdateTime) {
+        this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
+        this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
+      }
       listBook(this.queryParams).then(response => {
         this.bookList = response.rows;
         this.total = response.total;
@@ -344,7 +356,7 @@ export default {
         remark: null,
         orderSort: null,
         icon: null,
-        enableStatus: 0,
+        enableStatus: 1,
         createBy: null,
         createTime: null,
         updateBy: null,
@@ -361,6 +373,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.daterangeUpdateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

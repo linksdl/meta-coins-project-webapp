@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="类型名称" prop="bookTypeName">
         <el-input
@@ -36,8 +36,8 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search"  @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -47,7 +47,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:bookType:add']"
         >新增</el-button>
@@ -57,7 +56,6 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['config:bookType:edit']"
@@ -68,7 +66,6 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['config:bookType:remove']"
@@ -79,7 +76,6 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
           @click="handleExport"
           v-hasPermi="['config:bookType:export']"
         >导出</el-button>
@@ -93,41 +89,34 @@
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="名称" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
-      <el-table-column label="描述" align="left" prop="bookTypeDesc" :show-overflow-tooltip="true" />
-
       <el-table-column label="图标" align="center" prop="icon">
           <template slot-scope="scope">
             <svg-icon :icon-class="scope.row.icon" />
           </template>
       </el-table-column>
-
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
-
       <el-table-column label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-
+      <el-table-column label="描述" align="left" prop="bookTypeDesc" :show-overflow-tooltip="true" />
       <el-table-column label="备注" align="left" prop="remark" :show-overflow-tooltip="true" />
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['config:bookType:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -146,8 +135,8 @@
     />
 
     <!-- 添加或修改账本类型对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
 
         <el-form-item label="名称" prop="bookTypeName">
           <el-input v-model="form.bookTypeName" placeholder="请输入类型名称" />
@@ -160,12 +149,12 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="权重" prop="weight">
-            <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+            <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="排序" prop="orderSort">
-            <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+            <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -199,7 +188,7 @@
                 <el-radio
                   v-for="dict in dict.type.config_is_enable"
                   :key="dict.value"
-    :label="parseInt(dict.value)"
+                  :label="parseInt(dict.value)"
                 >{{dict.label}}</el-radio>
               </el-radio-group>
             </el-form-item>
@@ -254,7 +243,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         bookTypeName: null,
         enableStatus: null,
         createTime: null,
@@ -312,7 +301,7 @@ export default {
         icon: null,
         weight: null,
         orderSort: null,
-        enableStatus: 0,
+        enableStatus: 1,
         createTime: null,
         createBy: null,
         updateTime: null,
