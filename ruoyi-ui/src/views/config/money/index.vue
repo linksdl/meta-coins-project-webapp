@@ -168,7 +168,7 @@
             </el-col>
             <el-col :span="12">
                <el-form-item label="汇率" prop="moneyRate">
-                <el-input-number size="medium" v-model="form.moneyRate" type="input-number" :precision="4" :step="0.0001" :max="9999999999" :min="0.0001" placeholder="请输入内容"/>
+                <el-input-number  v-model="form.moneyRate" type="input-number" :precision="4" :step="0.0001" :max="9999999999" :min="0.0001" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
           </el-row>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm"  :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="商品名称" prop="goodsCname">
         <el-input
@@ -34,8 +34,8 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search"  @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -45,7 +45,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+
           @click="handleAdd"
           v-hasPermi="['bill:consumeGoods:add']"
         >新增</el-button>
@@ -55,7 +55,7 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
+
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['bill:consumeGoods:edit']"
@@ -66,7 +66,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['bill:consumeGoods:remove']"
@@ -77,7 +77,7 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
+
           @click="handleExport"
           v-hasPermi="['bill:consumeGoods:export']"
         >导出</el-button>
@@ -110,14 +110,14 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['bill:consumeGoods:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -175,12 +175,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="单价" prop="goodsPrice">
-              <el-input-number size="medium" v-model="form.goodsPrice" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              <el-input-number  v-model="form.goodsPrice" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
              <el-form-item label="总价" prop="goodsTotalPrice">
-              <el-input-number size="medium" v-model="form.goodsTotalPrice" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+              <el-input-number  v-model="form.goodsTotalPrice" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -192,12 +192,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="排序" prop="orderSort">
-              <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+              <el-input-number  v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="权重" prop="weight">
-              <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+              <el-input-number  v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
             </el-form-item>
           </el-col>
         </el-row>

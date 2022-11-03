@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm"  :inline="true" v-show="showSearch" label-width="68px">
 
       <el-form-item label="名称" prop="incomeName">
         <el-input
@@ -30,8 +30,8 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -41,7 +41,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+
           @click="handleAdd"
           v-hasPermi="['bill:income:add']"
         >新增</el-button>
@@ -51,7 +51,7 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
+
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['bill:income:edit']"
@@ -62,7 +62,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['bill:income:remove']"
@@ -73,7 +73,7 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
+
           @click="handleExport"
           v-hasPermi="['bill:income:export']"
         >导出</el-button>
@@ -167,14 +167,14 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['bill:income:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"

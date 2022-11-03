@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm"  :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="类型" prop="flowType">
         <el-select v-model="queryParams.flowType" placeholder="请选择流水类型" clearable>
           <el-option
@@ -21,8 +21,8 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search"  @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -32,7 +32,7 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
+
           @click="handleAdd"
           v-hasPermi="['bill:flow:add']"
         >新增</el-button>
@@ -42,7 +42,7 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
+
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['bill:flow:edit']"
@@ -53,7 +53,7 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
+
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['bill:flow:remove']"
@@ -64,7 +64,7 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
+
           @click="handleExport"
           v-hasPermi="['bill:flow:export']"
         >导出</el-button>
@@ -171,14 +171,14 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['bill:flow:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
+
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -230,7 +230,7 @@
 
 
         <el-form-item label="流水金额" prop="flowAmount">
-          <el-input-number size="medium" v-model="form.flowAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
+          <el-input-number  v-model="form.flowAmount" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
         </el-form-item>
 
 
@@ -290,7 +290,7 @@
 
 
         <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number  v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
 
@@ -320,7 +320,7 @@
 
 
         <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number  v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
 
 

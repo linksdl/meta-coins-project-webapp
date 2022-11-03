@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort asc
+        order by create_time desc, order_sort asc, weight asc
 	</select>
 
     <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
@@ -51,10 +51,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
             <if test="accountClass != null  and accountClass != ''"> and account_class = #{accountClass}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
     </select>
     
     <select id="selectAccountByAccountId" parameterType="Long" resultMap="AccountResult">

@@ -34,18 +34,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="projectScope != null  and projectScope != ''"> and project_scope like concat('%', #{projectScope}, '%')</if>
             <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
-        order by order_sort asc
+        order by create_time desc, order_sort asc, weight asc
 	</select>
 
     <select id="selectProjectList" parameterType="Project" resultMap="ProjectResult">
         <include refid="selectProjectVo"/>
         <where>  
             <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
         </where>
-        order by order_sort
+        order by create_time desc, order_sort asc, weight asc
     </select>
     
     <select id="selectProjectByProjectId" parameterType="Long" resultMap="ProjectResult">

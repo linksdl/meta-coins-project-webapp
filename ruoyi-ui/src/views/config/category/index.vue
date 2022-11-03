@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm"  :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类名" prop="categoryName">
         <el-input
           v-model="queryParams.categoryName"
@@ -41,17 +41,22 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择创建时间">
-        </el-date-picker>
+
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
+          value-format="yyyy-MM-dd hh:mm:ss"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
+
       <el-form-item>
-	    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+	    <el-button type="primary" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -61,7 +66,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:category:add']"
         >新增</el-button>
@@ -71,7 +75,6 @@
           type="info"
           plain
           icon="el-icon-sort"
-          size="mini"
           @click="toggleExpandAll"
         >展开/折叠</el-button>
       </el-col>
@@ -91,6 +94,11 @@
       <el-table-column label="父类" align="center" prop="categoryParentName" />
       <el-table-column label="层次" align="center" prop="categoryLevel" />
       <el-table-column label="描述" align="center" prop="categoryDesc" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="功能分类" align="center" prop="categoryClass">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_class" :value="scope.row.categoryClass"/>
@@ -124,14 +132,12 @@
             v-hasPermi="['config:category:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
             v-hasPermi="['config:category:add']"
           >新增</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -157,7 +163,7 @@
         </el-col>
         <el-col :span="12">
               <el-form-item label="分类层次" prop="categoryLevel">
-                <el-input-number size="medium" v-model="form.categoryLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+                <el-input-number  v-model="form.categoryLevel" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
          </el-row>
@@ -209,12 +215,12 @@
         <el-row>
             <el-col :span="12">
               <el-form-item label="排序" prop="orderSort">
-                <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
+                <el-input-number  v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="权重" prop="weight">
-                <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入权重" />
+                <el-input-number  v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入权重" />
               </el-form-item>
             </el-col>
         </el-row>
@@ -273,6 +279,10 @@ export default {
       isExpandAll: true,
       // 重新渲染表格状态
       refreshTable: true,
+      // 备注时间范围
+      daterangeCreateTime: [],
+      // 备注时间范围
+      daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         categoryName: null,
@@ -312,6 +322,15 @@ export default {
     /** 查询分类管理列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
+      if (null != this.daterangeUpdateTime && '' != this.daterangeUpdateTime) {
+        this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
+        this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
+      }
       listCategory(this.queryParams).then(response => {
         this.categoryList = this.handleTree(response.data, "categoryId", "categoryParentId");
         this.loading = false;
@@ -355,7 +374,7 @@ export default {
         categoryScope: [],
         categorySort: null,
         categoryType: [],
-        enableStatus: 0,
+        enableStatus: 1,
         icon: null,
         orderSort: null,
         remark: null,
@@ -377,6 +396,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.daterangeUpdateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
