@@ -99,12 +99,12 @@
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="中文" align="center" prop="cityCname" :show-overflow-tooltip="true" />
       <el-table-column label="英文" align="left" prop="cityEname" :show-overflow-tooltip="true" />
+      <el-table-column label="描述" align="left" prop="cityDesc" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="描述" align="left" prop="cityDesc" :show-overflow-tooltip="true" />
       <el-table-column label="国家" align="center" prop="cityCountry" :show-overflow-tooltip="true" />
       <el-table-column label="省份" align="center" prop="cityProvince" :show-overflow-tooltip="true" />
       <el-table-column label="权重" align="center" prop="weight" :show-overflow-tooltip="true" />
