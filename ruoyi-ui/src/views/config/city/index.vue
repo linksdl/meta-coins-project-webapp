@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="中文" prop="cityCname">
+      <el-form-item label="城市名称" prop="cityCname">
         <el-input
           v-model="queryParams.cityCname"
           placeholder="请输入中文"
@@ -33,9 +33,21 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
+          value-format="yyyy-MM-dd hh:mm:ss"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search"  @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"  @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -45,7 +57,6 @@
           type="primary"
           plain
           icon="el-icon-plus"
-          size="mini"
           @click="handleAdd"
           v-hasPermi="['config:city:add']"
         >新增</el-button>
@@ -55,7 +66,6 @@
           type="success"
           plain
           icon="el-icon-edit"
-          size="mini"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['config:city:edit']"
@@ -66,7 +76,6 @@
           type="danger"
           plain
           icon="el-icon-delete"
-          size="mini"
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['config:city:remove']"
@@ -77,7 +86,6 @@
           type="warning"
           plain
           icon="el-icon-download"
-          size="mini"
           @click="handleExport"
           v-hasPermi="['config:city:export']"
         >导出</el-button>
@@ -91,6 +99,11 @@
       <el-table-column label="排序" align="center" prop="orderSort" :show-overflow-tooltip="true" />
       <el-table-column label="中文" align="center" prop="cityCname" :show-overflow-tooltip="true" />
       <el-table-column label="英文" align="left" prop="cityEname" :show-overflow-tooltip="true" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="描述" align="left" prop="cityDesc" :show-overflow-tooltip="true" />
       <el-table-column label="国家" align="center" prop="cityCountry" :show-overflow-tooltip="true" />
       <el-table-column label="省份" align="center" prop="cityProvince" :show-overflow-tooltip="true" />
@@ -109,14 +122,12 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['config:city:edit']"
           >修改</el-button>
           <el-button
-            size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
@@ -135,8 +146,8 @@
     />
 
     <!-- 添加或修改城市对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="68px">
 
       <el-row>
         <el-col :span="12">
@@ -151,10 +162,6 @@
         </el-col>
      </el-row>
 
-        <el-form-item label="描述" prop="cityDesc">
-          <el-input v-model="form.cityDesc" placeholder="请输入描述" />
-        </el-form-item>
-
      <el-row>
         <el-col :span="12">
         <el-form-item label="国家" prop="cityCountry">
@@ -168,15 +175,19 @@
         </el-col>
      </el-row>
 
+    <el-form-item label="描述" prop="cityDesc">
+      <el-input v-model="form.cityDesc" placeholder="请输入描述" />
+    </el-form-item>
+
      <el-row>
         <el-col :span="12">
         <el-form-item label="权重" prop="weight">
-          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number size="medium" v-model="form.weight" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
         </el-col>
         <el-col :span="12">
         <el-form-item label="排序" prop="orderSort">
-          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="0" :max="999999999" placeholder="请输入内容"/>
+          <el-input-number size="medium" v-model="form.orderSort" type="input-number" :min="1" :max="999999999" placeholder="请输入内容"/>
         </el-form-item>
         </el-col>
      </el-row>
@@ -258,10 +269,14 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 备注时间范围
+      daterangeCreateTime: [],
+      // 备注时间范围
+      daterangeUpdateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         cityCname: null,
         cityEname: null,
         enableStatus: null,
@@ -299,6 +314,15 @@ export default {
     /** 查询城市列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
+      if (null != this.daterangeUpdateTime && '' != this.daterangeUpdateTime) {
+        this.queryParams.params["beginUpdateTime"] = this.daterangeUpdateTime[0];
+        this.queryParams.params["endUpdateTime"] = this.daterangeUpdateTime[1];
+      }
       listCity(this.queryParams).then(response => {
         this.cityList = response.rows;
         this.total = response.total;
@@ -323,7 +347,7 @@ export default {
         remark: null,
         orderSort: null,
         icon: null,
-        enableStatus: 0,
+        enableStatus: 1,
         createBy: null,
         createTime: null,
         updateBy: null,
@@ -338,6 +362,8 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.daterangeUpdateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

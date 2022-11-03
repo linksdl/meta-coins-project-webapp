@@ -93,7 +93,11 @@
       <el-table-column label="类型" align="center" prop="bookTypeName" :show-overflow-tooltip="true" />
 
       <el-table-column label="描述" align="center" prop="bookDesc" :show-overflow-tooltip="true" />
-
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="是否默认" align="center" prop="bookDefault">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_default" :value="scope.row.bookDefault"/>
@@ -281,7 +285,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         bookName: null,
         enableStatus: null,
         createTime: null,
