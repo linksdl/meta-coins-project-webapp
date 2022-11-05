@@ -147,23 +147,29 @@
     />
 
     <!-- 添加或修改商家管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="626px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="666px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="88px">
         <el-row>
-           <el-col :span="12">
-             <el-form-item label="名称" prop="entityName" >
-              <el-autocomplete
-                class="inline-input"
-                v-model="form.entityName"
-                :fetch-suggestions="querySearch"
-                :trigger-on-focus="true"
-                placeholder="请输入商家（实体）名称"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </el-form-item>
-          </el-col>
-
-           <el-col :span="12">
+            <el-col :span="10">
+               <el-form-item label="名称" prop="entityName" >
+                <el-autocomplete
+                  class="inline-input"
+                  v-model="form.entityName"
+                  :fetch-suggestions="querySearch"
+                  :trigger-on-focus="true"
+                  placeholder="请输入商家（实体）名称"
+                  @select="handleSelect"
+                ></el-autocomplete>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="图片" >
+                <el-switch
+                  v-model="isImageShow">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
               <el-form-item label="类型" prop="entityTypeId">
                 <el-select v-model="form.entityTypeId" placeholder="请选择商家类型">
                   <el-option
@@ -205,7 +211,7 @@
         </el-form-item>
 
 
-        <el-form-item label="图片">
+        <el-form-item v-if="isImageShow" label="图片">
           <image-upload v-model="form.entityImgs"/>
         </el-form-item>
 
@@ -316,6 +322,8 @@ export default {
       province: '',
       county: '',
       street: '',
+      // 上传图片
+      isImageShow: false,
       // 商品类型列表
       typeOptions: [],
       // 遮罩层
@@ -361,6 +369,9 @@ export default {
         ],
         entityTypeId: [
           { required: true, message: "商家类型不能为空", trigger: "change" }
+        ],
+        entityType: [
+          { required: true, message: "功能类型不能为空", trigger: "blur" }
         ],
         entityScope: [
           { required: true, message: "功能范围不能为空", trigger: "blur" }
@@ -420,6 +431,10 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
+      this.country=null;
+      this.province=null;
+      this.county=null;
+      this.street=null;
     },
     // 表单重置
     reset() {
@@ -530,12 +545,20 @@ export default {
             updateEntity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
+              this.country=null;
+              this.province=null;
+              this.county=null;
+              this.street=null;
               this.getList();
             });
           } else {
             addEntity(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
+              this.country=null;
+              this.province=null;
+              this.county=null;
+              this.street=null;
               this.getList();
             });
           }

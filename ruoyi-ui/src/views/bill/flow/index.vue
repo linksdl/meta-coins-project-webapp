@@ -309,7 +309,7 @@
             <el-radio
               v-for="dict in dict.type.config_is_enable"
               :key="dict.value"
-:label="parseInt(dict.value)"
+              :label="parseInt(dict.value)"
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>

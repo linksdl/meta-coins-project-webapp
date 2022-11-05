@@ -237,8 +237,14 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-
-            <el-col :span="16">
+            <el-col :span="3">
+                <el-form-item label="凭证" >
+                  <el-switch
+                    v-model="isImageShow">
+                  </el-switch>
+                </el-form-item>
+            </el-col>
+            <el-col :span="13">
               <el-form-item label="名称" prop="consumeName">
                 <el-input :disabled="true" clearable v-model="form.consumeName" placeholder="请输入支出名称" />
               </el-form-item>
@@ -534,7 +540,13 @@
       </el-row>
 
       <el-row>
-          <el-col :span="21">
+
+          <el-col :span="12">
+            <el-form-item v-if="isImageShow" label="凭证">
+              <image-upload v-model="form.consumeImgs"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
               <el-form-item label="进账">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
@@ -545,7 +557,6 @@
                 </el-radio-group>
               </el-form-item>
           </el-col>
-
           <el-col :span="3">
             <el-button  type="success"  icon="el-icon-edit" @click="innerVisible = true">增加商品</el-button>
           </el-col>
@@ -687,6 +698,8 @@ export default {
       dialogTableVisible: false,
       goodsMoneyName: null,
       innerVisible: false,
+      //凭证是否显示
+      isImageShow: false,
       // 新建标签输入
       inputVisible: false,
       inputValue: '',

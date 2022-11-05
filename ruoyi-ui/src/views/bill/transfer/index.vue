@@ -214,8 +214,14 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-
-            <el-col :span="16">
+            <el-col :span="3">
+                <el-form-item label="凭证" >
+                  <el-switch
+                    v-model="isImageShow">
+                  </el-switch>
+                </el-form-item>
+            </el-col>
+            <el-col :span="13">
               <el-form-item label="名称" prop="transferName">
                 <el-input clearable :disabled="true" v-model="form.transferName" placeholder="请输入转账名称" />
               </el-form-item>
@@ -492,7 +498,12 @@
       </el-row>
 
       <el-row>
-          <el-col :span="24">
+           <el-col :span="12">
+            <el-form-item v-if="isImageShow" label="凭证">
+              <image-upload v-model="form.transferImgs"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
               <el-form-item label="进账">
                 <el-radio-group v-model="form.enableStatus">
                   <el-radio
@@ -575,7 +586,9 @@ export default {
   components: {IconSelect},
   data() {
     return {
-    // 新建标签输入
+      //凭证是否显示
+      isImageShow: false,
+      // 新建标签输入
       inputVisible: false,
       inputValue: '',
       //账户
