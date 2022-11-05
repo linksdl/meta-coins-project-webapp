@@ -179,8 +179,25 @@
         </el-row>
 
         <el-form-item label="地址" prop="entityAddress">
-          <el-input v-model="form.entityAddress" placeholder="请输入商家地址" />
+          <el-input  v-model="form.entityAddress" width="20px" placeholder="请输入商家地址" />
         </el-form-item>
+
+        <el-row>
+            <el-col :span="6">
+              <el-form-item label="详址">
+                <el-input v-model="country" @input="inputChange" placeholder="国家" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+                <el-input  v-model="province"@input="inputChange"  placeholder="省份州" />
+            </el-col>
+            <el-col :span="4">
+                <el-input  v-model="county" @input="inputChange"  placeholder="郡县市区" />
+            </el-col>
+            <el-col :span="10">
+                <el-input  v-model="street"  @input="inputChange" placeholder="乡镇街道" />
+            </el-col>
+        </el-row>
 
 
         <el-form-item label="描述" prop="entityDesc">
@@ -294,6 +311,11 @@ export default {
   components: {IconSelect},
   data() {
     return {
+      // 详细地址
+      country: '',
+      province: '',
+      county: '',
+      street: '',
       // 商品类型列表
       typeOptions: [],
       // 遮罩层
@@ -355,6 +377,9 @@ export default {
     this.getListAll();
   },
   methods: {
+    inputChange(val) {
+      this.form.entityAddress = this.country + " " + this.province + " "+ this.county + " "+ this.street;
+    },
     /** 选择商家管理图标 */
     selected(name) {
       this.form.icon = name;
@@ -474,6 +499,23 @@ export default {
         this.form = response.data;
         this.form.entityScope = this.form.entityScope.split(",");
         this.form.entityType = this.form.entityType.split(",");
+        var adds = this.form.entityAddress.split(" ");
+        this.country=null;
+        this.province=null;
+        this.county=null;
+        this.street=null;
+        this.country  = adds[0];
+        this.province = adds[1];
+        if(adds.length ===3)
+        {
+          this.street = adds[2];
+        }
+
+        if(adds.length ===4)
+        {
+          this.county = adds[2];
+          this.street = adds[3];
+        }
         this.open = true;
         this.title = "修改商家管理";
       });
