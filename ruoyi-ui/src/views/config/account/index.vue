@@ -77,35 +77,35 @@
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column label="排序" align="center" prop="orderSort" />
-      <el-table-column label="名称" prop="accountName" />
-      <el-table-column label="父类" align="center" prop="accountParentName" />
-      <el-table-column label="层级" align="center" prop="accountLevel" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column sortable label="排序" align="center" prop="orderSort" />
+      <el-table-column sortable label="名称" prop="accountName" />
+      <el-table-column sortable label="父类" align="center" prop="accountParentName" />
+      <el-table-column sortable label="层级" align="center" prop="accountLevel" />
+      <el-table-column sortable label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="功能范围" align="center" prop="accountScope">
+      <el-table-column sortable label="功能范围" align="center" prop="accountScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.accountScope ? scope.row.accountScope.split(',') : []"/>
         </template>
       </el-table-column>
 
-      <el-table-column label="功能类型" align="center" prop="accountType">
+      <el-table-column sortable label="功能类型" align="center" prop="accountType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_type" :value="scope.row.accountType ? scope.row.accountType.split(',') : []"/>
         </template>
       </el-table-column>
 
-      <el-table-column label="功能类别" align="center" prop="accountClass">
+      <el-table-column sortable label="功能类别" align="center" prop="accountClass">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_class" :value="scope.row.accountClass"/>
         </template>
       </el-table-column>
 
-      <el-table-column label="权重" align="center" prop="weight" />
-      <el-table-column label="是否可用" align="center" prop="enableStatus">
+      <el-table-column sortable label="权重" align="center" prop="weight" />
+      <el-table-column sortable label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>

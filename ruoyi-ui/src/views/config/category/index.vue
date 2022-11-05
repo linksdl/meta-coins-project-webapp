@@ -89,40 +89,40 @@
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column label="排序" align="center" prop="orderSort" />
-      <el-table-column label="名称" prop="categoryName" />
-      <el-table-column label="父类" align="center" prop="categoryParentName" />
-      <el-table-column label="层次" align="center" prop="categoryLevel" />
-      <el-table-column label="描述" align="center" prop="categoryDesc" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column sortable label="排序" align="center" prop="orderSort" />
+      <el-table-column sortable label="名称" prop="categoryName" />
+      <el-table-column sortable label="父类" align="center" prop="categoryParentName" />
+      <el-table-column sortable label="层次" align="center" prop="categoryLevel" />
+      <el-table-column sortable label="描述" align="center" prop="categoryDesc" />
+      <el-table-column sortable label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="功能分类" align="center" prop="categoryClass">
+      <el-table-column sortable label="功能分类" align="center" prop="categoryClass">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_class" :value="scope.row.categoryClass"/>
         </template>
       </el-table-column>
-      <el-table-column label="功能范围" align="center" prop="categoryScope">
+      <el-table-column sortable label="功能范围" align="center" prop="categoryScope">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_scope" :value="scope.row.categoryScope ? scope.row.categoryScope.split(',') : []"/>
         </template>
       </el-table-column>
-      <el-table-column label="功能类型" align="center" prop="categoryType">
+      <el-table-column sortable label="功能类型" align="center" prop="categoryType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_type" :value="scope.row.categoryType"/>
         </template>
       </el-table-column>
-      <el-table-column label="是否可用" align="center" prop="enableStatus">
+      <el-table-column sortable label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="排序" align="center" prop="orderSort" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="权重" align="center" prop="weight" />
-      <el-table-column label="操作" align="center" class-name="small-padding" width="200">
+      <el-table-column sortable label="排序" align="center" prop="orderSort" />
+      <el-table-column sortable label="备注" align="center" prop="remark" />
+      <el-table-column sortable label="权重" align="center" prop="weight" />
+      <el-table-column  label="操作" align="center" class-name="small-padding" width="200">
         <template slot-scope="scope">
           <el-button
             size="mini"

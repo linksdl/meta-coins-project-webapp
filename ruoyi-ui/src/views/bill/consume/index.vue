@@ -143,32 +143,32 @@
       </el-table-column>
 
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-      <el-table-column label="名称" align="center" prop="consumeName" :show-overflow-tooltip="true" />
-      <el-table-column label="类型" align="center" prop="consumeType">
+      <el-table-column sortable label="名称" align="center" prop="consumeName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="类型" align="center" prop="consumeType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_out" :value="scope.row.consumeType"/>
         </template>
       </el-table-column>
-      <el-table-column label="日期" align="center" prop="consumeDatetime" width="180">
+      <el-table-column sortable label="日期" align="center" prop="consumeDatetime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.consumeDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="金额" align="center" prop="consumeAmount" :show-overflow-tooltip="true" />
-      <el-table-column label="描述" align="center" prop="consumeDesc" :show-overflow-tooltip="true" />
-      <el-table-column label="凭证" align="center" prop="consumeImgs" width="180">
+      <el-table-column sortable label="金额" align="center" prop="consumeAmount" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="描述" align="center" prop="consumeDesc" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="凭证" align="center" prop="consumeImgs" width="180">
         <template slot-scope="scope">
           <image-preview :src="scope.row.consumeImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
-      <el-table-column label="可用" align="center" prop="enableStatus">
+      <el-table-column sortable label="可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="项目" align="center" prop="consumeProjectName" :show-overflow-tooltip="true" />
-      <el-table-column label="标签" align="center" prop="consumeLabelName" :show-overflow-tooltip="true" />
-      <el-table-column label="币种" align="center" prop="consumeMoneyName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="项目" align="center" prop="consumeProjectName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="标签" align="center" prop="consumeLabelName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="币种" align="center" prop="consumeMoneyName" :show-overflow-tooltip="true" />
 
       <el-table-column label="商品" align="center" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -204,16 +204,16 @@
       @pagination="getList"
     />
 
-    <el-dialog title="商品列表" width="788px" :visible.sync="dialogTableVisible">
+    <el-dialog title="商品列表" width="868px" :visible.sync="dialogTableVisible">
       <el-table :data="consumeGoodsList">
-        <el-table-column property="consumeGoodsId"     label="ID" width="50"></el-table-column>
-        <el-table-column property="goodsId"     label="商品ID" width="100"></el-table-column>
-        <el-table-column property="goodsCname"  label="名称" width="120" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column property="goodsPrice"  label="单价" width="80"></el-table-column>
-        <el-table-column property="goodsTotal"  label="数量" width="80"></el-table-column>
-        <el-table-column property="goodsTotalPrice" label="总价" width="100"></el-table-column>
-        <el-table-column label="币种" width="80">{{this.form.consumeMoneyName}}</el-table-column>
-        <el-table-column property="goodsDesc"   label="描述" width="130" :show-overflow-tooltip="true" ></el-table-column>
+        <el-table-column sortable property="consumeGoodsId"     label="ID" width="60"></el-table-column>
+        <el-table-column sortable property="goodsId"     label="商品ID" width="100"></el-table-column>
+        <el-table-column sortable property="goodsCname"  label="名称" width="160" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column sortable property="goodsPrice"  label="单价" width="80"></el-table-column>
+        <el-table-column sortable property="goodsTotal"  label="数量" width="80"></el-table-column>
+        <el-table-column sortable property="goodsTotalPrice" label="总价" width="100"></el-table-column>
+        <el-table-column sortable label="币种" width="100">{{this.form.consumeMoneyName}}</el-table-column>
+        <el-table-column sortable property="goodsDesc"   label="描述" width="140" :show-overflow-tooltip="true" ></el-table-column>
       </el-table>
     </el-dialog>
 

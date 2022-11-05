@@ -138,32 +138,32 @@
       </el-table-column>
 
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
-      <el-table-column label="名称" sortable align="center" prop="incomeName" :show-overflow-tooltip="true" />
-      <el-table-column label="类型" sortable align="center" prop="incomeType">
+      <el-table-column sortable label="名称"  align="center" prop="incomeName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="类型"  align="center" prop="incomeType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_function_in" :value="scope.row.incomeType"/>
         </template>
       </el-table-column>
-      <el-table-column label="金额" sortable align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
-      <el-table-column label="日期" sortable align="center" prop="incomeDatetime" width="180">
+      <el-table-column sortable label="金额"  align="center" prop="incomeAmount" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="日期"  align="center" prop="incomeDatetime" width="180">
         <template slot-scope="scope">
           <span>{{parseTime(scope.row.incomeDatetime, '{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
-      <el-table-column label="凭证" align="center" prop="incomeImgs" width="100">
+      <el-table-column sortable label="描述" align="center" prop="incomeDesc" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="凭证" align="center" prop="incomeImgs" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.incomeImgs" :width="25" :height="25"/>
         </template>
       </el-table-column>
-      <el-table-column label="可用" align="center" prop="enableStatus">
+      <el-table-column sortable label="可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="标签" align="center" prop="incomeLabelName" :show-overflow-tooltip="true" />
-      <el-table-column label="币种" align="center" prop="incomeMoneyName" :show-overflow-tooltip="true" />
-      <el-table-column label="项目" align="center" prop="incomeProjectName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="标签" align="center" prop="incomeLabelName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="币种" align="center" prop="incomeMoneyName" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="项目" align="center" prop="incomeProjectName" :show-overflow-tooltip="true" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

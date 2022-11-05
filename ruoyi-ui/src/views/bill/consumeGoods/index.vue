@@ -89,19 +89,19 @@
     <el-table v-loading="loading" :data="consumeGoodsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column label="ID" align="center" prop="consumeGoodsId" />
-      <el-table-column label="商品" align="center" prop="goodsId" :show-overflow-tooltip="true" />
-      <el-table-column label="商品名称" align="center" prop="goodsCname" :show-overflow-tooltip="true" />
-      <el-table-column label="商品英文" align="center" prop="goodsEname" :show-overflow-tooltip="true" />
-      <el-table-column label="单价" align="center" prop="goodsPrice" :show-overflow-tooltip="true" />
-      <el-table-column label="数量" align="center" prop="goodsTotal" :show-overflow-tooltip="true" />
-      <el-table-column label="总价" align="center" prop="goodsTotalPrice" :show-overflow-tooltip="true" />
-      <el-table-column label="是否可用" align="center" prop="enableStatus">
+      <el-table-column sortable label="ID" align="center" prop="consumeGoodsId" />
+      <el-table-column sortable label="商品" align="center" prop="goodsId" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="商品名称" align="center" prop="goodsCname" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="商品英文" align="center" prop="goodsEname" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="单价" align="center" prop="goodsPrice" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="数量" align="center" prop="goodsTotal" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="总价" align="center" prop="goodsTotalPrice" :show-overflow-tooltip="true" />
+      <el-table-column sortable label="是否可用" align="center" prop="enableStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_enable" :value="scope.row.enableStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="是否删除" align="center" prop="isDeleted">
+      <el-table-column sortable label="是否删除" align="center" prop="isDeleted">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.config_is_deleted" :value="scope.row.isDeleted"/>
         </template>
