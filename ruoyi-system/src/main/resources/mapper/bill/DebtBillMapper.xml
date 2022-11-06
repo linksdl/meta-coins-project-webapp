@@ -75,6 +75,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDebtBillAll" resultMap="DebtBillResult">
 		<include refid="selectDebtBillVo"/>
+        <where>
+            <if test="debtUserId != null "> and debt_user_id = #{debtUserId}</if>
+        </where>
 	</select>
 
     <select id="selectDebtBillList" parameterType="DebtBill" resultMap="DebtBillResult">
@@ -83,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtName != null  and debtName != ''"> and debt_name like concat('%', #{debtName}, '%')</if>
             <if test="debtType != null  and debtType != ''"> and debt_type = #{debtType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="debtUserId != null "> and debt_user_id = #{debtUserId}</if>
         </where>
          order by debt_datetime desc
     </select>

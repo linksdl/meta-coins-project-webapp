@@ -41,6 +41,7 @@ public class ConsumeGoodsController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(ConsumeGoods consumeGoods)
     {
+        consumeGoods.setUserId(getUserId());
         startPage();
         List<ConsumeGoods> list = consumeGoodsService.selectConsumeGoodsList(consumeGoods);
         return getDataTable(list);

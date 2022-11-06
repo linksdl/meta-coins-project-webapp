@@ -96,6 +96,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectConsumeBillAll" resultMap="ConsumeBillResult">
 		<include refid="selectConsumeBillVo"/>
+        <where>
+            <if test="consumeUserId != null "> and consume_user_id = #{consumeUserId}</if>
+        </where>
 	</select>
 
     <select id="selectConsumeBillList" parameterType="ConsumeBill" resultMap="ConsumeBillResult">
@@ -105,6 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="consumeType != null  and consumeType != ''"> and consume_type = #{consumeType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
             <if test="consumeBookName != null  and consumeBookName != ''"> and consume_book_name like concat('%', #{consumeBookName}, '%')</if>
+            <if test="consumeUserId != null "> and consume_user_id = #{consumeUserId}</if>
         </where>
         order by consume_datetime desc
     </select>

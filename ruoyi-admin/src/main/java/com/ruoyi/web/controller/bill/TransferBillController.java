@@ -93,6 +93,7 @@ public class TransferBillController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(TransferBill transferBill)
     {
+        transferBill.setTransferUserId(getUserId());
         startPage();
         List<TransferBill> list = transferBillService.selectTransferBillList(transferBill);
         return getDataTable(list);

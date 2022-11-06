@@ -41,6 +41,7 @@ public class FlowBillController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(FlowBill flowBill)
     {
+        flowBill.setFlowUserId(getUserId());
         startPage();
         List<FlowBill> list = flowBillService.selectFlowBillList(flowBill);
         return getDataTable(list);

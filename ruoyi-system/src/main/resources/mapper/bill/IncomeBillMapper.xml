@@ -70,6 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectIncomeBillAll" resultMap="IncomeBillResult">
 		<include refid="selectIncomeBillVo"/>
+        <where>
+            <if test="incomeUserId != null "> and income_user_id = #{incomeUserId}</if>
+        </where>
 	</select>
 
     <select id="selectIncomeBillList" parameterType="IncomeBill" resultMap="IncomeBillResult">
@@ -78,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="incomeName != null  and incomeName != ''"> and income_name like concat('%', #{incomeName}, '%')</if>
             <if test="incomeDatetime != null "> and income_datetime = #{incomeDatetime}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="incomeUserId != null "> and income_user_id = #{incomeUserId}</if>
         </where>
         order by income_datetime desc
     </select>

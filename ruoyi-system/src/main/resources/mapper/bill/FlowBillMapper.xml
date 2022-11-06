@@ -76,6 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectFlowBillAll" resultMap="FlowBillResult">
 		<include refid="selectFlowBillVo"/>
+        <where>
+            <if test="flowUserId != null "> and flow_user_id = #{flowUserId}</if>
+        </where>
 	</select>
 
     <select id="selectFlowBillList" parameterType="FlowBill" resultMap="FlowBillResult">
@@ -83,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="flowType != null  and flowType != ''"> and flow_type = #{flowType}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="flowUserId != null "> and flow_user_id = #{flowUserId}</if>
         </where>
         order by flow_datetime desc
     </select>

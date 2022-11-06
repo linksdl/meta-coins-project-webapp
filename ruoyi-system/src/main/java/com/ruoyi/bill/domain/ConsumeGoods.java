@@ -55,6 +55,9 @@ public class ConsumeGoods extends BaseEntity
     /** 图标 */
     private String icon;
 
+    /** 用户ID */
+    private Long userId;
+
     /** 是否删除 */
     @Excel(name = "是否删除")
     private Integer isDeleted;
@@ -97,7 +100,15 @@ public class ConsumeGoods extends BaseEntity
         this.goodsCname = goodsCname;
     }
 
-    public String getGoodsCname() 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getGoodsCname()
     {
         return goodsCname;
     }
@@ -197,6 +208,7 @@ public class ConsumeGoods extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("consumeGoodsId", getConsumeGoodsId())
             .append("consumeBillId", getConsumeBillId())
+            .append("userId", getUserId())
             .append("goodsId", getGoodsId())
             .append("goodsCname", getGoodsCname())
             .append("goodsEname", getGoodsEname())

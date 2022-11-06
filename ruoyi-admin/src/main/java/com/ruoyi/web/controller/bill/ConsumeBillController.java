@@ -87,6 +87,7 @@ public class ConsumeBillController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(ConsumeBill consumeBill)
     {
+        consumeBill.setConsumeUserId(getUserId());
         startPage();
         List<ConsumeBill> list = consumeBillService.selectConsumeBillList(consumeBill);
         return getDataTable(list);

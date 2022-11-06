@@ -70,6 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTransferBillAll" resultMap="TransferBillResult">
 		<include refid="selectTransferBillVo"/>
+        <where>
+            <if test="transferUserId != null "> and transfer_user_id = #{transferUserId}</if>
+        </where>
 	</select>
 
     <select id="selectTransferBillList" parameterType="TransferBill" resultMap="TransferBillResult">
@@ -78,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="transferName != null  and transferName != ''"> and transfer_name like concat('%', #{transferName}, '%')</if>
             <if test="transferDatetime != null "> and transfer_datetime = #{transferDatetime}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="transferUserId != null "> and transfer_user_id = #{transferUserId}</if>
         </where>
         order by transfer_datetime desc
     </select>

@@ -91,7 +91,8 @@ public class DebtBillController extends BaseController
     @GetMapping("/list")
     public AjaxResult list(DebtBill debtBill)
     {
-//        startPage();
+        debtBill.setDebtUserId(getUserId());
+        startPage();
         List<DebtBill> list = debtBillService.selectDebtBillList(debtBill);
         return AjaxResult.success(list);
     }

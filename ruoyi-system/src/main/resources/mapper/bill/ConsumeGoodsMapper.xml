@@ -24,10 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="goodsDesc"    column="goods_desc"    />
+        <result property="userId"    column="user_id"    />
     </resultMap>
 
     <sql id="selectConsumeGoodsVo">
-        select consume_goods_id, consume_bill_id, goods_id, goods_cname, goods_ename, goods_price, goods_total, goods_total_price, enable_status, weight, icon, is_deleted, order_sort, remark, create_by, create_time, update_by, update_time, goods_desc from bill_consume_goods
+        select consume_goods_id, consume_bill_id, goods_id, goods_cname, goods_ename, goods_price, goods_total, goods_total_price, enable_status, weight, icon, is_deleted, order_sort, remark, create_by, create_time, update_by, update_time, goods_desc, user_id from bill_consume_goods
     </sql>
 
     <select id="selectConsumeGoodsAll" resultMap="ConsumeGoodsResult">
@@ -41,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.beginGoodsPrice != null and params.beginGoodsPrice != '' and params.endGoodsPrice != null and params.endGoodsPrice != ''"> and goods_price between #{params.beginGoodsPrice} and #{params.endGoodsPrice}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
         </where>
     </select>
     
@@ -71,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="goodsDesc != null">goods_desc,</if>
+            <if test="userId != null">user_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="consumeGoodsId != null">#{consumeGoodsId},</if>
@@ -92,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="goodsDesc != null">#{goodsDesc},</if>
+            <if test="userId != null">#{userId},</if>
          </trim>
     </insert>
 
@@ -116,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="goodsDesc != null">goods_desc = #{goodsDesc},</if>
+            <if test="userId != null">user_id = #{userId},</if>
         </trim>
         where consume_goods_id = #{consumeGoodsId}
     </update>

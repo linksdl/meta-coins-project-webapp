@@ -93,6 +93,7 @@ public class IncomeBillController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(IncomeBill incomeBill)
     {
+        incomeBill.setIncomeUserId(getUserId());
         startPage();
         List<IncomeBill> list = incomeBillService.selectIncomeBillList(incomeBill);
         return getDataTable(list);
