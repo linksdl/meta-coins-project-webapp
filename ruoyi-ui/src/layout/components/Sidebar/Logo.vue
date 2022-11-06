@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: 'METACOINS管理系统',
+      title: 'METACOINS',
       logo: logoImg
     }
   }
