@@ -47,7 +47,7 @@
         <el-button
           :loading="loading"
           size="medium"
-          type="primary"
+          type="success"
           style="width:100%;"
           @click.native.prevent="handleRegister"
         >
@@ -61,7 +61,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
-      <span>Copyright © 2018-2022 metacoin.vip All Rights Reserved.</span>
+      <span>Copyright © 2022-2028 metacoin.vip All Rights Reserved.</span>
     </div>
   </div>
 </template>
