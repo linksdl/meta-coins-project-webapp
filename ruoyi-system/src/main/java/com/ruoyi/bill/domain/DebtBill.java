@@ -45,6 +45,26 @@ public class DebtBill extends TreeEntity
     @Excel(name = "金额")
     private Double debtAmount;
 
+    /** 分期数 */
+    @Excel(name = "分期数")
+    private Integer DebtNumber;
+
+    /** 借贷利率 */
+    @Excel(name = "借贷利率")
+    private Double debtRate;
+
+    /** 手续费 */
+    @Excel(name = "手续费")
+    private Double debtPay;
+
+    /** 违约金或提前还款手续费 */
+    @Excel(name = "违约金或提前还款手续费")
+    private Double debtBadPay;
+
+    /** 利息 */
+    @Excel(name = "利息")
+    private Double debtInterest;
+
     /** 是否可用 */
     @Excel(name = "是否可用")
     private Long enableStatus;
@@ -239,6 +259,47 @@ public class DebtBill extends TreeEntity
     {
         return debtDatetime;
     }
+
+    public Integer getDebtNumber() {
+        return DebtNumber;
+    }
+
+    public void setDebtNumber(Integer debtNumber) {
+        DebtNumber = debtNumber;
+    }
+
+    public Double getDebtRate() {
+        return debtRate;
+    }
+
+    public void setDebtRate(Double debtRate) {
+        this.debtRate = debtRate;
+    }
+
+    public Double getDebtPay() {
+        return debtPay;
+    }
+
+    public void setDebtPay(Double debtPay) {
+        this.debtPay = debtPay;
+    }
+
+    public Double getDebtBadPay() {
+        return debtBadPay;
+    }
+
+    public void setDebtBadPay(Double debtBadPay) {
+        this.debtBadPay = debtBadPay;
+    }
+
+    public Double getDebtInterest() {
+        return debtInterest;
+    }
+
+    public void setDebtInterest(Double debtInterest) {
+        this.debtInterest = debtInterest;
+    }
+
     public void setDebtAmount(Double debtAmount)
     {
         this.debtAmount = debtAmount;
@@ -664,6 +725,11 @@ public class DebtBill extends TreeEntity
             .append("debtDesc", getDebtDesc())
             .append("debtDatetime", getDebtDatetime())
             .append("debtAmount", getDebtAmount())
+            .append("debtNumber", getDebtNumber())
+            .append("debtRate", getDebtRate())
+            .append("debtPay", getDebtPay())
+            .append("debtBadPay", getDebtBadPay())
+            .append("debtInterest", getDebtInterest())
             .append("enableStatus", getEnableStatus())
             .append("debtParentId", getDebtParentId())
             .append("createBy", getCreateBy())

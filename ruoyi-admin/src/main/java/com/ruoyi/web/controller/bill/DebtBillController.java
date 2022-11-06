@@ -316,11 +316,36 @@ public class DebtBillController extends BaseController
             bill.setDebtAccountName(String.join(" > ", names));
         }
 
+        String debtDesc = "";
+        if(bill.getDebtNumber() != null)
+        {
+            debtDesc += " 分期数："+ bill.getDebtNumber();
+        }
+        if(bill.getDebtRate() != null)
+        {
+            debtDesc += " 利率："+ bill.getDebtRate();
+        }
+
+        if(bill.getDebtInterest() != null)
+        {
+            debtDesc += " 利息："+ bill.getDebtInterest();
+        }
+
+        if(bill.getDebtPay() != null)
+        {
+            debtDesc += " 手续费："+ bill.getDebtPay();
+        }
+
+        if(bill.getDebtBadPay() != null)
+        {
+            debtDesc += " 违约金："+ bill.getDebtBadPay();
+        }
         // 描述
         String desc =
               "时间[" + fullDate.getDatetime() + "], " +
               "金额[" + bill.getDebtAmount() + "], " +
               "单位[" + bill.getDebtMoneyName() + "], "+
+              "借贷[明细" + debtDesc  + "], " +
               "类型[" + bill.getDebtType() + "], "+
               "分类[" + bill.getDebtCategoryName() + "], " +
               "账户[" + bill.getDebtAccountName() + "], " +
@@ -626,11 +651,37 @@ public class DebtBillController extends BaseController
             bill.setDebtAccountName(String.join(" > ", names));
         }
 
+        String debtDesc = "";
+        if(bill.getDebtNumber() != null)
+        {
+            debtDesc += " 分期数："+ bill.getDebtNumber();
+        }
+        if(bill.getDebtRate() != null)
+        {
+            debtDesc += " 利率："+ bill.getDebtRate();
+        }
+
+        if(bill.getDebtInterest() != null)
+        {
+            debtDesc += " 利息："+ bill.getDebtInterest();
+        }
+
+        if(bill.getDebtPay() != null)
+        {
+            debtDesc += " 手续费："+ bill.getDebtPay();
+        }
+
+        if(bill.getDebtBadPay() != null)
+        {
+            debtDesc += " 违约金："+ bill.getDebtBadPay();
+        }
+
         // 描述
         String desc =
               "时间[" + fullDate.getDatetime() + "], " +
               "金额[" + bill.getDebtAmount() + "], " +
               "单位[" + bill.getDebtMoneyName() + "], "+
+              "借贷[明细" + debtDesc  + "], " +
               "类型[" + bill.getDebtType() + "], "+
               "分类[" + bill.getDebtCategoryName() + "], " +
               "账户[" + bill.getDebtAccountName() + "], " +

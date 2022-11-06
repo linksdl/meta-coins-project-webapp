@@ -12,6 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="debtDesc"    column="debt_desc"    />
         <result property="debtDatetime"    column="debt_datetime"    />
         <result property="debtAmount"    column="debt_amount"    />
+        <result property="debtNumber"    column="debt_number"    />
+        <result property="debtRate"    column="debt_rate"    />
+        <result property="debtPay"    column="debt_pay"    />
+        <result property="debtBadPay"    column="debt_badpay"    />
+        <result property="debtInterest"    column="debt_interest"    />
         <result property="enableStatus"    column="enable_status"    />
         <result property="debtParentId"    column="debt_parent_id"    />
         <result property="createBy"    column="create_by"    />
@@ -65,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDebtBillVo">
-        select debt_id, debt_name, debt_type, debt_imgs, debt_desc, debt_datetime, debt_amount, enable_status, debt_parent_id, create_by, debt_parent_name, create_time, update_by, update_time, remark, icon, is_deleted, order_sort, weight, debt_user_id, debt_user_name, debt_account_id, debt_account_name, debt_book_id, debt_book_name, debt_category_id, debt_category_name, debt_city_id, debt_city_name, debt_emotion_id, debt_emotion_name, debt_entity_id, debt_entity_name, debt_label_id, debt_label_name, debt_member_id, debt_member_name, debt_money_id, debt_money_name, debt_project_id, debt_project_name, debt_weather_id, debt_weather_name, debt_address, debt_city, debt_country, debt_province, debt_county, debt_street, debt_year, debt_date, debt_day, debt_month, debt_period, debt_quarter, debt_week, debt_year_week from bill_debt
+        select debt_id, debt_name, debt_type, debt_imgs, debt_desc, debt_datetime, debt_amount, debt_number, debt_rate, debt_pay, debt_badpay, debt_interest, enable_status, debt_parent_id, create_by, debt_parent_name, create_time, update_by, update_time, remark, icon, is_deleted, order_sort, weight, debt_user_id, debt_user_name, debt_account_id, debt_account_name, debt_book_id, debt_book_name, debt_category_id, debt_category_name, debt_city_id, debt_city_name, debt_emotion_id, debt_emotion_name, debt_entity_id, debt_entity_name, debt_label_id, debt_label_name, debt_member_id, debt_member_name, debt_money_id, debt_money_name, debt_project_id, debt_project_name, debt_weather_id, debt_weather_name, debt_address, debt_city, debt_country, debt_province, debt_county, debt_street, debt_year, debt_date, debt_day, debt_month, debt_period, debt_quarter, debt_week, debt_year_week from bill_debt
     </sql>
 
     <select id="selectDebtBillAll" resultMap="DebtBillResult">
@@ -96,6 +101,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtDesc != null">debt_desc,</if>
             <if test="debtDatetime != null">debt_datetime,</if>
             <if test="debtAmount != null">debt_amount,</if>
+            <if test="debtNumber != null">debt_number,</if>
+            <if test="debtPay != null">debt_pay,</if>
+            <if test="debtBadPay != null">debt_badpay,</if>
+            <if test="debtRate != null">debt_rate,</if>
+            <if test="debtInterest != null">debt_interest,</if>
             <if test="enableStatus != null">enable_status,</if>
             <if test="debtParentId != null">debt_parent_id,</if>
             <if test="createBy != null">create_by,</if>
@@ -154,6 +164,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtDesc != null">#{debtDesc},</if>
             <if test="debtDatetime != null">#{debtDatetime},</if>
             <if test="debtAmount != null">#{debtAmount},</if>
+            <if test="debtNumber != null">#{debtNumber},</if>
+            <if test="debtPay != null">#{debtPay},</if>
+            <if test="debtBadPay != null">#{debtBadPay},</if>
+            <if test="debtRate != null">#{debtRate},</if>
+            <if test="debtInterest != null">#{debtInterest},</if>
             <if test="enableStatus != null">#{enableStatus},</if>
             <if test="debtParentId != null">#{debtParentId},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -216,6 +231,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="debtDesc != null">debt_desc = #{debtDesc},</if>
             <if test="debtDatetime != null">debt_datetime = #{debtDatetime},</if>
             <if test="debtAmount != null">debt_amount = #{debtAmount},</if>
+            <if test="debtNumber != null">debt_number = #{debtNumber},</if>
+            <if test="debtPay != null">debt_pay = #{debtPay},</if>
+            <if test="debtBadPay != null">debt_badpay = #{debtBadPay},</if>
+            <if test="debtRate != null">debt_rate = #{debtRate},</if>
+            <if test="debtInterest != null">debt_interest = #{debtInterest},</if>
             <if test="enableStatus != null">enable_status = #{enableStatus},</if>
             <if test="debtParentId != null">debt_parent_id = #{debtParentId},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

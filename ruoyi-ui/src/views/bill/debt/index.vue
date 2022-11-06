@@ -183,7 +183,7 @@
 
            <el-row>
               <el-col :span="8">
-                <el-form-item label="金额" prop="debtAmount">
+                <el-form-item label="本金" prop="debtAmount">
                   <el-input-number v-model="form.debtAmount" type="input-number" :min="0.01" :step="0.01" :precision="2" :max="999999999.00" placeholder="请输入内容"/>
                 </el-form-item>
               </el-col>
@@ -202,7 +202,38 @@
                   </el-radio-group>
                 </el-form-item>
              </el-col>
-            </el-row>
+           </el-row>
+
+
+           <el-row>
+              <el-col :span="8" v-if='isDebtNumber' >
+                <el-form-item label="期数" prop="debtNumber">
+                  <el-input-number v-model="form.debtNumber" type="input-number" :min="1" :step="1"  :max="48" placeholder="贷款分期数"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" v-if='isDebtRate'>
+                <el-form-item label="利率" prop="debtRate">
+                  <el-input-number v-model="form.debtRate" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="999999999.00" placeholder="日利率"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" v-if='isDebtInterest' >
+                <el-form-item label="利息" prop="debtPay">
+                  <el-input-number v-model="form.debtInterest" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="9999.00" placeholder="利息"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" v-if='isDebtPay' >
+                <el-form-item label="手续费" prop="debtPay">
+                  <el-input-number v-model="form.debtPay" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="9999.00" placeholder="手续费"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8"v-if='isDebtBadPay' >
+                <el-form-item label="违约金" prop="debtBadPay">
+                  <el-input-number v-model="form.debtBadPay" type="input-number" :min="0.00" :step="0.01" :precision="2" :max="9999.00" placeholder="违约金"/>
+                </el-form-item>
+              </el-col>
+           </el-row>
+
+
 
             <el-row>
              <el-col :span="8">
@@ -544,6 +575,11 @@ export default {
   },
   data() {
     return {
+      isDebtNumber: false,
+      isDebtPay: false,
+      isDebtBadPay: false,
+      isDebtRate: false,
+      isDebtInterest: false,
       //凭证是否显示
       isImageShow: false,
       // 新建标签输入
@@ -748,6 +784,43 @@ export default {
    },
     /**选择类型 级联*/
    handleDebtTypeChange(val) {
+        if(val=='loan-in')
+        {
+          this.isDebtNumber=true;
+          this.isDebtRate=true;
+          this.isDebtPay=true;
+          this.isDebtBadPay=false;
+          this.isDebtInterest=false;
+        }else if(val=='loan-out')
+        {
+          this.isDebtPay=true;
+          this.isDebtInterest=true;
+          this.isDebtBadPay=true;
+          this.isDebtRate=false;
+          this.isDebtNumber=false;
+        } else if(val=='debt-out')
+        {
+          this.isDebtInterest=true;
+          this.isDebtBadPay=false;
+          this.isDebtRate=false;
+          this.isDebtNumber=false;
+          this.isDebtPay=true;
+        } else if(val=='borrow')
+        {
+          this.isDebtInterest=false;
+          this.isDebtBadPay=false;
+          this.isDebtRate=false;
+          this.isDebtNumber=false;
+          this.isDebtPay=true;
+        } else
+        {
+          this.isDebtInterest=false;
+          this.isDebtBadPay=false;
+          this.isDebtRate=false;
+          this.isDebtNumber=false;
+          this.isDebtPay=false;
+        }
+
         this.queryParams.moneyScope=val;
         getMoneyOptionSelect(this.queryParams).then(response => {
           this.moneyOptions = response.data;
@@ -925,7 +998,12 @@ export default {
         debtDesc: null,
         debtDatetime: null,
         debtAmount: null,
-        enableStatus: 0,
+        enableStatus: 1,
+        debtNumber: 1,
+        debtRate: null,
+        debtPay: null,
+        debtInterest: null,
+        debtBadPay: null,
 
         debtParentId: null,
         createBy: null,
