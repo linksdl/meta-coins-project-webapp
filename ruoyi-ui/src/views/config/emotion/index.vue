@@ -154,7 +154,20 @@
             </el-form-item>
           </el-col>
        </el-row>
-
+       <el-row>
+        <el-col :span="24">
+          <el-form-item label="功能类型" prop="emotionType">
+            <el-checkbox-group v-model="form.emotionType">
+              <el-checkbox
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value">
+                {{dict.label}}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
         <el-form-item label="功能范围" prop="emotionScope">
           <el-checkbox-group v-model="form.emotionScope">
             <el-checkbox
@@ -242,7 +255,7 @@ import IconSelect from "@/components/IconSelect";
 
 export default {
   name: "Emotion",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  dicts: ['config_function_type','config_function_scope', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
@@ -272,6 +285,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 5,
+        emotionType: null,
         emotionCname: null,
         enableStatus: null,
         createTime: null,
@@ -285,6 +299,9 @@ export default {
         ],
         emotionEname: [
           { required: true, message: "英文名称不能为空",  trigger: "blur" }
+        ],
+        emotionType: [
+          { required: true, message: "功能类型不能为空", trigger: "change" }
         ],
         emotionScope: [
           { required: true, message: "功能范围不能为空", trigger: "change" }
@@ -332,6 +349,7 @@ export default {
         emotionId: null,
         emotionCname: null,
         emotionEname: null,
+        emotionType: [],
         emotionScope: [],
         emotionDesc: null,
         weight: null,
@@ -376,6 +394,10 @@ export default {
       const emotionId = row.emotionId || this.ids
       getEmotion(emotionId).then(response => {
         this.form = response.data;
+        if(this.form.emotionType != null)
+        {
+          this.form.emotionType = this.form.emotionType.split(",");
+        }
         this.form.emotionScope = this.form.emotionScope.split(",");
         this.open = true;
         this.title = "修改心情管理";
@@ -385,6 +407,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.emotionType = this.form.emotionType.join(",");
           this.form.emotionScope = this.form.emotionScope.join(",");
           if (this.form.emotionId != null) {
             updateEmotion(this.form).then(response => {

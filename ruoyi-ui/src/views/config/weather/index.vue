@@ -154,6 +154,21 @@
           </el-col>
        </el-row>
 
+       <el-row>
+        <el-col :span="24">
+          <el-form-item label="功能类型" prop="weatherType">
+            <el-checkbox-group v-model="form.weatherType">
+              <el-checkbox
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value">
+                {{dict.label}}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
         <el-form-item label="功能范围" prop="weatherScope">
           <el-checkbox-group v-model="form.weatherScope">
             <el-checkbox
@@ -239,7 +254,7 @@ import IconSelect from "@/components/IconSelect";
 
 export default {
   name: "Weather",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  dicts: ['config_function_type','config_function_scope', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
@@ -269,6 +284,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 5,
+        weatherType: null,
         weatherCname: null,
         enableStatus: null,
       },
@@ -281,6 +297,9 @@ export default {
         ],
         weatherEname: [
           { required: true, message: "英文名称不能为空",  trigger: "blur" }
+        ],
+        weatherType: [
+          { required: true, message: "功能类型不能为空", trigger: "change" }
         ],
         weatherScope: [
           { required: true, message: "功能范围不能为空", trigger: "change" }
@@ -328,6 +347,7 @@ export default {
         weatherId: null,
         weatherCname: null,
         weatherEname: null,
+        weatherType: [],
         weatherScope: [],
         weatherDesc: null,
         weight: null,
@@ -372,6 +392,10 @@ export default {
       const weatherId = row.weatherId || this.ids
       getWeather(weatherId).then(response => {
         this.form = response.data;
+        if(this.form.weatherType != null)
+        {
+          this.form.weatherType = this.form.weatherType.split(",");
+        }
         this.form.weatherScope = this.form.weatherScope.split(",");
         this.open = true;
         this.title = "修改天气管理";
@@ -381,6 +405,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.weatherType = this.form.weatherType.join(",");
           this.form.weatherScope = this.form.weatherScope.join(",");
           if (this.form.weatherId != null) {
             updateWeather(this.form).then(response => {

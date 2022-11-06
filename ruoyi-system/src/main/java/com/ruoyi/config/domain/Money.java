@@ -52,6 +52,11 @@ public class Money extends BaseEntity
     @Column(name="money_rate")
     private Double moneyRate;
 
+    /** 功能类型 */
+    @Excel(name = "功能类型")
+    @Column(name="money_type")
+    private String moneyType;
+
     /** 功能范围 */
     @Excel(name = "功能范围")
     @Column(name="money_scope")
@@ -147,6 +152,15 @@ public class Money extends BaseEntity
     {
         return moneyRate;
     }
+
+    public String getMoneyType() {
+        return moneyType;
+    }
+
+    public void setMoneyType(String moneyType) {
+        this.moneyType = moneyType;
+    }
+
     public void setMoneyScope(String moneyScope)
     {
         this.moneyScope = moneyScope;
@@ -255,6 +269,7 @@ public class Money extends BaseEntity
             .append("moneyEname", getMoneyEname())
             .append("moneyDesc", getMoneyDesc())
             .append("moneyRate", getMoneyRate())
+            .append("moneyType", getMoneyType())
             .append("moneyScope", getMoneyScope())
             .append("moneyTypeId", getMoneyTypeId())
             .append("weight", getWeight())

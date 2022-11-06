@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="Member" id="MemberResult">
         <result property="memberId"    column="member_id"    />
         <result property="memberName"    column="member_name"    />
+        <result property="memberType"    column="member_type"    />
         <result property="memberScope"    column="member_scope"    />
         <result property="memberTypeId"    column="member_type_id"    />
         <result property="memberTypeName"    column="member_type_name"    />
@@ -27,12 +28,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMemberVo">
-        select member_id, member_name, member_scope, member_type_id, member_type_name, member_desc, enable_status, icon, order_sort, remark, create_by, create_time, update_by, update_time, weight, book_id, book_name, user_id, user_name from config_member
+        select member_id, member_name, member_type, member_scope, member_type_id, member_type_name, member_desc, enable_status, icon, order_sort, remark, create_by, create_time, update_by, update_time, weight, book_id, book_name, user_id, user_name from config_member
     </sql>
 
     <select id="selectMemberAll" parameterType="Member" resultMap="MemberResult">
 		<include refid="selectMemberVo"/>
         <where>
+            <if test="memberType != null  and memberType != ''"> and member_type like concat('%', #{memberType}, '%')</if>
             <if test="memberScope != null  and memberScope != ''"> and member_scope like concat('%', #{memberScope}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -44,8 +46,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectMemberVo"/>
         <where>  
             <if test="memberName != null  and memberName != ''"> and member_name like concat('%', #{memberName}, '%')</if>
+            <if test="memberType != null  and memberType != ''"> and member_type like concat('%', #{memberType}, '%')</if>
             <if test="memberScope != null  and memberScope != ''"> and member_scope = #{memberScope}</if>
-            <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name = #{memberTypeName}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -63,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="memberId != null">member_id,</if>
             <if test="memberName != null">member_name,</if>
+            <if test="memberType != null">member_type,</if>
             <if test="memberScope != null">member_scope,</if>
             <if test="memberTypeId != null">member_type_id,</if>
             <if test="memberTypeName != null">member_type_name,</if>
@@ -84,6 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="memberId != null">#{memberId},</if>
             <if test="memberName != null">#{memberName},</if>
+            <if test="memberType != null">#{memberType},</if>
             <if test="memberScope != null">#{memberScope},</if>
             <if test="memberTypeId != null">#{memberTypeId},</if>
             <if test="memberTypeName != null">#{memberTypeName},</if>
@@ -109,6 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="memberName != null">member_name = #{memberName},</if>
             <if test="memberScope != null">member_scope = #{memberScope},</if>
+            <if test="memberType != null">member_type = #{memberType},</if>
             <if test="memberTypeId != null">member_type_id = #{memberTypeId},</if>
             <if test="memberTypeName != null">member_type_name = #{memberTypeName},</if>
             <if test="memberDesc != null">member_desc = #{memberDesc},</if>

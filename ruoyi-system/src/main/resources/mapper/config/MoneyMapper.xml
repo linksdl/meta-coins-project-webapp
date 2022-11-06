@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="moneyEname"    column="money_ename"    />
         <result property="moneyDesc"    column="money_desc"    />
         <result property="moneyRate"    column="money_rate"    />
+        <result property="moneyType"    column="money_type"    />
         <result property="moneyScope"    column="money_scope"    />
         <result property="moneyTypeId"    column="money_type_id"    />
         <result property="weight"    column="weight"    />
@@ -29,12 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMoneyVo">
-        select money_id, money_cname, money_ename, money_desc, money_rate, money_scope, money_type_id, weight, money_type_name, remark, order_sort, icon, enable_status, book_id, book_name, user_id, user_name, create_by, create_time, update_by, update_time from config_money
+        select money_id, money_cname, money_ename, money_desc, money_rate, money_type, money_scope, money_type_id, weight, money_type_name, remark, order_sort, icon, enable_status, book_id, book_name, user_id, user_name, create_by, create_time, update_by, update_time from config_money
     </sql>
 
     <select id="selectMoneyAll" resultMap="MoneyResult">
 		<include refid="selectMoneyVo"/>
         <where>
+            <if test="moneyType != null  and moneyType != ''"> and money_type like concat('%', #{moneyType}, '%') </if>
             <if test="moneyScope != null  and moneyScope != ''"> and money_scope like concat('%', #{moneyScope}, '%') </if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -44,7 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectMoneyList" parameterType="Money" resultMap="MoneyResult">
         <include refid="selectMoneyVo"/>
-        <where>  
+        <where>
+            <if test="moneyType != null  and moneyType != ''"> and money_type like concat('%', #{moneyType}, '%') </if>
+            <if test="moneyScope != null  and moneyScope != ''"> and money_scope like concat('%', #{moneyScope}, '%') </if>
             <if test="moneyCname != null  and moneyCname != ''"> and money_cname like concat('%', #{moneyCname}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
@@ -66,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moneyEname != null">money_ename,</if>
             <if test="moneyDesc != null">money_desc,</if>
             <if test="moneyRate != null">money_rate,</if>
+            <if test="moneyType != null">money_type,</if>
             <if test="moneyScope != null">money_scope,</if>
             <if test="moneyTypeId != null">money_type_id,</if>
             <if test="weight != null">weight,</if>
@@ -89,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moneyEname != null">#{moneyEname},</if>
             <if test="moneyDesc != null">#{moneyDesc},</if>
             <if test="moneyRate != null">#{moneyRate},</if>
+            <if test="moneyType != null">#{moneyType},</if>
             <if test="moneyScope != null">#{moneyScope},</if>
             <if test="moneyTypeId != null">#{moneyTypeId},</if>
             <if test="weight != null">#{weight},</if>
@@ -115,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="moneyEname != null">money_ename = #{moneyEname},</if>
             <if test="moneyDesc != null">money_desc = #{moneyDesc},</if>
             <if test="moneyRate != null">money_rate = #{moneyRate},</if>
+            <if test="moneyType != null">money_type = #{moneyType},</if>
             <if test="moneyScope != null">money_scope = #{moneyScope},</if>
             <if test="moneyTypeId != null">money_type_id = #{moneyTypeId},</if>
             <if test="weight != null">weight = #{weight},</if>

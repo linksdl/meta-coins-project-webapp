@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="emotionId"    column="emotion_id"    />
         <result property="emotionCname"    column="emotion_cname"    />
         <result property="emotionEname"    column="emotion_ename"    />
+        <result property="emotionType"    column="emotion_type"    />
         <result property="emotionScope"    column="emotion_scope"    />
         <result property="emotionDesc"    column="emotion_desc"    />
         <result property="weight"    column="weight"    />
@@ -22,12 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEmotionVo">
-        select emotion_id, emotion_cname, emotion_ename, emotion_scope, emotion_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_emotion
+        select emotion_id, emotion_cname, emotion_ename, emotion_type, emotion_scope, emotion_desc, weight, remark, order_sort, icon, enable_status, create_by, create_time, update_by, update_time from config_emotion
     </sql>
 
     <select id="selectEmotionAll" parameterType="Emotion" resultMap="EmotionResult">
 		<include refid="selectEmotionVo"/>
         <where>
+            <if test="emotionType != null  and emotionType != ''"> and emotion_type like concat('%', #{emotionType}, '%')</if>
             <if test="emotionScope != null  and emotionScope != ''"> and emotion_scope like concat('%', #{emotionScope}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
         </where>
@@ -38,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectEmotionVo"/>
         <where>  
             <if test="emotionCname != null  and emotionCname != ''"> and emotion_cname like concat('%', #{emotionCname}, '%')</if>
+            <if test="emotionType != null  and emotionType != ''"> and emotion_type like concat('%', #{emotionType}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
@@ -55,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="emotionId != null">emotion_id,</if>
             <if test="emotionCname != null">emotion_cname,</if>
             <if test="emotionEname != null">emotion_ename,</if>
+            <if test="emotionType != null">emotion_type,</if>
             <if test="emotionScope != null">emotion_scope,</if>
             <if test="emotionDesc != null">emotion_desc,</if>
             <if test="weight != null">weight,</if>
@@ -71,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="emotionId != null">#{emotionId},</if>
             <if test="emotionCname != null">#{emotionCname},</if>
             <if test="emotionEname != null">#{emotionEname},</if>
+            <if test="emotionType != null">#{emotionType},</if>
             <if test="emotionScope != null">#{emotionScope},</if>
             <if test="emotionDesc != null">#{emotionDesc},</if>
             <if test="weight != null">#{weight},</if>
@@ -90,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="emotionCname != null">emotion_cname = #{emotionCname},</if>
             <if test="emotionEname != null">emotion_ename = #{emotionEname},</if>
+            <if test="emotionType != null">emotion_type = #{emotionType},</if>
             <if test="emotionScope != null">emotion_scope = #{emotionScope},</if>
             <if test="emotionDesc != null">emotion_desc = #{emotionDesc},</if>
             <if test="weight != null">weight = #{weight},</if>

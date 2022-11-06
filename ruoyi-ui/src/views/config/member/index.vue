@@ -164,6 +164,21 @@
         </el-col>
       </el-row>
 
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="功能类型" prop="memberType">
+            <el-checkbox-group v-model="form.memberType">
+              <el-checkbox
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value">
+                {{dict.label}}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
         <el-form-item label="功能范围" prop="memberScope">
           <el-checkbox-group v-model="form.memberScope">
             <el-checkbox
@@ -222,7 +237,7 @@
               <el-radio
                 v-for="dict in dict.type.config_is_enable"
                 :key="dict.value"
-  :label="parseInt(dict.value)"
+                :label="parseInt(dict.value)"
               >{{dict.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -251,7 +266,7 @@ import { selectMemberType as getMemberTypeOptionSelect } from "@/api/config/memb
 
 export default {
   name: "Member",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  dicts: ['config_function_type','config_function_scope', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
@@ -284,8 +299,8 @@ export default {
         pageNum: 1,
         pageSize: 5,
         memberName: null,
-        memberScope: null,
         memberType: null,
+        memberScope: null,
         enableStatus: null,
       },
       // 表单参数
@@ -297,6 +312,9 @@ export default {
         ],
         memberTypeId: [
           { required: true, message: "类型不能为空", trigger: "change" }
+        ],
+        memberType: [
+          { required: true, message: "功能类型不能为空", trigger: "change" }
         ],
         memberScope: [
           { required: true, message: "功能范围不能为空", trigger: "change" }
@@ -351,8 +369,9 @@ export default {
         memberId: null,
         memberName: null,
         memberScope: [],
+        memberType: [],
         memberTypeId: null,
-        memberType: null,
+        memberTypeName: null,
         memberDesc: null,
         enableStatus: 1,
         icon: null,
@@ -400,6 +419,10 @@ export default {
       const memberId = row.memberId || this.ids
       getMember(memberId).then(response => {
         this.form = response.data;
+        if(this.form.memberType != null)
+        {
+          this.form.memberType = this.form.memberType.split(",");
+        }
         this.form.memberScope = this.form.memberScope.split(",");
         this.open = true;
         this.title = "修改成员管理";
@@ -409,6 +432,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.memberType = this.form.memberType.join(",");
           this.form.memberScope = this.form.memberScope.join(",");
           if (this.form.memberId != null) {
             updateMember(this.form).then(response => {

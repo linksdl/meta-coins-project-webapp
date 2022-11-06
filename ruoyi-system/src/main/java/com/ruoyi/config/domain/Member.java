@@ -38,8 +38,13 @@ public class Member extends BaseEntity
     @Column(name="member_name")
     private String memberName;
 
-    /** 应用范围 */
-    @Excel(name = "应用范围")
+    /** 功能类型 */
+    @Excel(name = "功能类型")
+    @Column(name="member_type")
+    private String memberType;
+
+    /** 功能范围 */
+    @Excel(name = "功能范围")
     @Column(name="member_scope")
     private String memberScope;
 
@@ -112,7 +117,16 @@ public class Member extends BaseEntity
     {
         return memberName;
     }
-    public void setMemberScope(String memberScope) 
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
+
+    public void setMemberScope(String memberScope)
     {
         this.memberScope = memberScope;
     }
@@ -226,6 +240,7 @@ public class Member extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("memberId", getMemberId())
             .append("memberName", getMemberName())
+            .append("memberType", getMemberType())
             .append("memberScope", getMemberScope())
             .append("memberTypeId", getMemberTypeId())
             .append("memberTypeName", getMemberTypeName())

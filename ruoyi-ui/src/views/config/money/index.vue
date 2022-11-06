@@ -177,6 +177,21 @@
           <el-input v-model="form.moneyDesc" placeholder="请输入描述" />
         </el-form-item>
 
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="功能类型" prop="moneyType">
+            <el-checkbox-group v-model="form.moneyType">
+              <el-checkbox
+                v-for="dict in dict.type.config_function_type"
+                :key="dict.value"
+                :label="dict.value">
+                {{dict.label}}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
         <el-form-item label="功能范围" prop="moneyScope">
           <el-checkbox-group v-model="form.moneyScope">
             <el-checkbox
@@ -259,7 +274,7 @@ import { selectMoneyType as getMoneyTypeOptionSelect } from "@/api/config/moneyT
 
 export default {
   name: "Money",
-  dicts: ['config_function_scope', 'config_is_enable'],
+  dicts: ['config_function_type','config_function_scope', 'config_is_enable'],
   components: {IconSelect},
   data() {
     return {
@@ -291,6 +306,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 5,
+        moneyType: null,
         moneyCname: null,
         enableStatus: null,
         createTime: null,
@@ -307,6 +323,9 @@ export default {
         ],
         moneyTypeId: [
           { required: true, message: "币种类型不能为空",  trigger: "change" }
+        ],
+        moneyType: [
+          { required: true, message: "功能类型不能为空",  trigger: "blur" }
         ],
         moneyScope: [
           { required: true, message: "功能范围不能为空",  trigger: "blur" }
@@ -364,6 +383,7 @@ export default {
         moneyDesc: null,
         moneyIcon: null,
         moneyRate: null,
+        moneyType:[],
         moneyScope: [],
         moneyTypeId: null,
         weight: null,
@@ -413,6 +433,9 @@ export default {
       const moneyId = row.moneyId || this.ids
       getMoney(moneyId).then(response => {
         this.form = response.data;
+        if(this.form.moneyType != null) {
+          this.form.moneyType = this.form.moneyType.split(",");
+        }
         this.form.moneyScope = this.form.moneyScope.split(",");
         this.open = true;
         this.title = "修改币种管理";
@@ -422,6 +445,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.moneyType = this.form.moneyType.join(",");
           this.form.moneyScope = this.form.moneyScope.join(",");
           if (this.form.moneyId != null) {
             updateMoney(this.form).then(response => {

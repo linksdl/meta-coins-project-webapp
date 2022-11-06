@@ -42,6 +42,11 @@ public class Weather extends BaseEntity
     @Column(name="weather_ename")
     private String weatherEname;
 
+    /** 功能类型 */
+    @Excel(name = "功能类型")
+    @Column(name="weather_type")
+    private String weatherType;
+
     /** 功能范围 */
     @Excel(name = "功能范围")
     @Column(name="weather_scope")
@@ -99,7 +104,16 @@ public class Weather extends BaseEntity
     {
         return weatherEname;
     }
-    public void setWeatherScope(String weatherScope) 
+
+    public String getWeatherType() {
+        return weatherType;
+    }
+
+    public void setWeatherType(String weatherType) {
+        this.weatherType = weatherType;
+    }
+
+    public void setWeatherScope(String weatherScope)
     {
         this.weatherScope = weatherScope;
     }
@@ -160,6 +174,7 @@ public class Weather extends BaseEntity
             .append("weatherId", getWeatherId())
             .append("weatherCname", getWeatherCname())
             .append("weatherEname", getWeatherEname())
+            .append("weatherType", getWeatherType())
             .append("weatherScope", getWeatherScope())
             .append("weatherDesc", getWeatherDesc())
             .append("weight", getWeight())

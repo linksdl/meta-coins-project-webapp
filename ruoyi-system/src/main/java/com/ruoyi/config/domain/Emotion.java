@@ -42,6 +42,11 @@ public class Emotion extends BaseEntity
     @Column(name="emotion_ename")
     private String emotionEname;
 
+    /** 作用类型 */
+    @Excel(name = "作用类型")
+    @Column(name="emotion_type")
+    private String emotionType;
+
     /** 作用范围 */
     @Excel(name = "作用范围")
     @Column(name="emotion_scope")
@@ -99,7 +104,16 @@ public class Emotion extends BaseEntity
     {
         return emotionEname;
     }
-    public void setEmotionScope(String emotionScope) 
+
+    public String getEmotionType() {
+        return emotionType;
+    }
+
+    public void setEmotionType(String emotionType) {
+        this.emotionType = emotionType;
+    }
+
+    public void setEmotionScope(String emotionScope)
     {
         this.emotionScope = emotionScope;
     }
@@ -160,6 +174,7 @@ public class Emotion extends BaseEntity
             .append("emotionId", getEmotionId())
             .append("emotionCname", getEmotionCname())
             .append("emotionEname", getEmotionEname())
+            .append("emotionType", getEmotionType())
             .append("emotionScope", getEmotionScope())
             .append("emotionDesc", getEmotionDesc())
             .append("weight", getWeight())
