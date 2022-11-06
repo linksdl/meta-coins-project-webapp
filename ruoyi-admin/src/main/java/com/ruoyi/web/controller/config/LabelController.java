@@ -109,9 +109,9 @@ public class LabelController extends BaseController
         Book param = new Book();
         param.setUserId(getUserId());
         param.setBookDefault(1);
-        List<Book> books = bookService.selectBookList(param);
         label.setCreateBy(getUsername());
         label.setUpdateBy(getUsername());
+        List<Book> books = bookService.selectBookList(param);
         label.setUserId(getUserId());
         label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
         if (books.size() != 1)
@@ -132,6 +132,19 @@ public class LabelController extends BaseController
     public AjaxResult edit(@RequestBody Label label)
     {
         label.setUpdateBy(getUsername());
+
+        label.setUserId(getUserId());
+        label.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
+        label.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
+        label.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(labelService.updateLabel(label));
     }
 

@@ -368,8 +368,8 @@ export default {
       this.form = {
         memberId: null,
         memberName: null,
-        memberScope: [],
         memberType: [],
+        memberScope: [],
         memberTypeId: null,
         memberTypeName: null,
         memberDesc: null,

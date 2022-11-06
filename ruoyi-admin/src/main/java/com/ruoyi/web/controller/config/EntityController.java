@@ -127,6 +127,18 @@ public class EntityController extends BaseController
         EntityType entityType = entityTypeService.selectEntityTypeByEntityTypeId(entity.getEntityTypeId());
         entity.setEntityTypeName(entityType.getEntityTypeName());
         entity.setUpdateBy(getUsername());
+        entity.setUserId(getUserId());
+        entity.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
+        entity.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
+        entity.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(entityService.updateEntity(entity));
     }
 

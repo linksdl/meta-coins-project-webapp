@@ -119,6 +119,18 @@ public class ProjectController extends BaseController
     public AjaxResult edit(@RequestBody Project project)
     {
         project.setUpdateBy(getUsername());
+        project.setUserId(getUserId());
+        project.setUserName(userService.selectUserById(getUserId()).getNickName()+"("+getUsername()+")");
+        Book param = new Book();
+        param.setUserId(getUserId());
+        param.setBookDefault(1);
+        List<Book> books = bookService.selectBookList(param);
+        if (books.size() != 1)
+        {
+            return AjaxResult.error("请选择一个默认的账本！！！");
+        }
+        project.setBookId(books.size() == 1 ? books.get(0).getBookId() : null);
+        project.setBookName(books.size() == 1 ? books.get(0).getBookName() : null);
         return toAjax(projectService.updateProject(project));
     }
 
