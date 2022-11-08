@@ -11,6 +11,17 @@
         />
       </el-form-item>
 
+      <el-form-item label="类型" prop="entityType">
+        <el-select v-model="queryParams.entityType" placeholder="请选择类型" clearable>
+          <el-option
+            v-for="dict in dict.type.config_function_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
 
       <el-form-item label="是否可用" prop="enableStatus">
         <el-select v-model="queryParams.enableStatus" placeholder="请选择是否可用" clearable>
@@ -353,6 +364,7 @@ export default {
         pageNum: 1,
         pageSize: 5,
         entityName: null,
+        entityType: null,
         enableStatus: null,
         createTime: null,
       },

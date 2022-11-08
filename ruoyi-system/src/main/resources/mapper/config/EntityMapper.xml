@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectEntityAll" parameterType="Entity" resultMap="EntityResult">
 		<include refid="selectEntityVo"/>
         <where>
+            <if test="entityType != null  and entityType != ''"> and entity_type like concat('%', #{entityType}, '%')</if>
             <if test="entityScope != null  and entityScope != ''"> and entity_scope like concat('%', #{entityScope}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -48,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectEntityVo"/>
         <where>  
             <if test="entityName != null  and entityName != ''"> and entity_name like concat('%', #{entityName}, '%')</if>
+            <if test="entityType != null  and entityType != ''"> and entity_type like concat('%', #{entityType}, '%')</if>
             <if test="enableStatus != null "> and enable_status = #{enableStatus}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
